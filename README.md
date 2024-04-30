@@ -59,10 +59,10 @@ Bausteine
 - Übersetzung von Kontrollstrukturen und komplexeren Programmabläufen
 - Struktuierung des Programms, sodass ein Benutzer es selbständig erweitern kann
 
-# 2.2 Zielgruppe
+## 2.2 Zielgruppe
 Junior Entwickler die gerade in PL/1 einsteigen.
 
-# 2.3 Warum ein Transpiler?
+## 2.3 Warum ein Transpiler?
 - Lernhilfe für angehende junge Pl/1 Entwickler
 - Smoketest
 
