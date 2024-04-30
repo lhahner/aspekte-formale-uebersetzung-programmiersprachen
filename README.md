@@ -10,7 +10,7 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 | Programmierung: Projektstrukturierung           |       |       |        |      |
 | Programmierung: Testing                         |       |       |        |      |
 
-## Theorie Teil 1: Formale Grammatik
+## 1.1 Theorie Teil 1: Formale Grammatik
 - Theoretischer Abriss
 - Einordnung der resultate der PA 4
 	- PL/1 Syntax Wo zu finden?
@@ -19,14 +19,14 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 	- Chomsky Hierarchie Bücher
 	- https://www-igm.univ-mlv.fr/~berstel/LivreCodes/Codes.html
 
-## Theorie Teil 2: Aspektorientierte Programmierung
+## 1.2 Theorie Teil 2: Aspektorientierte Programmierung
 - Wie funktioniert Aspektorientiert Programmierung?
 	- Wie Löse ich mit Aspektorientierter Programmierung konkrete Probleme?
 - JavaBeans
 - Spring
 	- Wie setzt Spring Aspektorientierte Programmierkonzepte ein?
 
-## Programmierung: Projektstrukturierung
+## 1.3 Programmierung: Projektstrukturierung
 Bausteine
 - Software Architektur
 	- Planen mithilfe eines UML
@@ -35,7 +35,7 @@ Bausteine
 		- Docker Container?
 - Fehlertracking
 
-## Programmierung: Testing
+## 1.4 Programmierung: Testing
 1. Transpiler wird getestet
 1.1 Testen der Methoden von Lexer, Parser usw. (Bsp.: Kann dieses Zeichen verarbeitet werden?)
 1.2 Baum testen auf Korrektheit
