@@ -1,0 +1,75 @@
+\ProvidesFile{alphabetic.cbx}
+[\abx@cbxid]
+
+\ExecuteBibliographyOptions{labelalpha,autocite=inline,pagetracker,ibidtracker=true,loccittracker=true}
+
+\providecommand*{\mkibid}[1]{#1}
+
+\providebool{bbx:subentry}
+\newbool{cbx:parens}
+\newbool{cbx:loccit}
+
+\newbibmacro*{cite}{%
+    \global\boolfalse{cbx:loccit}%
+    \ifthenelse{\ifciteibid\AND\NOT\iffirstonpage}{
+        \usebibmacro{cite:ibid}
+    }
+    {\addspace\printtext[bibhyperref]{\printtext[brackets]{%
+        \printfield{labelprefix}%
+        \printfield{labelalpha}%
+        \printfield{extraalpha}%
+        \ifbool{bbx:subentry} {
+            \printfield{entrysetcount}
+        }
+    }}}
+}
+
+\newbibmacro*{cite-clean}{%
+    {\printtext[bibhyperref]{\printtext{%
+        \printfield{labelprefix}%
+        \printfield{labelalpha}%
+        \printfield{extraalpha}%
+        \ifbool{bbx:subentry} {
+            \printfield{entrysetcount}
+        }
+    }}}
+}
+
+\newbibmacro*{cite:ibid}{%
+    \printtext[bibhyperref]{\biblstring[\mkibid]{ibidem}}%
+    \ifloccit
+        {\global\booltrue{cbx:loccit}}
+        {}}
+
+\DeclareCiteCommand{\cite}
+    {\usebibmacro{prenote}}
+    {\usebibmacro{citeindex}\usebibmacro{cite}}
+    {\multicitedelim}
+    {\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\footcite}[\mkbibfootnote]
+    {\usebibmacro{prenote}}
+    {\usebibmacro{citeindex}{\usebibmacro{cite}}}
+    {\multicitedelim}
+    {\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\supercite}[\textsuperscript]
+    {\usebibmacro{prenote}}
+    {\usebibmacro{citeindex}{\bibleftbracket\usebibmacro{cite-clean}\usebibmacro{postnote}}\unspace\bibrightbracket}
+    {\multicitedelim}
+    {}
+
+\DeclareFieldFormat{url}{\newline\url{#1}}
+\DeclareFieldFormat
+[misc,book,manual,online,article,inbook,incollection,phdthesis,proceedings,techreport,
+inproceedings,patent,thesis,unpublished,booklet,conference,mastersthesis]
+{title}{\mkbibquote{#1\isdot}\addcomma}
+\DeclareDelimFormat[bib]{nametitledelim}{\addcolon\space}
+\DeclareNameAlias{author}{family-given}
+\DeclareNameAlias{editor}{family-given}
+\renewcommand{\finentrypunct}{}
+
+\renewcommand{\bibfootnotewrapper}[1]{%
+    \bibsentence#1}
+
+\endinput
