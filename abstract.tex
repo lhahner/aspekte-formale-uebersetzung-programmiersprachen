@@ -1,19 +1,9 @@
-Im Jahr 2023 besteht die Möglichkeit, die Spracheinschränkung einer Programmiersprache
-aufzuheben und nur mithilfe natürlicher Sprache einem Computer
-Steuerbefehle zu erteilen. Large Language Models (LLM) nehmen natürliche
-Sprache als Eingabe und können formale Ausdrücke diverser Programmiersprachen
-als Ausgabe erzeugen. Im Gegensatz zu herkömmlichen Compilern
-und Transpilern sind LLMs jedoch auf natürliche Sprachen spezialisiert. Es wird
-diskutiert, ob es möglich ist, mit einem LLM ein Programm nahezu vollständig
-von einer Programmiersprache in eine andere zu übersetzen. Es wird untersucht,
-inwiefern dies technisch unzuverlässig ist und ob bzw. wie sich Fehler
-vermeiden lassen. Dabei wird auch der Unterschied zum technischen Vorgehen
-eines Transpilers verdeutlicht. Es wird klar, dass die Grenzen der Übersetzung
-natürlichsprachlicher Ausdrücke in formale darin bestehen, dass eine formale
-Grammatik direkten Einfluss auf die Ausführungsbedingungen des Computers
-in Bezug auf Speicherverwaltung, Prozessverwaltung und -steuerung hat.
-Verdeutlicht wird das an dem Beispiel der Programmiersprache PL/I. Da
-Pl/I ein typisches Beispiel für eine legacy Programmiersprache ist, die über
-mehrere Generationen weitergegeben wurde. Dabei wird der PL/I Code in
-Java Code transformiert. Ein Fokus liegt auf der Deklaration von Datentypen
-in den jeweiligen Sprachen.
+Wird 'Ich bin' ins Englische übersetzt, lautet die Übersetzung 'I am'. Wird nun 'Du bist', ins Englische übersetzt, wird daraus 'You are'. Hingegen der ersten übersetzung geht bei der zweiten etwas verloren. 
+
+Mit dem Ausdruck 'Du bist', beschreibe ich im deutschen den Zustand oder das Verhalten eines anderen. Wenn ich im Englische sage 'You are', dann scheint es so als wenn die Person die ich anspreche mehrfach existiert, denn 'You are' ist Plural und übersetzt den deutschen Text nicht exakt. 
+
+Um den deutschen Text exakt zu übersetzen, bleiben Englische Grammatikregeln unberücksichtigt. Ich müsste einen Ausdruck, wie etwa 'You am' formen, um das deutsche 'Du bist' exakt zu übersetzen. 
+
+Eine Übersetzung von natürlichen Sprachen bei der semantische und syntaktische Korrektheit erfolgt, ist somit kaum exakt.
+
+Gleiches gilt auch für Programmiersprachen. In meiner bisherigen Arbeit 'Softwaregestützte Transformation von legacy Code', habe ich mich näher mit Übersetzungsmethoden von Programmiersprachen auseinandergesetzt. In dieser Arbeit wurde deutlich das Bestandteile wie Datentypen der Programmiersprache PL/I, nicht nativ so übersetzt werden können das diese die gleiche semantische und syntaktische Bedeutung in Java haben. Es braucht ein Programm welches die Transformation von Bedeutung und verwendung von PL/I Code in Java übernimmt. Die erarbeitung dieses Transformationsprogramms, soll der Bestandteil dieser Arbeit sein.
