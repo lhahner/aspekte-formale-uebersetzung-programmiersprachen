@@ -3,11 +3,18 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 
 # 1 Kanban-board für die Erarbeitung der Bachelorarbeits
 
-| Backlog                                         | To Do | Doing | Review | Done |
-| :---------------------------------------------- | :---- | :---- | :----- | :--- |
-| | | Abstract | | |
-|                |       | Theorie Teil1: Formale Grammatik      |        |      |
-| Theorie Teil2: Aspektorientierte Programmierung |       |       |        |      |
+| Backlog                                                       | To Do | Doing                             | Review | Done |
+| :------------------------------------------------------------ | :---- | :-------------------------------- | :----- | :--- |
+|                                                               |       | Gliederung                        |        |      |
+|                                                               |       | Abstract                          |        |      |
+|                                                               |       | Theorie Teil 1: Formale Grammatik |        |      |
+| Theorie Teil 2: Aspektorientierte Programmierung              |       |                                   |        |      |
+| Technisches Vorgehen Teil 1: Aspektorientierte Programmierung |       |                                   |        |      |
+| Technisches Vorgehen Teil 2: Architektur                      |       |                                   |        |      |
+| Technische Spezifikation: Ausführung des Transpilers          |       |                                   |        |      |
+| Technische Spezifikation: Testing                             |       |                                   |        |      |
+| Auswertung und Diskussion: Bedienung                          |       |                                   |        |      |
+| Auswertung und Diskussion: Erweiterungsmöglichkeiten          |       |                                   |        |      |
 
 ## 1.1 Theorie Teil 1: Formale Grammatik
 - Theoretischer Abriss
@@ -50,13 +57,12 @@ Bausteine
 
 # 2 Kanban-board für die Programmierung des Transpilers
 
-| Backlog                                         | To Do | Doing | Review | Done |
-| :---------------------------------------------- | :---- | :---- | :----- | :--- |
-| Exception Handeling                |       |       |        |      |
-|  |       | Migrate Project to Maven      |        |      |
-|            |       |        |        |      |
-| Programmierung: Testing                         |       |       |        |      |
-
+| Backlog                                         | To Do                    | Doing                         | Review | Done |
+| :---------------------------------------------- | :----------------------- | :---------------------------- | :----- | :--- |
+|                                                 | Exception Handeling      |                               |        |      |
+|                                                 |                          | Migrate Project to Maven      |        |      |
+|                                                 |                          |                               |        |      |
+|                                                 | Testing current version  |                               |        |      |
 
 # 3 Ziele & Motivation
 - Wie eine Art JavaScript Minifier oder 
