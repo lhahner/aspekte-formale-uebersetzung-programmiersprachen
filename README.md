@@ -60,9 +60,20 @@ Bausteine
 | Backlog                                         | To Do                    | Doing                         | Review | Done |
 | :---------------------------------------------- | :----------------------- | :---------------------------- | :----- | :--- |
 |                                                 | Exception Handeling      |                               |        |      |
-|                                                 |                          | Migrate Project to Maven      |        |      |
+|                                                 |                          |      |        |Migrate Project to Maven       |
 | Clean up Code                                   |                          |                               |        |      |
-|                                                 | Testing current version  |                               |        |      |
+|                                                 |   | Testing current version                              |        |      |
+|  Expand PictureMapper                                                |   |                               |        |      |
+| Tests for translated Regex                      |                     |                               |        |      |
+|                       | Restructure Project                     |                               |        |      |
+
+## 2.1 Expand PictureMapper
+In der PL/I Language Reference, S. 329 bis S. 343 wird der Picture Typ genauer beschrieben. Hier sind alle Ausprägungen des Typs beschrieben,
+in der aktuellen Version fehlen einige Ausdrücke, diese müssen implementiert werden.
+
+## 2.2 Tests for translated Regex
+Tests für das transformierte Regex schreiben. Das Regex sollte durch den Java Regex Compilier, kombiliert und das Pattern angewendet werden.
+Dazu am besten eine Testklasse schreiben die diesen Fall testet.
 
 # 3 Ziele & Motivation
 - Wie eine Art JavaScript Minifier oder 
