@@ -61,7 +61,7 @@ Bausteine
 | :---------------------------------------------- | :----------------------- | :---------------------------- | :----- | :--- |
 |                                                 | Exception Handeling      |                               |        |      |
 |                                                 |                          | Migrate Project to Maven      |        |      |
-|                                                 |                          |                               |        |      |
+| Clean up Code                                   |                          |                               |        |      |
 |                                                 | Testing current version  |                               |        |      |
 
 # 3 Ziele & Motivation
