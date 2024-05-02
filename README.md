@@ -5,10 +5,9 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 
 | Backlog                                         | To Do | Doing | Review | Done |
 | :---------------------------------------------- | :---- | :---- | :----- | :--- |
-| Theorie Teil1: Formale Grammatik                |       |       |        |      |
+| | | Abstract | | |
+|                |       | Theorie Teil1: Formale Grammatik      |        |      |
 | Theorie Teil2: Aspektorientierte Programmierung |       |       |        |      |
-| Programmierung: Projektstrukturierung           |       |       |        |      |
-| Programmierung: Testing                         |       |       |        |      |
 
 ## 1.1 Theorie Teil 1: Formale Grammatik
 - Theoretischer Abriss
@@ -49,29 +48,39 @@ Bausteine
 
 4. Performance Test (erst am ende)
 
-# 2 Ziele & Motivation
+# 2 Kanban-board für die Programmierung des Transpilers
+
+| Backlog                                         | To Do | Doing | Review | Done |
+| :---------------------------------------------- | :---- | :---- | :----- | :--- |
+| Exception Handeling                |       |       |        |      |
+|  |       | Migrate Project to Maven      |        |      |
+|            |       |        |        |      |
+| Programmierung: Testing                         |       |       |        |      |
+
+
+# 3 Ziele & Motivation
 - Wie eine Art JavaScript Minifier oder 
 - Einer Art PL/1 für alle um PL/I Code zu testen
 
-## 2.1 Inhaltliche Schwerpunkte
+## 3.1 Inhaltliche Schwerpunkte
 - Beschreibung von formalen Grammatiken, als Input für den Compiler Compiler JavaCC.
 - Entwurf von Java Klassenhierachie für PL/I Datentypen
 - Übersetzung von Kontrollstrukturen und komplexeren Programmabläufen
 - Struktuierung des Programms, sodass ein Benutzer es selbständig erweitern kann
 
-## 2.2 Zielgruppe
+## 3.2 Zielgruppe
 Junior Entwickler die gerade in PL/1 einsteigen.
 
-## 2.3 Warum ein Transpiler?
+## 3.3 Warum ein Transpiler?
 - Lernhilfe für angehende junge Pl/1 Entwickler
 - Smoketest
 
-### 2.3.1 Unterschied zwischen Interpreter und Compiler
+### 3.3.1 Unterschied zwischen Interpreter und Compiler
 - Erweiterung des Umfangs während der Laufzeit
 - Trennung Laufzeit/Konzeptionsphase
 
-# 3 Gliederung
-## 3.1 Prototype der Gliederung
+# 4 Gliederung
+## 4.1 Prototype der Gliederung
 1 Theoretische Grundlagen
 1.1 Problemstellung 
 1.2 Zielsetzung 
