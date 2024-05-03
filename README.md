@@ -66,6 +66,7 @@ Bausteine
 |  Expand PictureMapper                                                |   |                               |        |      |
 | Tests for translated Regex                      |                     |                               |        |      |
 |                       | Restructure Project                     |                               |        |      |
+| Add all Tokens to SymbolTable                     |                     |                               |        |      |
 
 ## 2.1 Expand PictureMapper
 In der PL/I Language Reference, S. 329 bis S. 343 wird der Picture Typ genauer beschrieben. Hier sind alle Ausprägungen des Typs beschrieben,
