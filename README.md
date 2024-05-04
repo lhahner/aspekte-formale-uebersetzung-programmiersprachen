@@ -57,16 +57,18 @@ Bausteine
 
 # 2 Kanban-board für die Programmierung des Transpilers
 
-| Backlog                                         | To Do                    | Doing                         | Review | Done |
-| :---------------------------------------------- | :----------------------- | :---------------------------- | :----- | :--- |
-|                                                 | Exception Handeling      |                               |        |      |
-|                                                 |                          |      |        |Migrate Project to Maven       |
-| Clean up Code                                   |                          |                               |        |      |
-|                                                 |   | Testing current version                              |        |      |
-|  Expand PictureMapper                                                |   |                               |        |      |
-| Tests for translated Regex                      |                     |                               |        |      |
-|                       | Restructure Project                     |                               |        |      |
-| Add all Tokens to SymbolTable                     |                     |                               |        |      |
+| Backlog                       | To Do | Doing                   | Review                   | Done |
+| :---------------------------- | :---- | :---------------------- | :----------------------- | :--- |
+|                               |       | Error Handeling         |                          |      |
+|                               |       |                         | Migrate Project to Maven |      |
+| Clean up Code                 |       |                         |                          |      |
+|                               |       | Testing current version |                          |      |
+| Expand PictureMapper          |       |                         |                          |      |
+| Tests for translated Regex    |       |                         |                          |      |
+|                               |       |                         | Restructure Project      |      |
+| Add all Tokens to SymbolTable |       |                         |                          |      |
+|                               |       | Restructure Main        |                          |      |
+
 
 ## 2.1 Expand PictureMapper
 In der PL/I Language Reference, S. 329 bis S. 343 wird der Picture Typ genauer beschrieben. Hier sind alle Ausprägungen des Typs beschrieben,
@@ -75,6 +77,10 @@ in der aktuellen Version fehlen einige Ausdrücke, diese müssen implementiert w
 ## 2.2 Tests for translated Regex
 Tests für das transformierte Regex schreiben. Das Regex sollte durch den Java Regex Compilier, kombiliert und das Pattern angewendet werden.
 Dazu am besten eine Testklasse schreiben die diesen Fall testet.
+
+## 2.3 Add all Tokens to SymbolTable
+Es sollen nahezu alle Tokens aus dem PL/I Handbuch von IBM abgedeckt werden.
+Hierzu sollten auch alle Symbole in der Symboltabelle erfasst werden. Eventuelle sollten die Symbole aus einer externen Art "Dictonary" Datei in den Hashtable geladen werden.
 
 # 3 Ziele & Motivation
 - Wie eine Art JavaScript Minifier oder 
