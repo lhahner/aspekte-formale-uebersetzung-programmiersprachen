@@ -5,7 +5,7 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 
 | Backlog                                                       | To Do                                  | Doing                             | Review | Done |
 | :------------------------------------------------------------ | :------------------------------------- | :-------------------------------- | :----- | :--- |
-|                                                               | Gliederung                             |                                   |        |      |
+|                                                               |                                        | Gliederung                        |        |      |
 |                                                               |                                        | Abstract                          |        |      |
 |                                                               | Theorie Teil 1: Formale Grammatik      |                                   |        |      |
 | Theorie Teil 2: Aspektorientierte Programmierung              |                                        |                                   |        |      |
