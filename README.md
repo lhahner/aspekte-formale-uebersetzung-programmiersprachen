@@ -3,45 +3,45 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 
 # 1 Kanban-board für die Erarbeitung der Bachelorarbeits
 
-Timeline | Backlog                                                       | To Do                                  | Doing                             | Review             | Done               |
- :------ | :------------------------------------------------------------ | :------------------------------------- | :-------------------------------- | :----------------- | :----------------- |
-         |                                                               |                                        | Gliederung                        |                    |                    |
-         |                                                               |                                        | Abstract                          |                    |                    |
-         |                                                               | Theorie Teil 1: Formale Grammatik      |                                   |                    |                    |
-         | Theorie Teil 2: Aspektorientierte Programmierung              |                                        |                                   |                    |                    |
-         | Technisches Vorgehen Teil 1: Aspektorientierte Programmierung |                                        |                                   |                    |                    |
-         | Technisches Vorgehen Teil 2: Architektur                      |                                        |                                   |                    |                    |
-         | Technische Spezifikation: Ausführung des Transpilers          |                                        |                                   |                    |                    |
-         | Technische Spezifikation: Testing                             |                                        |                                   |                    |                    |
-         | Auswertung und Diskussion: Bedienung                          |                                        |                                   |                    |                    |
-         | Auswertung und Diskussion: Erweiterungsmöglichkeiten          |                                        |                                   |                    |                    |
- :------ | :------------------------------------------------------------ | :------------------------------------- | :-------------------------------- | :----------------- | :----------------- |
-14.05.24 |                                                               |                                        |                                   | Abstract           |                    |
-         |                                                               |                                        |                                   | Maven project setup|                    |
-         |                                                               |                                        |                                   |                    |                    |
-21.05.24 | (Sebastian Urlaub)                                            |                                        |                                   |                    |                    |
-         |                                                               |                                        |                                   |                    |                    |
-28.05.24 | (Sebastian Remote)                                            |                                        |                                   | Einleitung Entwurf |                    |
-         |                                                               |                                        |                                   |                    |                    |
-04.06.24 |                                                               |                                        |                                   |                    |                    |
-         |                                                               |                                        |                                   |                    |                    |
-11.06.24 |                                                               |                                        |                                   |                    |                    |
-         |                                                               |                                        |                                   |                    |                    |
-18.06.24 |                                                               |                                        |                                   |                    |                    |
-         |                                                               |                                        |                                   |                    |                    |
-25.06.24 |                                                               |                                        |                                   |                    |                    |
-         |                                                               |                                        |                                   |                    |                    |
-02.07.24 |                                                               |                                        |                                   |                    |                    |
-         |                                                               |                                        |                                   |                    |                    |
-09.07.24 | (Sebastian lernt für Klausur)                                 |                                        |                                   |                    |                    |
-         |                                                               |                                        |                                   |                    |                    |
-16.07.24 |                                                               |                                        |                                   |                    |                    |
-         |                                                               |                                        |                                   |                    |                    |
-23.07.24 |                                                               |                                        |                                   |                    |                    |
-         |                                                               |                                        |                                   |                    |                    |
-         |                                                               |                                        |                                   |                    |                    |
-         |                                                               |                                        |                                   |                    |                    |
-         |                                                               |                                        |                                   |                    |                    |
+| Timeline | Backlog                                                       | To Do                                  | Doing                             | Review             | Done               |
+| :------- | :------------------------------------------------------------ | :------------------------------------- | :-------------------------------- | :----------------- | :----------------- |
+|          |                                                               |                                        | Gliederung                        |                    |                    |
+|          |                                                               |                                        | Abstract                          |                    |                    |
+|          |                                                               | Theorie Teil 1: Formale Grammatik      |                                   |                    |                    |
+|          | Theorie Teil 2: Aspektorientierte Programmierung              |                                        |                                   |                    |                    |
+|          | Technisches Vorgehen Teil 1: Aspektorientierte Programmierung |                                        |                                   |                    |                    |
+|          | Technisches Vorgehen Teil 2: Architektur                      |                                        |                                   |                    |                    |
+|          | Technische Spezifikation: Ausführung des Transpilers          |                                        |                                   |                    |                    |
+|          | Technische Spezifikation: Testing                             |                                        |                                   |                    |                    |
+|          | Auswertung und Diskussion: Bedienung                          |                                        |                                   |                    |                    |
+|          | Auswertung und Diskussion: Erweiterungsmöglichkeiten          |                                        |                                   |                    |                    |
+| :------- | :------------------------------------------------------------ | :------------------------------------- | :-------------------------------- | :----------------- | :----------------- |
+| 14.05.24 |                                                               |                                        |                                   | Abstract           |                    |
+|          |                                                               |                                        |                                   | Maven project setup|                    |
+|          |                                                               |                                        |                                   |                    |                    |
+| 21.05.24 | (Sebastian Urlaub)                                            |                                        |                                   |                    |                    |
+|          |                                                               |                                        |                                   |                    |                    |
+| 28.05.24 | (Sebastian Remote)                                            |                                        |                                   | Einleitung Entwurf |                    |
+|          |                                                               |                                        |                                   |                    |                    |
+| 04.06.24 |                                                               |                                        |                                   |                    |                    |
+|          |                                                               |                                        |                                   |                    |                    |
+| 11.06.24 |                                                               |                                        |                                   |                    |                    |
+|          |                                                               |                                        |                                   |                    |                    |
+| 18.06.24 |                                                               |                                        |                                   |                    |                    |
+|          |                                                               |                                        |                                   |                    |                    |
+| 25.06.24 |                                                               |                                        |                                   |                    |                    |
+|          |                                                               |                                        |                                   |                    |                    |
+| 02.07.24 |                                                               |                                        |                                   |                    |                    |
+|          |                                                               |                                        |                                   |                    |                    |
+| 09.07.24 | (Sebastian lernt für Klausur)                                 |                                        |                                   |                    |                    |
+|          |                                                               |                                        |                                   |                    |                    |
+| 16.07.24 |                                                               |                                        |                                   |                    |                    |
+|          |                                                               |                                        |                                   |                    |                    |
+| 23.07.24 |                                                               |                                        |                                   |                    |                    |
+|          |                                                               |                                        |                                   |                    |                    |
+|          |                                                               |                                        |                                   |                    |                    |
+|          |                                                               |                                        |                                   |                    |                    |
+|          |                                                               |                                        |                                   |                    |                    |
 
 
 
