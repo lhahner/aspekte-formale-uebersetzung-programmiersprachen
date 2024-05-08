@@ -87,18 +87,19 @@ Bausteine
 
 # 2 Kanban-board für die Programmierung des Transpilers
 
-| Backlog                               | To Do | Doing                   | Review                   | Done |
-| :------------------------------------ | :---- | :---------------------- | :----------------------- | :--- |
-|                                       |       | Error Handeling         |                          |      |
-|                                       |       |                         | Migrate Project to Maven |      |
-| Clean up Code                         |       |                         |                          |      |
-|                                       |       | Testing current version |                          |      |
-| Expand PictureMapper                  |       |                         |                          |      |
-| Tests for translated Regex            |       |                         |                          |      |
-|                                       |       | Restructure Project     |                          |      |
-| Add all Tokens to SymbolTable         |       |                         |                          |      |
-|                                       |       | Restructure Main        |                          |      |
-| Use PL/I Program Name in Java Program |       |                         |                          |      |
+| Backlog                               | To Do             | Doing                   | Review                   | Done |
+| :------------------------------------ | :---------------- | :---------------------- | :----------------------- | :--- |
+|                                       |                   | Error Handeling         |                          |      |
+|                                       |                   |                         | Migrate Project to Maven |      |
+| Clean up Code                         |                   |                         |                          |      |
+|                                       |                   | Testing current version |                          |      |
+| Expand PictureMapper                  |                   |                         |                          |      |
+| Tests for translated Regex            |                   |                         |                          |      |
+|                                       |                   | Restructure Project     |                          |      |
+| Add all Tokens to SymbolTable         |                   |                         |                          |      |
+|                                       |                   | Restructure Main        |                          |      |
+| Use PL/I Program Name in Java Program |                   |                         |                          |      |
+|                                       | Config-Datei      |                         |                          |      |
 
 ## 2.1 Expand PictureMapper
 In der PL/I Language Reference, S. 329 bis S. 343 wird der Picture Typ genauer beschrieben. Hier sind alle Ausprägungen des Typs beschrieben,
