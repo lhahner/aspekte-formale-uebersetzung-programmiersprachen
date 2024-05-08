@@ -95,7 +95,7 @@ Bausteine
 |                                       |       | Testing current version |                          |      |
 | Expand PictureMapper                  |       |                         |                          |      |
 | Tests for translated Regex            |       |                         |                          |      |
-|                                       |       |                         | Restructure Project      |      |
+|                                       |       | Restructure Project     |                          |      |
 | Add all Tokens to SymbolTable         |       |                         |                          |      |
 |                                       |       | Restructure Main        |                          |      |
 | Use PL/I Program Name in Java Program |       |                         |                          |      |
