@@ -2,11 +2,9 @@
 
 \section{Theoretische Grundlagen}
 	\subsection{Problemstellung}
-  Beschreibung von formalen Grammatiken, als Input für den Compiler Compiler JavaCC.
-- Entwurf von Java Klassenhierachie für PL/I Datentypen
-- Übersetzung von Kontrollstrukturen und komplexeren Programmabläufen
-- Struktuierung des Programms, sodass ein Benutzer es selbständig erweitern kann
      Was ist ein Transpiler?
+     Cross Compiler?
+     
 	\subsection{Zielsetzung}
  - Wie eine Art JavaScript Minifier oder 
     Wer ist die Zielgruppe?
@@ -14,43 +12,36 @@
     - Lernhilfe
     - Online-Smoketest von PL/I Code
     - Benutzbarkeit
+    
 	\subsection{Abgrenzung Interpreter und Transpiler}
     Warum ein Transpiler?
     - Erweiterung des Umfangs während der Laufzeit
+    Was sind gemeinsamkeiten und unterschiede von Transpiler und interpreter?
     - Trennung Laufzeit/Konzeptionsphase
+    - ...
+    - ...
+    
 	\subsection{Formale Grammatiken / Wofür Formale Grammatiken}
      - Theoretischer Abriss
     - Einordnung der resultate der PA 4
 	- PL/1 Syntax Wo zu finden? Welche Version der Sprache? 
      Wie kann JavaCC die formale Beschreibung der Grammatik in einen Parser Umsetzen?
-	- Reguläre Ausdrücke Syntax
+	- Reguläre Ausdrücke Syntax, Beispiel einer Grammatik die ich mit verwende, Typ einer Grammatik
     - Literatur
 	    - Chomsky Hierarchie Bücher
 	    - https://www-igm.univ-mlv.fr/~berstel/LivreCodes/Codes.html
+     - Woraus besteht eine Grammatik?
+     - Wie lassen sich Grammatiken der Komplexität nach anordnen?
+     - Chomsky Hierarchie
+     Erst Chomsky Hierachier, dann nach Komplexität einordnen und am Beispiel von Regulären Ausdrücken und PL/I Grammatik einführen.
+     
 	\subsection{Anwendung in JavaCC / Verwendung von regulären Ausdrücken als Datentyp (Tokens)}
      - Beschreibung von formalen Grammatiken, als Input für den Compiler Compiler JavaCC.
      - Entwurf von Java Klassenhierachie für PL/I Datentypen
      - Übersetzung von Kontrollstrukturen und komplexeren Programmabläufen
-     - Struktuierung des Programms, sodass ein Benutzer es selbständig erweitern kann
+
 
 \section{Technisches Vorgehen}
-\subsection{Aspektorientierte Programmierung}
-- Wie funktioniert Aspektorientiert Programmierung?
-	- Wie Löse ich mit Aspektorientierter Programmierung konkrete Probleme?
-- JavaBeans
-- Spring
-	- Wie setzt Spring Aspektorientierte Programmierkonzepte ein?
-\subsection{Architektur} 
---> UML Diagramm Zielbild einfügen, dynamisches Diagramm
-Wie Benutze ich den Transpiler:
-Bausteine
-- Software Architektur
-	- Planen mithilfe eines UML
-	- UX Design 
-		- Website?
-		- Docker Container?
-- Fehlertracking
-
 \subsection{Techstack}
 Um den Transpiler weiter zu entwickeln sind Schritte notwendig die, die Qualität des bestehenden Projektes erhöhen. Diese Schritte sind einerseits die Verbesserung der Projektstruktur und andererseits die Handhabung von Bugs und Fehlern.
 
@@ -64,22 +55,41 @@ Ein weiterer Vorteil den Maven liefert ist die vordefinierte Projektstruktur. Ma
 - Platform -> Spring
 - Compiler Compiler -> JavaCC
 
+\subsection{Architektur} 
+--> UML Diagramm Zielbild einfügen, dynamisches Diagramm
+- Wie sind die Module momentan gebaut
+- Wie sind Module zueinander abhängig
+- Wie wird es erweitert
+
+Wie Benutze ich den Transpiler:
+Bausteine
+- Software Architektur
+	- Planen mithilfe eines UML
+	- UX Design 
+        - zweite Diagramm, des Benutzerfluss
+        - wie Benutzung abläuft
+		- Website?
+		- Docker Container?
+- Fehlertracking
+- Struktuierung des Programms, sodass ein Benutzer es selbständig erweitern kann
+
+\subsection{Aspektorientierte Programmierung}
+- Wie funktioniert Aspektorientiert Programmierung?
+	- Wie Löse ich mit Aspektorientierter Programmierung konkrete Probleme?
+- JavaBeans
+- Spring
+	- Wie setzt Spring Aspektorientierte Programmierkonzepte ein?
+ 
 \subsection{Module des Transpilers}
-\subsubsection{Scanner}
-\subsubsection{Lexer}
-\subsubsection{Parser}
-\subsubsection{Generator}
-\subsubsection{Synthesizer}
+\subsubsection{Compiler-Compiler}
+\paragraph{Scanner}
+\paragraph{Lexer}
+\paragraph{Parser}
 \subsubsection{Symboltable}
+
+\subsubsection{Mapper}
+
 \subsubsection{Error-Handling}
-
-\subsection{Fehlerbehandlung}
-Um dem Benutzer die Bediengung während der Laufzeit zu erleichtern, wurden Selbstgewählte Fehlermeldungen implementiert. Diese Fehlermeldungen sollen den Benutzer der Software in eine Feedback schleife bringe welche klare Anweisung zur Bediengung gibt. In der usprünglichen Version des Transpilers wurde dem Benutzer lediglich die von Java geworfenen Fehler in der Konsole ausgegeben. Die Fehlermeldung"IndexOutOfBounds", ließ dabei nicht darauf schließe das der Transpiler die PL/I Datei zum lesen nicht findet. Eine solche Fehlermeldung führt erneut dazu, dass der Benutzer sich selbst um die Lösung des Problems kümmern musste und somit einer weiteren Hürde begenete.
-Eben für dan Fall das die Datei nicht gelesen werden kann, wurde eine Exception geschrieben. Die Exception "PliFileNotFound", beschreibt dem Benutzer die Ursache des Problems und nennt auch ein etwaaigen Lösungsvorschlag. Es exstieren in der neusten Version einige Exceptions die in der folgenden Tabelle näher Beschrieben werden.
-
-...Tabelle mit Exceptions...
-
-Fehlerbehandlung spielt besonder im Zusammenhang mit der Lexikalischen Analyse eine Rolle. Um zu gewährleisten das die Transformation korrekt albläuft braucht es der formalen PL/I Grammatik enstrpechend richtigen PL/I Code als Eingabe. Eine nicht behandlung hätte zur Folge das das Programm entweder eine Fehlerhafte Ausgabe produziert, oder Fehlschlägt. Dies soll vermieden werden.
 
 \subsection{Testing & Integration}
 1. Transpiler wird getestet
@@ -94,6 +104,14 @@ Fehlerbehandlung spielt besonder im Zusammenhang mit der Lexikalischen Analyse e
 - Funktioniert der Java Code richtig
 
 4. Performance Test (erst am ende)
+
+\subsection{Fehlerbehandlung}
+Um dem Benutzer die Bediengung während der Laufzeit zu erleichtern, wurden Selbstgewählte Fehlermeldungen implementiert. Diese Fehlermeldungen sollen den Benutzer der Software in eine Feedback schleife bringe welche klare Anweisung zur Bediengung gibt. In der usprünglichen Version des Transpilers wurde dem Benutzer lediglich die von Java geworfenen Fehler in der Konsole ausgegeben. Die Fehlermeldung"IndexOutOfBounds", ließ dabei nicht darauf schließe das der Transpiler die PL/I Datei zum lesen nicht findet. Eine solche Fehlermeldung führt erneut dazu, dass der Benutzer sich selbst um die Lösung des Problems kümmern musste und somit einer weiteren Hürde begenete.
+Eben für dan Fall das die Datei nicht gelesen werden kann, wurde eine Exception geschrieben. Die Exception "PliFileNotFound", beschreibt dem Benutzer die Ursache des Problems und nennt auch ein etwaaigen Lösungsvorschlag. Es exstieren in der neusten Version einige Exceptions die in der folgenden Tabelle näher Beschrieben werden.
+
+...Tabelle mit Exceptions...
+
+Fehlerbehandlung spielt besonder im Zusammenhang mit der Lexikalischen Analyse eine Rolle. Um zu gewährleisten das die Transformation korrekt albläuft braucht es der formalen PL/I Grammatik enstrpechend richtigen PL/I Code als Eingabe. Eine nicht behandlung hätte zur Folge das das Programm entweder eine Fehlerhafte Ausgabe produziert, oder Fehlschlägt. Dies soll vermieden werden.
 
 \section{Technische Spezifikation}
 	\subsection{Ausführung des Transpilers}
