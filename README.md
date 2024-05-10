@@ -47,43 +47,16 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 
 
 ## 1.1 Theorie Teil 1: Formale Grammatik
-- Theoretischer Abriss
-- Einordnung der resultate der PA 4
-	- PL/1 Syntax Wo zu finden?
-	- Reguläre Ausdrücke Syntax
-- Literatur
-	- Chomsky Hierarchie Bücher
-	- https://www-igm.univ-mlv.fr/~berstel/LivreCodes/Codes.html
+
 
 ## 1.2 Theorie Teil 2: Aspektorientierte Programmierung
-- Wie funktioniert Aspektorientiert Programmierung?
-	- Wie Löse ich mit Aspektorientierter Programmierung konkrete Probleme?
-- JavaBeans
-- Spring
-	- Wie setzt Spring Aspektorientierte Programmierkonzepte ein?
+
 
 ## 1.3 Programmierung: Projektstrukturierung
-Bausteine
-- Software Architektur
-	- Planen mithilfe eines UML
-	- UX Design 
-		- Website?
-		- Docker Container?
-- Fehlertracking
+
 
 ## 1.4 Programmierung: Testing
-1. Transpiler wird getestet
-1.1 Testen der Methoden von Lexer, Parser usw. (Bsp.: Kann dieses Zeichen verarbeitet werden?)
-1.2 Baum testen auf Korrektheit
 
-2. Transpilieren wird getestet
-2.1 Output des transpilierten Pl/1 Codes im Verhältnis zum Pl/1 Code testen.
-
-3. Der Transpilierte Code wird getestet
-- Wie wird PL/1 Code Native getestet
-- Funktioniert der Java Code richtig
-
-4. Performance Test (erst am ende)
 
 # 2 Kanban-board für die Programmierung des Transpilers
 
@@ -115,25 +88,16 @@ Es sollen nahezu alle Tokens aus dem PL/I Handbuch von IBM abgedeckt werden.
 Hierzu sollten auch alle Symbole in der Symboltabelle erfasst werden. Eventuelle sollten die Symbole aus einer externen Art "Dictonary" Datei in den Hashtable geladen werden.
 
 # 3 Ziele & Motivation
-- Wie eine Art JavaScript Minifier oder 
-- Einer Art PL/1 für alle um PL/I Code zu testen
+
 
 ## 3.1 Inhaltliche Schwerpunkte
-- Beschreibung von formalen Grammatiken, als Input für den Compiler Compiler JavaCC.
-- Entwurf von Java Klassenhierachie für PL/I Datentypen
-- Übersetzung von Kontrollstrukturen und komplexeren Programmabläufen
-- Struktuierung des Programms, sodass ein Benutzer es selbständig erweitern kann
 
 ## 3.2 Zielgruppe
-Junior Entwickler die gerade in PL/1 einsteigen.
+
 
 ## 3.3 Warum ein Transpiler?
-- Lernhilfe für angehende junge Pl/1 Entwickler
-- Smoketest
 
 ### 3.3.1 Unterschied zwischen Interpreter und Compiler
-- Erweiterung des Umfangs während der Laufzeit
-- Trennung Laufzeit/Konzeptionsphase
 
 # 4 Gliederung
 ## 4.1 Prototype der Gliederung
