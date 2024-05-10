@@ -1,21 +1,68 @@
+--> Je Subsection Punkt Fragen formulieren.
+
 \section{Theoretische Grundlagen}
 	\subsection{Problemstellung}
+  Beschreibung von formalen Grammatiken, als Input für den Compiler Compiler JavaCC.
+- Entwurf von Java Klassenhierachie für PL/I Datentypen
+- Übersetzung von Kontrollstrukturen und komplexeren Programmabläufen
+- Struktuierung des Programms, sodass ein Benutzer es selbständig erweitern kann
+     Was ist ein Transpiler?
 	\subsection{Zielsetzung}
+ - Wie eine Art JavaScript Minifier oder 
+    Wer ist die Zielgruppe?
+    - Junior Entwickler die gerade in PL/1 einsteigen.
+    - Lernhilfe
+    - Online-Smoketest von PL/I Code
+    - Benutzbarkeit
 	\subsection{Abgrenzung Interpreter und Transpiler}
+    Warum ein Transpiler?
+    - Erweiterung des Umfangs während der Laufzeit
+    - Trennung Laufzeit/Konzeptionsphase
 	\subsection{Formale Grammatiken / Wofür Formale Grammatiken}
+     - Theoretischer Abriss
+    - Einordnung der resultate der PA 4
+	- PL/1 Syntax Wo zu finden? Welche Version der Sprache? 
+     Wie kann JavaCC die formale Beschreibung der Grammatik in einen Parser Umsetzen?
+	- Reguläre Ausdrücke Syntax
+    - Literatur
+	    - Chomsky Hierarchie Bücher
+	    - https://www-igm.univ-mlv.fr/~berstel/LivreCodes/Codes.html
 	\subsection{Anwendung in JavaCC / Verwendung von regulären Ausdrücken als Datentyp (Tokens)}
+     - Beschreibung von formalen Grammatiken, als Input für den Compiler Compiler JavaCC.
+     - Entwurf von Java Klassenhierachie für PL/I Datentypen
+     - Übersetzung von Kontrollstrukturen und komplexeren Programmabläufen
+     - Struktuierung des Programms, sodass ein Benutzer es selbständig erweitern kann
 
 \section{Technisches Vorgehen}
 \subsection{Aspektorientierte Programmierung}
+- Wie funktioniert Aspektorientiert Programmierung?
+	- Wie Löse ich mit Aspektorientierter Programmierung konkrete Probleme?
+- JavaBeans
+- Spring
+	- Wie setzt Spring Aspektorientierte Programmierkonzepte ein?
 \subsection{Architektur} 
 --> UML Diagramm Zielbild einfügen, dynamisches Diagramm
-\subsection{Gestaltung der Projektumgebung}
+Wie Benutze ich den Transpiler:
+Bausteine
+- Software Architektur
+	- Planen mithilfe eines UML
+	- UX Design 
+		- Website?
+		- Docker Container?
+- Fehlertracking
+
+\subsection{Techstack}
 Um den Transpiler weiter zu entwickeln sind Schritte notwendig die, die Qualität des bestehenden Projektes erhöhen. Diese Schritte sind einerseits die Verbesserung der Projektstruktur und andererseits die Handhabung von Bugs und Fehlern.
 
 Die Ursprüngliche Version des Transpilers nahm die Native Projektstruktur von Eclipse als Vorlage. Diese Projektvorlage brachte jedoch einige negative Aspekte mit sich. Mit dieser Struktur war es schwer das Projekt zu importieren und erfolgreich PL/I-Code zu transformieren. Das erschwerte den Benutzern den Zugang zu dem eigentlichen Projekt. 
 Zurückzuführen ist dies auf das fehlenden Dependency Management. In der Ursprünglichen Version des Transpilers musste der Benutzer selbst herausfinden welche Software dieser benötigt um das Programm zu starten. In den meisten Fällen durch Fehlermeldungen welche darauf schließen lassen konnten das eine Dependency fehlt. Dieser Umstand ergibt eine Hürde, welche den Einstieg in die Umwandlung erschwerte. 
 Dieses Problem wurde gelöst in dem das Software Projektmanagement Werkzeug Maven eingesetzt wurde. Maven kann mithilfe des Project-Object-Model (POM) Dependecies lösen in dem benötigte Softwared beim kompilieren installiert wird. Der Benutzer kann nun entweder mithilfe des Maven Commandline-Interface (CLI) das Projekt aufbauen, oder einfach in Eclipse oder einer selbstgewählten IDE importieren.
 Ein weiterer Vorteil den Maven liefert ist die vordefinierte Projektstruktur. Mavens Projektstruktur liefert zwei gespiegelte "src" Ordner, welche je den Quellcode enthalten und die dazugehörigen Tests. Diese Struktur wurde erweitert. Es wurde die Projektstruktur in Module unterteilt. Jeder Modul-Ordner beinhaltet Klassen in denen sich die funktionalität des Moduls wiederspiegelt. Die Module werden in den Basepackages Zusammengefasst. Bei der Auswahl der Module sollte der Prozess des Transformierens deutlich werden, entsprechend erfolgt die Namensgebung nach den Prozesschritten: Lexikalische Analyse, Syntaktische Analyse, Syntaktische Synthese. Neben den Hauptprozessschritten, sind die Nebenprozess die Verarbeitung der Symboltablle und die Fehlerbehandlung, welche Ebenfalls als Module geordnet sind. Diese Ordnung führt zu einer einfachen Übersicht der verschiedenen Prozesse.
+
+- Maven -> Dependency Management
+- Testing -> JUNit Tests
+- Platform -> Spring
+- Compiler Compiler -> JavaCC
 
 \subsection{Module des Transpilers}
 \subsubsection{Scanner}
@@ -35,6 +82,18 @@ Eben für dan Fall das die Datei nicht gelesen werden kann, wurde eine Exception
 Fehlerbehandlung spielt besonder im Zusammenhang mit der Lexikalischen Analyse eine Rolle. Um zu gewährleisten das die Transformation korrekt albläuft braucht es der formalen PL/I Grammatik enstrpechend richtigen PL/I Code als Eingabe. Eine nicht behandlung hätte zur Folge das das Programm entweder eine Fehlerhafte Ausgabe produziert, oder Fehlschlägt. Dies soll vermieden werden.
 
 \subsection{Testing & Integration}
+1. Transpiler wird getestet
+1.1 Testen der Methoden von Lexer, Parser usw. (Bsp.: Kann dieses Zeichen verarbeitet werden?)
+1.2 Baum testen auf Korrektheit
+
+2. Transpilieren wird getestet
+2.1 Output des transpilierten Pl/1 Codes im Verhältnis zum Pl/1 Code testen.
+
+3. Der Transpilierte Code wird getestet
+- Wie wird PL/1 Code Native getestet
+- Funktioniert der Java Code richtig
+
+4. Performance Test (erst am ende)
 
 \section{Technische Spezifikation}
 	\subsection{Ausführung des Transpilers}
