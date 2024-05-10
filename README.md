@@ -72,6 +72,9 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 | Use PL/I Program Name in Java Program |                             |                         |                          |      |
 |                                       | Config-Datei                |                         |                          |      |
 |                                       | Check for Inherietence      |                         |                          |      |
+|                                       | Redo o. Remove Lexer        |                         |                          |      |
+|                                       | Remove Spaces from Grammar  |                         |                          |      |
+|                                       |                             | Integration Testing     |                          |      |
 
 ## 2.1 Expand PictureMapper
 In der PL/I Language Reference, S. 329 bis S. 343 wird der Picture Typ genauer beschrieben. Hier sind alle Ausprägungen des Typs beschrieben,
