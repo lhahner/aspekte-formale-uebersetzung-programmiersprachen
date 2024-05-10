@@ -16,7 +16,7 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 |          | Auswertung und Diskussion: Bedienung                          |                                        |                                   |                    |                    |
 |          | Auswertung und Diskussion: Erweiterungsmöglichkeiten          |                                        |                                   |                    |                    |
 | :------- | :------------------------------------------------------------ | :------------------------------------- | :-------------------------------- | :----------------- | :----------------- |
-| 14.05.24 |                                                               |                                        |                                   | Abstract           |                    |
+| 14.05.24 |                                                               |                                        |                                   | Diagramm           |                    |
 |          |                                                               |                                        |                                   | Maven project setup|                    |
 |          |                                                               |                                        |                                   |                    |                    |
 | 21.05.24 | (Sebastian Urlaub)                                            |                                        |                                   |                    |                    |
@@ -42,8 +42,6 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 |          |                                                               |                                        |                                   |                    |                    |
 |          |                                                               |                                        |                                   |                    |                    |
 |          |                                                               |                                        |                                   |                    |                    |
-
-
 
 
 ## 1.1 Theorie Teil 1: Formale Grammatik
