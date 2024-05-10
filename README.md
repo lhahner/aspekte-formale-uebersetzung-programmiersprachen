@@ -137,24 +137,5 @@ Junior Entwickler die gerade in PL/1 einsteigen.
 
 # 4 Gliederung
 ## 4.1 Prototype der Gliederung
-1 Theoretische Grundlagen
-1.1 Problemstellung 
-1.2 Zielsetzung 
-1.5 Abgrenzung Interpreter und Transpiler
-1.3 Formale Grammatiken / Wofür Formale Grammatiken
-1.4 Anwendung in JavaCC / Verwendung von regulären Ausdrücken als Datentyp (Tokens)
 
-2 Technisches Vorgehen / Aspektorientierte Programmierung / Beans
-2.1 Technisches Vorgehen / Aspektorientierte Programmierung / Beans
-2.3 Architektur
-
-3 Technische Spezifikation / Ausführung des Transpilers
-2.4 Ausführung des Transpilers
-3.1 Testing
-
-4 Auswertung und Diskussion
-2.2 Bedienung
-4.1 Bewertung des Versuchs
-4.2 Erweiterungsmöglichkeiten
-4.3 Fazit
 
