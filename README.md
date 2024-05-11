@@ -44,18 +44,6 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 |          |                                                               |                                        |                                   |                    |                    |
 
 
-## 1.1 Theorie Teil 1: Formale Grammatik
-
-
-## 1.2 Theorie Teil 2: Aspektorientierte Programmierung
-
-
-## 1.3 Programmierung: Projektstrukturierung
-
-
-## 1.4 Programmierung: Testing
-
-
 # 2 Kanban-board für die Programmierung des Transpilers
 
 | Backlog                               | To Do                       | Doing                   | Review                   | Done |
@@ -88,19 +76,13 @@ Dazu am besten eine Testklasse schreiben die diesen Fall testet.
 Es sollen nahezu alle Tokens aus dem PL/I Handbuch von IBM abgedeckt werden.
 Hierzu sollten auch alle Symbole in der Symboltabelle erfasst werden. Eventuelle sollten die Symbole aus einer externen Art "Dictonary" Datei in den Hashtable geladen werden.
 
-# 3 Ziele & Motivation
+# 3 Ziel der Architektur
+## 3.1 Perspektive des Entwicklers
+Die Architektur soll so aufgebaut sein das der Entwickler die PL/I Grammatikdatei und die PL/I Symboldatei mit einer X-Beliebigen Grammatikdatei und einer X-Beliebigen Symboldatei
+austauschen kann. Es soll also möglich sein ohne Probleme einen COBOL zu Java Parser zu bauen, wenn sich an die nötigen Normen der Zwischencode erzeugung gehalten wird.
 
-
-## 3.1 Inhaltliche Schwerpunkte
-
-## 3.2 Zielgruppe
-
-
-## 3.3 Warum ein Transpiler?
-
-### 3.3.1 Unterschied zwischen Interpreter und Compiler
-
-# 4 Gliederung
-## 4.1 Prototype der Gliederung
+## 3.2 Perspektive des Benutzers
+Dem Benutzer soll es möglich sein ein Pl/i Programm einzubinden ohne großartige Wartung betreiben zu müssen.
+Er soll die Auswahl zwischen Präzisionsstufen der Übersetzung haben. Die Ansicht soll aus dem Webbrowser erfolgen.
 
 
