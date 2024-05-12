@@ -2,9 +2,69 @@
 
 \section{Theoretische Grundlagen}
 	\subsection{Problemstellung}
-     Was ist ein Transpiler?
-     Cross Compiler?
+	
+	Es gibt zwei grundlegende Probleme die der PL/I zu Java Transpiler löst. 
+	
+	Einerseits das Kompatibiltätsproblem von PL/I-Programmen, die auf modernen Platformen laufen sollen. Beispiele für modernen Plattformen sind Cloud-Instanzen, oder Linux-Server. 
+	
+Andererseits die mit einem hohen Aufwand verbundene Wartung von PL/I Programmen. 
+	
+	Das Kompatbilitätsproblem ergibt sich aus dem bestehenden PL/I Compilerlösungen. Der PL/I Compiler, der auf den meisten Computer-Systemen im Einsatz ist wird von IBM entwickelt und vermarktet. Hierbei handelt es sich jedoch um einen Compiler der expilziet für z/Os geschrieben wurde. Dabei ist z/Os ein Betriebssystem welches für die von IBM vermarkteten Großrechner zum Einsatz kommt. Eine compilierung von PL/I auf einem herkömmlichen x86-Desktop Computer oder in der Cloud ist mit diesem Compiler nicht möglich. 
+	(https://www.ibm.com/de-de/products/pli-compiler-family) 
+	Eine Alternative bietet jedoch GNU mit ihrer GNU Compier Collection (GCC). Unter dieser Organisation hat der Entwickler Henrick Sorensen angefangen das Frontend für einen PL/I Compiler zu entwickeln und dabei auf das Backend der GCC zurückgegriffen um einen vollständigen Compiler zu entwicklen. Hingegen gab es bei diesem Projekt seit 2007 keine weiteren Neuerungen mehr und der Entwickler gibt selbst an das keine Zwischen-Code erzeugung bisher stattfindet, was diesen Compiler bisher unbrauchbar macht. 
+	(https://pl1gcc.sourceforge.net/) 
+	Somit ist auch das keine Alternative für moderne System-Architekturen. 
+	
+Weiterhin ist PL/I eine Altsprache, die seit den 1960er Jahren im Einsatz ist. 
+
+(https://www.fruehes.berlin/wp-content/uploads/2011/02/PL-1-F-OS-360-V-4.0.pdf) 
+
+Es ist also anzunehmen das diese Sprache heute zwar noch in Computer-Systemen zu finden ist, aber der Bestand an Entwicklern die die Software Warten können eher gering. Das führt dazu das die Wartung und Entwicklung, schwer durch Mangelnde Entwickler und kostspielig durch eine geringe Anzahl an Entwicklern werden kann.
+
+Java hingegen ist auf nahezu allen erdenklichen System Kompilierbar, durch ihre Systemunabhängig JVM die sich um das Kompilierung des Programms kümmert. 
+
+(https://medium.com/@etherservices.vimalraj/can-i-run-java-programs-on-any-device
+a-comprehensive-guide-31f736ca6ab1) 
+
+Dabei ist eine kompilierung auf Android Systemen, die einen weitaus weniger Komplexen RISC Befehlsatz als x86 Systeme mit einem CISC Befehlssatz haben möglich. 
+
+(https://developer.android.com/codelabs/build-your-first-android-app) 
+Zusätzlich ist eine Kompilierung wiederum, auch auf einem IBM-Großrechner möglich. 
+
+(https://www.ibm.com/docs/en/zos-basic-skills?topic=zos-java)
+
+Das macht Java sehr flexibel im Bezug auf die Kompatibiltät. 
+
+Weiterhin is Java die mit am meisten verwendete Programmiersprache in der heutigen Zeit. Das führt zu einer höheren Anzahl an Entwickler die in der Lage sind Java Programme zu warten.
+% Was ist ein Transpiler?
+Um nun diese Probleme tatsächlich zu lösen braucht es ein Programm, welches PL/I Quellcode als Eingabe nimmt und ein leserliches und Funktionsfähiges Programm ausgibt. Dieses Programm is ein Transpiler, der PL/I Code so verarbeitet das aus diesem Java Code generiert werden kann. Ein Transpiler arbeitet ähnlich wie ein Compiler, es wird aus dem bestehenden Programm eine Zwischencode Darstellung erzeugt welche schlussendlich auch in Java Code dargestellt werden kann. Dabei ist es möglich das der Entwickler des Transpilers selbstwählen kann, wie er welche Ausdrück übersetzt, was viel Spielraum für Diksussion lässt. Ist der Programmcode erstmal Transpiliert kann dieser durch die JVM kompiliert werden. Somit wären auch die Eingangs beschriebenen Probleme mithilfe dieses Programms gelöst.
+	 
      
+% Cross Compiler? - Hat hier eig nix zu suchen, ist Thema für Boostrapping aber nicht für Transpiler
+     
+     
+     
+% 	 Welches Problem löst das Programm?
+%	 Probleme 
+%			 1. Nicht auf jedem System läuft PL/I, besonders nicht auf modernen x86 bzw. Cloud.
+%			 2. PL/I ist eine weniger verwendete Sprache, Wartung teuer &  Schwer.
+
+%	 (Hinführung zum Problem:
+%	 Historisches Kompatibilitätsproblem -> Nicht auf jedem System lief jede Assambler Sprache, Problem: hoher Aufwand und Unflexibel
+% 	 Deshalb -> Compiler mit Hochsprache, der Code für das Backend des Compilers, bspw. C's Gcc Compiler
+%    in Assambler Sprache des Systems übersetzt.)? **Hier einen Cross Compiler erklären bzw. im Zusammenhang mit dem Historischen Problem.**
+
+%	 Problem mit PL/I -> Pl/I Compiler rar bzw. nur für Großrechner Systeme vorhanden   
+%	 Es gibt zwar einen GCC Pl/I Compiler, dieser wird aber seit 2007 nicht mehr weiterentwickelt. Eine Weiterentwiclung könnte auch Interessant %    sein, löst aber nicht das Problem der teuren Wartung von Programmen in PL/I.
+
+% 	 
+%	 Lösungsvorschlag zu 1 -> PL/I zu Java Transpiler bauen Java und JVM relativ System unabhängig und damit Ideale Zielsprache für eine 
+%	 hohe Kompatibiltätsrate.Um zum Beispiel Pl/I Programm die auf einem Großrechner laufen auch auf einem x86 On-Prem Server oder einer Cloud
+%    zu betreiben. **Hier die Frage klären was ein Transpiler ist**
+%	 
+%    Lösungsvorschlag zu 2 -> Java ist den großteil der Softwareentwickler bekannt und eine Wartung ist leichter.
+%
+    
 	\subsection{Zielsetzung}
  - Wie eine Art JavaScript Minifier oder 
     Wer ist die Zielgruppe?

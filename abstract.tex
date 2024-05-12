@@ -1,22 +1,7 @@
-Die Übersetzung von 'Ich bin' ins Englische ergibt 'I am'. Allerdings geht bei der Übersetzung von 'Du bist' etwas verloren, da 'You are' im Englischen eine Mehrzahl darstellt und nicht den exakten deutschen Sinn wiedergibt.
+Die vorangegangenen Arbeit 'Softwaregestützte Transformation von legacy Code in moderne Programmiersprachen' behandelt Übersetzungsmethoden der Datentypen von PL/I zu Java. Dabei wurde festgestellt, dass die Übersetzung von Datentypen mithilfe eines Transpilers auf unterschiedliche Art und Weise gestaltet werden kann. Die Arbeit bestand zum großteil aus dem Vergleich der Übersetzungsgestaltung eines Large Language Models (LLM) und eines selbst geschriebenen Transpilers. Der Transpiler der im Zuge der Arbeit entwickelt wurde soll mit dieser Arbeit erweitert werden.
 
-Um das deutsche 'Du bist' genau ins Englische zu übersetzen, müssten englische Grammatikregeln außer Acht gelassen werden. Ein Ausdruck wie 'You am' wäre erforderlich, um den deutschen Ausdruck präzise zu übertragen.
+Das bisherige Programm deckt lediglich die Übersetzung von Datentypen ab, jedoch nicht das Übersetzen von ganzen Prozeduren mit Verzweigungen und anderen Kontrollstrukturen. Aus diesem Grund wird der bestehende Transpiler so erweitert, dass eine Übersetzung anderer PL/I-Sprachkonstrukte in Java möglich ist. Dies umfasst auch die Umstrukturierung des aktuellen Programms, die Weiterentwicklung und Aufnahme neuer Ausdrücke der Sprache PL/I aus der Sprachreferenz von IBM, sowie die Diskussion über deren Repräsentation in Java. Dabei werden Softwarewerkzeuge wie JavaCC, Spring Boot, Maven und JUnit verwendet und im Zusammenhang mit der Erarbeitung beschrieben. 
 
-Ähnliche Herausforderungen ergeben sich auch bei der Übersetzung von Programmiersprachen. Hier gelten genau wie bei natürlichen Sprachen unterschiedliche formale Grammatik-Regeln, die nicht deckungsgleich übersetzt werden können. Ein Beispiel für eine formale Differenz zwischen Programmiersprachen, sind etwa die Datentypen in PL/I und Java. Beispielsweise Implementeirt der native Datentyp \verb!CHAR! in PL/I eine Zeichenbeschränkung, in Java ist eine native Beschränkung des Strings nicht möglich. 
+Am Ende wird eine Benutzerschnittstelle dargestellt, die die Nutzung des Transpilers für PL/I-Entwickler oder Modernisierungsspezialisten erleichtert. Schlussendlich sollen Performance-Tests und daraus resultierende Optimierungsmöglichkeiten potentielle Mitentwickler anregen das bestehende Programm zu erweitern.
 
-<<<<<<< HEAD
-Für eine erfolgreiche Transformation von PL/I-Code in Java ist somit ein Transformationsprogramm erforderlich, dass diese Übersetzung übernimmt. Die Entwicklung eines solchen Programms hängt oft von den Entscheidungen und Präferenzen des Entwicklers ab. Bei dem genannten Beispiel kann eine Zeichenbeschränkung unterschiedlich realisiert werden. Daher ist es wichtig, nicht nur das Transformationsprogramm zu entwickeln, sondern auch die Übersetzungsentscheidungen zu diskutieren und zu begründen. In der nachfolgenden Arbeit soll beides behandelt werden.
-=======
-Eine Übersetzung von natürlichen Sprachen bei der semantische und syntaktische Korrektheit erfolgt, ist somit kaum exakt.
-
-Gleiches gilt auch für Programmiersprachen. In meiner bisherigen Arbeit 'Softwaregestützte Transformation von legacy Code', habe ich mich näher mit Übersetzungsmethoden von Programmiersprachen auseinandergesetzt. In dieser Arbeit wurde deutlich das Bestandteile wie Datentypen der Programmiersprache PL/I, nicht nativ so übersetzt werden können das diese die gleiche semantische und syntaktische Bedeutung in Java haben. Es braucht ein Programm welches die Transformation von Bedeutung und verwendung von PL/I Code in Java übernimmt. Die erarbeitung dieses Transformationsprogramms, soll der Bestandteil dieser Arbeit sein.
-
---> PL/I Datentypen übersetzt in PA4, jetzt möchte ich das Modell erweitern. 
---> Mit Syntaktischen Produkten erweitern und übersetzen.
---> JavaCC wird zur erarbeitung des Parsers verwendet.
-
-- PL/I Programm in Java Programmcode übersetzen
-- Prozeduren zu überführen
-- Eigendefinierte Grammatik anhand des PL/I Language Referenz
-- Zwischencode 
->>>>>>> be56db67d2dc2b92002afb5c3e5eb4955ed69a21
+% In dem Buch "Modern Compiler Design" wurde beschrieben das die erzeugung eines Lexers mithilfe von automatisch generierten Lösungen wie JavaCC ineffzient sein kann. Dieser Punkt könnte sich im nachhinein noch als Nützlich erweisen, wenn am Ende über Optimierungspotential der Software diskutiert wird.
