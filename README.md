@@ -16,7 +16,7 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 |          | Auswertung und Diskussion: Bedienung                          |                                        |                                   |                    |                    |
 |          | Auswertung und Diskussion: Erweiterungsmöglichkeiten          |                                        |                                   |                    |                    |
 | :------- | :------------------------------------------------------------ | :------------------------------------- | :-------------------------------- | :----------------- | :----------------- |
-| 14.05.24 |                                                               |                                        |                                   | Abstract           |                    |
+| 14.05.24 |                                                               |                                        |                                   | Diagramm           |                    |
 |          |                                                               |                                        |                                   | Maven project setup|                    |
 |          |                                                               |                                        |                                   |                    |                    |
 | 21.05.24 | (Sebastian Urlaub)                                            |                                        |                                   |                    |                    |
@@ -44,61 +44,25 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 |          |                                                               |                                        |                                   |                    |                    |
 
 
-
-
-## 1.1 Theorie Teil 1: Formale Grammatik
-- Theoretischer Abriss
-- Einordnung der resultate der PA 4
-	- PL/1 Syntax Wo zu finden?
-	- Reguläre Ausdrücke Syntax
-- Literatur
-	- Chomsky Hierarchie Bücher
-	- https://www-igm.univ-mlv.fr/~berstel/LivreCodes/Codes.html
-
-## 1.2 Theorie Teil 2: Aspektorientierte Programmierung
-- Wie funktioniert Aspektorientiert Programmierung?
-	- Wie Löse ich mit Aspektorientierter Programmierung konkrete Probleme?
-- JavaBeans
-- Spring
-	- Wie setzt Spring Aspektorientierte Programmierkonzepte ein?
-
-## 1.3 Programmierung: Projektstrukturierung
-Bausteine
-- Software Architektur
-	- Planen mithilfe eines UML
-	- UX Design 
-		- Website?
-		- Docker Container?
-- Fehlertracking
-
-## 1.4 Programmierung: Testing
-1. Transpiler wird getestet
-1.1 Testen der Methoden von Lexer, Parser usw. (Bsp.: Kann dieses Zeichen verarbeitet werden?)
-1.2 Baum testen auf Korrektheit
-
-2. Transpilieren wird getestet
-2.1 Output des transpilierten Pl/1 Codes im Verhältnis zum Pl/1 Code testen.
-
-3. Der Transpilierte Code wird getestet
-- Wie wird PL/1 Code Native getestet
-- Funktioniert der Java Code richtig
-
-4. Performance Test (erst am ende)
-
 # 2 Kanban-board für die Programmierung des Transpilers
 
-| Backlog                               | To Do | Doing                   | Review                   | Done |
-| :------------------------------------ | :---- | :---------------------- | :----------------------- | :--- |
-|                                       |       | Error Handeling         |                          |      |
-|                                       |       |                         | Migrate Project to Maven |      |
-| Clean up Code                         |       |                         |                          |      |
-|                                       |       | Testing current version |                          |      |
-| Expand PictureMapper                  |       |                         |                          |      |
-| Tests for translated Regex            |       |                         |                          |      |
-|                                       |       |                         | Restructure Project      |      |
-| Add all Tokens to SymbolTable         |       |                         |                          |      |
-|                                       |       | Restructure Main        |                          |      |
-| Use PL/I Program Name in Java Program |       |                         |                          |      |
+| Backlog                               | To Do                       | Doing                   | Review                   | Done |
+| :------------------------------------ | :-------------------------- | :---------------------- | :----------------------- | :--- |
+|                                       |                             | Error Handeling         |                          |      |
+|                                       |                             |                         | Migrate Project to Maven |      |
+| Clean up Code                         |                             |                         |                          |      |
+|                                       |                             | Testing current version |                          |      |
+| Expand PictureMapper                  |                             |                         |                          |      |
+| Tests for translated Regex            |                             |                         |                          |      |
+|                                       |                             | Restructure Project     |                          |      |
+| Add all Tokens to SymbolTable         |                             |                         |                          |      |
+|                                       |                             | Restructure Main        |                          |      |
+| Use PL/I Program Name in Java Program |                             |                         |                          |      |
+|                                       | Config-Datei                |                         |                          |      |
+|                                       | Check for Inherietence      |                         |                          |      |
+|                                       | Redo o. Remove Lexer        |                         |                          |      |
+|                                       | Remove Spaces from Grammar  |                         |                          |      |
+|                                       |                             | Integration Testing     |                          |      |
 
 ## 2.1 Expand PictureMapper
 In der PL/I Language Reference, S. 329 bis S. 343 wird der Picture Typ genauer beschrieben. Hier sind alle Ausprägungen des Typs beschrieben,
@@ -112,47 +76,13 @@ Dazu am besten eine Testklasse schreiben die diesen Fall testet.
 Es sollen nahezu alle Tokens aus dem PL/I Handbuch von IBM abgedeckt werden.
 Hierzu sollten auch alle Symbole in der Symboltabelle erfasst werden. Eventuelle sollten die Symbole aus einer externen Art "Dictonary" Datei in den Hashtable geladen werden.
 
-# 3 Ziele & Motivation
-- Wie eine Art JavaScript Minifier oder 
-- Einer Art PL/1 für alle um PL/I Code zu testen
+# 3 Ziel der Architektur
+## 3.1 Perspektive des Entwicklers
+Die Architektur soll so aufgebaut sein das der Entwickler die PL/I Grammatikdatei und die PL/I Symboldatei mit einer X-Beliebigen Grammatikdatei und einer X-Beliebigen Symboldatei
+austauschen kann. Es soll also möglich sein ohne Probleme einen COBOL zu Java Parser zu bauen, wenn sich an die nötigen Normen der Zwischencode erzeugung gehalten wird.
 
-## 3.1 Inhaltliche Schwerpunkte
-- Beschreibung von formalen Grammatiken, als Input für den Compiler Compiler JavaCC.
-- Entwurf von Java Klassenhierachie für PL/I Datentypen
-- Übersetzung von Kontrollstrukturen und komplexeren Programmabläufen
-- Struktuierung des Programms, sodass ein Benutzer es selbständig erweitern kann
+## 3.2 Perspektive des Benutzers
+Dem Benutzer soll es möglich sein ein Pl/i Programm einzubinden ohne großartige Wartung betreiben zu müssen.
+Er soll die Auswahl zwischen Präzisionsstufen der Übersetzung haben. Die Ansicht soll aus dem Webbrowser erfolgen.
 
-## 3.2 Zielgruppe
-Junior Entwickler die gerade in PL/1 einsteigen.
-
-## 3.3 Warum ein Transpiler?
-- Lernhilfe für angehende junge Pl/1 Entwickler
-- Smoketest
-
-### 3.3.1 Unterschied zwischen Interpreter und Compiler
-- Erweiterung des Umfangs während der Laufzeit
-- Trennung Laufzeit/Konzeptionsphase
-
-# 4 Gliederung
-## 4.1 Prototype der Gliederung
-1 Theoretische Grundlagen
-1.1 Problemstellung 
-1.2 Zielsetzung 
-1.5 Abgrenzung Interpreter und Transpiler
-1.3 Formale Grammatiken / Wofür Formale Grammatiken
-1.4 Anwendung in JavaCC / Verwendung von regulären Ausdrücken als Datentyp (Tokens)
-
-2 Technisches Vorgehen / Aspektorientierte Programmierung / Beans
-2.1 Technisches Vorgehen / Aspektorientierte Programmierung / Beans
-2.3 Architektur
-
-3 Technische Spezifikation / Ausführung des Transpilers
-2.4 Ausführung des Transpilers
-3.1 Testing
-
-4 Auswertung und Diskussion
-2.2 Bedienung
-4.1 Bewertung des Versuchs
-4.2 Erweiterungsmöglichkeiten
-4.3 Fazit
 
