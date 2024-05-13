@@ -58,7 +58,7 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 | Add all Tokens to SymbolTable         |                             |                         |                          |      |
 |                                       |                             | Restructure Main        |                          |      |
 | Use PL/I Program Name in Java Program |                             |                         |                          |      |
-|                                       | Config-Datei                |                         |                          |      |
+|                                       |                             |                         | Config-Datei             |      |
 |                                       | Check for Inherietence      |                         |                          |      |
 |                                       | Redo o. Remove Lexer        |                         |                          |      |
 |                                       | Remove Spaces from Grammar  |                         |                          |      |
