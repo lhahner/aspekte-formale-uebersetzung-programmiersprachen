@@ -80,7 +80,7 @@ Es sollen nahezu alle Tokens aus dem PL/I Handbuch von IBM abgedeckt werden.
 Hierzu sollten auch alle Symbole in der Symboltabelle erfasst werden. Eventuelle sollten die Symbole aus einer externen Art "Dictonary" Datei in den Hashtable geladen werden.
 
 ## 2.4 Implement Program Structure
-### Strukture elemente in PL/I
+### Strukturelemente in PL/I
 Es gibt drei zentrale Sturturierungs Attribute eines PL/I Programms
 **BLOCKS**: Ein Block ist entweder eine Prozedur oder ein Begin Block.
 **PROZEDUR**: In einer Prozedur können Variablen Deklarationen und Programmlogik sein. Sie werden durch `Call aufgerufen`.
