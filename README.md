@@ -52,17 +52,20 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 |                                       |                             |                         | Migrate Project to Maven |      |
 | Clean up Code                         |                             |                         |                          |      |
 |                                       |                             | Testing current version |                          |      |
-| Expand PictureMapper                  |                             |                         |                          |      |
+|                                       |                             |                         |  Expand PictureMapper    |      |
 | Tests for translated Regex            |                             |                         |                          |      |
-|                                       |                             | Restructure Project     |                          |      |
+|                                       |                             |                         | Restructure Project      |      |
 | Add all Tokens to SymbolTable         |                             |                         |                          |      |
 |                                       |                             | Restructure Main        |                          |      |
 | Use PL/I Program Name in Java Program |                             |                         |                          |      |
 |                                       |                             |                         | Config-Datei             |      |
 |                                       | Check for Inherietence      |                         |                          |      |
-|                                       | Redo o. Remove Lexer        |                         |                          |      |
+|                                       |                             |                         | Redo o. Remove Lexer     |      |
 |                                       | Remove Spaces from Grammar  |                         |                          |      |
 |                                       |                             | Integration Testing     |                          |      |
+|                                       | Implement:Program Structure |                         |                          |      |
+| Implement:Procedures                  |                             |                         |                          |      |
+| Implement:Begin Blocks                |                             |                         |                          |      |
 
 ## 2.1 Expand PictureMapper
 In der PL/I Language Reference, S. 329 bis S. 343 wird der Picture Typ genauer beschrieben. Hier sind alle Ausprägungen des Typs beschrieben,
@@ -75,6 +78,17 @@ Dazu am besten eine Testklasse schreiben die diesen Fall testet.
 ## 2.3 Add all Tokens to SymbolTable
 Es sollen nahezu alle Tokens aus dem PL/I Handbuch von IBM abgedeckt werden.
 Hierzu sollten auch alle Symbole in der Symboltabelle erfasst werden. Eventuelle sollten die Symbole aus einer externen Art "Dictonary" Datei in den Hashtable geladen werden.
+
+## 2.4 Implement Program Structure
+### Strukture elemente in PL/I
+Es gibt drei zentrale Sturturierungs Attribute eines PL/I Programms
+**BLOCKS**: Ein Block ist entweder eine Prozedur oder ein Begin Block.
+**PROZEDUR**: In einer Prozedur können Variablen Deklarationen und Programmlogik sein. Sie werden durch `Call aufgerufen`.
+**BEGIN BLOCKS**: Sind Programm-blöcke die mit dem Keyword `Begin` beginnen und mit dem Keyword `end` enden.
+
+#### Blocks
+#### Implement:Prozeduren
+#### Implement:Begin Blocks
 
 # 3 Ziel der Architektur
 ## 3.1 Perspektive des Entwicklers
