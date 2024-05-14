@@ -64,8 +64,8 @@ Arbeitsergebnisse der PA 4 im Bezug auf den Transpiler vertiefen und verfeinern.
 |                                       | Remove Spaces from Grammar  |                         |                          |      |
 |                                       |                             | Integration Testing     |                          |      |
 |                                       | Implement:Program Structure |                         |                          |      |
-| Implement:Procedures                  |                             |                         |                          |      |
-| Implement:Begin Blocks                |                             |                         |                          |      |
+| Implementiere:Procedures              |                             |                         |                          |      |
+| Implementiere:Begin Blocks            |                             |                         |                          |      |
 
 ## 2.1 Expand PictureMapper
 In der PL/I Language Reference, S. 329 bis S. 343 wird der Picture Typ genauer beschrieben. Hier sind alle Ausprägungen des Typs beschrieben,
@@ -79,15 +79,15 @@ Dazu am besten eine Testklasse schreiben die diesen Fall testet.
 Es sollen nahezu alle Tokens aus dem PL/I Handbuch von IBM abgedeckt werden.
 Hierzu sollten auch alle Symbole in der Symboltabelle erfasst werden. Eventuelle sollten die Symbole aus einer externen Art "Dictonary" Datei in den Hashtable geladen werden.
 
-## 2.4 Implement Program Structure
+## 2.4 Implementiere:Program Structure
 Es soll möglich sein sowohl Blocks, Prozeduren und Begin Blocks von PL/I in Java zu übersetzen und entsprechend in Klassen oder Methoden definieren.
 Weiterhin muss zwischen Packages und load-modules unterschieden werden. Teil dieser Userstory ist es Kapitel 5 in den Transpiler einzuarbeiten.
 
-## 2.5 Implement:Prozeduren
+## 2.5 Implementiere:Prozeduren
 Implementiere alle Ausdrücke die von S.97 - 111 in der PL/I Langauge Referenz beschrieben werden. Hierzu gehört, die jjt file anpassen, eine neue Mapper-Klasse bauen und
 entsprechend in die Zielsprache tranformieren mit Ordner- und Dateistruktur.
 
-## 2.6 Implement:Begin Blocks
+## 2.6 Implementiere:Begin Blocks
 Implementiere alle Ausdrücke die von S.118 - 121 in der PL/I Langauge Referenz beschrieben werden. Hierzu gehört, die jjt file anpassen, eine neue Mapper-Klasse bauen und
 entsprechend in die Zielsprache tranformieren mit Ordner- und Dateistruktur.
 
