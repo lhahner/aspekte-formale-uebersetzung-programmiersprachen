@@ -80,18 +80,16 @@ Es sollen nahezu alle Tokens aus dem PL/I Handbuch von IBM abgedeckt werden.
 Hierzu sollten auch alle Symbole in der Symboltabelle erfasst werden. Eventuelle sollten die Symbole aus einer externen Art "Dictonary" Datei in den Hashtable geladen werden.
 
 ## 2.4 Implement Program Structure
-### Strukturelemente in PL/I
-Es gibt drei zentrale Sturturierungs Attribute eines PL/I Programms
+Es soll möglich sein sowohl Blocks, Prozeduren und Begin Blocks von PL/I in Java zu übersetzen und entsprechend in Klassen oder Methoden definieren.
+Weiterhin muss zwischen Packages und load-modules unterschieden werden. Teil dieser Userstory ist es Kapitel 5 in den Transpiler einzuarbeiten.
 
-**BLOCKS**: Ein Block ist entweder eine Prozedur oder ein Begin Block.
+## 2.5 Implement:Prozeduren
+Implementiere alle Ausdrücke die von S.97 - 111 in der PL/I Langauge Referenz beschrieben werden. Hierzu gehört, die jjt file anpassen, eine neue Mapper-Klasse bauen und
+entsprechend in die Zielsprache tranformieren mit Ordner- und Dateistruktur.
 
-**PROZEDUR**: In einer Prozedur können Variablen Deklarationen und Programmlogik sein. Sie werden durch `Call aufgerufen`.
-
-**BEGIN BLOCKS**: Sind Programm-blöcke die mit dem Keyword `Begin` beginnen und mit dem Keyword `end` enden.
-
-#### Blocks
-#### Implement:Prozeduren
-#### Implement:Begin Blocks
+## 2.6 Implement:Begin Blocks
+Implementiere alle Ausdrücke die von S.118 - 121 in der PL/I Langauge Referenz beschrieben werden. Hierzu gehört, die jjt file anpassen, eine neue Mapper-Klasse bauen und
+entsprechend in die Zielsprache tranformieren mit Ordner- und Dateistruktur.
 
 # 3 Ziel der Architektur
 ## 3.1 Perspektive des Entwicklers
