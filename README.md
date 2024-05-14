@@ -82,8 +82,11 @@ Hierzu sollten auch alle Symbole in der Symboltabelle erfasst werden. Eventuelle
 ## 2.4 Implement Program Structure
 ### Strukturelemente in PL/I
 Es gibt drei zentrale Sturturierungs Attribute eines PL/I Programms
+
 **BLOCKS**: Ein Block ist entweder eine Prozedur oder ein Begin Block.
+
 **PROZEDUR**: In einer Prozedur können Variablen Deklarationen und Programmlogik sein. Sie werden durch `Call aufgerufen`.
+
 **BEGIN BLOCKS**: Sind Programm-blöcke die mit dem Keyword `Begin` beginnen und mit dem Keyword `end` enden.
 
 #### Blocks
