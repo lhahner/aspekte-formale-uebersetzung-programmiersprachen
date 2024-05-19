@@ -4,4 +4,11 @@ Das bisherige Programm deckt lediglich die Übersetzung von Datentypen ab, jedoc
 
 Am Ende wird eine Benutzerschnittstelle dargestellt, die die Nutzung des Transpilers für PL/I-Entwickler oder Modernisierungsspezialisten erleichtert. Schlussendlich sollen Performance-Tests und daraus resultierende Optimierungsmöglichkeiten entwickelt werden.
 
+The previous work 'Software-supported transformation of legacy code into modern programming languages' deals with translation methods of data types from PL/I to Java. The work consisted mainly of a comparison of the translation design of a Large Language Model (LLM) and a self-written transpiler. The transpiler, which was developed in the course of the work, is to be extended with this work.
+
+The existing program only covers the translation of data types, but not the translation of entire procedures with branches and other control structures. For this reason, the existing transpiler will be extended to enable the translation of other PL/I language constructs into Java. This also includes the restructuring of the current program, the further development and inclusion of new expressions of the PL/I language from the IBM language reference, as well as the discussion of their representation in Java. Software tools such as JavaCC, Spring Boot, Maven and JUnit are used and described in the context of the development. 
+
+At the end, a user interface is presented that facilitates the use of the transpiler for PL/I developers or modernization specialists. Finally, performance tests and the resulting optimization options will be developed.
+
+
 % In dem Buch "Modern Compiler Design" wurde beschrieben das die erzeugung eines Lexers mithilfe von automatisch generierten Lösungen wie JavaCC ineffzient sein kann. Dieser Punkt könnte sich im nachhinein noch als Nützlich erweisen, wenn am Ende über Optimierungspotential der Software diskutiert wird.
