@@ -178,11 +178,73 @@ Zum anderen ist ein Interpreter ein Programm welches den Quellcode direkt ausfü
    \pagebreak
    
    
-	\subsection{Formale Grammatiken als Blaupause für Programmiersprachen}
+	\subsection{Formale Sprachen und ihre Grammatiken}
+	% Warum braucht ein Compiler eine Grammatik?
+	In dem vorangegangen Kapitel wurden unterschiedliche Formen der Sprachinterpretation eines Computers vorgesteltt. Damit die Interpretation von Sprachen korrekt erfolgt, braucht ein Computer Regeln. Grammatiken beinhalten diese Regeln. Damit der Transpiler korrekt arbeitet wird eine definierte Grammatik benötigt. Nur so können die Prozessschritte der Lexikalischen- und der Syntatkischen Analyse korrekt erfolgen. Denn diese Schritte prüfen den eingegeben Quellcode auf seine grammartikalische Richtigkeit. Bevor also die Sprachliche Analyse erfolgen kann, sollte eine Grammatik angwendet werden.
+	
+	% Woraus besteht eine Grammatik
+Um eine Grammatik anzuwenden, muss klar sein um welche Grammatik es sich handelt. Wiederum Klarheit zu erhalten um welche Grammatik es sich handelt, sollte bestimmt werden welche Art von Sprache beschrieben werden soll. Da es sich bei einem Transpiler um ein Computeprogramm handelt, ist die behandelende Sprache eine fromale Sprache. Eine formale Sprache unterscheidet sich von einer natürlichen Sprache in der Anwendungsform. Die Anwendung von solchen Sprachen dient der logisch präzisen Beschreibung von Ausdrücken und nicht der Kommunikation. Ein Beispiel für eine formale Sprache sind Programmiersprachen. Für eine Programmiersprache wird eine Grammatik benötigt die feste Regeln bestimmt. (introduction to formal languages and automata, S. 149ff.) Eine Grammatik besteht aus Variablen, Terminalsymbolen, einen Startsymbol und einer Produktion. Zusammengefasst in:
+\begin{center}
+\begin{equation}
+G=(V,T,S,P)
+\end{equation}
+\end{center}
+Wobei \verb+V+ für Variablen, \verb+T+ für Terminale, \verb+S+ für Start und \verb+P+ für Produktion steht. Dabei ist \verb+S+ ein Teil von \verb+V+. (introduction to formal languages and automata, S. 31ff.) Für Variablen wird häufig auch der Begriff von Nicht-Terminalsymbolen verwendet.
+% Welche Typen von Grammatiken gibt es? Chomsky Hierarchie
+Grammatiken lassen sich weiter durch die Chomsky Hierarchie spezifizieren. Normane Chomsky unterteilt Grammatiken in vier Ebenen. Ebene null beschreibt unbeschränkte, Ebene eins kontextsensitve, Ebene zwei kontextfreie und Ebene drei reguläre Grammatiken.(https://hpi.de/friedrich/teaching/units/grammatiken.html) 
+\pagebreak
+Wobei unbeschränkte Grammatiken immer gegeben sind, solange mit einer Produktion auch mindestens ein nicht-Terminalsymbol beschrieben wird. Das ist bei Grammatiken von Programmiersprachen der Fall. Denn es wird beispielsweise bei der Variablen-Deklaration folgende Form unterstellt:
+
+\begin{center}
+\begin{equation}
+S \to TB;
+\end{equation}
+\begin{equation}
+T \to int | char | float
+\end{equation}
+\begin{equation}
+B \to AD
+\end{equation}
+\begin{equation}
+A \to A...Z|a...z
+\end{equation}
+\begin{equation}
+D \to 0...9|D
+\end{equation}
+\end{center}
+ 
+Kontextsensitiv ist die Grammatik einer Programmiersprache ebenfalls. Mit der beschriebenen Grammatik ist folgender Ausdruck zulässig.
+% Beispiel überprüfen----------------
+\begin{verbatim}
+int identifier;
+\end{verbatim}
+% -----------------------------------
+Nicht zulässig ist hingegen.
+% Beispiel überprüfen---------------
+\begin{verbatim} 
+identifiert int; 
+\end{verbatim}
+% ---------------------------------
+Somit ist die Grammatik einer Programmiersprache kontextsensitiv. 
+Bei der deklaration einer Variable ist es eindeutig das der Kontext der Terminalsymbole zu den Nicht-Terminalsymbolen zu berrücksichtigen ist. Jedoch kann auch eine mehrdeutigkeit entstehen. Zusätzlich sollte deshalb auf der linken Seite genau ein Nicht-Terminalsymbol stehen. Somit ist die definierte Grammatik ebenfalls Kontextfrei. 
+Weiterhin kann in diesem Beispiel die Produktion als Terminalfolge aufgebaut werden. Etwa mit: 
+
+\begin{center}
+\begin{equation}
+S \to TB \to int | double | float B \to AD \to A...Z|a...z D \to 0...9|D;
+\end{equation}
+\end{center}
+
+Jedoch ist dieser Ausdruck damit nicht Regulär. Durch den Rekursiven Aufruf am Ende kann kein endlicher Automat erzeugt werden. Die Grammatik bleibt also höchstens von Typ 2.
+
+	% Grammatik Reguläre Ausdrücke einordnen
+	% Grammatik PL/I einordnen
+	
+	% Wie werden Grammtiken in einem Transpiler Programm verwendet?
+Die bisher definierten Grammatiken sind in dem Sinne von Bedeutung, weil die Lexikalsiche und Syntaktische Analyse des Transpilers aus einer solchen Grammatik erzeugt werden. Mithilfe des Parser-Generator Programms JavaCC wird eine Grammatik definiert aus der ein Parser erzeugt wird, der eben nur definierte Ausdrücke zulässt. Für PL/I bedeutet dies das die aktuelle Sprachnorm für den Parser definiert werden muss. Die aktuellste Sprachnorm wird durch IBM definiert. In der PL/I Language Referenz werden jegliche zulässige Ausdrücke definiert. Da hingegen bisher keine vollständige Grammatik definition in From eines Parsers besteht der öffentlich zugänglich ist muss die Grammatik eigenhändisch definiert werden. Schlussendlich erzeugt der Compiler-compiler JavaCC die Module für die Lexikalische und Syntaktische Analyse. Weshalb Kapitel 1.5 die in diesem Kapitel definierte Theorie praktisch darstellt.^
     % - Theoretischer Abriss
    % - Einordnung der resultate der PA 4
 	%- PL/1 Syntax Wo zu finden? Welche Version der Sprache? 
-  %   Wie kann JavaCC die formale Beschreibung der Grammatik in einen Parser Umsetzen?
 %	- Reguläre Ausdrücke Syntax, Beispiel einer Grammatik die ich mit verwende, Typ einer Grammatik
   %  - Literatur
 	%    - Chomsky Hierarchie Bücher
@@ -196,6 +258,7 @@ Zum anderen ist ein Interpreter ein Programm welches den Quellcode direkt ausfü
   %   - Beschreibung von formalen Grammatiken, als Input für den Compiler Compiler JavaCC.
     % - Entwurf von Java Klassenhierachie für PL/I Datentypen
    %  - Übersetzung von Kontrollstrukturen und komplexeren Programmabläufen
+    %   Wie kann JavaCC die formale Beschreibung der Grammatik in einen Parser Umsetzen?
 
 
 \section{Technisches Vorgehen}
