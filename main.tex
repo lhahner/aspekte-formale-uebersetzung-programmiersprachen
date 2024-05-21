@@ -1,36 +1,37 @@
---> Je Subsection Punkt Fragen formulieren.
+%--> Je Subsection Punkt Fragen formulieren.
+
+%-------------------------------------------
+% HEADER
+
+% Roterfade der Einleitung:
+
+% 1. Problem -> Kompatibilität
+% 2. Ziel -> Lösung mit Übersetzungsprogramm
+% 3. Abgrenzung Interpreter & Compiler -> Übersetzungsprogramm als Transpiler
+% 4. Formale Grammatike -> Formale Grammatik als Vorrausetzung des Transpilers
+% 5. JavaCC -> Implementierung der Formalen Grammtik mit JavaCC und damit des Transpilers
+
+%-------------------------------------------
 
 \section{Theoretische Grundlagen}
-	\subsection{Problemstellung}
+\subsection{Problemstellung}
 	
-	Es gibt zwei grundlegende Probleme die eine PL/I zu Java Übersetzung lösen soll. 
+Es gibt zwei grundlegende Probleme die eine PL/I zu Java Übersetzung lösen soll. 
+Einerseits das Kompatibiltätsproblem von PL/I-Programmen, die auf modernen Platformen laufen sollen, wie etwa Cloud-Instanzen, oder Linux-Server. Andererseits die mit einem hohen Aufwand verbundene Wartung von bestehenden PL/I-Programmen. 
 	
-	Einerseits das Kompatibiltätsproblem von PL/I-Programmen, die auf modernen Platformen laufen sollen, wie etwa Cloud-Instanzen, oder Linux-Server. Andererseits die mit einem hohen Aufwand verbundene Wartung von bestehenden PL/I-Programmen. 
-	
-	Bestehende PL/I Compilerlösungen führen aktuell zu einem Kompatibilitätsproblem. Der PL/I Compiler, der auf den meisten Computer-Systemen im Einsatz ist wird von IBM entwickelt und vermarktet. Hierbei handelt es sich um einen Compiler der expilziet für z/Os geschrieben wurde. Dabei ist z/Os ein Betriebssystem für die von IBM vermarkteten Großrechner. Eine kompilierung von PL/I auf einem herkömmlichen x86-Desktop Computer oder in der Cloud ist mit diesem Compiler nicht möglich. 
-	(https://www.ibm.com/de-de/products/pli-compiler-family) 
-	Eine Alternative bietet die Organisation GNU mit der GNU Compier Collection (GCC). Der Entwickler Henrick Sorensen entwickelte Teile des Frontends für einen PL/I Compiler. Dabei verwendete er das Backend, das die GCC zu verfügung stellt. Jedoch gab es bei diesem Projekt seit 2007 keine weiteren Neuerungen mehr. Der Entwickler gibt an, das bisher keine Zwischencode Erzeugung stattfindet, was diesen Compiler bisher unbrauchbar macht. Somit ist dieser Compiler keine Alternative zu dem von IBM.
-	(https://pl1gcc.sourceforge.net/) 
-Es bleibt bisher also nur die Möglichkeit über einen Emulator PL/I-Code auf einem z/Os System zu kompilieren.
+Bestehende PL/I Compilerlösungen führen aktuell zu einem Kompatibilitätsproblem. Der PL/I Compiler, der auf den meisten Computer-Systemen im Einsatz ist wird von IBM entwickelt und vermarktet. Hierbei handelt es sich um einen Compiler der expilziet für z/Os geschrieben wurde. Dabei ist z/Os ein Betriebssystem für die von IBM vermarkteten Großrechner. Eine kompilierung von PL/I auf einem herkömmlichen x86-Desktop Computer oder in der Cloud ist mit diesem Compiler nicht möglich. 
+(https://www.ibm.com/de-de/products/pli-compiler-family) 
 
-Weiterhin ist PL/I eine Altsprache, die seit den 1960er Jahren im Einsatz ist. 
+Eine Alternative bietet die Organisation GNU mit der GNU Compier Collection (GCC). Der Entwickler Henrick Sorensen entwickelte Teile des Frontends für einen PL/I Compiler. Dabei verwendete er das Backend, das die GCC zu verfügung stellt. Jedoch gab es bei diesem Projekt seit 2007 keine weiteren Neuerungen mehr. Der Entwickler gibt an, das bisher keine Zwischencode Erzeugung stattfindet, was diesen Compiler bisher unbrauchbar macht. Somit ist dieser Compiler keine Alternative zu dem von IBM.
+(https://pl1gcc.sourceforge.net/) 
 
-(https://www.fruehes.berlin/wp-content/uploads/2011/02/PL-1-F-OS-360-V-4.0.pdf, erste Seite) 
-
-Es ist also anzunehmen das diese Sprache heute zwar noch in Computer-Systemen zu finden ist, aber der Bestand an Entwicklern die PL/I-Software Warten können vermutlich gering ist. Wartung und Entwicklung werden so häufig schwer und teuer.
-
+Es bleibt bisher also nur die Möglichkeit über einen Emulator PL/I-Code auf einem z/Os System zu kompilieren. Weiterhin ist PL/I eine Altsprache, die seit den 1960er Jahren im Einsatz ist.  (https://www.fruehes.berlin/wp-content/uploads/2011/02/PL-1-F-OS-360-V-4.0.pdf, erste Seite) Es ist also anzunehmen das diese Sprache heute zwar noch in Computer-Systemen zu finden ist, aber der Bestand an Entwicklern die PL/I-Software Warten können vermutlich gering ist. Wartung und Entwicklung werden so häufig schwer und teuer.
 Java hingegen ist auf nahezu allen erdenklichen Systemen Kompilierbar, durch die Systemunabhängig Java Virtual Machine (JVM). 
-
 (https://medium.com/@etherservices.vimalraj/can-i-run-java-programs-on-any-device
 a-comprehensive-guide-31f736ca6ab1) 
-
 Dabei sind die Programme auch mit Android-Systemen kompatibel, die einen weitaus weniger Komplexen RISC Befehlsatz als x86-Systeme mit einem CISC Befehlssatz haben.
-
 (https://developer.android.com/codelabs/build-your-first-android-app) 
-Zusätzlich ist eine Kompilierung auch auf einem IBM-Großrechner möglich. 
-
-(https://www.ibm.com/docs/en/zos-basic-skills?topic=zos-java)
-
+Zusätzlich ist eine Kompilierung auch auf einem IBM-Großrechner möglich. (https://www.ibm.com/docs/en/zos-basic-skills?topic=zos-java)
 Das macht Java zu einer flexibel Einsetzbaren Sprache. Weiterhin is Java die mit am meisten verwendete Programmiersprache in der heutigen Zeit. (Quelle?) Das führt zu einer höheren Anzahl an Entwickler, die in der Lage sind Java Programme zu warten.
 
 % Was ist ein Transpiler?
@@ -67,7 +68,7 @@ Die Beurteilung der Qualität des Programms ist auch von Zielaspekten der Benutz
 %    Lösungsvorschlag zu 2 -> Java ist den großteil der Softwareentwickler bekannt und eine Wartung ist leichter.
 %
     
-	\subsection{Zielsetzung}
+\subsection{Zielsetzung}
 % Herleitung von der Problemstellung	
 Das Ziel dieser Arbeit leitet sich aus der eingeführten Problemstellung in Kapitel 1.1 ab. Allgemein soll ein plattformunabhängiges Programm entstehen, dass die  Entwicklung und Transformation von Pl/I Programmen ermöglicht. Die zugrundeliegende Arbeit stellt die Entwicklung, sowie die Gestaltung der Software dar und wird schlussendlich diskutiert. 
 	
@@ -101,45 +102,51 @@ Auch wenn beide Zielgruppen unterschiedliche Ausprägung der Zielvorstellung hab
 %
 % 2.2 Erweiterung des Transpilers bzw. ersetzen von Modulen	
 	
- % - Wie eine Art JavaScript Minifier oder 
-  %  Wer ist die Zielgruppe?
-  %  - Junior Entwickler die gerade in PL/1 einsteigen.
- %   - Lernhilfe
-  %  - Online-Smoketest von PL/I Code
- %   - Benutzbarkeit
- %   - Entwickler die das Programm eigenständig erweitern, verändern wollen.
+% - Wie eine Art JavaScript Minifier oder 
+%  Wer ist die Zielgruppe?
+%  - Junior Entwickler die gerade in PL/1 einsteigen.
+%   - Lernhilfe
+%  - Online-Smoketest von PL/I Code
+%   - Benutzbarkeit
+%   - Entwickler die das Programm eigenständig erweitern, verändern wollen.
  
- %  Ziele der Architektur (Zielgruppe Entwickler)
- %  - Perspektive des Entwicklers
- %  - Perspektive des Benutzers
+%  Ziele der Architektur (Zielgruppe Entwickler)
+%  - Perspektive des Entwicklers
+%  - Perspektive des Benutzers
     \pagebreak
-	\subsection{Abgrenzung Interpreter und Compiler}
-  % Absatz: Wie können Programme ausgeführt werden?
-  Sowohl Interpreter und Compiler sind dazu fähig Computer-Programme auszuführen. Hingegen erreichen beide diesen Schritt auf unterschiedlichste Art und Weise. Es soll in diesem Kapitel genauer betrachetet werden, wie sich Compiler von Interpreteren unterscheidet. Im Zuge dieser Arbeit ist diese Abgrenzung wichtig, um einen Allgemeine Einordnung des Programms festzulegen.
-  
-  % Absatz: Wie arbeitet ein Compiler
-  Ein Compiler besteht aus einem Frontend und einem Backend. Das Frontend des Compilers besteht wiederrum aus einem Lexer, einem Parser und einer Symboltabelle. Das Ergebnis des Frontends ist eine Zwischencodedarstellung des zu kompilierenden Codes. Diese Zwischencodedarstellung wird von dem Backend als Eingabe genommen und in Maschinencode übersetzt. Der Maschinencode wird dann auf dem zugrundeliegenden System ausgeführt. (Compilers: Prinicples and Techniques, S. 106ff.)
-  
-  %Hier evtl. Abbildung...
-  % Absatz: Warum ein Transpiler?
-  Einen Compiler kann es in verschiedensten Ausprägungen geben. Häufig varrieren die Arten je nach Ausprägung der Prozesschritte. 
-So wird bei einem One-Pass Compiler kein Zwischencode erzegut. Hingegen wird direkt mithilfe des Parsers der Code ausgeführt. Diese Vorgehensweise wurde ursprünglich verwendet um Speicherplatz zu sparen. Anfangs hatten Computer nur begrenzte Kapazitäten und konnten eine Art Zwischenergebnis nicht Speichern. Eine Beispielhafte Sprache die mit einem One-pass Compiler erzeugt wird ist Turbo Pascal. (https://keleshev.com/one-pass-compiler-primer)
 
-Hingegen unterscheidet sich ein sourc-to-source Compiler von einem herkömmlichen Compiler in den gegebenen Zielsprachen. Während Beispielsweise der C Compiler, den C Code nach dem Parsing in eine Assamblersprache übersetzt und daraufhin in Maschinencode, würde ein source-to-source Compiler etwa C-Code in Java Übersetzen. Woraufhin der Java-Code, wiederum in das Zwischencode-Konstrukt des Java-Compilers den Bytecode übersetzt wird und schlussendlich mithilfe der JVM kompiliert wird. Ein weiteres Synonym für ein solches Programm ist der Begriff Transpiler.
-
-Egal ob One-pass Compiler, Transpiler oder ein gewöhnlicher Compiler, alle übersetzen das Programm basierend auf dessen Gesamtstruktur. (https://keleshev.com/compiling-to-assembly-from-scratch/excerpt-compiling-to-assembly-from-scratch.pdf)[S. 18ff.] Eine Alternative die das nicht tut ist ein Interpreter.
-  % Asbatz: Ein Compiler am Beispiel von Java
-  %...
-  % Absatz: Wie arbeitet ein Interpreter
-  Im Vergleich zu einem Compiler, hat der Interperter kein Frontend und kein Backend.
-	Mit einem Interpreter wird der Quellcode direkt ausgeführt. Es existiert hier also keine klare Trennung, zwischen einem Frontend welches eine unabhängige Repräsentation des Codes erzeugt, sowie ein Backend welches diese Repräsentation als Eingabe benötigt. Was bei einem Compiler der Fall ist. Das Programm wird nicht erst in eine Zielsprache übersetzt, sondern direkt ausgeführt. 
-Programmiersprachen die durch einen Interpreter ausgeführt werden sind etwa PHP3, Ruby oder JavaScript. Vereinzelnt gibt es auch Fälle in denen Sowohl ein Interpreter, wie auch ein Compiler im Hintergrund arbeitet. Bei der Sprache Go ist dies der Fall. Hier wird mit dem Befehl \verb+go build+ das Go-Programm kompiliert und mit \verb+go run+ wird es durch einen Interpreter sofort ausgeführt. Somit ist auch Kombination der Beiden Übersetzungen denkbar. (https://craftinginterpreters.com/a-map-of-the-territory.html)
-  Eine weitere Sprache die einen Interpreter verwendet, ist die Skriptsprache Shell. Shell kommt auf dem großteil Unixoiden Betriebssystemen zum Einsatz.
+\subsection{Abgrenzung Interpreter und Compiler}
+% Absatz: Wie können Programme ausgeführt werden?
+Sowohl Interpreter und Compiler dienen als Konstruktionsweise von Übersetzungsprogrammen. Hingegen erreichen beide dies auf unterschiedlichste Art und Weise. Es soll in diesem Kapitel genauer betrachetet werden, wie sich ein Compiler von einem Interpreter unterscheidet. Im Zuge dieser Arbeit ist diese Abgrenzung wichtig, um das zuentwickelnde Programm einzuordnen.
   
-  % Absatz: Ein Interpreter am Beispiel von Bash
-  Um die Arbeitsweise eines Interpretes deutlich zu machen, wird der Kommandozeilen-Interpreter Bash genauer betrachtet. Bash ist ein Interpreter für die Skritsprache Shell. Neben Bash existieren weitere Shell-Interperter wie etwa Zsh, Csh oder Powershell
+% Absatz: Wie arbeitet ein Compiler
+Ein Compiler besteht aus einem Frontend und einem Backend. Das Frontend des Compilers besteht wiederrum aus der lexikalischen Analyse, der syntaktischen Analyse und einer Symboltabelle. 
+Das Ergebnis des Frontends ist eine Zwischencodedarstellung. Diese Zwischencodedarstellung verwendet das Backend um daraus Maschinencode zu generieren. Der Maschinencode wird dann auf dem zugrundeliegenden System ausgeführt. (Compilers: Prinicples and Techniques, S. 106ff.)
 
-https://en.wikipedia.org/wiki/Listofcommand-lineinterpreters
+% Abbildung: Hier evtl. Abbildung...
+
+% Absatz: Warum ein Transpiler?
+Ein Compiler kann unterschiedlich erstellt werden. Häufig varrieren die Arten je nach Ausprägung der Prozesschritte, wie etwa das Ergebnis der Syntaktischen Analyse.
+So wird bei einem One-Pass Compiler kein Zwischencode erzeugt. Hingegen wird der Code direkt ausgeführt. Diese Vorgehensweise wurde ursprünglich verwendet um Speicherplatz zu sparen. 
+Anfangs hatten Computer nur begrenzte Kapazitäten und konnten eine Art Zwischenergebnis nicht Speichern. Eine Beispielhafte Sprache die mit einem One-Pass Compiler erzeugt wird ist Turbo Pascal. (https://keleshev.com/one-pass-compiler-primer)
+
+Hingegen unterscheidet sich ein Source-to-Source Compiler von einem herkömmlichen Compiler in den gegebenen Zielsprachen. Während Beispielsweise der C Compiler, den C Code nach der syntaktischen Analyse in eine Assamblersprache übersetzt und daraufhin in Maschinencode, würde ein Source-to-Source Compiler etwa C-Code in Java übersetzen. Woraufhin der Java-Code wiederum in das Zwischencode-Konstrukt des Java-Compilers, den Bytecode übersetzt wird und schlussendlich mithilfe der JVM kompiliert. 
+Ein weiteres Synonym für ein solches Programm ist der Begriff Transpiler.
+
+Egal ob One-Pass Compiler, Transpiler oder ein gewöhnlicher Compiler, alle übersetzen das Programm basierend auf dessen Gesamtstruktur. (https://keleshev.com/compiling-to-assembly-from-scratch/excerpt-compiling-to-assembly-from-scratch.pdf)[S. 18ff.] Eine Alternative Konzeptionsart zeigt der Interpreter.
+
+% Asbatz: Ein Compiler am Beispiel von Java
+%...
+% Absatz: Wie arbeitet ein Interpreter
+
+Im Vergleich zu einem Compiler, hat der Interperter kein Frontend und kein Backend. Mit einem Interpreter wird der Quellcode direkt ausgeführt. Es existiert hier also keineklare Trennung, zwischen einem Frontend welches eine unabhängige Repräsentation des Codes erzeugt, sowie ein Backend welches diese Repräsentation interpretiert. Zusammengefasst wird das Programm nicht erst in eine Zielsprache übersetzt, sondern direkt ausgeführt.
+
+Programmiersprachen die durch einen Interpreter ausgeführt werden sind etwa PHP3, Ruby JavaScript, oder Shell. Es ist auch möglich sowohl ein Interpreter, wie auch ein Compiler für die Interpretation einer Sprache zu verwenden. 
+Die Sprache 'Go' verwendet etwa einen Compiler und einen Interpreter. Hier wird mit dem Befehl \verb+go build+ das Go-Programm kompiliert und mit \verb+go run+ wird es durch einen Interpreter sofort ausgeführt. (https://craftinginterpreters.com/a-map-of-the-territory.html)
+Um die Funktionsweise eines Interpreters nachzuvollziehen, soll die Skriptsprache Shell näher betrachtet werden. Shell kommt auf dem großteil Unixoider Betriebssysteme zum Einsatz.
+  
+% Absatz: Ein Interpreter am Beispiel von Bash
+Für die Sprache Shell gibt verschiedenste Interpreter. Bash ist ein Interpreter für die Skriptsprache Shell. Neben Bash existieren weitere Shell-Interperter wie etwa Zsh, Csh oder Powershell. (https://en.wikipedia.org/wiki/Listofcommand-lineinterpreters)
 
 Diese handhaben die Ausführung eines Shell-Skripts ähnlich wie Bash. Abbildung 1.1 stellt den Ablauf der Skript-Interpretation dar.
 
@@ -150,51 +157,67 @@ Diese handhaben die Ausführung eines Shell-Skripts ähnlich wie Bash. Abbildung
   \label{fig:shell}
 \end{figure}
 \pagebreak
-Abbildung 1.1 beginnt von oben mit der Eingabe des Shell-Skripts. Das Shell skript kann neben Shell Commands, die auch in einer CLI ausgeführt werden können, Verzweigungen und Schleifen enthalten. Die Eingabe des Shellskripts wird Zeile für Zeile gelesen, entweder durch ein Terminal oder durch den Befehl \verb+bash -c+. 
-Beide Eingabemethoden führen zu der ersten Phase des Shell-Interpreters, dass Quoting. Das Quoting arbeitet ähnlich wie ein Lexer. Hier werden alle Sonderzeichen entfernt, wie etwa Kommentare oder Backslashes. Sobbald das Quoting beendet ist entsteht ein String der lediglich aus Terminalsymbolen besteht und Nicht-Terminal Symbolen in Form von Datei- oder Variablennamen. Somit verbleiben nur Symbole, die im Zuge der Ausführung des Shellskripts eine Rolle spielen. 
-Sobbald das Quoting abgeschlossen ist beginnt das Parsing. Diese Phase ähnelt zwar dem herkömmlichen Parsing aus dem Kompilierprozess, jedoch wird keine Zwischencode erzeugung aus dem Parsing erzeugt. Hier wird lediglich zwischen einfachen Commands und Commpound Commands unterschieden. Einfache Commands, sind etwa das Ausführen der Buitin-Shellprogramme \verb+ls+, \verb+wc+ oder \verb+mkdir+. Compound Commands bezeichnet alle Commands die zusätzliche Logik in das Shell-Programm bringen, mit etwa \verb+if+, \verb+while+ oder \verb+case+. In diesem Schritt wird festgestellt, ob zu jeden \verb+if+ etwa ein \verb+fi+ besteht. 
-Der Übersetzungsprozess wird mit der Shell Expansion fortgesetzt und es werden in einem Kommando eingebundene relative Ausdrücke mit den Absoluten repräsentationen ersetzt. Beispielsweise würde in dem Ausdruck  \verb+echo ${pwd}+ das \verb+$pwd+ mit dem absoluten Pfad des aktuellen Verzeichnisses ausgetauscht.
+
+Abbildung 1.1 beginnt von oben mit der Eingabe des Shell-Skripts. Das Shell Skript kann neben Shell Commands, die auch in einer CLI ausgeführt werden können, Verzweigungen und Schleifen enthalten. 
+
+Die Eingabe des Shellskripts wird Zeile für Zeile gelesen, entweder durch ein Terminal oder durch den Befehl \verb+bash -c+. 
+Beide Eingabemethoden führen zu der ersten Phase des Shell-Interpreters. 
+Das Quoting arbeitet nach dem Prinzip der Lexikalischen Analyse. Hier werden alle Sonderzeichen entfernt, wie etwa Kommentare oder Backslashes. Sobbald das Quoting beendet ist entsteht ein String der lediglich aus den Tokens eines Ausdrucks besteht. 
+ 
+Sobbald das Quoting abgeschlossen ist beginnt das Parsing. Diese Phase ähnelt der Syntatkischen Analyse aus dem Kompilierprozess, jedoch wird keine Zwischencode erzeugung aus dem Parsing erzeugt. Hier wird lediglich zwischen einfachen Commands und Commpound Commands unterschieden. 
+Einfache Commands, sind etwa das Ausführen der Builtin-Shellprogramme \verb+ls+, \verb+wc+ oder \verb+mkdir+. Mit Compound Commands werden alle Commands bezeichnet die zusätzliche Logik in das Shell-Programm bringen, mit etwa \verb+if+, \verb+while+ oder \verb+case+.  
+
+Der Übersetzungsprozess wird mit der Shell Expansion fortgesetzt und es werden in einem Kommando eingebundene relative Ausdrücke mit den Absoluten repräsentationen ersetzt.Beispielsweise würde in dem Ausdruck  \verb+echo ${pwd}+ das \verb+$pwd+ mit dem absoluten Pfad des aktuellen Verzeichnisses ausgetauscht.
 Schlussendlich wird die Ausgabe des Shell-Skript über der die \verb+stdio+ libary ausgegeben. 
 (https://www.gnu.org/software/bash/manual/bash.html#Shell-Operation)
 
-In diesem gesamten Prozess wird lediglich die Shell Skriptsprache verwendet. Der Quellcode wird nicht von einer Hochsprache in eine Niedere-Sprache oder andere Hochsprache umgewandelt. Damit wird ein zentraler Unterschied zwischen einem Interpreter und einem Compiler deutlich. Es entsteht keine Repräsentation des Codes in einer andere Sprache. Von der Eingabe des Code bis zum Ergebnis des Programms, bleibt der Interpreter bei einer Sprache.
+In diesem gesamten Prozess wird lediglich die Shell Skriptsprache verwendet. Der Quellcode wird nicht von einer Hochsprache in eine Niedere-Sprache oder andere Hochsprache umgewandelt. Damit wird ein zentraler Unterschied zwischen einem Interpreter und einem Compiler deutlich, es entsteht keine Repräsentation des Codes in einer andere Sprache. Von der Eingabe des Code bis zum Ergebnis des Programms, bleibt der Interpreter bei einer Sprache.
 
 % @todo: Es soll deutlich werden welchen Begriff für das Programm gewählt werden soll. Vorher auch checken ob irgendwo ausser im Abstract Begriff Transpiler auftaucht.
-  % Absatz: Zusammenfassende Unterscheidung zwischen Interpreter und Transpiler, Was sind gemeinsamkeiten und unterschiede von Transpiler und interpreter?
-  % !!!HIER EVALUIEREN WELCHE ART, INTERPRETER/TRANSPILER!!!
-  Ein One-Pass Compiler als Gestaltungsschema für die zu entwicklende Software ist nicht geeignet.
-  
-Zusammenfassend zeigen sich Ähnlichkeiten und Unterschieden zwischen einem Interpreter und einem Compiler. 
+% Absatz: Zusammenfassende Unterscheidung zwischen Interpreter und Transpiler, Was sind gemeinsamkeiten und unterschiede von Transpiler und interpreter?
+% !!!HIER EVALUIEREN WELCHE ART, INTERPRETER/TRANSPILER!!!
+Zusammenfassend zeigen sich Ähnlichkeiten und Unterschiede zwischen einem Interpreter und einem Compiler. Zum einen durchlaufen beide die Phasen der Lexikalischen und der Syntaktischen Analyse. 
+Beide bereinigen den Quellcode erst um Kommentare, Leerstellen oder sonstige für die Übersetzung irrelevanten Symbole. Woraufhin entweder der Quellcode direkt übersetzt, oder aus diesem eine unabhängige Repräsentation erzeugt wird. 
 
-Zum einen durchlaufen beide die Phasen des Lexings und des Parsings. Bei dem Beispiel des Bash-Interpreters wurden andere Begriffe für diese Prozesse gewählt, wie etwa Quoting und Parsing, hingegen decken diese Prozessschritte, die eines Lexers oder Parsers ab. Es müssen sowohl Compiler, wie auch Interpreter den Quellcode erst um Kommentare, Leerstellen oder sonstige Nicht-Terminalsymbole bereinigen, die für Übersetzung nicht von Syntaktischer Relevanz sind. 
+Jedoch übersetzt der Interpreter lediglich Zeile für Zeile direkt. Das macht der Compiler nicht. Stattdessen wird das Programm in eine andere Form erzeugt und gelesen, dabei stehen die verwendeten Ausdrücke untereinander in Verbindung.
 
-Zum anderen ist ein Interpreter ein Programm welches den Quellcode direkt ausführt. Ein Compiler hat zwischen dem tatsächlichen Ausführen des Programms, wesentliche Prozesschritte die je nach Ausprägung des Compilers unterschiedlich Ablaufen können.
+Um nun PL/I Code in Java zu übersetzen, sind Verbindungen unter den Ausdrücken wichtig. Würde lediglich Zeile für Zeile übersetzt werden, könnte dies zu einem Java-Programm führen welches niemals Objektorientierten Paradgimen gleichkommt. Somit wird sich in dieser Arbeit gegen einen Interpreter entschieden.
+Schlussendlich eignet sich für die Konpzeption des Übersetzers am besten ein Transpiler. Eben dadurch das die Programmiersprache PL/I in eine weitere Programmiersprache, also Java übersetzt werden soll, wird die Source-to-Source übersetzung beschrieben. 
 
-   % - Erweiterung des Umfangs während der Laufzeit
-   % - Trennung Laufzeit/Konzeptionsphase
+Damit ein Transpiler jedoch die zugrundeliegende Sprache PL/I korrekt verarbeiten kann, wird eine Grammatik benötigt. Das folgende Kapitel soll Grammatiken von fromalen Sprachen, wie PL/I und Java genauer beleuchten.
 
-   % - Hier erwähnen das eine geminsamkeit die definition von Grammatiken ist, dann überleiten zu Formale Grammatiken.
-   % - Auch Entscheidung treffen was genau der Transpiler ist, Compiler oder Interpreter
-   \pagebreak
+% - Erweiterung des Umfangs während der Laufzeit
+% - Trennung Laufzeit/Konzeptionsphase
+
+% - Hier erwähnen das eine geminsamkeit die definition von Grammatiken ist, dann überleiten zu Formale Grammatiken.
+% - Auch Entscheidung treffen was genau der Transpiler ist, Compiler oder Interpreter
+\pagebreak
    
    
-	\subsection{Formale Sprachen und ihre Grammatiken}
-	% Warum braucht ein Compiler eine Grammatik?
-	In dem vorangegangen Kapitel wurden unterschiedliche Formen der Sprachinterpretation eines Computers vorgesteltt. Damit die Interpretation von Sprachen korrekt erfolgt, braucht ein Computer Regeln. Grammatiken beinhalten diese Regeln. Damit der Transpiler korrekt arbeitet wird eine definierte Grammatik benötigt. Nur so können die Prozessschritte der Lexikalischen- und der Syntatkischen Analyse korrekt erfolgen. Denn diese Schritte prüfen den eingegeben Quellcode auf seine grammartikalische Richtigkeit. Bevor also die Sprachliche Analyse erfolgen kann, sollte eine Grammatik angwendet werden.
+\subsection{Formale Sprachen und ihre Grammatiken}
+% Warum braucht ein Compiler eine Grammatik?
+In dem vorangegangen Kapitel wurden unterschiedliche Formen der Sprachinterpretation eines Computers vorgestellt. Damit die Interpretation von Sprachen korrekt erfolgt, braucht ein Computer Regeln. Grammatiken beinhalten diese Regeln. Damit der Transpiler korrekt arbeitet wird eine definierte Grammatik benötigt. Nur so können die Prozessschritte der Lexikalischen- und der Syntatkischen Analyse korrekt erfolgen. Denn diese Schritte prüfen den eingegeben Quellcode auf seine grammartikalische Richtigkeit. Bevor also die Sprachliche Analyse erfolgen kann, sollte eine Grammatik angwendet werden.
 	
-	% Woraus besteht eine Grammatik
-Um eine Grammatik anzuwenden, muss klar sein um welche Grammatik es sich handelt. Wiederum Klarheit zu erhalten um welche Grammatik es sich handelt, sollte bestimmt werden welche Art von Sprache beschrieben werden soll. Da es sich bei einem Transpiler um ein Computeprogramm handelt, ist die behandelende Sprache eine fromale Sprache. Eine formale Sprache unterscheidet sich von einer natürlichen Sprache in der Anwendungsform. Die Anwendung von solchen Sprachen dient der logisch präzisen Beschreibung von Ausdrücken und nicht der Kommunikation. Ein Beispiel für eine formale Sprache sind Programmiersprachen. Für eine Programmiersprache wird eine Grammatik benötigt die feste Regeln bestimmt. (introduction to formal languages and automata, S. 149ff.) Eine Grammatik besteht aus Variablen, Terminalsymbolen, einen Startsymbol und einer Produktion. Zusammengefasst in:
+% Woraus besteht eine Grammatik
+Um eine Grammatik anzuwenden muss klar sein, um welche Grammatik es sich handelt. Weiterhin sollte bestimmt werden welche Art von Sprache beschrieben werden soll. 
+Da es sich bei einem Transpiler um ein Computeprogramm handelt, ist die behandelende Sprache eine fromale Sprache. Eine formale Sprache unterscheidet sich von einer natürlichen Sprache in der Anwendungsform. Die Anwendung von solchen Sprachen dient der logisch präzisen Beschreibung von Ausdrücken. (introduction to formal languages and automata, S. 149ff.) Eine Grammatik besteht aus Variablen, Terminalsymbolen, einen Startsymbol und einer Produktion. Zusammengefasst in:
+
 \begin{center}
 \begin{equation}
 G=(V,T,S,P)
 \end{equation}
 \end{center}
-Wobei \verb+V+ für Variablen, \verb+T+ für Terminale, \verb+S+ für Start und \verb+P+ für Produktion steht. Dabei ist \verb+S+ ein Teil von \verb+V+. (introduction to formal languages and automata, S. 31ff.) Für Variablen wird häufig auch der Begriff von Nicht-Terminalsymbolen verwendet.
-% Welche Typen von Grammatiken gibt es? Chomsky Hierarchie
-Grammatiken lassen sich weiter durch die Chomsky Hierarchie spezifizieren. Normane Chomsky unterteilt Grammatiken in vier Ebenen. Ebene null beschreibt unbeschränkte, Ebene eins kontextsensitve, Ebene zwei kontextfreie und Ebene drei reguläre Grammatiken.(https://hpi.de/friedrich/teaching/units/grammatiken.html) 
-\pagebreak
-Wobei unbeschränkte Grammatiken immer gegeben sind, solange mit einer Produktion auch mindestens ein nicht-Terminalsymbol beschrieben wird. Das ist bei Grammatiken von Programmiersprachen der Fall. Denn es wird beispielsweise bei der Variablen-Deklaration folgende Form unterstellt:
 
+Wobei \verb+V+ für Variablen bzw. Nicht-Terminalsymbole, \verb+T+ für Terminale, \verb+S+ für Start und \verb+P+ für Produktion steht. Dabei ist \verb+S+ ein Teil von \verb+V+. (introduction to formal languages and automata, S. 31ff.) Für Variablen wird häufig auch der Begriff von Nicht-Terminalsymbolen verwendet.
+
+% Welche Typen von Grammatiken gibt es? Chomsky Hierarchie
+Grammatiken lassen sich weiter durch die Chomsky Hierarchie spezifizieren. Noam Chomsky unterteilt Grammatiken in vier Ebenen. Ebene null beschreibt unbeschränkte-, Ebene eins kontextsensitve-, Ebene zwei kontextfreie- und Ebene drei reguläre Grammatiken.(https://hpi.de/friedrich/teaching/units/grammatiken.html) 
+
+\pagebreak
+
+Wobei unbeschränkte Grammatiken immer gegeben sind, solange mit einer Produktion auch mindestens ein Nicht-Terminalsymbol beschrieben wird. Das ist bei Grammatiken von Programmiersprachen der Fall. Denn es wird beispielsweise bei der Variablen-Deklaration folgende Form unterstellt:
+
+% Eine der Übungsaufaben aus der Literatur verwenden.
 \begin{center}
 \begin{equation}
 S \to TB;
@@ -235,30 +258,34 @@ S \to TB \to int | double | float B \to AD \to A...Z|a...z D \to 0...9|D;
 \end{equation}
 \end{center}
 
+% Nochmal überprüfen ob das stimmt.
 Jedoch ist dieser Ausdruck damit nicht Regulär. Durch den Rekursiven Aufruf am Ende kann kein endlicher Automat erzeugt werden. Die Grammatik bleibt also höchstens von Typ 2.
 
 	% Grammatik Reguläre Ausdrücke einordnen
 	% Grammatik PL/I einordnen
 	
 	% Wie werden Grammtiken in einem Transpiler Programm verwendet?
-Die bisher definierten Grammatiken sind in dem Sinne von Bedeutung, weil die Lexikalsiche und Syntaktische Analyse des Transpilers aus einer solchen Grammatik erzeugt werden. Mithilfe des Parser-Generator Programms JavaCC wird eine Grammatik definiert aus der ein Parser erzeugt wird, der eben nur definierte Ausdrücke zulässt. Für PL/I bedeutet dies das die aktuelle Sprachnorm für den Parser definiert werden muss. Die aktuellste Sprachnorm wird durch IBM definiert. In der PL/I Language Referenz werden jegliche zulässige Ausdrücke definiert. Da hingegen bisher keine vollständige Grammatik definition in From eines Parsers besteht der öffentlich zugänglich ist muss die Grammatik eigenhändisch definiert werden. Schlussendlich erzeugt der Compiler-compiler JavaCC die Module für die Lexikalische und Syntaktische Analyse. Weshalb Kapitel 1.5 die in diesem Kapitel definierte Theorie praktisch darstellt.^
-    % - Theoretischer Abriss
-   % - Einordnung der resultate der PA 4
-	%- PL/1 Syntax Wo zu finden? Welche Version der Sprache? 
+Die bisher definierten Grammatiken sind in dem Sinne von Bedeutung, weil die Lexikalsiche und Syntaktische Analyse des Transpilers aus einer solchen Grammatik erzeugt werden. Mithilfe einer Grammatik wird ein Parser definiert aus durch den Compiler-Compiler JavaCC erzeugt wird. 
+Für den PL/I-Transpiler bedeutet, dass die aktuelle PL/I-Grammatik für den Parser definiert werden muss. Die aktuellste Grammatik wird durch IBM, in der PL/I Language Referenz definiert. Aus dieser wird mithilfe von JavaCC ein Parser erzeugt. Weshalb in dem folgenden Kapitel 1.5 der Compiler-Compiler und die dazugehörige Grammatik näher beschrieben wird.
+
+% - Theoretischer Abriss
+% - Einordnung der resultate der PA 4
+%- PL/1 Syntax Wo zu finden? Welche Version der Sprache? 
 %	- Reguläre Ausdrücke Syntax, Beispiel einer Grammatik die ich mit verwende, Typ einer Grammatik
-  %  - Literatur
-	%    - Chomsky Hierarchie Bücher
-	%    - https://www-igm.univ-mlv.fr/~berstel/LivreCodes/Codes.html
-   %  - Woraus besteht eine Grammatik?
-  %   - Wie lassen sich Grammatiken der Komplexität nach anordnen?
-   %  - Chomsky Hierarchie
-   %  Erst Chomsky Hierachier, dann nach Komplexität einordnen und am Beispiel von Regulären Ausdrücken und PL/I Grammatik einführen.
+%  - Literatur
+%    - Chomsky Hierarchie Bücher
+%    - https://www-igm.univ-mlv.fr/~berstel/LivreCodes/Codes.html
+%  - Woraus besteht eine Grammatik?
+%   - Wie lassen sich Grammatiken der Komplexität nach anordnen?
+%  - Chomsky Hierarchie
+%  Erst Chomsky Hierachier, dann nach Komplexität einordnen und am Beispiel von Regulären Ausdrücken und PL/I Grammatik einführen.
      
-	\subsection{Anwendung von Formalen Grammatiken in JavaCC}
-  %   - Beschreibung von formalen Grammatiken, als Input für den Compiler Compiler JavaCC.
-    % - Entwurf von Java Klassenhierachie für PL/I Datentypen
-   %  - Übersetzung von Kontrollstrukturen und komplexeren Programmabläufen
-    %   Wie kann JavaCC die formale Beschreibung der Grammatik in einen Parser Umsetzen?
+\subsection{Anwendung von Formalen Grammatiken in JavaCC}
+  
+%   - Beschreibung von formalen Grammatiken, als Input für den Compiler Compiler JavaCC.
+% - Entwurf von Java Klassenhierachie für PL/I Datentypen
+%  - Übersetzung von Kontrollstrukturen und komplexeren Programmabläufen
+%   Wie kann JavaCC die formale Beschreibung der Grammatik in einen Parser Umsetzen?
 
 
 \section{Technisches Vorgehen}
