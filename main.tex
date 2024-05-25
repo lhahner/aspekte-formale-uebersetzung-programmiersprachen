@@ -75,23 +75,23 @@ Das Ziel dieser Arbeit leitet sich aus der eingeführten Problemstellung in Kapi
 % Zielgruppen Zusammengefasst	
 Somit richtet sich diese Arbeit und das Programm teils an juniore Entwickler, die zum ersten Mal mit PL/I in Berührung kommen. Sowie Administratoren, die das Programm anpassen und erweitern möchten. 
 	
-% Absatz: Junior Entwickler die gerade in PL/1 einsteigen.
+% Junior Entwickler die gerade in PL/1 einsteigen.
 Juniore Entwickler profitieren von dieser Arbeit als Einstiegspunkt in die Programmiersprache PL/I. Dadurch das es schwierig ist ein PL/I-Progamm auf einem herkömmlichen Desktop Computer zu kompilieren, soll das erarbeite Programm Abhilfe schaffen. Sie könnten das Programm als Lernhilfe oder als Test-Umgebung benutzen.
 
-% Absatz: Lernhilfe
+% Lernhilfe
 Für Entwickler die bspw. mehr Erfahrung mit Java haben, eignet sich das Übersetzungsprogramm als Lernhilfe. Es wird ihnen so erleichtert, PL/I-Programme zu analysieren. Sie können bestehende Kenntnisse in Java anwenden, um gleiche Muster in PL/I wiederzuerkennen. Dies kann den Lernprozess beschleunigen. In dieser Arbeit wird dabei die Gestaltung von Übersetzungsmustern, des zugrundeliegenden Programmes diskutiert. Hierzu wird an Vor- und Nachteile gewählter Gestaltungen herangeführt.
 
-% Absatz: Online-Smoketest von PL/I Code
+% Online-Smoketest von PL/I Code
 Ein weiterer denkbarer Einsatzbereich ist es, den PL/I-Code auf seine Richtigkeit zu testen. Wird mithilfe des Programms erfolgreich das PL/I-Programm in Java übersetzt, so sollte auch ein herkömmlicher PL/I-Compiler auf einem Mainframe den Code ausführen können. Somit eignet sich das Programm auch für Smoke-tests von Anwendungen.
 
-% Absatz: Benutzbarkeit
+% Benutzbarkeit
 Gegenwärtig kann der Übersetzer lediglich über die Kommandozeile, sowie der IDE Eclipse verwendet werden. Diese ursprüngliche Benutzung des Programms führte zu einer erhöhten Fehleranfälligkeit und Dokumentationsbedarf. Ein vereinfachtes Darstellungskonzept, welches in Kapitel 2.? Vorgestellt wird, bietet den Benutzern einen leichteren Einstieg in das Programm.
 Die Komplexität der Benutzung wird durch ein Graphical-User-Inferface (GUI) vereinfacht. Das Konzept dieser GUI soll dem eines Übersetzers der natürlichen Sprache, wie etwa 'DeepL' oder 'Google-Translate', ähneln. Mit diesen Konzepten sind Juniore Entwickler vertraut, erleichtert den Einstieg in die Programmiersprache PL/I, das Testen des PL/I Codes, sowie die schnelle Übersetzung.
 
-%  Absatz: Entwickler die das Programm eigenständig erweitern, verändern wollen.
+%  Entwickler die das Programm eigenständig erweitern, verändern wollen.
 Weiterhin richtet sich diese Arbeit und das Programm an erfahrene Benutzer und Leser. Durch die modularisierte Gestaltung des Übersetzers können erfahrene Entwickler selbst Module austauschen und erweitern, etwa durch eine API-Schnittstelle zu externen Software-Lösungen.
 
-%  Absatz: Zusammenfassung und hinführung zum nächsten zu dem Unterschied Interpreter und Compiler
+%  Zusammenfassung und hinführung zum nächsten zu dem Unterschied Interpreter und Compiler
 Zusammenfassend entstehen zwei Zielgruppen. Einmal juniore Entwickler, die Interesse daran haben, das Programm als Software-Werkzeug zu verwenden. Ebenfalls Entwickler, die den Übersetzer oder die definierte PL/I Grammatik als Grundlage für eine Weiterentwicklung verwenden, möchten. 
 Auch wenn beide Zielgruppen unterschiedliche Ausprägung der Zielvorstellung haben, wollen beide eine Übersetzung von einer Quellsprache in eine Zielsprache erreichen. Die Art und Weise des Übersetzungsprogramms sind dabei unterschiedlich. Ein Übersetzer kann sowohl als Interpreter und als Compiler gestaltet werden. In dem nachfolgenden Kapitel 1.3 werden die Begriffe voneinander abgegrenzt. Folglich soll auch eine Begriffspezfische Einordnung des Programms erfolgen.
 	
@@ -116,16 +116,16 @@ Auch wenn beide Zielgruppen unterschiedliche Ausprägung der Zielvorstellung hab
     \pagebreak
 
 \subsection{Abgrenzung Interpreter und Compiler}
-% Absatz: Wie können Programme ausgeführt werden?
+% Wie können Programme ausgeführt werden?
 Sowohl Interpreter und Compiler dienen als Konstruktionsweise von Übersetzungsprogrammen. Hingegen erreichen beide dies auf unterschiedlichste Art und Weise. Es soll in diesem Kapitel genauer betrachetet werden, wie sich ein Compiler von einem Interpreter unterscheidet. Im Zuge dieser Arbeit ist diese Abgrenzung wichtig, um das zuentwickelnde Programm einzuordnen.
   
-% Absatz: Wie arbeitet ein Compiler
+% Wie arbeitet ein Compiler?
 Ein Compiler besteht aus einem Frontend und einem Backend. Das Frontend des Compilers besteht wiederrum aus der lexikalischen Analyse, der syntaktischen Analyse und einer Symboltabelle. 
 Das Ergebnis des Frontends ist eine Zwischencodedarstellung. Diese Zwischencodedarstellung verwendet das Backend um daraus Maschinencode zu generieren. Der Maschinencode wird dann auf dem zugrundeliegenden System ausgeführt. (Compilers: Prinicples and Techniques, S. 106ff.)
 
-% Abbildung: Hier evtl. Abbildung...
+% @todo: Hier evtl. Abbildung...
 
-% Absatz: Warum ein Transpiler?
+%  Warum ein Transpiler?
 Ein Compiler kann unterschiedlich erstellt werden. Häufig varrieren die Arten je nach Ausprägung der Prozesschritte, wie etwa das Ergebnis der Syntaktischen Analyse.
 So wird bei einem One-Pass Compiler kein Zwischencode erzeugt. Hingegen wird der Code direkt ausgeführt. Diese Vorgehensweise wurde ursprünglich verwendet um Speicherplatz zu sparen. 
 Anfangs hatten Computer nur begrenzte Kapazitäten und konnten eine Art Zwischenergebnis nicht Speichern. Eine Beispielhafte Sprache die mit einem One-Pass Compiler erzeugt wird ist Turbo Pascal. (https://keleshev.com/one-pass-compiler-primer)
@@ -135,10 +135,9 @@ Ein weiteres Synonym für ein solches Programm ist der Begriff Transpiler.
 
 Egal ob One-Pass Compiler, Transpiler oder ein gewöhnlicher Compiler, alle übersetzen das Programm basierend auf dessen Gesamtstruktur. (https://keleshev.com/compiling-to-assembly-from-scratch/excerpt-compiling-to-assembly-from-scratch.pdf)[S. 18ff.] Eine Alternative Konzeptionsart zeigt der Interpreter.
 
-% Asbatz: Ein Compiler am Beispiel von Java
-%...
-% Absatz: Wie arbeitet ein Interpreter
+% @todo: Ein Compiler am Beispiel von Java
 
+% Wie arbeitet ein Interpreter?
 Im Vergleich zu einem Compiler, hat der Interperter kein Frontend und kein Backend. Mit einem Interpreter wird der Quellcode direkt ausgeführt. Es existiert hier also keineklare Trennung, zwischen einem Frontend welches eine unabhängige Repräsentation des Codes erzeugt, sowie ein Backend welches diese Repräsentation interpretiert. Zusammengefasst wird das Programm nicht erst in eine Zielsprache übersetzt, sondern direkt ausgeführt.
 
 Programmiersprachen die durch einen Interpreter ausgeführt werden sind etwa PHP3, Ruby JavaScript, oder Shell. Es ist auch möglich sowohl ein Interpreter, wie auch ein Compiler für die Interpretation einer Sprache zu verwenden. 
@@ -149,7 +148,6 @@ Um die Funktionsweise eines Interpreters nachzuvollziehen, soll die Skriptsprach
 Für die Sprache Shell gibt verschiedenste Interpreter. Bash ist ein Interpreter für die Skriptsprache Shell. Neben Bash existieren weitere Shell-Interperter wie etwa Zsh, Csh oder Powershell. (https://en.wikipedia.org/wiki/Listofcommand-lineinterpreters)
 
 Diese handhaben die Ausführung eines Shell-Skripts ähnlich wie Bash. Abbildung 1.1 stellt den Ablauf der Skript-Interpretation dar.
-
 \begin{figure}[h]
   \centering
   \caption{Ablauf der Interpretation eines Shell Programms}
@@ -175,7 +173,7 @@ In diesem gesamten Prozess wird lediglich die Shell Skriptsprache verwendet. Der
 
 % @todo: Es soll deutlich werden welchen Begriff für das Programm gewählt werden soll. Vorher auch checken ob irgendwo ausser im Abstract Begriff Transpiler auftaucht.
 % Absatz: Zusammenfassende Unterscheidung zwischen Interpreter und Transpiler, Was sind gemeinsamkeiten und unterschiede von Transpiler und interpreter?
-% !!!HIER EVALUIEREN WELCHE ART, INTERPRETER/TRANSPILER!!!
+
 Zusammenfassend zeigen sich Ähnlichkeiten und Unterschiede zwischen einem Interpreter und einem Compiler. Zum einen durchlaufen beide die Phasen der Lexikalischen und der Syntaktischen Analyse. 
 Beide bereinigen den Quellcode erst um Kommentare, Leerstellen oder sonstige für die Übersetzung irrelevanten Symbole. Woraufhin entweder der Quellcode direkt übersetzt, oder aus diesem eine unabhängige Repräsentation erzeugt wird. 
 
@@ -198,7 +196,7 @@ Damit ein Transpiler jedoch die zugrundeliegende Sprache PL/I korrekt verarbeite
 % Warum braucht ein Compiler eine Grammatik?
 In dem vorangegangen Kapitel wurden unterschiedliche Formen der Sprachinterpretation eines Computers vorgestellt. Damit die Interpretation von Sprachen korrekt erfolgt, braucht ein Computer Regeln. Grammatiken beinhalten diese Regeln. Damit der Transpiler korrekt arbeitet wird eine definierte Grammatik benötigt. Nur so können die Prozessschritte der Lexikalischen- und der Syntatkischen Analyse korrekt erfolgen. Denn diese Schritte prüfen den eingegeben Quellcode auf seine grammartikalische Richtigkeit. Bevor also die Sprachliche Analyse erfolgen kann, sollte eine Grammatik angwendet werden.
 	
-% Woraus besteht eine Grammatik
+% Woraus besteht eine Grammatik?
 Um eine Grammatik anzuwenden muss klar sein, um welche Grammatik es sich handelt. Weiterhin sollte bestimmt werden welche Art von Sprache beschrieben werden soll. 
 Da es sich bei einem Transpiler um ein Computeprogramm handelt, ist die behandelende Sprache eine fromale Sprache. Eine formale Sprache unterscheidet sich von einer natürlichen Sprache in der Anwendungsform. Die Anwendung von solchen Sprachen dient der logisch präzisen Beschreibung von Ausdrücken. (introduction to formal languages and automata, S. 149ff.) Eine Grammatik besteht aus Variablen, Terminalsymbolen, einen Startsymbol und einer Produktion. Zusammengefasst in:
 
@@ -217,7 +215,7 @@ Grammatiken lassen sich weiter durch die Chomsky Hierarchie spezifizieren. Noam 
 
 Wobei unbeschränkte Grammatiken immer gegeben sind, solange mit einer Produktion auch mindestens ein Nicht-Terminalsymbol beschrieben wird. Das ist bei Grammatiken von Programmiersprachen der Fall. Denn es wird beispielsweise bei der Variablen-Deklaration folgende Form unterstellt:
 
-% Eine der Übungsaufaben aus der Literatur verwenden.
+% @todo: PL/I Verwenden und Kontext herstellen
 \begin{center}
 \begin{equation}
 S \to TB;
@@ -237,13 +235,15 @@ D \to 0...9|D
 \end{center}
  
 Kontextsensitiv ist die Grammatik einer Programmiersprache ebenfalls. Mit der beschriebenen Grammatik ist folgender Ausdruck zulässig.
-% Beispiel überprüfen----------------
+% @todo PL/I Beispiel herleiten und verwenden
 \begin{verbatim}
 int identifier;
 \end{verbatim}
 % -----------------------------------
+
 Nicht zulässig ist hingegen.
-% Beispiel überprüfen---------------
+
+% @todo PL/I Beispiel herleiten und verwenden
 \begin{verbatim} 
 identifiert int; 
 \end{verbatim}
@@ -258,13 +258,13 @@ S \to TB \to int | double | float B \to AD \to A...Z|a...z D \to 0...9|D;
 \end{equation}
 \end{center}
 
-% Nochmal überprüfen ob das stimmt.
+% @todo: Nochmal überprüfen ob das stimmt.
 Jedoch ist dieser Ausdruck damit nicht Regulär. Durch den Rekursiven Aufruf am Ende kann kein endlicher Automat erzeugt werden. Die Grammatik bleibt also höchstens von Typ 2.
 
-	% Grammatik Reguläre Ausdrücke einordnen
-	% Grammatik PL/I einordnen
+% @todo Grammatik Reguläre Ausdrücke einordnen
+% @todo Grammatik PL/I einordnen
 	
-	% Wie werden Grammtiken in einem Transpiler Programm verwendet?
+% Wie werden Grammtiken in einem Transpiler Programm verwendet?
 Die bisher definierten Grammatiken sind in dem Sinne von Bedeutung, weil die Lexikalsiche und Syntaktische Analyse des Transpilers aus einer solchen Grammatik erzeugt werden. Mithilfe einer Grammatik wird ein Parser definiert aus durch den Compiler-Compiler JavaCC erzeugt wird. 
 Für den PL/I-Transpiler bedeutet, dass die aktuelle PL/I-Grammatik für den Parser definiert werden muss. Die aktuellste Grammatik wird durch IBM, in der PL/I Language Referenz definiert. Aus dieser wird mithilfe von JavaCC ein Parser erzeugt. Weshalb in dem folgenden Kapitel 1.5 der Compiler-Compiler und die dazugehörige Grammatik näher beschrieben wird.
 
@@ -281,12 +281,74 @@ Für den PL/I-Transpiler bedeutet, dass die aktuelle PL/I-Grammatik für den Par
 %  Erst Chomsky Hierachier, dann nach Komplexität einordnen und am Beispiel von Regulären Ausdrücken und PL/I Grammatik einführen.
      
 \subsection{Anwendung von Formalen Grammatiken in JavaCC}
-  
-%   - Beschreibung von formalen Grammatiken, als Input für den Compiler Compiler JavaCC.
-% - Entwurf von Java Klassenhierachie für PL/I Datentypen
-%  - Übersetzung von Kontrollstrukturen und komplexeren Programmabläufen
-%   Wie kann JavaCC die formale Beschreibung der Grammatik in einen Parser Umsetzen?
+% 1. Was ist ein Compiler-Compiler? (Verbindung von formalen Grammatiken zu JavaCC)
 
+Der Lexer der die lexikalische Analyse und der Parser, der die Syntaktische Analyse durchführt werden durch JavaCC erzeugt. 
+JavaCC ist ein Compiler-Compiler der aus einer formalen Grammatik einen Lexer und einen Parser generiert. 
+In Kapitel 1.3 wurde bereits in die Thematik der formalen Grammatiken eingeführt, in diesem Kapitel wird nun die praktische implementation dieser Grammatiken im Zusammenhang mit dem Transpiler beschrieben.
+
+Ein Compiler-Compiler ist eine Technologie mit der aus einer formalen Beschreibung einer Grammatik ein Lexer und ein Parser erzeugt werden. 
+Der Lexer und der Parser wenden die in der Grammatik definierten Regeln an und verarbeiten entsprechend die übergebenen Ausdrücke.
+Die Darstellung der Grammatik erfolgt in der Regeln in einer Art erweiterten Backus-Naur-Form (EBNF). 
+Beispielhafte Compiler-Compiler sind neben JavaCC, Yacc, Antlr und Lexer.
+In Kapitel 1.3 wurde bereits vereinfacht eine Produktion aus der PL/I-Grammatik dargestellt. Ähnlich erfolgt auch die Darstellung in einer Grammatikdatei. Folgendes Beispiel zeigt die Darstellung eines \verb+IF ELSE+ Ausdrucks. 
+(https://javacc.github.io/javacc/)
+
+% @todo: Ausschnitt aus Gleichungs-Grammatik. Zum aktuellen Zeitpunkt noch nicht Beispiel aus Kapitel 1.3
+\begin{verbatim}
+void if_statement() #IF :
+{}
+{
+  < IF > bool_expression() (bool_operation() bool_expression() )*
+  < THEN >proc_body()
+  [< ELSE >
+  	proc_body()]
+  	
+}
+\end{verbatim}
+
+In JavaCC besteht die Möglichkeit die Beschreibung von Produktionen in Methoden zu Kapseln.
+In Zeile 1 ist der Methodenkopf zu sehen. In diesem Fall erzeugt die Methode \verb+if_statement+ keinen Rückgabwert.
+Das durch die Raute gekennzeichnete Symbol ist die Repräsentation im Parsebaum und zusätzlich auch die Darstellung im Zwischencode.
+Im Körper der Methode wird der If-Ausdruck weiter definiert. Terminalsymbole werden in der JavaCC Grammatik mit den größer-als und kleiner-als Zeichne umrandet. Die Nicht-Terminalsymbole hingegen sind wie im Listing ?.? dargestellt weitere Methoden, die wiederum weitere Ausdrücke beschreiben.
+Ähnlich wie bei der Produktion aus 1.3, so lange bis lediglich Terminalsymbole übrig bleiben.
+Die Methode \verb+bool\_expression+ etwa, beschreibt einen zulässigen Boolschen Ausdruck, der durch einen weiteren boolschen Operator mit einem weiteren booleschen Ausdruck verknüft werden kann.
+Letzter Ausdruck, kann Leer sein und beliebig of wiederholt werden. Das ermöglich komplexe boolsche Operationen.
+
+Weiterhin wird in der Methode \verb+proc_body+ beschrieben welche Ausdrücke in dem Verzweigungskörper zulässig sind. Dazu zählt bspw. auch eine weitere \verb+IF ELSE+ Verzweigung. So werden auch verschachtelte Ausdrücke möglich.
+Werden nach und nach die Methoden durch den Compiler-Compiler aufgerufen, ergibt sich eine Regel für Verzweiguns-Ausdrücke. Nach diesem Prinzip ist die gesamte Grammatik gestaltet. 
+Die Wurzel aller Methoden, die einen Ausdruck beschreiben, ist debei die Wurzel Methode \verb+program+, welche das gesamte Programm darstellt. Eine solche Kapselung macht die Grammatik übersichtlich.
+Aus dem definierten Ausdruck aus Listing ?? wird schlussendlich ein Parsebaum erzeugt, der durch die folgenden Module weiter verarbeitet wird.
+
+% Warum ein Compiler-Compiler verwenden?
+
+Ein Compiler-Compiler generiert somit einen fertigen Parser, aus einer Datei in der eine Grammatik beschrieben wird. Nun gibt es auch die Möglichkeit einen Parser und Lexer selbst zu programmieren. In der Version aus der Projektarbeit-4 wurde ursprünglich ein selbstgeschriebener Lexer verwendet.
+Jedoch birgt dieses Vorgehen einen Nachteil. Die Grammatik für den Transpiler ist an zwei stellen definiert und muss somit auch an zwei Stellen gewartet werden.
+Wird in die Grammatikdatei für den Parser ein neuer Ausdruck hinzugefügt, muss dieser Ausdruck auch durch den Lexer verarbeitet werden können.
+Ursprünglich musste so der Lexer angepasst werden und die Grammatikdatei für den Parser. 
+Das führte zu einem erhöhten Arbeitsaufwand und Fehleranfälligkeit. Schlussendlich wurde der selbstgeschriebene Lexer entfernt und der von JavaCC definierte Lexer verwendet.
+Somit ist ein Compiler-Compiler gut dazu geeignet den Arbeitsaufwand für die Entwicklung eines Compilers, bzw. eines Transpilers zu reduzieren. 
+Es lohnt sich auch bei der Entwicklung auf bereits definierte Resourcen zurückzugreifen. 
+Grammatiken für Cobol und Java wurden bereits von der JavaCC Community bereitgestellt. (https://javacc.github.io/javacc/)
+Im Fall von PL/I ist keine Grammatik vorhanden. Weshalb bei der Entwicklung des Transpilers, die IBM Language Reference für PL/I die Hauptquelle für die Grammatikdatei ist.  
+Verkürzt beschrieben, wird auf den Compiler-Compiler JavaCC zurückgegriffen um den Arbeitsaufwand der Entwicklung zu reduzieren. 
+
+% @todo Wie funktioniert JavaCC ? Wie kann JavaCC die formale Beschreibung umsetzen ? (Erzeugung eines Parsers beschreiben)
+Der Arbeitsaufwand wird eben durch die automatisierte Arbeitsweise des Compiler-Compilers ermöglicht. Bei diesem Prozess werden verschiedenste Java Klassen erzeugt. Für den PL/1-Transpiler werden nachfolgende Klassen erzeugt.
+
+% @todo: Liste von Parser-Klassen
+
+JavaCC generiert dynamisch den eigentlichen Parser, hier Pl1Parser, den TokenManager und die ParserConstants Klasse. Die restlichen Klassen sind Boilerplate-Code und werden bei jeder Grammatik generiert. Diese werden auch nur beim initalen kompilieren generiert.
+
+% Wie wird JavaCC in die Entwicklung des Transpiler eingebunden ? (Hinleitung zur Architektur beschreibung)
+Durch die Verwendung des JavaCC Jjtree-Moduls, kann global innerhalb des Projekts auf den Parse-Baum zugegriffen werden. 
+Es werden zusätzlich die für den Parsebaum benötigten Klassen, \verb+Node+ und \verb+SimpleNode+ erzeugt.
+Der Prase-Baum wird unteranderem durch die Module verwendet, die die Semantische-Analyse und -Synthese repräsentieren.
+Erst durch diese wird der Java-Code erzeugt.
+Ebenfalls wird für den Parser ein File-Stream benötigt, ein Scanner liefert solchen.
+Neben den Parser werden also weitere Module verwendet um schlussendlich den Java-Code für den Benutzer bereitzustellen.
+Die gesamte Architektur des Transpilers und dessen weitere Module wird in dem nachfolgenden Kapitel betrachtet. 
+Hier werden auch die Technologien vorgestellt die neben JavaCC verwendet werden. 
 
 \section{Technisches Vorgehen}
 \subsection{Techstack}
