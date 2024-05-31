@@ -25,25 +25,30 @@ Bestehende PL/I Compilerlösungen führen aktuell zu einem Kompatibilitätsprobl
 Eine Alternative bietet die Organisation GNU mit der GNU Compier Collection (GCC). Der Entwickler Henrick Sorensen entwickelte Teile des Frontends für einen PL/I Compiler. Dabei verwendete er das Backend, das die GCC zu verfügung stellt. Jedoch gab es bei diesem Projekt seit 2007 keine weiteren Neuerungen mehr. Der Entwickler gibt an, das bisher keine Zwischencode Erzeugung stattfindet, was diesen Compiler bisher unbrauchbar macht. Somit ist dieser Compiler keine Alternative zu dem von IBM.
 (https://pl1gcc.sourceforge.net/) 
 
-Es bleibt bisher also nur die Möglichkeit über einen Emulator PL/I-Code auf einem z/Os System zu kompilieren. Weiterhin ist PL/I eine Altsprache, die seit den 1960er Jahren im Einsatz ist.  (https://www.fruehes.berlin/wp-content/uploads/2011/02/PL-1-F-OS-360-V-4.0.pdf, erste Seite) Es ist also anzunehmen das diese Sprache heute zwar noch in Computer-Systemen zu finden ist, aber der Bestand an Entwicklern die PL/I-Software Warten können vermutlich gering ist. Wartung und Entwicklung werden so häufig schwer und teuer.
-Java hingegen ist auf nahezu allen erdenklichen Systemen Kompilierbar, durch die Systemunabhängig Java Virtual Machine (JVM). 
-(https://medium.com/@etherservices.vimalraj/can-i-run-java-programs-on-any-device
-a-comprehensive-guide-31f736ca6ab1) 
-Dabei sind die Programme auch mit Android-Systemen kompatibel, die einen weitaus weniger Komplexen RISC Befehlsatz als x86-Systeme mit einem CISC Befehlssatz haben.
-(https://developer.android.com/codelabs/build-your-first-android-app) 
-Zusätzlich ist eine Kompilierung auch auf einem IBM-Großrechner möglich. (https://www.ibm.com/docs/en/zos-basic-skills?topic=zos-java)
+% @todo: Quellen
+Heutzutage ist die gängige Möglichkeit, ein IBM 3270 Terminal zu emulieren, das eine Verbindung zum z/Os System herstellt, und den PL/I Code auf diesem zu kompilieren.
+Weiterhin ist PL/I eine Altsprache, die seit den 1960er Jahren im Einsatz ist (IBM Quelle holen) und durch den Generationenwechsel an Entwicklern verliert. Wartung und Entwicklung werden so häufig schwer und teuer. (Quelle?)
+(https://www.fruehes.berlin/wp-content/uploads/2011/02/PL-1-F-OS-360-V-4.0.pdf, erste Seite)
+
+% @todo: Quelle
+Java hingegen ist auf nahezu allen modernen Systemen durch die plattformunabhängige Java Virtual Machine (JVM) kompilierbar. 
+(https://medium.com/@etherservices.vimalraj/can-i-run-java-programs-on-any-device-a-comprehensive-guide-31f736ca6ab1) (Oracle Quelle)
+
+% @todo: Quelle
+Insbesondere ist eine Kompilierung auch auf einem IBM-Großrechner mit z/Os möglich. (https://www.ibm.com/docs/en/zos-basic-skills?topic=zos-java)
 Das macht Java zu einer flexibel Einsetzbaren Sprache. Weiterhin is Java die mit am meisten verwendete Programmiersprache in der heutigen Zeit. (Quelle?) Das führt zu einer höheren Anzahl an Entwickler, die in der Lage sind Java Programme zu warten.
 
+% @todo: Begriffswahl
 % Was ist ein Transpiler?
-Um nun Java für die Lösung der dargelegten Probleme zu verwenden, wird ein Programm benötigt, welches PL/I Quellcode in Java Quellcode übersetzt. Ein solches Programm verarbeitet PL/I-Code so, dass aus diesem Java-Code generiert werden kann. Dabei ist es möglich das der Entwickler des Programms, selbst wählt wie er welche Ausdrücke übersetzt. Ist der Programmcode erstmal in Java übersetzt worden, kann dies durch die JVM kompiliert werden.
+Um nun Java für die Lösung der dargelegten Probleme zu verwenden, wird ein Programm benötigt, welches PL/I Quellcode in Java Quellcode übersetzt. Ein solcher Transpiler verarbeitet PL/I-Code so, dass aus diesem Java-Code generiert werden kann. Dabei ist es möglich das der Entwickler, selbst wählt wie er welche Ausdrücke übersetzt. Ist der Programmcode erstmal in Java übersetzt worden, kann dies durch die JVM kompiliert werden.
 
-Am Ende ist zwar der Quellcode übersetzt und auch kompilierbar, jedoch ist erst ab diesem Punkt die tatsächliche Qualität des Programms zu erkennen. Faktoren wie Lesebarkeit und Erweiterbarkeit des übersetzen Programmcodes gehen in die Beurteilung mit ein. 
+Am Ende ist zwar der Quellcode übersetzt und auch kompilierbar, jedoch ist erst ab diesem Punkt erst die tatsächliche Qualität des Programms zu erkennen. Faktoren wie Lesebarkeit und Erweiterbarkeit des übersetzen Programmcodes gehen in die Beurteilung mit ein. 
 Die Beurteilung der Qualität des Programms ist auch von Zielaspekten der Benutzer abhängig. Für das zu entwickelnde Übersetzunsgporgramm, wurden Zielgruppen definiert die im nachfolgenden Kapitel 1.2 weiter erläutert werden sollen. Diese Zielgruppen sind für weitere Gestaltungsentscheidungen in der Entwicklung des Programms wichtig.
 
 %Anderseits auch die veränderte Laufzeit-Performance. Die Laufzeit-Performance kann durch eine Übersetzung verschlechtert, wie auch verbessert werden. Somit ist nicht nur die reine Übersetzung Teil der Problemstellung, sondern es gilt auch die Übersetzung zu beurteilen. 
 \pagebreak
      
-% Cross Compiler? - Hat hier eig nix zu suchen, ist Thema für Boostrapping aber nicht für Transpiler
+% %todo: Cross Compiler? - Hat hier eig nix zu suchen, ist Thema für Boostrapping aber nicht für Transpiler
      
      
      
@@ -71,9 +76,10 @@ Die Beurteilung der Qualität des Programms ist auch von Zielaspekten der Benutz
 \subsection{Zielsetzung}
 % Herleitung von der Problemstellung	
 Das Ziel dieser Arbeit leitet sich aus der eingeführten Problemstellung in Kapitel 1.1 ab. Allgemein soll ein plattformunabhängiges Programm entstehen, dass die  Entwicklung und Transformation von Pl/I Programmen ermöglicht. Die zugrundeliegende Arbeit stellt die Entwicklung, sowie die Gestaltung der Software dar und wird schlussendlich diskutiert. 
-	
+
+% @todo: Referenz zu Begriffsklärungsabsatz
 % Zielgruppen Zusammengefasst	
-Somit richtet sich diese Arbeit und das Programm teils an juniore Entwickler, die zum ersten Mal mit PL/I in Berührung kommen. Sowie Administratoren, die das Programm anpassen und erweitern möchten. 
+Somit richtet sich diese Arbeit und der Transpiler teils an juniore Entwickler für Anwendungen in den Sprachen PL/I bzw. Java. Für diese Nutzergruppe soll der Transpiler ein Hilfswerkzeug darstellen. Sowie Administratoren, die den Transpiler anpassen und erweitern möchten. 
 	
 % Junior Entwickler die gerade in PL/1 einsteigen.
 Juniore Entwickler profitieren von dieser Arbeit als Einstiegspunkt in die Programmiersprache PL/I. Dadurch das es schwierig ist ein PL/I-Progamm auf einem herkömmlichen Desktop Computer zu kompilieren, soll das erarbeite Programm Abhilfe schaffen. Sie könnten das Programm als Lernhilfe oder als Test-Umgebung benutzen.
