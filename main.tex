@@ -403,47 +403,55 @@ Hier werden auch die Technologien vorgestellt die neben JavaCC verwendet werden.
 
 \section{Technisches Vorgehen}
 \subsection{Techstack}
-%- Compiler Compiler -> JavaCC: Präsentation, Integration in das Projetk, Grund für die Wahl der Technologie
-In Kapitel 1.4 wurde bereits mit JavaCC eine Technologie vorgestellt. Neben JavaCC kommen auch weitere Technologien zum Einsatz die bei der Entwicklung des Transpilers benutzt wurden. In dem folgenden Kapitel werden die verwendeten Technologien vorgestellt.
+%- Compiler Compiler -> JavaCC: Integration in das Projetk, Grund für die Wahl der Technologie
+In Kapitel 1.4 wurde bereits mit JavaCC eine Technologie vorgestellt. Neben JavaCC kommen auch weitere Technologien während der Entwicklung zum Einsatz. In dem folgenden Kapitel werden die weiteren verwendeten Technologien, während der Entwicklung des Transpilers, vorgestellt.
 
-%- Programmiersprache -> Java: Präsentation, Integration in das Projekt, Grund für die Wahl.
-Allgemein wurde der Transpiler, vollständig in der Programmiersprache Java entwickelt. Somit ist die Sprache in der, der Transpiler entwickelt wurde gleich der Zielsprache. Die Entscheidung für JavaCC als Compiler-Compiler, kam auch einhergehend mit der Wahl der Programmiersprache in der der Transpiler entwickelt wurde. Da die Bedienung des Compiler-Compilers nach Möglichkeit Lex und Yacc ähneln sollte.
+%- Programmiersprache -> Java: Integration in das Projekt, Grund für die Wahl.
+Allgemein wurde der Transpiler in der Programmiersprache Java entwickelt. 
+Die Entscheidung für Java ist auf fundierte Fachkenntnis und erweitereten Erfahrungswerten zurückzuführen. Weiterhin zählen die Vorteile die in Kapitel ?.? für Java erwähnt wurden, ebenso in diesem Fall.
+Den Administratoren soll auch die Möglichkeit gegeben werden, Module einfach auszutauschen. Mithilfe von Objektorientierten Paradigmen, lässt sich eine lose Kopplung der Klassen realisieren und damit eine Modulare Bauweise des Software Projekts.
+Einhergehend fiel die Wahl auf JavaCC aufgrund der Entscheidung für die Entwicklung des Transpilers in Java. Eine alternativer Compiler-Compiler für Java, ist Antlr. 
 
-Dadurch das sich in Java Objektorientierter Quellcode schreiben lässt, kann auch das zuentwickelnde Programm entsprechend Modular gestaltet werden. Der Modulare Aufbau des Projekts ist für die Zielgruppe der Adimistartoren relevant. 
-Weiterhin ist die Wahl auf Java gefallen, aufgrund von erweiterter Fachkenntnis und Erfahrung mit der Programmiersprache.
+%- IDE -> Eclipse: Integration in das Projekt, Grund für die Wahl.
+Der Java-Quellcode des Transpilers wurde in Eclipse geschrieben. Die IDE Eclipse ermöglicht eine kostenlose Entwicklung, Verwaltung, Überprüfung und Kompilierung von Java Software-Projekten. Weiterhin bietet Eclipse eine breite Software-Repository an Plugins an um die Funktionalität der IDE zu erweiteren. Dadurch ist eine integration von JavaCC in die IDE möglich und erleichtert die Entwicklung des Parsers ebenfalls. Ein weiterer Grund für die Entscheidung für JavaCC. Alternativen zu Eclipse, können etwa IntelliJ oder Visual Studio Code sein. 
 
-%- IDE -> Eclipse: Präsentation, Integration in das Projekt, Grund für die Wahl.
-Der Java-Quellcode des Transpilers wurde in Eclipse geschrieben. Die IDE Eclipse ermöglicht eine kostenlose Entwicklung, Verwaltung, Überprüfung und Kompilierung von Java Software-Projekten. Weiterhin bietet Eclipse eine breite Software-Repository an Plugins an um die Funktionalität der IDE zu erweiteren. Dadurch ist eine integration von JavaCC in die IDE möglich und erleichtert die Entwicklung des Parsers ebenfalls. 
-Alternativen zu Eclipse, können etwa IntelliJ oder Visual Studio Code sein. Jedoch wurde die IDE Eclipse auch gewählt, aufgrund von erweiterter Fachkenntnis und Erfahrung.
+%- Maven -> Dependency Management: Integration in das Projetk, Grund für die Wahl der Technologie
+Die Version aus der Projektarbeit-IV des Transpilers nahm die Native Projektstruktur von Eclipse als Vorlage. Diese Projektvorlage brachte jedoch negative Aspekte mit sich. Es war nötig JavaCC manuell zu installieren und einzurichten. Zusätzlich mussten Pfadvariablen im Quellcode angepasst werden. Das erschwerte den Benutzern den Zugang zu dem eigentlichen Projekt.
+Zurückzuführen ist dies auf die fehlenden Software-Abhängigkeitsverwaltung. In der Ursprünglichen Version des Transpilers musste der Benutzer selbst herausfinden welche Software dieser benötigt um das Programm zu starten. Dieser Umstand ergibt eine Hürde, welche den Einstieg in die Umwandlung erschwerte. 
 
-%- Maven -> Dependency Management: Präsentation, Integration in das Projetk, Grund für die Wahl der Technologie
-Die Version aus der Projektarbeit-IV des Transpilers nahm die Native Projektstruktur von Eclipse als Vorlage. Diese Projektvorlage brachte jedoch einige negative Aspekte mit sich. Mit dieser Struktur war es schwer das Projekt zu importieren und erfolgreich PL/I-Quellcode zu transformieren. Es war nötig JavaCC manuell zu installieren und einzurichten. Zusätzlich mussten Pfadvariablen im Quellcode angepasst werden. Das erschwerte den Benutzern den Zugang zu dem eigentlichen Projekt.
-Zurückzuführen ist dies auf die fehlenden Software-Abhängigkeits Verwaltung. In der Ursprünglichen Version des Transpilers musste der Benutzer selbst herausfinden welche Software dieser benötigt um das Programm zu starten. In den meisten Fällen durch Fehlermeldungen welche darauf schließen lassen konnten das eine Abhängigkeit fehlt. Dieser Umstand ergibt eine Hürde, welche den Einstieg in die Umwandlung erschwerte. 
-Dieses Problem wurde gelöst in dem das Software Projektmanagement Werkzeug Maven eingesetzt wurde. Maven kann mithilfe des Project-Object-Model (POM) Abhängigkeiten lösen. Der Benutzer kann nun entweder mithilfe des Maven Commandline-Interface (CLI) das Projekt aufbauen, oder einfach in Eclipse oder einer selbstgewählten IDE importieren.
+Dieses Problem wurde gelöst in dem das Software-Projektmanagement-Werkzeug Maven eingesetzt wurde. Maven löst mithilfe des Project-Object-Model (POM) Abhängigkeiten. 
+Dadurch werden Benutzer und Administratoren bei dem Buildprozess entlastet.
 Ein weiterer Vorteil den Maven liefert ist die vordefinierte Projektstruktur. Mavens Projektstruktur liefert zwei gespiegelte "src" Ordner, welche je den Quellcode enthalten und die dazugehörigen Tests.
+Auch hier finden sich Benutzer und Administartoren leichter zurecht.
 
-%- Testing -> JUNit Tests: Präsentation, Integration in das Projetk, Grund für die Wahl der Technologie
-Zum Testen der Anwendung wurde das Java-Testing Framework JUnit 5 verwendet. JUnit 5 ermöglich das testen von entwickelten Java-Methoden durch Test Klassen.
-Die Wahl von JUnit ist begründet durch die einfache Handhabung, der kompatibilität mit der IDE Eclipse und dem Projektmanagement Werkzeug Maven. Weiterhin ist JUnit mit eines der bekanntesten Unit-Testing-Frameworks für Java-Quellcode. Was auch ein weiterer Grund für die Wahl des Frameworks war. Alternativen wären etwa gewesen TestNG oder mockito. (https://testng.org/ & https://site.mockito.org/).
-In Kapitel ?.? wird näher auf das Testing der Anwendung eingegangen. 
+%- Testing -> JUNit Tests: Integration in das Projetk, Grund für die Wahl der Technologie
+Zum Testen der Anwendung wurde das Java-Testing Framework JUnit 5 verwendet. Es wurden für jede Klasse zugehörige Test-Klassen geschrieben. In den Test-Klassen wurde komplexere Methoden isoliert getestet.
+Die Wahl von JUnit ist begründet durch die einfache Handhabung, der kompatibilität mit der IDE Eclipse und dem Projektmanagement Werkzeug Maven. Weiterhin ist JUnit mit eines der bekanntesten Unit-Testing-Frameworks für Java-Quellcode. Alternativen wären etwa gewesen TestNG oder mockito. (https://testng.org/ & https://site.mockito.org/).
+Genaueres bezüglich des Testings des Transpilers ist in Kapitel ?.? nachzulesen.
 
 %- Platform -> Spring
 
 
-Die unterschiedlichen Software-Werkzeuge wurden benutzt um den entsprechenden Java-Quellcode des Transpilers zu schreiben.
-Um einen Überblick über die Anwendung den Java-Quellcode zu bekommen, soll im nächsten Kapitel die Architektur beschrieben werden.
+Mithilfe der, in diesem Kapitel genannten Software-Werkzeuge, wurde der Transpiler entwickelt. Die Entwicklungsphase folgte jedoch nach der Konzeptionsphase.
+In der Konzeptionsphase wurde die Architektur der Anwendung ausgearbeitet und später in Quellcode realisiert. 
+Dieses Vorgehen wurde in der Projektarbeit-IV nicht verfolgt, was zu einigen Problem führt. Diese Probleme zeigt sich in der mangelnden Qualität und der nicht Benutzerfreundlichen Umgebung der Anwendung.
+Aus diesem Grund wird in dem nächsten Kapitel zuerst das Architekturbild beschrieben, woraufhin genauer auf den Quellcode der Anwendung eingegangen wird.
 
 \subsection{Architektur} 
 
-Die Architektur basiert auf dem Model-View-Controller (MVC) Konzept. Lediglich wurden Klassen für funktionalitäten gesammelt und zu Modulen zusammengefügt.
-Module sind eigenständige Bausteine die, Indivduell durch den Adimistartor ausgetauscht werden können.
-Um dennoch dem Architketurbild des MVCs gerecht zu werden, wurden die Module in Model, View und Controller unterteilt.
+Die Architektur des Transpiler wurde nachdem Vorbild eines Model-View-Controller (MVC) Konzept entworfen. 
+Es wurden Module definiert die zum Bereich des Models gehören. Etwa solche wie die Symboltabelle, oder Templates für Java-Zielcode.
+Der Controller entspricht jeglichen Modulen, die den PL/I-Quellcode analysiere, verarbeiten und schlussendlich in den Java-Zielcode übersetzen.
+Dem View wurden jeglich Module zugesprochen, die den Benutzer eine Interaktion mit dem Transpiler ermöglichen.
 
-% Wie benutze ich den Transpiler?
-Der Transpiler kann durch die Kommandozeile benutzt werden. Entweder lokal oder über eine Internetverbindung zu einem Remote-Host auf dem der Transpiler ausgeführt wird. 
+% @todo Wie benutze ich den Transpiler?
+Der Benutzer oder der Administrator kann mit der Ausgewählten Schnittstelle interagieren und so den Transpiler benutzen. Eine Schnittstelle, ist entweder über die IDE in 
+der das Projekt importiert wird oder die Kommandozeile.
 
 % Was ist das Ziel der Architektur?
-Um den Administratoren die Möglichkeit zu gewährleiste Module auszutauschen und anzupassen sollte die Architektur des Transpilers eine lose Kopplung der Module aufweisen. In Abbildung ?.? sind die Module in dem Ablauf des Transpilers dargestellt.
+Um den Administratoren die Möglichkeit zu gewährleiste Module auszutauschen und anzupassen sollte die Architektur des Transpilers eine lose Kopplung der Module aufweisen.
+Zusätzlich sollten die Benutzer auf Fehlermeldungen reagieren können.
+In Abbildung ?.? sind die Module in dem Ablauf des Transpilers dargestellt.
 
 \begin{figure}[h]
 	\centering
@@ -463,23 +471,56 @@ Der durch JavaCC erzeugte Parser wird ebenfalls in dem App-Modul instanziiert. D
 Während des parsings werden Variablen-, Prozeduren-, oder Packagebezeichner des PL/I-Quellcode, in die Symboltabelle eingefügt. Diese wird in dem Parser Modul zum ersten mal instanziiert. 
 
 Das Ergebnis des Parsers ist ein Parsebaum.
-Ist der Parsebaum erstmal entsprechend erzeugt, wird dieser weiterhin durch das Checker Modul verarbeitet. In diesem Modul wird die semantische Analyse des Quellcodes durchgeführt. Dabei wird auch die Symboltabelle verwendet um die Referenzen der Bezeichner im Quellcode auf korrketheit zu überprüfen. Teilweise ist es notwendig den Parse-Baum umzustellen. Ist der Parse-baum korrekt, oder korrekt verarbeitet worden, kann dieser als Abstrakter-Syntax-Baum (AST) im Mapper-Modul verwendet werden.
+Ist der Parsebaum erstmal entsprechend erzeugt, wird dieser weiterhin durch das Checker Modul verarbeitet. In diesem Modul wird die semantische Analyse des Quellcodes durchgeführt. Dabei wird auch die Symboltabelle verwendet um die Referenzen der Bezeichner im Quellcode auf korrketheit zu überprüfen. Teilweise ist es notwendig den Parse-Baum umzustellen. Ist der Parsebaum korrekt, oder korrekt verarbeitet worden, kann dieser als Abstrakter-Syntax-Baum (AST) im Mapper-Modul verwendet werden.
 
-% @todo: Hier erwähnen wie Configdatei bzw. Scanner den Ausgabe Ordner beeinflussen wenn das implementiert wurde.
-Das Mapper-Modul repräsentiert die Synthese des PL/I-Quellcodes. Der AST wird hier Stück für Stück abgearbeitet und mit entsprechenden Java-Ausdrücken übersetzt. Schlussendlich wird in dem \verb+target+ Ordner das übersetzte Programm abgelegt.
+% @review: Hier erwähnen wie Configdatei bzw. Scanner den Ausgabe Ordner beeinflussen wenn das implementiert wurde.
+Das Mapper-Modul repräsentiert die Synthese des PL/I-Quellcodes in Java-Zielcode. Der AST wird hier Stück für Stück abgearbeitet und mit entsprechenden Java-Ausdrücken übersetzt. Schlussendlich wird in dem \verb+target+ Ordner das übersetzte Programm abgelegt.
  
 Ist das Programm fertig übersetzt kann der Java-Zielcode und die nötigen Klassen aus dem target Ordner exportiert werden und kompiliert, bzw. gewartet werden.
 
-% Wie sind Module zueinander abhängig?
-Jedes Modul führt zu der eigentlichen Ausgabe des Transpilers. Fehlt ein Modul kommt es automatisch zu Fehlern. 
-Somit wird für eine korrekte Ausgabe jedes Modul benötigt.
-Jedoch werde
+% @todo: Wie sind Module zueinander abhängig?
+Die Abhängigkeit sollte nachdem Zielbild der Architektur möglichst gering gehalten werden.
+Deshalb wurde das App-Modul hauptsächlich verwendet um die Komponente zu integrieren und gemeinsam zu verwenden.
+Etwa das Scanner Modul für über einen Parameter durch das Parser Modul verwendet.
+Es bleibt jedoch nicht aus Module auch außerhalb des App Moduls, in andere Module zu integrieren.
+Bei der Symboltabelle ist das der Fall. Die Symboltabelle wird einerseit von dem Parser Modul verwendet und andereseits von dem Mapper Modul.
+Dadurch muss auch in beiden das Symboltable Modul instanziert werden. Um einen Überblick über abhängigkeiten zu verschaffen, zeigt
+Abbidlung ?.? aktuell die Beziehungen der Module untereinander, ohne dabei detailierter auf Klassenhierachien einzugehen. 
+Eine Detailbetrachtung der Anwendung soll in Kapitel ?.? erfolgen.
 
-% @todo: Hier UML 
+\begin{figure}[h]
+	\centering
+	\caption{Die Abhängigkeiten der Module}
+	\includegraphics[scale=0.75]{Beziehungen_Modules.png}
+	\label{fig:modules}
+\end{figure}
 
+Zu erkennen ist in Abbildung ?.? das die Abhängigkeiten unter den Modulen eine Kaskade Form aufweisen.
+Diese Form hat den Vorteil das Module aus dieser Kette verändert werden können ohne Vertikal verlaufende Module direkt zu beinträchtigen.
+Dennoch ist an dieser Stelle zu erwähnen das kein Modul isoliert betrachtet werden darf. Denn eine Veränderung eines Moduls bedeutet das auf Horizontaler 
+Ebene die Verarbeitung verändert wird.
+Jedes Modul gibt die Ergebnisse weiter an das nächste bis ein tatsächlicher Zielcode entsteht, oder eine Fehlermeldung.
+Somit würde etwa das Modul Lexer verändert werden, so muss auch in App diese Veränderung berücksichtigt werden.
+Würde etwa in der Symboltabelle ein PL/I-Symbol gelöscht, hätte dies Auswirkungen auf jegliche Module auf Horizontaler Ebene. 
 
-% Wie wird es erweitert?
+% Wie sind die Module momentan gebaut?
+Der Aufbau der Module ist dabei durch Klassen spezifisiert. Jede Klasse bietet eine Sammlung von Methoden zur Lösung eines Problems,
+oder zu bereitstellung von Ressourcen. 
+Wie schon in Kapitel ?.? erwähnt gehört zu jeder Klasse eine Test-Klasse. Neben den Klassen existieren Interfaces und Enums in den Modulen,
+die erneut Resource bereitstellen.
 
+% @todo: Wie wird es erweitert?
+Der Administrator kann die Module um Klassen, Interfaces, Enums und weiteres erweiteren oder ersetzen.
+Dabei sollte jedoch die Eingangs beschriebene Kaskdierung der Module untereinander berrücksichtigt werden.
+Entscheidet sich der Administartor dazu etwa eine Methode zu entfernen und eine selbstentwickelte zu verwenden, ist ledligch die bisherige 
+referenz zu ersetzen, welche in dem App Modul in der App Klasse aufzufinden ist.
+In der vorherigen Version des Transpilers wurde etwa die Lexer-Klasse entfernt und die Klassen des Compiler-Compilers verwendet.
+Der Quellcode des Lexer besteht jedoch und ist lediglich als Deprecated markiert. Die erneute Verwendung des Lexer würde über den Aufruf der Methode in Main erfolgen.
+Hingegen wären hier weitere Schritte notwendig, wie etwa das einfügen einer temporären Datei, die von dem Parser als InputStream entgegen genommen wird und weiter verarbeitet wird.
+
+Nachdem nun die Module deutlich beschrieben wurden, soll nun in Kapitel ?.? eine Detailansicht des Transpilers erfolgen.
+Ab diesem Punkt soll genauer auf den Quellcode eingegangen werden um nachzuvollziehen wie der Transpiler, den PL/I-Quellcode
+in Java-Zielcode umwandelt.
 
 %Bausteine
 %- Software Architektur
@@ -500,6 +541,8 @@ Jedoch werde
 %	- Wie setzt Spring Aspektorientierte Programmierkonzepte ein?
  
 \subsection{Module des Transpilers}
+% @todo: Einleitung zum Kapitel und Detail-UML
+
 \subsubsection{Compiler-Compiler und Scanner}
 Wie Kapitel 1.? eingeführt wird der Parser vollständig durch JavaCC generiert.
 Um dennoch an die Konfigurationsdatei des Projektes zu gelangen wird ein Modul benötigt welches,
