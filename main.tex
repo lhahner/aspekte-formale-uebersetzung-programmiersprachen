@@ -425,12 +425,12 @@ Ein weiterer Vorteil den Maven liefert ist die vordefinierte Projektstruktur. Ma
 Auch hier finden sich Benutzer und Administartoren leichter zurecht.
 
 %- Testing -> JUNit Tests: Integration in das Projetk, Grund für die Wahl der Technologie
+
 Zum Testen der Anwendung wurde das Java-Testing Framework JUnit 5 verwendet. Es wurden für jede Klasse zugehörige Test-Klassen geschrieben. In den Test-Klassen wurde komplexere Methoden isoliert getestet.
 Die Wahl von JUnit ist begründet durch die einfache Handhabung, der kompatibilität mit der IDE Eclipse und dem Projektmanagement Werkzeug Maven. Weiterhin ist JUnit mit eines der bekanntesten Unit-Testing-Frameworks für Java-Quellcode. Alternativen wären etwa gewesen TestNG oder mockito. (https://testng.org/ & https://site.mockito.org/).
 Genaueres bezüglich des Testings des Transpilers ist in Kapitel ?.? nachzulesen.
 
 %- Platform -> Spring
-
 
 Mithilfe der, in diesem Kapitel genannten Software-Werkzeuge, wurde der Transpiler entwickelt. Die Entwicklungsphase folgte jedoch nach der Konzeptionsphase.
 In der Konzeptionsphase wurde die Architektur der Anwendung ausgearbeitet und später in Quellcode realisiert. 
@@ -541,17 +541,29 @@ in Java-Zielcode umwandelt.
 %	- Wie setzt Spring Aspektorientierte Programmierkonzepte ein?
  
 \subsection{Module des Transpilers}
-% @todo: Einleitung zum Kapitel und Detail-UML
+Die Module des Transpilers repräsentieren je einen Verarbeitungsschritt.
+In diesem Kapitel sollen die Module nach ihrer Verarbeitungsreihenfolge vorgestellt werden.
+Dabei soll ein UML-Diagramm je zu beginn der Unterkapitel verdeutlichen wie die Klassen
+in den Modulen zueinander aufgebaut sind. In jedem Diagramm wird auch auf die Einbindung in die App-Klasse
+ eingegangen.
+Die Beschreibung beginnt mit dem Scanner.
 
-\subsubsection{Compiler-Compiler und Scanner}
-Wie Kapitel 1.? eingeführt wird der Parser vollständig durch JavaCC generiert.
-Um dennoch an die Konfigurationsdatei des Projektes zu gelangen wird ein Modul benötigt welches,
-die Konfigurationsdatei und den Pfad zu der PL/I-Datei erfasst. Das Modul Scanner erfüllt diese Aufgabe.
-  
+\subsubsection{Der Scanner und Parser}
 \paragraph{Scanner}
+Wie Kapitel 1.? eingeführt wird der Parser vollständig durch JavaCC generiert.
+Damit der Parser den PL/I-Quellcode in eine Zwischencode Darstellung übersetzen kann,
+braucht dieser eine PL/I-Datei, die als Stream Übergeben wird.
+Den Pfad zu der Datei gibt der Administrator in der Konfigrationsdatei an.
+Das Modul Scanner liest die Konfigurationsdatei und versorgt den Parser mit notwendigen Resourcen.
+Abbildung ?.? zeigt das UML-Diagramm des Scanner Moduls.
 
-% @todo: Nochmal überarbeiten, wenn neues dazukommt.
-In dem App-Modul wird zuerst der Scanner instanziiert. 
+\begin{figure}[h]
+	\centering
+	\caption{Das Scanner Modul}
+	\includegraphics[scale=0.75]{scanner-klasse-uml.drawio.png}
+	\label{fig:Scanner Modul}
+\end{figure}
+
 Das Scanner Modul besteht aus den Klassen \verb+InputReader+ und \verb+Lexer+. 
 Die \verb+InputReader+ Klasse liest die Konfigurationsdatei ein und speichert den Pfad, der mit der Variable \verb+PATH+
 hinterlegt ist. Ein Ausschnitt einer möglichen Konfigurationsdatei ist in Listing ?.? hinterlegt.
@@ -560,91 +572,53 @@ hinterlegt ist. Ein Ausschnitt einer möglichen Konfigurationsdatei ist in Listi
 	PATH=./src/main/java/res/pli/NPP1NFG.pli;
 \end{verbatim}
 
-Die Methode \verb+getInputFilePath+ liest die Konfigurationsdatei mithilfe eines Parameters der einem gültigen Pfad, zu einer Konfigurationsdatei,
-entsprechen muss. Die Konfigurationsdatei ist in dem Ordner \verb+/res/config/+ hinterlegt. 
-Die Methode ergibt den Pfad der \verb+.pli+ Datei als String. Dieser String wird beim Aufruf der \verb+getInputFile+ Methode benötigt. Diese ist ebenfalls Bestandteil der \verb+InputReader+ Klasse. Diese Methode ergibt wiederum einen InputStream der für das Parser-Modul für die weitere Bearbeitung des PL/I-Quellcode benötigt wird. Die Klasse \verb+InputReader+ ist für die Verarbeitung der Konfigurationsdatei und der Eingabe des PL/I-Quellcodes verantwortlich.
+Die Methode \verb+getInputFilePath+ gibt den Pfad der PL/I-Quellcode Datei als String zurück.
+Dieser String wird beim Aufruf der \verb+getInputFile+ Methode benötigt, um aus der Datei einen \verb+InputStream+ zu erzeugen.
+Mithilfe des InputStreams kann dann die Datei als Parameter an den Parser in der Klasse \verb+App+ im Modul \verb+App+
+übergeben werden. 
+
 
 \paragraph{Lexer}
-% @todo: Name von Lexer ventuell ändern, checken wegen install_id ob das so stimmt.
-Die Klasse Lexer des Moduls Scanner enthält den ehemals selbst geschriebene Lexer für die lexikalische Analyse. Dadurch das dieser Prozess nun vollständig von dem JavaCC-Parser übernommen wird, wurde die Methode \verb+getToken+ überflüssig. Diese ist als veraltet mit der Kennung 'Deprecated' beschrieben, sie kann somit im Projekt noch verwendet werden, jedoch mit einem gewissen Risiko das die Ergebnisse der Methode nicht korrekt sind. Zu einem späteren Zeitpunkt ist denkbar den selbstgeschriebenen Lexer zu optimieren und erneut einzubinden. Weitere Methoden in dieser Klasse werden ebenfalls nicht länger von Klassen aus anderen Modulen verwendet. 
+Die Klasse Lexer des Moduls Scanner enthält den ehemals selbst geschriebene Lexer für die lexikalische Analyse. Dadurch das dieser Prozess nun vollständig von dem JavaCC-Parser übernommen wird, wurde die Methode \verb+getToken+ überflüssig. Diese ist als veraltet mit der Kennung 'Deprecated' beschrieben, sie kann im Projekt noch verwendet werden, jedoch mit einem Risiko das die Ergebnisse der Methode nicht korrekt sind. 
+Zu einem späteren Zeitpunkt ist denkbar den selbstgeschriebenen Lexer zu optimieren und erneut einzubinden. Weshalb dieser nicht gelöscht wurde. 
+Weitere Methoden in dieser Klasse werden ebenfalls nicht länger von Klassen aus anderen Modulen verwendet. 
 
 \paragraph{Parser}
-% Was macht/Wie funktioniert der Parser für den Transpiler?
-Der selbe Prozess der ursprünglich von dem Lexer gehandhabt wurde, wird nun von dem JavaCC Parser wahrgenommen. 
-Dieser fügt nun die Bezeichner während der lexiklaischen- und syntaktischen Analyse in die Symboltabelle ein.
-Aktuell wird deshalb mit der Methode \verb+installIds+ ein Bezeichner einer Variable, Methode oder Package in die Symboltabelle eingefügt.
+Das Parser-Modul deckt somit die lexiklaische und die syntaktische Analyse des PL/I-Quellcodes ab.
+Wie schon in Kapitel 1.4 erwähnt werden jegliche Klassen des Prasers durch die \verb+.jjt+ Grammatikdatei 
+generiert. Da diese Klassen sehr umfangreich sind, werden diese in Abbildung ?.? lediglich in Abgekürzter Form dargestellt. 
 
-Der Parser wird über die Klasse \verb+Pl1Parser+ instanziert. In dieser Klasse sind auch jegliche manuell geschriebenen Methoden aus der Grammatikdatei definiert. Dazu gehören etwas die eingangs beschriebene Methode \verb+installId+, sowie Getter und Setter-Methoden für benötigte Variablen, die während der Parser generierung initalisiert werden sollen. Wie etwa die Varialbe \verb+scope+ die beschreibt ob eine Variable Global oder Lokal instalisiert wurde.
-Die Klasse \verb+Pl1Parser+ besteht vollständig aus Methoden, die in der Grammatikdatei verwendet wurden um eine Regel für einen Ausdruck festzulegen.
-Listing ?.? zeigt so eine Methode für eine Prozedur in PL/I.
+\begin{figure}[h]
+	\centering
+	\caption{Das Parser Module}
+	\includegraphics[scale=0.75]{parser-module-uml.drawio.png}
+	\label{fig:Parser Module}
+\end{figure}
 
-\begin{verbatim}
-void procedure() #PROC :
-{}
-{
-    proc_head()
-    proc_body()
-  	< END >< PL1_WORD >
-}
-\end{verbatim}
-
-Die gleiche Methode ist in der Klasse \verb+Pl1Parser+ zu finden. Hier in Listing ?.? zu sehen.
-
-\begin{verbatim}
-
-final public void procedure() throws ParseException {/*@bgen(jjtree) PROC */
-  
-  SimpleNode jjtn000 = new SimpleNode(JJTPROC);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-    
-  try {
-      
-      proc_head();
-      proc_body();
-      jj_consume_token(END);
-      jj_consume_token(PL1_WORD);
-    
-	} catch (Throwable jjte000) {
-	 if (jjtc000) {
-        	jjtree.clearNodeScope(jjtn000);
-        	jjtc000 = false;
-      		} else {
-		...
-      		} finally {
-      			if (jjtc000) {
-        			jjtree.closeNodeScope(jjtn000, true);
-      			}
-    		}
-	}
-}
-\end{verbatim}
-
-Zu erkennen ist das auch hier die beiden Methoden wie in Listing ?.? aufgerufen werden. (Zeile ? und ?)
-Daraufhin folgt in Listing ?.? die Verwendung des \verb+END+ und des \verb+PL1_WORD+ Tokens.
-In Listing ?.? werden diese als Parameter an die \verb+jj_consume_token+ Methode übergeben.
-Die Tokens werden in der Klasse \verb+Pl1ParserConstants+ als Konstanten definiert.
-Die Methode \verb+jj_consume_token+ wird verwendet um die Tokens mithilfe der Klasse \verb+Token+ und \verb+TokenMgrError+ zu verarbeiten.
+Der Parser wird über die Klasse \verb+Pl1Parser+ in dem App Modul instanziert. In der Parser-Klasse sind auch jegliche manuell geschriebenen Methoden aus der Grammatikdatei integriert. 
+Dazu gehören etwa die Methode \verb+installId+, sowie Getter und Setter-Methoden für benötigte Attribute eines Parsbaum-Knotens. 
+Etwa für die Variable \verb+scope+, die beschreibt, ob eine Variable global oder lokal initialisiert wurde, kann der Wert über die implementierten Getter- und Setter-Methoden abgerufen werden.
+Die ebenfalls in der Grammatikdatei definierten Tokens werden in der Klasse \verb+Pl1ParserConstants+ als Konstanten definiert. Wobei während der Lexikalischen Analyse, die Klasse Token verwendet wird um symbole zu verarbeiten. 
+Schlussendlich wird einhergehend mit der Klasse \verb+Pl1Parser+ geprüft ob der PL/I-Quellcode zulässig ist. 
 Ist der Ausdurck nicht zulässig wird eine ParseException geworfen, die in der Klasse \verb+ParseException+ definiert ist.
-Gelesen wird der Token durch die Klasse \verb+SimpleCharStream+. Um den Ausdruck in einem Parse-Baum zu repräsentieren wird ein Objekt der Klasse \verb+SimpleNode+ erzeugt. Durch die Methoden \verb+clearNodeScope+ und \verb+closeNodeScope+ der Klasse \verb+JJTPl1ParserState+ wird der verarbeitete Ausdruck mit der repräsentation \verb+PROC+ in den Prasebaum eingefügt. In den anderen \verb+if else+ Verwźweigungen von Zeile ? bis ?, werden Exception abgefragt und ensprechende Fehlermeldungen geworfen.
-So verarbeitet der Praser des Transpilers Stück für Stück die PL/I Ausdrück. Hat der Parser einen Bezeichner gefunden, wird die Methode \verb+installIds+ aufgerufen. Diese wird lediglich durch die JavaCC Methode \verb+id+ aufgerufen, welche in listing ?.? abgebildet ist.
-
-\begin{verbatim}
-  final public void id() throws ParseException {/*@bgen(jjtree) Id */
- ...
-    try {
-      t = jj_consume_token(PL1_WORD);
-...
-String[] tmp = {t.image, this.getHierachie() + "", this.scope + "","id"};
-        this.installIds(tmp);
-...
-}\end{verbatim}
-
-Ein Bezeichner kann nur unter bestimmten Bedingungen in die Symboltabelle eingefügt werden. Ein Bezeichner wird nicht eingefügt, 
-wenn dieser schon vorhanden ist und eine gleiche Sichtbarkeit hat. Ist das nicht der Fall wird die Variable eingefügt.
+Um den Ausdruck in einem Parse-Baum zu repräsentieren wird ein Objekt der Klasse \verb+SimpleNode+ erzeugt. Durch die Methoden \verb+clearNodeScope+ und \verb+closeNodeScope+ der Klasse \verb+JJTPl1ParserState+ wird der verarbeitete Ausdruck mit der repräsentation \verb+PROC+ in den Prasebaum eingefügt. 
+So verarbeitet der Praser des Transpilers Stück für Stück den PL/I-Quellcode. Hat der Parser einen Bezeichner gefunden, wird die Methode \verb+installIds+ aufgerufen und der Bezeichner unter bestimmten Bedingungen in die Symboltabelle eingefügt. 
+Ein Bezeichner wird nicht eingefügt, 
+wenn dieser schon vorhanden ist und den selben Sichtbarkeitswert hat. Ist das nicht der Fall wird die Variable eingefügt.
+Dabei muss die Klasse \verb+SymbolTable+ implementiert und mit der Methode \verb+insertId+ ein Wert eingefügt werden. In dem folgenden Unterkapitel wird das Modul der Symboltabelle genauer beschrieben. 
 
 \subsubsection{Symboltable}
-Die Symboltabelle wird verwendet um Bezeichner korrekt aus dem PL/I-Quellcode zu extrahieren und in den Java-Zielcode in installieren.
+Die Symboltabelle speichert die PL/I-Symbole in einem Hashtable ab. Mit ihr sollen die anderen Module
+erkennen können ob es sich bei einem ausgewählten Token um ein PL/I-Symbol handelt, oder um ein Bezeichner.
+In Abbildung ?.? ist das Modul \verb+symboltable+ als UML dargestellt.
+
+\begin{figure}[h]
+	\centering
+	\caption{Symboltabelle Modul}
+	\includegraphics[scale=0.75]{symboltable-module-uml.drawio.png}
+	\label{fig:symboltable}
+\end{figure}
+
 Das Modul \verb+Symboltable+ enthält die Klassen \verb+SymbolTable+, \verb+Pl1Symbols+ und \verb+PictureMapper+.
 Zusätzlich enthält das Modul die Enums \verb+Pl1Symbols+ und \verb+Template+.
 
@@ -664,15 +638,108 @@ Der weitere Enum \verb+Template+ dient, in einem der folgenden Prozessschritte d
 In diesem Enum sind Java-Quellcode Ausschnitte hinterlegt die PL/I-Quellcode repräsentieren können. Sie werden in dem Mapper Modul verwendet
 um nach und nach den Java-Zielcode zu erzeugen.
 
+Um den Abstrakten Syntax Baum zu erzeugen muss der Parsebaum Stück für Stück überprüft werden. Dieser Prozess wird als semantische Analyse bezeichnet und erfolgt im Checker Modul.
+ 
+\subsubsection{Checker}
+Das Checker Modul prüft den Parsebaum auf seine korrektheit. Während des parsings wird etwa nicht der Typ von Variablen überprüft, wenn diese initalisiert werden. Weiterhin wird beim Parsing auch nicht überprüft ob eine Prozedur korrekt von dem \verb+begin+ und dem \verb+end+ ummantelt wird. Der Fehler in Listing ?.? wird durch den Parser alleine nicht erkannt.
+
+\begin{verbatim}
+proc_1: PROC;
+	RETURN;
+END proc_2;
+\end{verbatim}
+
+Zu erkennen ist das die Prozedur \verb+proc_1+ nicht equivalent mit dem selben Bezeichner schließt, sondern stattdessen, ein neuer Bezeichner eingefügt wird der aus diesem Kontext nicht verwendet wird.
+
+% @todo UML-Diagramm Checker Modul
+
+
+Um dieses Problem zu lösen wurde die Klasse \verb+ReferenceChecker+ implementiert. Die Klasse \verb+ReferenceChecker+, erbt so wie jede \verb+Checker+-Klasse von der Klasse \verb+Checker+.
+Die Klasse \verb+Checker+ implementiert einen Depth-in-first Suchalgorhitmus um den Parse-Baum nach bestimmten Attributen der einzelnen Knoten zu durchsuchen, sowie gezielt nach bestimmten Knoten zu durchsuchen. Diese Methode ist neben der semantischen Analyse, auch für die Synthese des ASTs zu Java entscheidend. 
+In Listing ?.? ist die beschriebene Methode gelistet.
+
+\begin{verbatim}
+protected void searchNode(SimpleNode root, String expectedNode) {
+		if (root.jjtGetParent() == null) {
+			stack.push(root.toString());
+			if(isNode((SimpleNode)root, expectedNode)) {
+				this.foundNodes.add(root);
+			}
+			
+			if (this.hasChildren(root)) {
+				for (int i = 0; i < root.jjtGetNumChildren(); i++) {
+					stack.push(root.jjtGetChild(i).toString());
+					
+					if(isNode((SimpleNode)root.jjtGetChild(i), expectedNode)) {
+						this.foundNodes.add((SimpleNode)root.jjtGetChild(i));
+					}		
+					searchNode((SimpleNode) root.jjtGetChild(i), expectedNode);
+					stack.pop();
+				}
+			}
+			else {
+				return;
+			}
+		}
+		else {
+			if (root.jjtGetChild(0) == null && stack.getLast() == root.toString()) {
+				stack.pop();
+				return;
+			}
+			for (int i = 0; i < root.jjtGetNumChildren(); i++) {
+				stack.push(root.jjtGetChild(i).toString());
+				if(isNode((SimpleNode)root.jjtGetChild(i), expectedNode)) {
+					this.foundNodes.add((SimpleNode)root.jjtGetChild(i));
+				}
+				if (this.hasChildren(root.jjtGetChild(i))) {
+					searchNode((SimpleNode) root.jjtGetChild(i), expectedNode);
+					stack.pop();
+				}
+				else {
+					stack.pop();
+				}
+			}
+		}
+	}
+
+\end{verbatim}
+
+Die Methode in Listing ?.? arbeitet mit einem Stack. Immer wenn ein Knoten des Parsebaums aufgerufen wurde, wird das Knoten-Element in den Stack gelegt. Der Stack ist in der Klasse \verb+Stack+ implementiert. Der Knoten wird erst aus dem Stack entfernt, wenn auch alle Kindknoten eines Knotes erfasst wurden. 
+Hat ein Knoten, Kindknoten wird die Methode Rekursiv aufgerufen und terminiert wenn ein Blatt der Parsebaums erreicht wurde.
+Dieser Algorhitmus ermöglicht es im Zusammenhang mit der \verb+ReferenceChecker+ Klasse den Parsebaum nach etwaiigen \verb+END+ Knoten zu durchsuchen.
+Hier wird dann das Attribut END Knotens abgefragt und mit dem Attribut des \verb+HEAD+ Knotens der zugehörigen Prozedur verglichen. Sind die Werte unterschiedlich wird eine Exception geworfen.
+
+Neben einem Referenz-Fehler einer Prozedur-terminierung, gibt es, wie eingangs beschrieben auch Typ fehler bei der initalisierung die nicht von dem Parser erkannt werden können.
+Da dies Teil der Semantik der Programmiersprache PL/I ist und nicht Teil der Syntaktik.
+Der Ausdruck in Listing ?.? wird fälschlicherweise von dem Parser verarbeitet.
+
+\begin{verbatim}
+DCL var_1 DECIMAL(5);
+var_1 = Hello;
+\end{verbatim}
+
+Um solche Semantischen Fehler zu erkennen, wird die Klasse \verb+TypeChecker+ implementiert. 
+Auch diese Klasse ist eine Kindklasse der Checker-Klasse. Hier wird erneut der Depth-In-Frist Suchalgorhitmus verwendet um ein \verb+INIT+ Knoten zu finden. Dieser Knoten beinhaltet Informationen über die Variable die Initalisiert wurde und den Wert mit der sie initalisiert wurde.
+ 
+Zusätzlich wird auch nach den \verb+VAR+ Knoten gesucht. Dieser Knoten beinhaltet durch seine Kindknoten Informationen über den Bezeichner der Variable und den Type.
+
+Das Ergebnis beider Suchen wird je in eine Liste gespeichert. Schlussendlich werden die Typen und der initalisierte Wert miteinander verglichen. Liegt ein unzulässiger Wert vor wird eine entsprechende Exception geworfen.
+
+Das Checker Modul bereitet den Parsebaum entsprechend so vor, dass dieser weiterhin in der Synthese verarbeitet werden kann. Erst nachdem die Semantische Analyse erfolgt ist handelt es sich um eine Zwischencode erzeugung. 
+Nachdem also der Transpiler den PL/I-Quellcode in eine Zwischencode Erzeugung Umgewandelt hat, kann das Mapper-Modul mit der Synthese in Java-Zielcode beginnen.
+ 
+\subsubsection{Mapper}
 % Wie funktioniert der PicturemMapper
 Die Klasse \verb+PictureMapper+ enthält ebenfalls eine Hashmap, hier befinden sich Zeichen die Ausdrücke des Picture Typs aus PL/I und deren übersetzugn als Regulären Ausdruck. 
 Mit der \verb+getRegex+ Methode der \verb+PictureMapper+ Klasse wird der Picture Ausdruck übersetzt und als String zurückgegeben.
 Der Ausdruck \verb+(4)A+ wird etwa zu \verb+(A-Za-z ){4}+. Dadurch kann die Beschränkung der Länge des Strings, des Picture-Typs im Java-Zielcode beibehalten werden. 
 Verwendet wird diese Klasse hauptsächlich von dem Mapper-Module, wenn der Abstrakte Syntaxbaum in Java übersetzt wird.
 
-Um den Abstrakten Syntax Baum zu erzeugen muss der Parsebaum Stück für Stück überprüft werden. Dieser Prozess wird als semantische Analyse bezeichnet und erfolgt im Checker Modul. 
-\subsubsection{Checker}
-\subsubsection{Mapper}
+Um den Abstrakten Syntax Baum zu erzeugen muss der Parsebaum Stück für Stück überprüft werden. Dieser Prozess wird als semantische Analyse bezeichnet und erfolgt im Checker Modul.
+ 
+
+
+
 \subsubsection{Error-Handling}
 
 \subsection{Testing und Integration}
