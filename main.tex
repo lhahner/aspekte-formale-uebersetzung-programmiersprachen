@@ -533,7 +533,7 @@ in Java-Zielcode umwandelt.
 %- Fehlertracking
 %- Struktuierung des Programms, sodass ein Benutzer es selbständig erweitern kann
 
-\subsection{Aspektorientierte Programmierung}
+%\subsection{Aspektorientierte Programmierung}
 %- Wie funktioniert Aspektorientiert Programmierung?
 %	- Wie Löse ich mit Aspektorientierter Programmierung konkrete Probleme?
 %- JavaBeans
@@ -729,18 +729,42 @@ Das Checker Modul bereitet den Parsebaum entsprechend so vor, dass dieser weiter
 Nachdem also der Transpiler den PL/I-Quellcode in eine Zwischencode Erzeugung Umgewandelt hat, kann das Mapper-Modul mit der Synthese in Java-Zielcode beginnen.
  
 \subsubsection{Mapper}
+Das Mapper Modul transformiert die Zwischencode repräsentation in den Java-Zielcode. Dazu wurde das Mapper-Modul nachdem Strategy Desgin-Pattern entworfen.
+In Abbildung ?.? ist das UML des Mapper Moduls zu sehen. 
 
+\begin{figure}[h]
+	\centering
+	\caption{Mapper Modul}
+	\includegraphics[scale=0.75]{mapper-module-uml.drawio.png}
+	\label{fig:mapper}
+\end{figure}
+
+Die Klasse \verb+Mapper+ wird in der Main-Methode des Projektes instanziiert. Als Parameter wird der Wurzelknoten des Parssebaums übergegeben.
+Woraufhin mithilfe der \verb+iterateParsetree+ Methode durch den Parsbaum iteriert wird. Hier wurde der Depth-in-first Suchalgorhitmus implementiert um
+jeden Knoten zu verarbeiten. Jeder Knoten wird über seine zugehörige Identifaktionsnummer überprüft.  
+In der Klasse \verb+AstMapper+ finden sich jegliche Identfikations-variablen der Knoten. Hier werden diese, mit den zugehörigen Mapper-Klasse in einer HashMap gespeichert.
+Die Mapper Klassen, stellen die unterschiedlichen Strategien in dem Strategy-pattern dar. Sie implementieren alle das TranslationBehavior interface und 
+aufgrunddessen eine \verb+translate+ Methode die den übersetzten Ausdruck zurückgibt. 
+
+In der \verb+iterateParseTree+ Methode wird, für jeden Knoten überprüft ob eine solche Mapper-Klasse in der HashMap, der \verb+AstMapper+ Klasse vorhanden ist.
+Falls eine Klasse vorhanden ist, wird in der TranslationBehavior Klasse, das entsprechende Strategie-Objekt des Typs \verb+TranslationBehavior+ in der
+Mapper Klasse gesetzt. So wird die Translate-Methode der aktuell gesetzen Klasse aufgerufen und der Parsebaum-Knote in Java übersetzt.
+Eine Mapper-Klasse kann weitere Methoden enthalten die, die Wahl des zu übersetzenden Ausdrucks entscheiden. Der Picture Mapper ist eine der Mapper-Klassen
+um den Picture-Typ des ursprünglichen PL/I-Quellcodes zu übersetzen.
 
 % wie funktioniert der PicturemMapper
-die klasse \verb+PictureMapper+ enthält ebenfalls eine Hashmap, hier befinden sich Zeichen die Ausdrücke des Picture Typs aus PL/I und deren übersetzugn als Regulären Ausdruck. 
-mit der \verb+getRegex+ Methode der \verb+PictureMapper+ Klasse wird der Picture Ausdruck übersetzt und als String zurückgegeben.
-der ausdruck \verb+(4)A+ wird etwa zu \verb+(A-Za-z ){4}+. Dadurch kann die Beschränkung der Länge des Strings, des Picture-Typs im Java-Zielcode beibehalten werden. 
-verwendet wird diese Klasse hauptsächlich von dem Mapper-Module, wenn der Abstrakte Syntaxbaum in Java übersetzt wird.
+Die Klasse \verb+PictureMapper+ enthält Zeichenkettenbeschränkungen des PL/I-Picture Typs und deren übersetzung als Regulären Ausdruck.
+Da die Zeichenkettenbeschränkung aus PL/I nicht in dem Java Zielcode angewendet werden kann, werden die Ausdrücke entsprechend in Reguläre Ausdrücke übersetzt.
+Mit der \verb+getRegex+ Methode der \verb+PictureMapper+ Klasse wird der übersetzte Reguläre Ausdruck als String zurückgegeben.
+Der PL/I-Ausdruck \verb+(4)A+ wird etwa zu dem Regulären Ausdruck \verb+(A-Za-z ){4}+. In dem Java-Zielcode wurd zusätzlich eine Picture-Klasse implementiert,
+die als Parameter den Regulären Ausdruck entgegennimmt und daraufhin über importierte Java-Klassen überprüft ob dieser den Bedingungen des Regulären Ausdrucks entspricht.  
 
-um den abstrakten Syntax Baum zu erzeugen muss der Parsebaum Stück für Stück überprüft werden. Dieser Prozess wird als semantische Analyse bezeichnet und erfolgt im Checker Modul.
- 
-
-
+Neben der PictureMapper Klassen, erzeugen weitere Mapper Klassen Stück für Stück den Java-Zielcode. 
+Jegliche Ausdrücke werden am Ende in der Arraylist der Mapper Eltern-Klasse \verb+javaExpression+ gespeichert.
+Wenn der Depth-in-first Algorhitmus jeden Knoten des Parse-Baums überprüft hat, wurde entweder das Programm erfolgreich übersetzt, oder während der Überpürufn 
+eine Fehlermeldung geworfen.
+Zu den Fehlermeldungen soll im folgenden Kapitel das Moudl Errorhandling vorgestellt werden.
+Dieses dient hauptsächlich der Fehlerbehandlung und Fehlerinformation, für den Anwender.
 
 \subsubsection{error-Handling}
 
