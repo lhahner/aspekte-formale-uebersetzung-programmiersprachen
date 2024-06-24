@@ -766,9 +766,9 @@ eine Fehlermeldung geworfen.
 Zu den Fehlermeldungen soll im folgenden Kapitel das Moudl Errorhandling vorgestellt werden.
 Dieses dient hauptsächlich der Fehlerbehandlung und Fehlerinformation, für den Anwender.
 
-\subsubsection{error-Handling}
+\subsubsection{Error-Handling}
 
-\subsection{testing und Integration}
+\subsection{Testing und Integration}
 %1. transpiler wird getestet
 %1.1 testen der methoden von Lexer, Parser usw. (Bsp.: Kann dieses Zeichen verarbeitet werden?)
 %1.2 baum testen auf Korrektheit
@@ -791,13 +791,85 @@ eben für dan fall das die Datei nicht gelesen werden kann, wurde eine Exception
 fehlerbehandlung spielt besonder im Zusammenhang mit der Lexikalischen Analyse eine Rolle. Um zu gewährleisten das die Transformation korrekt albläuft braucht es der formalen PL/I Grammatik enstrpechend richtigen PL/I Code als Eingabe. Eine nicht behandlung hätte zur Folge das das Programm entweder eine Fehlerhafte Ausgabe produziert, oder Fehlschlägt. Dies soll vermieden werden.
 
 \section{technische Spezifikation}
-	\subsection{Ausführung des Transpilers}
-		\subsubsection{Transformationsmöglichkeiten}
-		%Toleranzspielräume:...Einfach, Genau, Präzisse
-		\subsubsection{Umwandlung von Datentypen}
-		\subsubsection{Umwandlung von Prozeduren}
-	\subsection{Optimierung}
-	% online-Smoketest von PL/I Code -> %todo: Verschieben nach Erweiterbarkeit (Schlusskapitel), weil momentan noch nicht vollständige Grammatik realisiert.
-	ein weiterer denkbarer Einsatzbereich ist es, den PL/I-Code auf seine Richtigkeit zu testen. Wird mithilfe des Programms erfolgreich das PL/I-Programm in Java übersetzt, so sollte auch ein herkömmlicher PL/I-Compiler auf einem Mainframe den Code ausführen können. Somit eignet sich das Programm auch für Smoke-tests von Anwendungen.
-		\subsubsection{Performance und Benchmarks}
-		\subsubsection{Testing}
+\subsection{Ausführung des Transpilers}
+\subsubsection{Transformationsmöglichkeiten}
+%Toleranzspielräume:...Einfach, Genau, Präzisse
+\subsubsection{Umwandlung von Datentypen}
+In der Projektaribt-IV wurden bereits die transformation von Datentypen vorgestellt. An der Übersetzung gab es nur im detail Veränderungen.
+
+\subsubsection{Umwandlung von Prozeduren}
+
+Mit dieser Version des Transpilers ist es möglich Prozdeuren umzuwandeln.
+In PL/I werden Aktionen in Block-Strukturen definiert. Eine mögliche Block Struktur ist die Prozedur. Sie bietet dem PL/I-Entwickler die Möglichkeit ein übergeordnetes Problem
+in Teilprobleme aufzuteilen und zu lösen. (PL/I Language Reference S. 97)
+Eine Prozedur wird in der einfachsten Form durch den Bezeichner, das PL/I-Symbol \verb+PROCEDURE+ und einer terminierung wie \verb+END+
+beschrieben.
+Zusätzlich können Parameter, return Optionen, allgemeine Attribut Optionen, sowie Sichtbarkeits Attribute definiert werden.
+In Listing ?.? ist eine beispielhafte Prozedur gelistet.
+
+\begin{verbatim}
+empty_proc: PROC(para_1, para_2) RETURNS(CHAR(5)) OPTION(INLINE);
+	...
+END empty_proc;
+\end{verbatim}
+
+Die Prozedur \verb+empty_proc+ hat zwei Parameter und gibt einen Wert des Typs \verb+CHAR+ der länge 5 zurück.
+Weiterhin wird die Option \verb+INLINE+ definiert. Diese Option beschreibt das die Prozedur innerhalb einer weiteren Block-struktur erzeugt wurde.
+(PL/I https://www.ibm.com/docs/en/epfz/5.3?topic=organization-options-option-attribute)
+
+In Java kann ebenfalls ein übergeordnetes Problem in Teilprobleme strukturiert und gelöst werden.
+Dabei gibt es Java Klassen die Methoden implementieren. Methoden bietet dabei eine kompriertere From ein Unterproblem zu lösen als Klassen.
+Entsprechend sind Methoden ein mögliches equivalent der Prozduren. 
+ (https://docs.oracle.com/javase/tutorial/java/javaOO/methods.html)
+
+Eine Methode hat ähnliche Bestandteilte wie eine Prozdure.
+Es wird ein Sichtbarkeits Attribut, der Typ der Methode, der Bezeichner der Methode und eine Parameterlist mit den je zugehörigen Typen benötigt.
+Einige dieser Attribute sind auch in einer Prozedur definiert.
+Jedoch gibt es unterschiede, die zu einer nicht eindeutigen Übersetzung führen werden.
+
+Wird etwa versucht die in der PL/I-Prozedur definierten Parameter nach Java zu übersetzen, fehlt der Parameter Typ.
+Dieser wird in PL/I impliziet durch die zuweisung definiert, etwa wie in Listing ?.? dargestellt
+
+\begin{verbatim}
+empty_proc: PROC(para_1, para_2) RETURNS(CHAR(5)) OPTION(INLINE);
+	para_1 = 'foo';
+	para_2 = 'baa';
+...
+\end{verbatim}
+
+Impliziet wird hier der Typ \verb+CHAR+ zugewiesen.
+In Java muss hingegen expilziet der Typ der Parameter definiert werden.
+Eine Möglichkeit keinen expliziten primitven Typen zu definieren könnte mit den nicht-primtivien Type \verb+Object+ passieren.
+Die \verb+Object+ Klasse is die Eltern Klasse jeder definiert Klasse. Mit ihr kann eine Typunabhängige Variable erzeugt werde.
+Dadurch ist eine Zuweisung eine beliebigen Typs möglich. Somit bietet es sich an die Parameter in Java vom Typ \verb+Object+
+zu definieren.
+In Listing ?.? ist eine die Prozedur aus Listing ?.? als Methode dargestellt.
+
+Weiterhin wird in der Prozedur ein Rückgabewert des Typs \verb+CHAR+ der länge fünf definiert.
+In Java kann kein zusätzlicher Parameter innerhalb des Rückgabe Typs definiert werden.
+Hingegen die Verwendung des eigen definierten nicht-primtiven Typs \verb+CHAR+ als Rückgabetyp denkbar.
+In dem \verb+return+ Ausdruck kann dann über eine Objektinstanziierung des \verb+CHAR+ Typs die länge definiert werden.
+Zeile ?-? zeigt diese instanzierung im Rückgabeausdruck der \verb+empty_proc+ Methode.
+
+\begin{verbatim}
+public CHAR empty_proc(Object, para_1, Object para_2){
+	para_1 = "foo";
+	para_2 = "baa";
+	return new CHAR(5).init();
+}
+\end{verbatim} 
+
+Dadurch kann die längen Beschränkung und die impilziete Typzuweisung des Parameters erfolgen.
+Ein weiteres Attribut der Prozduren definition ist das \verb+OPTION+ Attribut.
+Hierbei handelt es sich jedoch um eine Beschreibung die den PL/I-Quellcode leserlicher gestalten soll.
+Eine Veränderung der Laufzeit, wird mit Ausdruck in Listing ?.? und Zeile ?.? nicht erzeugt.
+
+% TODO annotations evtl.?
+... 
+
+
+\subsection{Optimierung}
+% online-Smoketest von PL/I Code -> %todo: Verschieben nach Erweiterbarkeit (Schlusskapitel), weil momentan noch nicht vollständige Grammatik realisiert.
+ein weiterer denkbarer Einsatzbereich ist es, den PL/I-Code auf seine Richtigkeit zu testen. Wird mithilfe des Programms erfolgreich das PL/I-Programm in Java übersetzt, so sollte auch ein herkömmlicher PL/I-Compiler auf einem Mainframe den Code ausführen können. Somit eignet sich das Programm auch für Smoke-tests von Anwendungen.
+\subsubsection{Performance und Benchmarks}
+\subsubsection{Testing}
