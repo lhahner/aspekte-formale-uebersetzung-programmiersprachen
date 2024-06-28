@@ -61,7 +61,7 @@
     %\fi
 
     % Lade Abstract abhängig von der Einstellung in config.tex
-    \if\CHASABSTRACT 1
+    \if\CHASABSTRACT 0
         \section*{Abstract}
         \input{../abstract.tex}
         \newpage % Sections haben hier noch keinen automatischen Seitenumbruch
@@ -70,7 +70,7 @@
     % INHALTSVERZEICHNIS
     \pagenumbering{Roman} \setcounter{page}{1}
     \tableofcontents{\fancyfoot{}}
-    \if\CKUSCHE 1 % im Kusche Mode erscheinen die Anlagen im InhaltsVZ
+    \if\CKUSCHE 0 % im Kusche Mode erscheinen die Anlagen im InhaltsVZ
         \phantomsection
         \listofanlagen
     \fi
@@ -115,7 +115,7 @@
     \fi
 
     % wenn keine Literatur verwendet (zitiert) wird, erstelle kein Literaturverzeichnis
-    % im Kusche-Mode wird das LiteraturVZ später generiert
+    % im Kusche-Mode wird das LiteraturVZ generiert
     \if\CKUSCHE 0
         \ifnum\thetotalbibentries>0
             \printbibliography[title=Literaturverzeichnis]
@@ -126,10 +126,10 @@
 
 
     % TODO %ANLAGENVERZEICHNIS UND ANLAGEN
-    % erzeugt ein Anlagenkapitel und fügt es zum InhaltsVZ hinzu, insofern Anlagen existieren.
+    % erzeugt ein Anlagenkapitel und fuegt es zum InhaltsVZ hinzu, insofern Anlagen existieren.
 
     \listofanlagen
-    % im Kusche-Modus wird kein Anlagenverzeichnis erzeugt, aber Anlagen im Inhaltsverzeichnis geführt
+    % im Kusche-Modus wird kein Anlagenverzeichnis erzeugt, aber Anlagen im Inhaltsverzeichnis gefuehrt
     \ifnum\totvalue{anlagenentries}>0
     %\appendix
     \section*{Anlagen}
@@ -144,15 +144,15 @@
 
     \if\CKUSCHE 1
         % die Kapitel.lfd-Nummerierung wird im Kusche Mode ab hier wieder deaktiviert,
-        % da Anhänge mit Buchstaben nummeriert werden sollen (TODO: das funktioniert noch nicht, help wanted)
+        % da Anhaenge mit Buchstaben nummeriert werden sollen (TODO: das funktioniert noch nicht, help wanted)
         \counterwithout{figure}{section}
         \counterwithout{table}{section}
 
-        % deaktiviere Kapitel in Fußzeile im Kusche Mode ab hier
+        % deaktiviere Kapitel in Fusszeile im Kusche Mode ab hier
         \fancyfoot      [L]{}
     \fi
 
-    \renewFigTabCap % Verhalten von Figure und Table Environments sowie \caption wird verändert (TODO: wie genau? LG, ZPM)
+    \renewFigTabCap % Verhalten von Figure und Table Environments sowie \caption wird veraendert (TODO: wie genau? LG, ZPM)
     \input{anlagen.tex}
     \cleardoublepage
 
@@ -165,11 +165,11 @@
         \fi
     \fi
 
-    % EHRENWÖRTLICHE ERKLÄRUNG
+    % EHRENWOERTLICHE ERKLAERUNG
     \pagestyle{empty}
     \pagenumbering{gobble}
-    \section*{Ehrenwörtliche Erklärung}
-    \addcontentsline{toc}{section}{Ehrenwörtliche Erklärung}
+    \section*{Ehrenw\"ortliche Erkl\"arung}
+    \addcontentsline{toc}{section}{Ehrenw\"ortliche Erkl\"arung}
     \input{build/components/ehrenwort.tex}
 
     \if\CARBEIT B
