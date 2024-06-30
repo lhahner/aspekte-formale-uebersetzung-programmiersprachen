@@ -689,6 +689,45 @@ fehlerbehandlung spielt besonder im Zusammenhang mit der Lexikalischen Analyse e
 
 \section{Technische Spezifikation}
 \subsection{Ausführung des Transpilers}
+
+% Importieren in Eclipse
+In Kapitel ?.? wurden bereits die Methoden den Transpiler zu benutzen vorgestellt.
+Dieser Kapitel behandelt nochmal genauer wie das Programm mithilfe der verschiedenen Methoden 
+verwendet werden kann.
+
+\paragraph{Eclipse}
+Wie schon erwähnt kann auch die \ac{ide} Eclipse dazu verwendet werden
+den Transpiler zu benutzen. Besonders interessant ist diese Methode für die Administratoren.
+Für diese Vorgehensweise wird Git und Eclipse benötigt.
+Zuerst muss das Projekt aus der Repositry mit Git in das lokale Verzeichnis geladen werden
+
+\begin{lstlisting}[language=PL/I, caption=Deklaration einer Varibale des Typs Decimal, label={lst:decimal}]
+git clone https://github.com/lhahner/pl1-code-transpiler.git
+\end{lstlisting}
+
+Daraufhin ist das importieren des Maven Projekts in Eclipse möglich.
+Unter der Registerkarte Datei findet sich die Option ein Maven Projekt zu importieren.
+Woraufhin das Menufenster aus Abbildung \ref{fig:importproject} erscheint.
+
+\dhgefigure[h]{import-mave-project.png}[scale=0.5]{Importieren eines Maven Projekts}{fig:importproject}
+\pagebreak
+
+Daraufhin sollte der Projektordner ausgewählt werden in dem auch die pom.xml Datei liegt.
+Ist der Ordner korrekt ausgewählt kann wird das Projekt in Eclipse importiert.
+Nun kann das Projekt benutzt werden.
+In dem Verzeichnis \verb+src/main/java/res/pli+
+ist das Standart Eingabe-Verzeichnis. Hier kann eine PL/I Datei
+abgelegt werden die übersetzt werden soll. 
+Andererseits ist es auch möglich das Standart Eingabeverzeichnis
+zu verändern. In dem Ordner \verb+src/main/java/res/config+¸
+befindet sich die Konfigurationsdatei \verb+config.propreties+.
+In dieser kann die Variable \verb+PATH+ geändert werden,
+um so auch von einer anderen Projektstruktur PL/I-Quellcode
+zu transformieren.
+
+\paragraph{Internet Schnittstelle}
+\paragraph{Kommandozeile}
+
 \subsubsection{Transformationsmöglichkeiten}
 %Toleranzspielräume:...Einfach, Genau, Präzisse
 \subsubsection{Umwandlung von Datentypen}
