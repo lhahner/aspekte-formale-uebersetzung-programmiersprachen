@@ -561,7 +561,7 @@ Zu erkennen ist das die Prozedur \verb+proc_1+ nicht äquivalent mit dem selben 
 Um diesen semantischen Fehler und weitere zu erkennen und entsprechend darauf hinzuweisen wurde das Checker Modul implementiert.
 In Abbildung \ref{fig:checker} das \ac{uml} des Checker Moduls abgebildet.
 
-\dhgefigure[h]{checker-module-uml.png}[scale=0.5]{Checker Modul}{fig:checker}
+\dhgefigure[h]{checker-module-uml.png}[scale=0.4]{Checker Modul}{fig:checker}
 \pagebreak
 
 Das Problem aus Listing \ref{lst:pliprozedur} wird in der Klasse \verb+ReferenceChecker+ behandelt. Die Klasse \verb+ReferenceChecker+, erbt so wie jede \verb+Checker+-Klasse von der Klasse \verb+Checker+.
@@ -638,8 +638,8 @@ Nachdem also der Transpiler den PL/I-Quellcode in eine Zwischencode Erzeugung Um
 Das Mapper Modul transformiert die Zwischencode Repräsentation in den Java-Zielcode. Dazu wurde das Mapper-Modul nachdem Strategy Desgin-Pattern entworfen.
 In Abbildung \ref{fig:mapper} ist das UML des Mapper Moduls zu sehen. 
 
-\dhgefigure[h]{{mapper-module-uml.png}[scale=0.5]{Mapper Modul}{fig:mapper}
-
+\dhgefigure[h]{{mapper-module-uml.png}[scale=0.4]{Mapper Modul}{fig:mapper}
+\pagebreak
 Die Klasse \verb+Mapper+ wird in der Main-Methode des Projektes instanziiert. Als Parameter wird der Wurzelknoten des Parssebaums übergegeben.
 Woraufhin mithilfe der \verb+iterateParsetree+ Methode durch den Parsbaum iteriert wird. Hier wurde ebenfalls der Depth-in-first Suchalgorhitmus implementiert um
 jeden Knoten zu verarbeiten. Jeder Knoten wird über seine zugehörige Identifizierungsnummer überprüft. Die in dem interface \verb+Pl1ParserTreeConstants+ des Parser Moduls definiert sind. 
@@ -691,53 +691,52 @@ fehlerbehandlung spielt besonder im Zusammenhang mit der Lexikalischen Analyse e
 \subsection{Ausführung des Transpilers}
 
 % Importieren in Eclipse
-In Kapitel ?.? wurden bereits die Methoden den Transpiler zu benutzen vorgestellt.
-Dieser Kapitel behandelt nochmal genauer wie das Programm mithilfe der verschiedenen Methoden 
-verwendet werden kann.
+Um den Transpiler zu benutzen gibt es drei Möglichkeiten.
+Einerseits über die \ac{ide} Eclipse, über die Kommandozeile und über das Webinterface.
+Bei der Benutzung des Transpilers werden erstmals Übersetzungsentscheidungen sichtbar.
+In diesem Kapitel sollen alle Möglichkeiten und Spezifikationen des Transpilers näher beschrieben werden.
 
 \paragraph{Eclipse}
-Wie schon erwähnt kann auch die \ac{ide} Eclipse dazu verwendet werden
-den Transpiler zu benutzen. Besonders interessant ist diese Methode für die Administratoren.
-Für diese Vorgehensweise wird Git und Eclipse benötigt.
-Zuerst muss das Projekt aus der Repositry mit Git in das lokale Verzeichnis geladen werden
+Wie schon erwähnt kann die \ac{ide} Eclipse dazu verwendet werden den Transpiler zu benutzen. 
+Interessant ist diese Herangehensweise für Administratoren, die den Quellcode selbst erweitern möchten. Hierfür wird neben Eclipse auch Git benötigt.
+
+Zuerst sollte das Projekt aus der GitHub-Repository mit Git in das lokale Verzeichnis geladen werden.
 
 \begin{lstlisting}[language=PL/I, caption=Deklaration einer Varibale des Typs Decimal, label={lst:decimal}]
 git clone https://github.com/lhahner/pl1-code-transpiler.git
 \end{lstlisting}
 
 Daraufhin ist das importieren des Maven Projekts in Eclipse möglich.
-Unter der Registerkarte Datei findet sich die Option ein Maven Projekt zu importieren.
-Woraufhin das Menufenster aus Abbildung \ref{fig:importproject} erscheint.
+Unter der Registerkarte Datei gibt es die Möglichkeit ein Maven-Projekt in Eclipse zu importieren.
+Es erscheint das Men\"ufenster aus Abbildung \ref{fig:importproject}.
 
-\dhgefigure[h]{import-mave-project.png}[scale=0.5]{Importieren eines Maven Projekts}{fig:importproject}
+\dhgefigure[h]{import-maven-project.png}[scale=0.5]{Importieren eines Maven Projekts}{fig:importproject}
 \pagebreak
 
-Daraufhin sollte der Projektordner ausgewählt werden in dem auch die pom.xml Datei liegt.
-Ist der Ordner korrekt ausgewählt kann wird das Projekt in Eclipse importiert.
-Nun kann das Projekt benutzt werden.
-In dem Verzeichnis \verb+src/main/java/res/pli+
-ist das Standart Eingabe-Verzeichnis. Hier kann eine PL/I Datei
-abgelegt werden die übersetzt werden soll. 
-Andererseits ist es auch möglich das Standart Eingabeverzeichnis
-zu verändern. In dem Ordner \verb+src/main/java/res/config+¸
-befindet sich die Konfigurationsdatei \verb+config.propreties+.
-In dieser kann die Variable \verb+PATH+ geändert werden,
-um so auch von einer anderen Projektstruktur PL/I-Quellcode
-zu transformieren.
+Hier sollte im n\"achsten Men\"u Fenster der Ordner ausgew\"ahlt werden, in dem die pom.xml liegt.
+Ist der Ordner korrekt ausgewählt wird das Projekt in Eclipse importiert.
+Nun kann das Projekt benutzt werden. Das Verzeichnis \verb+src/main/java/res/pli+
+ist das Standard Eingabe-Verzeichnis. Hier kann eine PL/I-Datei abgelegt werden die übersetzt werden soll. 
+Andererseits ist es auch möglich das Standard Eingabeverzeichnis zu verändern. In dem Ordner \verb+src/main/java/res/config+¸ befindet sich die Konfigurationsdatei \verb+config.propreties+.
+In dieser kann die Variable \verb+PATH+ geändert werden, um so auch von einer anderen Projektstruktur PL/I-Quellcode zu transformieren.
 
 \paragraph{Internet Schnittstelle}
+%...
+
 \subsubsection{Umwandlung von Datentypen}
 Es wurden in Projektarbeit-IV selbstgeschriebene nicht-Primitive Datentypen verwendet um die PL/I Datentypen, 
-in entsprechenden Java-Zielcode zu übersetzen.
-Dies ist wie für den Umfang von Deklarationen ausreichend.
+in entsprechenden Java-Zielcode zu übersetzen. Dies ist wie für den Umfang von Deklarationen ausreichend.
+
 Wird jedoch der Transpiler erweitert und eine Abfrage der eigentlichen
 Numerischen Werte notwendig um Werte miteinander zu vergleichen, oder
 Werte miteinander zu verrechnen, reicht diese Implementation nicht mehr aus.
+
 Es bedarf einer Erweiterung oder Neu-Gestaltung der Nicht-Primitiven Datentypen.
-Eine Erweiterung der bestehenden Transformation von \verb+DECIMAL+, ist ein Methode
-die den Numerischen Inhalt des Objektes zurückgibt.
-Um dies zu erreichen wurde um den bisher verwendeten Typ BigDecimal eine Klasse gebaut
+Eine mögliche Erweiterung der bestehenden Transformation des \verb+DECIMAL+ Typs, ist die Implementation einer Methode die den Numerischen Inhalt des Objektes zurückgibt.
+
+Um dies zu erreichen wurde  den bisher verwendeten Typ BigDecimal eine Klasse gebaut
 mit der initialisieren bzw. Zuweisung und Ausgabe des Inhalts möglich werden.
+
 In Listing \ref{lst:decimalclass} ist die DECIMAL Klasse zu sehen.
 
 \begin{lstlisting}[language=Java, caption=Die DECIMAL Klasse, label={lst:decimalclass}]
@@ -778,17 +777,17 @@ und ebenso eine Boolesche und eine Arithmetische Operation.
 Hingegen würde für jede zusätzliche Funktionalität eine Methode erstellt, die die Funktionalität 
 ...
 
-% TODO Annotaion Lösung hier...
+% TODO Spring-Annotaion Lösung hier...
 ...
 
 \subsubsection{Programmstruktur und Programmablauf}
-\paragraph{Umwandlung von Programmstrukturen}
+\paragraph{Umwandlung von Programmstrukturen }\label{programstruct}
+
 Mit dieser Version des Transpilers ist es möglich Prozeduren umzuwandeln.
-In PL/I werden Aktionen in Block-Strukturen definiert. Eine mögliche Block Struktur ist die Prozedur. Sie bietet dem PL/I-Entwickler die Möglichkeit ein übergeordnetes Problem
-in Teilprobleme aufzuteilen und zu lösen. (PL/I Language Reference S. 97)
-Eine Prozedur wird in der einfachsten Form durch den Bezeichner, das PL/I-Symbol \verb+PROCEDURE+ und einer terminierung wie \verb+END+
-beschrieben.
-Zusätzlich können Parameter, return Optionen, allgemeine Attribut Optionen, sowie Sichtbarkeit Attribute definiert werden.
+In PL/I werden Unterprogramm-Routinen in Block-Strukturen definiert. Eine mögliche Block Struktur ist die Prozedur. \footcite[Vgl. ][S. 97ff. ]{pliref}
+Eine Prozedur wird durch den Bezeichner, das PL/I-Symbol \verb+PROCEDURE+ und einer Terminierung wie \verb+END+ beschrieben.
+Zusätzlich können Parameter, Rückgabetypen und allgemeine Attribut Optionen definiert werden.
+
 In Listing \ref{lst:procchar} ist eine beispielhafte Prozedur gelistet.
 
 \begin{lstlisting}[language=PL/I, caption=Deklaration einer Prozedur des Typs Char, label={lst:procchar}]
@@ -797,70 +796,66 @@ empty_proc: PROC(para_1, para_2) RETURNS(CHAR(5)) OPTION(INLINE);
 END empty_proc;
 \end{lstlisting}
 
-Die Prozedur \verb+empty_proc+ hat zwei Parameter und gibt einen Wert des Typs \verb+CHAR+ der länge 5 zurück.
-Weiterhin wird die Option \verb+INLINE+ definiert. Diese Option beschreibt das die Prozedur innerhalb einer weiteren Block-Struktur erzeugt wurde. \footcite[Vgl. ][]{optionsstmt}
+Die Prozedur \verb+empty_proc+ hat zwei Parameter und gibt einen Wert des Typs \verb+CHAR+ der L\"ange 5 zur\"uck.
+Weiterhin wird die Option \verb+INLINE+ definiert.
 
-In Java kann ebenfalls ein übergeordnetes Problem in Teilprobleme strukturiert und gelöst werden.
-Dabei gibt es Java Klassen die Methoden implementieren. Methoden bietet dabei eine komprimierte Form ein Unterproblem zu lösen als Klassen.
+Um in Java Unterprogramm-Routinen zu definieren gibt es Methoden. 
 Entsprechend sind Methoden ein mögliches äquivalent der Prozeduren. \footcite[Vgl. ][]{oracle}
-
 Eine Methode hat ähnliche Bestandteile wie eine Prozedur.
-Es wird ein Sichtbarkeit Attribut, der Typ der Methode, der Bezeichner der Methode und eine Parameterlist mit den je zugehörigen Typen benötigt.
+Es wird ein Modifier, Rückgabetyp, Bezeichner und eine Parameterliste benötigt.
 Einige dieser Attribute sind auch in einer Prozedur definiert.
-Jedoch gibt es Unterschiede, die zu einer nicht eindeutigen Übersetzung führen werden.
+Jedoch gibt es Unterschiede, die zu einer nicht eindeutigen Übersetzung führen können.
 
-Wird etwa versucht die in der PL/I-Prozedur definierten Parameter nach Java zu übersetzen, fehlt der Parameter Typ.
-Dieser wird in PL/I implizit durch die Zuweisung definiert, etwa wie in Listing ref{lst:procassign} dargestellt
+Wird etwa versucht die in der PL/I-Prozedur definierten Parameter direkt zu übersetzen, fehlt die explizite Angabe des Typs im Parameter.
+
+Dieser wird in PL/I implizit durch die Zuweisung definiert, etwa wie in Listing \ref{lst:procassign} dargestellt
 
 \begin{lstlisting}[language=PL/I, caption=Zuweisung von Variablen in einer Prozedur, label={lst:procassign}]
 empty_proc: PROC(para_1, para_2) RETURNS(CHAR(5)) OPTION(INLINE);
 	para_1 = 'foo';
 	para_2 = 'baa';
-...
+END empty_proc;
 \end{lstlisting}
 
-Impliziet wird hier der Typ \verb+CHAR+ zugewiesen.
-In Java muss hingegen expilziet der Typ der Parameter definiert werden.
-Eine M\"oglichkeit keinen expliziten primitven Typen zu definieren k\"onnte mit den nicht-primtivien Type \verb+Object+ passieren.
-Die \verb+Object+ Klasse is die Eltern Klasse jeder definiert Klasse. Mit ihr kann eine Typunabh\"angige Variable erzeugt werde.
-Dadurch ist eine Zuweisung eine beliebigen Typs m\"oglich. Somit bietet es sich an die Parameter in Java vom Typ \verb+Object+
-zu definieren.
-In Listing \ref{lst:metassign} ist die Prozedur aus Listing \ref{lst:procassign} als Methode dargestellt.
+Implizit wird hier der Typ \verb+CHAR+ zugewiesen. 
+In Java muss hingegen explizit der Typ des Parameter definiert werden.
+Eine Möglichkeit die Parameterliste zu transformieren, ist über den Typ \veb+Object+.
+Da Object die Elternklasse aller Klassen ist, kann während der Zuweisung des Parameters beliebig in den gewünschten Typ umgewandelt werden. \footcite[Vgl. ][]{objectdocs}
 
-Weiterhin wird in der Prozedur ein R\"uckgabewert des Typs \verb+CHAR+ der L\"ange f\"unf definiert.
-In Java kann kein zus\"atzlicher Parameter innerhalb des R\"uckgabe Typs definiert werden.
-Hingegen die Verwendung des eigen definierten nicht-primitiven Typs \verb+CHAR+ als R\"uckgabetyp denkbar.
-In dem \verb+return+ Ausdruck kann dann \"uber eine Objektinstantiierung des \verb+CHAR+ Typs die L\"ange definiert werden.
-Zeile 1-4 zeigt diese instanziieren im R\"uckgabeausdruck der \verb+empty_proc+ Methode.
+In Listing \ref{lst:metassign} ist die Prozedur aus Listing \ref{lst:procassign} als Methode dargestellt.
 
 \begin{lstlisting}[language=Java, caption=\"Ubersetzung der Prozedur, label={lst:metassign}]
 public CHAR empty_proc(Object, para_1, Object para_2){
 	para_1 = "foo";
 	para_2 = "baa";
-	return new CHAR(5).init();
+	return new CHAR(5);
 }
 \end{lstlisting} 
 
-Dadurch kann die L\"angen Beschr\"ankung und die implizierte Typzuweisung des Parameters erfolgen.
-Ein weiteres Attribut der Prozduren Definition ist das \verb+OPTION+ Attribut.
-Hierbei handelt es sich jedoch um eine Beschreibung die den PL/I-Quellcode leserlicher gestalten soll.
-Eine Ver\"anderung der Laufzeit, wird mit Ausdruck in Listing \ref{lst:metassign} nicht erzeugt.
+Weiterhin wird in der Prozedur aus Listing \ref{lst:procassign} ein R\"uckgabewert des Typs \verb+CHAR+ der L\"ange f\"unf definiert.
+Aktuell wird \"uber eine Objektinstantiierung des Typs \verb+CHAR+ im Return Ausdruck die L\"ange definiert.
+Dadurch kann die L\"angen Beschr\"ankung und die implizierte Typ-Zuweisung des Parameters erfolgen.
 
-% TODO annotations evtl.?
-... 
+Ein weiteres Attribut das in der Prozedur in Listing \ref{lst:procassign} definiert ist, ist das \verb+OPTIONS+
+Attribut.
+In PL/I werden hier Compiler Optionen definiert. So wird wie in Listing \ref{lst:procassign}, die Option \verb+INLINE+ verwendet um den Kontext einer Prozedur zu beschreiben. \footcite[Vgl. ][]{optionsstmt}
+
+In der Version des Transpilers wird die Übersetzung dieses Ausdrucks nicht weiter berücksichtigt.
+Es ist auch fraglich ob eine solche Option in Java emuliert werden kann, da so das verhalten der \ac{jvm} beeinflusst werden müsste.
+
+Neben Prozeduren die in einem Programm direkt nachdem Package definiert werden,
+gibt es auch die Möglichkeit in PL/I Subroutinen einzubinden, bei denen 
+eine Prozedur etwa weitere Prozeduren beinhaltet.
+
+%TODO ...Übersetzung von Subroutinen
 
 \paragraph{Umwandlung des Programmablaufs}
 
 In PL/I werden Prozeduren unter anderem mithilfe des \verb+CALL+ Statements aufgerufen. \footcite[Vgl. ][S.133ff. ]{pliref}
-Neben Prozeduren die in einem Programm direkt nachdem Package definiert werden,
-gibt es auch die Möglichkeit in PL/I Subroutinen einzubinden, bei denen 
-eine Prozedur etwa weitere Prozeduren beinhaltet.
-Dabei wird ebenfalls das \verb+CALL+Statement verwendet um eine Subroutine,
-also eine Prozedur in einer Prozedur aufzurufen.
+Wie schon in dem vorangegangen Kapitel \ref{programstruct} beschrieben, werden Prozeduren in Java als
+Methode übersetzt.
+Um einen Programmfluss, wie er auch in einem nativen Java-Programm, vorhanden ist zu erzeugen wird der Call-Ausdruck in einen Methoden-Aufruf transformiert.
 
-Um einen Programmfluss, wie er auch in einem nativen Java-Programm,
-vorhanden ist zu erzeugen wird das Call-Statment mit einem Methoden-Aufruf
-übersetzt.
 Wird also das Programm aus Listing \ref{lst:callsproc} dem Transpiler übergeben.
 
 \begin{lstlisting}[language=PL/I, caption=\"Ubersetzung der Prozedur, label={lst:callsproc}]
@@ -879,11 +874,6 @@ Wird also das Programm aus Listing \ref{lst:callsproc} dem Transpiler übergeben
 
 \end{lstlisting} 
 
-Das PL/I Programm aus Listing \ref{lst:callsproc} ruft 
-die erste Prozedur auf und erzeugt damit eine Endlosschleife,
-die dazu führt das sich die Prozeduren \verb+proc_1+ und \verb+proc_2+
-immer wieder gegenseitig aufrufen.
-
 Übersetzt in Java ergibt das aus Listing \ref{lst:callsproc} 
 das Programm in Listing \ref{lst:javacallsproc}
 
@@ -901,21 +891,24 @@ das Programm in Listing \ref{lst:javacallsproc}
 \end{lstlisting} 
 
 Die gleiche Endlosschleife aus PL/I wird somit auch in Java erzeugt.
-Dadurch wird ein einfacher Programmablauf möglich.
-
+Dadurch kann ein einfacher Programmablauf von einem PL/I-Programm in ein Java-Programm transformiert werden.
 
 \subsubsection{Verzweigungen und Schleifen}
 \paragraph{Umwandlung von Verzweigungen}
-In PL/I werden Verzweigungen wie in Java mit \verb+IF+ und \verb+ELSE+ verwendet. Ebenfalls dienen Boolsche Ausdruck um einen Wahrheits-Zustand zu überprüfen. In PL/I jedoch gibt es Boolsche-Operatoren die in Java mit einem anderen Zeichen dargestellt werden.
-Ein Beispiel ist etwa der Negations-Operator. Während in Java ein einfaches Ausrufezeichen eine Negation beschreibt, wird in PL/I das logische Negationszeichen (¬) verwendet.
-Dieses ist nicht UTF-8 Codiert und wird in Java nicht verwendet.
-Bei der übersetzung sollte also diese Zeichen in ein Ausrufezeichen übersetzt werden.
-Weiterhin wird in PL/I ein einzelnes Geleichheitszeichen verwendet um zwei Werte miteinander zu vergleichen. Da in Java das Gleichheitszeichen für 
-das Zuweisen von Werte verwendet, muss diese durch das dopplete Gleichhhetiszeichen ersetzt werden.
-Gleiches gilt für das logische-Und. In PL/I wird lediglich ein Et-Zeichen verwendet. Während in Java zwei verwendet werden.
 
-Werden diese Zeichen korrekt übersetzt, können Boolsche Ausdruck, fast nahtlos in Java überführt werden, was die Übersetzung leicht macht.
-Somit lässt sich der Ausdurck in Listing \ref{label} in PL/I übersetzen.
+In PL/I werden Verzweigungen mit den Symbolen \verb+IF+ und \verb+ELSE+ implementiert. 
+Gepaart mit einem Booleschen Ausdruck kann so ein Wahrheitswert abgefragt werden.
+Dabei gibt es Boolesch Operatoren die in Java mit einem anderen Zeichen dargestellt werden.
+Während in Java ein einfaches Ausrufezeichen eine Negation beschreibt, wird in PL/I das logische Negationszeichen (¬) verwendet.
+
+Dieses ist nicht UTF-8 Codiert und wird in Java nicht verwendet. Bei der Transformation wird dieses Zeichen in ein Ausrufezeichen übersetzt.
+
+Weiterhin wird in PL/I ein einzelnes Gleichheitszeichen als logischer Vergleichsoperator verwendet. Da in Java das Gleichheitszeichen der Zuweisungsoperator ist, sollte der PL/I-Vergleichsoperator mit den Java-Vergleichsoperator ersetzt werden.
+
+Gleiches gilt für das logische-Und. In PL/I wird lediglich ein Et-Zeichen verwendet. Während in Java zwei als logisches-Und verwendet werden.
+
+Werden diese Zeichen korrekt übersetzt, können Boolesche Ausdrücke in Java überführt werden.
+Somit lässt sich der Ausdruck in Listing \ref{lst:label} in PL/I übersetzen.
 
 \begin{lstlisting}[language=PL/I, caption=\"PL/I if-statements, label={lst:javacallsproc}]
 IF (x < y ) THEN;
@@ -925,7 +918,7 @@ ELSE
 END;
 \end{lstlisting} 
 
-Das transformieren der geschweiften Klammern ist ebenfalls leicht, da sich hier an dem \verb+THEN+ und \verb+END+ orientiert werden kann.
+Bei der Transformation des Verzweigungskörpers erfolgt die Orientierung an dem \verb+THEN+ und \verb+END+.
 So entsteht der Java Ausdruck in Listing \ref{lst:javaifstatement}.
 
 \begin{lstlisting}[language=Java, caption=\"Java if-statements, label={lst:javaifstatement}]
@@ -937,7 +930,7 @@ else {
 }
 \end{lstlisting} 
 
-Ein Else-if Verzweigung existiert nur in der Form eines verschachtelten If-Else Ausdrucks wie es in Listing \ref{lst:javaelseifstatement} dargestellt ist.
+Eine Else-if Verzweigung existiert in PL/I der Form eines verschachtelten If-Else Ausdrucks wie es in Listing \ref{lst:javaelseifstatement} dargestellt ist.
 
 \begin{lstlisting}[language=PL/I, caption=\"PL/I IF-Else Statement, label={lst:javaelseifstatement}]
 IF (x < y ) THEN;
@@ -950,6 +943,7 @@ END;
 \end{lstlisting} 
  
  Entsprechend wird in Java auch nur ein verschachtelter If-Else Ausdruck, wie Listing \ref{lst:javaelseifstatement} dargestellt übersetzt.
+ 
  \begin{lstlisting}[language=Java, caption=\"Java If´-Else Statement, label={lst:javaelseifstatement}]
  if (var_1.toNumeric() < var_2.toNumeric()){
  	System.out.println ("smaller");
@@ -961,13 +955,11 @@ END;
  \end{lstlisting} 
 
 In Zukunft ist hier denkbar einen if-else Ausdruck als Übersetzung in Java zu erwägen.
+Aktuell ändert dieser Umstand jedoch nichts an der bestehenden Programmlogik des PL/I Programms. %TODO Wirklihc?
 
 \paragraph{Umwandlung von Schleifen}
-In PL/I wird in der aktuellen Version des Transpilers, While und Until-Schleifen 
-übersetzt.
-Während auch wieder bei einer While-Schleife die Übersetzung leicht funktioniert,
-da Java ebenfalls eine While-Schleife implementiert.
-Jedoch wird in Java eine Until-Schleife nicht unterstützt.
+In PL/I wird in der aktuellen Version des Transpilers, die  While- und Until-Schleife übersetzt.
+Da Java ebenfalls eine While-Schleife implementiert, kann diese als Übersetzungsmuster verwendet werden.
 
 \begin{lstlisting}[language=PL/I, caption=\"PL/I IF-Else Statement, label={lst:whilecomamnd}]
 DO 
@@ -976,11 +968,11 @@ DO
 END;
 \end{lstlisting} 
 
-Listing \ref{lst:whilecomamnd} zeigt eine einfache while schleife in PL/I.
+Listing \ref{lst:whilecomamnd} zeigt eine einfache While-Schleife in PL/I.
 Dabei wird in PL/I das Symbol \verb+DO+ nicht wie in Java für eine Do-While
-Schleife verwendet, sondert leitet lediglich den While-Ausdruck ein.
+Schleife verwendet, sondern leitet lediglich einen Schleifen-Ausdruck ein.
 
-Die Übersetzung der Schleife ist in \ref{lst:javawhilecommand}
+Die Übersetzung der Schleife folgt in Listing \ref{lst:javawhilecommand}.
 
 \begin{lstlisting}[language=Java, caption=\"Java If´-Else Statement, label={lst:javaelseifstatement}]
 while(var_1.toNumeric() < var_2.toNumeric()){
@@ -989,7 +981,7 @@ while(var_1.toNumeric() < var_2.toNumeric()){
 \end{lstlisting} 
 
 Wird nun in PL/I eine \verb+UNTIL+ Beschränkung definiert, wie etwa in Listing
-\ref{lst:untilwhile}
+\ref{lst:untilwhile}.
 
 \begin{lstlisting}[language=PL/I, caption=\"PL/I IF-Else Statement, label={lst:untilwhile}]
 DO 
@@ -998,10 +990,8 @@ DO
 END;
 \end{lstlisting} 
 
-Muss in Java eine äquivalente Abbruchbedinugngung erzeugt werden.
-In der aktuellen Version des Transpilers wurde sich für das Einfügen einer
-If-Verzweigung entschieden, die bei Eintritt die Schleife mit den Befehl \verb+break+ beendet.
-Diese Lösung ist in Listing \ref{lst:javauntilwhile} zu sehen.
+Muss in Java eine äquivalente Abbruchbedingung erzeugt werden.
+In der aktuellen Version des Transpilers wurde sich für das Einfügen einer If-Verzweigung entschieden, die bei Eintritt die Schleife mit einem \verb+break+ beendet. Diese Lösung folgt in Listing \ref{lst:javauntilwhile}.
 
 \begin{lstlisting}[language=Java, caption=\"Java Until Statement, label={lst:javauntilwhile}]
 while (var_1.toNumeric() < var_2.toNumeric())){
@@ -1013,49 +1003,41 @@ while (var_1.toNumeric() < var_2.toNumeric())){
 
 \end{lstlisting} 
 
-Wobei zu erwähnen ist das hier Java Bad-Practices angewendet werden.
-Ein \verb+break+ in einer While-Schleife macht in den meisten Fällen
-den Quellcode schwerer Lesbar, je nach Komplexität der Codestruktur.
-In diesem Zusammenhang wird die Verwendung des \verb+break+ Befehls 
-in lediglch einer If-Verzweigung weniger komplex.
-Deutlich werden soll lediglich die zusätzliche Abbruchbedingung,
-die mit einem \verb+break+ Ausdruck deutlich wird.
+Wobei zu erwähnen ist das hier Java Bad-Practices angewendet werden. Ein \verb+break+ in einer While-Schleife macht in den meisten Fällen den Quellcode schwerer Lesbar, je nach Komplexität der Codestruktur.
+In diesem Zusammenhang ist die Verwendung des \verb+break+ Befehls weniger komplex. 
+
+Da in Java kein Muster existiert, welches das äquivalent zu dem \verb+UNTIL+ bietet, ist die Definition einer zusätzlichen Verzweigung mit einer Abbruchbedingung die bisher einzige Lösung.
+
+Weiterhin ist auch die Position der Verzweigung fraglich. Genauso kann die Abbruchbedingung im Fuß der Schleife definiert werden. Dieser Umstand führt zu einer weiteren Iteration des Schleifenkörpers. 
+
+Da in PL/I die Bedingung jedoch am Schleifen-Kopf definiert wird, wurde in Java eine Prüfung des Abbruchbedingung ebenfalls im Kopf implementiert. 
 
 
 \subsubsection{Ein- und Ausgabe Operationen}
 \paragraph{Konsolen Ein- und Ausgabe}
-Um auch eine Benutzerinteraktion zu ermöglichen wird ebenfalls das
-Display-Statement transformiert.
-In PL/I gibt es sowohl die Möglichkeit mit dem Display-statement
-Eine Text-Nachricht in der Konsole auszugeben, sowie 
-eine Benutzereingabe abzufragen. \footcite[Vgl. ][S. 264ff.]{pliref}
+Um auch eine Benutzerinteraktion zu ermöglichen wird ebenfalls der Display-Ausdruck transformiert.
+In PL/I gibt es sowohl die Möglichkeit mit dem Display-Ausdruck eine Text-Nachricht in der Konsole auszugeben, sowie eine Benutzereingabe abzufragen. \footcite[Vgl. ][S. 264ff.]{pliref}
 
-In Java gibt es verschiedene Implementierungen einer Konsolenausgabe.
-Die gängige Methode ist das die Verwendung des Ausdrucks \verb+System.out.println()+. 
+In Java gibt es verschiedene Implementierungen einer Umleitung des Ausgabe in die Konsole.
+Die gängige Methode ist die Verwendung des Ausdrucks \verb+System.out.println()+. 
 Alternativ könnte auch die Methode \verb+log.trace+ verwendet werden.
-Jedoch wird hier eine Abhängigkeit zu der Software-Bibliothek \verb+logger+ 
-erzeugt, weshalb sich gegen diese Methode entschieden wurde.
-Eine weitere Alternative würde der \verb+PrintWriter+ bieten,
-hierbei müsste jedoch zuerst das Objekt \verb+PrintWriter+ erzeugt werden,
-was unnötig viel Quellcode erzeugen würde.
-Somit wurde die gängige Methode gewählt und der Ausdruck \verb+System.println.out+
-gewählt.
+Jedoch wird hier eine Abhängigkeit zu der Software-Bibliothek \verb+logger+  erzeugt, weshalb sich gegen diese Methode entschieden wurde.
+Eine weitere Alternative würde der \verb+PrintWriter+ bieten, hierbei müsste jedoch zuerst das Objekt \verb+PrintWriter+ erzeugt werden, was zusätzlichen Quellcode erzeugen würde. Diese könnte mit Implementierung des Sysout-Befehls vermieden werden.
+Somit wurde die gängige Methode gewählt und der Ausdruck \verb+System.println.out+ gewählt.
 
-Somit wird der Ausdruck in Listing \ref{lst:display}
+Entsprechend wird der Ausdruck in Listing \ref{lst:display}
 
 \begin{lstlisting}[language=PL/I, caption=\"Display-Statments, label={lst:diplay}]
 DISPLAY('Hello World');
 \end{lstlisting} 
 
-Zu dem Ausdruck in Listing \ref{lst:sysout}
+Zu Listing \ref{lst:sysout}
 
 \begin{lstlisting}[language=Java, caption=\"Ubersetzung des Display-Statments, label={lst:sysout}]
 System.out.println("Hello World");
 \end{lstlisting} 
 
-Wie eingangs erwähnt kann mit dem Display-Statement auch eine Konsolen 
-Eingabe mit dem ealsiert werden.
-Dazu wird das Symbol \verb+REPLY+ verwendet.
+Um eine Eingabe des Benutzers zu verwenden wird das Symbol \verb+REPLY+ verwendet.
 
 \begin{lstlisting}[language=PL/I, caption=\"Display-Statments, label={lst:diplay}]
 DISPLAY('Username') REPLY(var_1)
@@ -1065,18 +1047,20 @@ In dem Beispiel in Listing \ref{lst:diplay} wird die Benutzereingabe in der
 Variable \verb+var_1+ gespeichert.
 In PL/I kann die Benutzereingabe nur in einen Bit, Widechar, oder Char gespeichert
 werden. 
-In Java gibt es auch hier verschiedene Lösungen um dien Benutzereingabe Abzufragen.
-Einserseits über das Scanner Objekt, oder über einen BufferedReader.
-Jedoch würden beide Lösungen eine Instanzierung der zugehörigen Objekte benötigen und ebenfalls mehr Zeilen Quellcode inanspruchnehmen als nötig.
+In Java gibt es verschiedene Lösungen um die Benutzereingabe Abzufragen.
+Einerseits über das Scanner oder BufferedReader Objekt.
+Jedoch würden beide Lösungen eine Instanziierung der zugehörigen Objekte benötigen und ebenfalls mehr Zeilen Quellcode inanspruchnehmen als nötig.
 
 Stattdessen wird das System Objekt verwendet, welches auch bei der \verb+System.out.println+ verwendet wurde.
-Mit \verb+System.console.readLine()+ wird die Benutzereingabe gelesen und kann
-so auch in einem String gespeichert werden, ohne zusätzlich ein Objekt instanziieren zu müssen.
+Mit \verb+System.console.readLine()+ wird die Benutzereingabe gelesen.
 Listing \ref{javadisplay} zeigt die Übersetzung des PL/I Ausdrucks aus Listing \ref{lst:diplay}.
 
 \begin{lstlisting}[language=Java, caption=\"Java übersetzung des Display-Statments, label={lst:javadisplay}]
 username.init(System.console().readLine()); 
 \end{lstlisting} 
+
+Gepaart mit dem Programmfluss, Verzweigungen und schleifen ist die Transformation von einfachen PL/I-Programm denkbar.
+Etwa kann ein einfaches Login-Programm mit den transformierten PL/I-Strukturen übersetzt werden. 
 
 \paragraph{Datei Ein- und Ausgabe}
 
