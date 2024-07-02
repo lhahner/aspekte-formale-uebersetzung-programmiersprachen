@@ -547,102 +547,62 @@ um nach und nach den Java-Zielcode zu erzeugen.
 Um den Parsebaum zu erzeugen muss der Parsebaum Stück für Stück überprüft werden. Dieser Prozess wird als semantische Analyse bezeichnet und erfolgt im Checker Modul.
  
 \subsubsection{Checker}
-Das Checker Modul prüft den Parsebaum auf seine Korrektheit. Während des parsings wird etwa nicht der Typ von Variablen überprüft, wenn diese initialisiert werden. Weiterhin wird beim parsings auch nicht überprüft ob eine Prozedur korrekt von dem \verb+begin+ und dem \verb+end+ ummantelt wird. Der Fehler in Listing \ref{lst:pliprozedur} wird durch den Parser alleine nicht erkannt.
+Das Checker-Modul prüft den PL/I-Quellcode auf seine Korrektheit. 
+Dieses Modul ist repräsentativ für die Semantische-Analyse. 
+Eine Aufgabe des Checker-Moduls ist es die Typ-Definition von Variablen mit den Zuweisungen abzugleichen.
+Wird beispielsweise dem Decimal-Typ ein Alphanumerischer Wert zugewiesen, soll dieses Modul den Benutzer auf einen Syntaxfehler hinweisen.
+Der Ausdruck in Listing \ref{lst:depthin} wird fälschlicherweise von dem Parser verarbeitet.
 
- \begin{lstlisting}[language=PL/I, caption=PL/I Prozedur, label={lst:pliprozedur}]
- 	proc_1: PROC;
- 		RETURN;
- 	END proc_2;
+\begin{lstlisting}[language=PL/I, caption=Deklaration einer Varibale des Typs Decimal, label={lst:decimal}]
+DCL var_1 DECIMAL(5);
+
+var_1 = 'Hello';
 \end{lstlisting}
 
+Um solche Semantischen Fehler zu erkennen, wird das Checker-Modul nach dem Vorbild des Composite Design-Patterns implementiert.
 
-Zu erkennen ist das die Prozedur \verb+proc_1+ nicht äquivalent mit dem selben Bezeichner schließt, sondern stattdessen, ein neuer Bezeichner eingefügt wird der in diesem Kontext nicht definiert wurde.
-
-Um diesen semantischen Fehler und weitere zu erkennen und entsprechend darauf hinzuweisen wurde das Checker Modul implementiert.
-In Abbildung \ref{fig:checker} das \ac{uml} des Checker Moduls abgebildet.
+In Abbildung \ref{fig:checker} ist das \ac{uml} des Checker Modul abgebildet.
 
 \dhgefigure[h]{checker-module-uml.png}[scale=0.4]{Checker Modul}{fig:checker}
 \pagebreak
 
-Das Problem aus Listing \ref{lst:pliprozedur} wird in der Klasse \verb+ReferenceChecker+ behandelt. Die Klasse \verb+ReferenceChecker+, erbt so wie jede \verb+Checker+-Klasse von der Klasse \verb+Checker+.
-Die Klasse \verb+Checker+ implementiert einen Depth-in-first Suchalgorhitmus um den Parsebaum nach bestimmten Attributen der einzelnen Knoten zu durchsuchen, sowie gezielt nach bestimmten Knoten zu suchen. Diese Methode ist neben der semantischen Analyse, auch für die Synthese des Parsebaums entscheidend. 
-In Listing \ref{lst:depthin} ist die beschriebene Methode gelistet.
+Entsprechend des Composite Design-Patterns, wird der Component \verb+ITypeExpression+, das Composite \verb+VarChecker+ und mehrere leafs wie etwa die \verb+DecimalChecker+ Klasse, definiert.
+Bei den Leafs wurde sich nach den PL/I-Datentypen orientiert, die überprüft werden sollen.
+Dabei hilft das Composite-Design Pattern für alle Typ-Klassen, einheitliche Validierungstrukturen zu definieren.
+Etwa in Abbildung \ref{fig:checker} die Methode \verb+getType+ um die korrekte Zuweisung von Variablen zu erschließen. 
+Weiterhin kann mit dem Design-Pattern die Speicherstruktur, die einer Überprüfung unterzogen wird, in der Composite-Klasse dargestellt werden.
+Eine mögliche Erweiterung um weiter Speicherstruktur-Elemente wie einem Array ist somit denkbar.
 
- \begin{lstlisting}[language=Java, caption=Depth-In-first Suchalgorhitmus, label={lst:depthin}]
- 
-public void searchNode(SimpleNode startNode, String targetNode) {
-		if (startNode.jjtGetParent() == null) {
+In dem Checker-Modul wird zum ersten Mal auf den Parsebaum, das Ergebnis des Parser Moduls, zugegriffen.
+Um auf alle Knoten des Parsebaums zuzugreifen, wird eine Methode definiert die zum iterieren des Parsebaums benötigt wird.
+Diese Methode ist auch für weitere Module brauchbar, weil auch diese durch den Parsebaum iterieren sollen.
+Dazu wurde in der \verb+DecimalChecker+ Klasse die Methode \verb+iterateTree+ implementiert.
+Um den Parsebaum erfolgreich zu iterieren wurde der Depth-in-first Suchalgorhitmus rekursiv in dieser Methode implementiert.
+Die Iterationsweise des Algorhitmus im Zusammenhang mit dem Parsebaum ist in Abbildung \ref{fig:parsetreealgo} dargestellt.
 
-			if(isTargetNode((SimpleNode)startNode, targetNode)) {
-				this.foundNodes.add(startNode);
-			}
+\dhgefigure[h]{parsetree-example-searchalgo.png}[scale=0.5]{Beispielhafte Iteration des Parsebaums}{fig:parsetreealgo}[][]
+\pagebreak
 
-			if (this.hasChildren(startNode)) {
+So wird es möglich gezielt nach Knoten zu suchen und die Attribute des Knotens auszulesen.
+In dem Checker Modul wird dieser Algorithmus vor allem benutzt um festzustellen welche Variablen, mit welchem Typ und welchen Bezeichner deklariert wurde und ob dieser Bezeichner in einem \verb+ASSIGN+ Knoten wiederverwendet wurde.
 
-				for (int i = 0; i < startNode.jjtGetNumChildren(); i++) {
+So kann der Parsebaum mit seinen Attributen vollständig iteriert und überprüft werden.
+Die Überprüfung ist dann abgeschlossen, wenn die Iteration des Suchalgorithmus wieder bei dem Ausgangspunkt angekommen ist. In Abbildung \ref{fig:parsetreealgo} ist das der Knoten \verb+PRORGRAM+.
 
-					if(isTargetNode((SimpleNode)startNode.jjtGetChild(i), targetNode)) 	{
-						this.foundNodes.add((SimpleNode)startNode.jjtGetChild(i));
-					}		
-					searchNode((SimpleNode) startNode.jjtGetChild(i), targetNode);
-
-				}
-			}
-		else {
-			return;
-		}
-	}
-	else {
-		for (int i = 0; i < startNode.jjtGetNumChildren(); i++) {
-
-			if(isTargetNode((SimpleNode)startNode.jjtGetChild(i), targetNode)) {
-
-			this.foundNodes.add((SimpleNode)startNode.jjtGetChild(i));
-			}
-
-			if (this.hasChildren(startNode.jjtGetChild(i))) {
-			searchNode((SimpleNode) startNode.jjtGetChild(i), targetNode);
-			}
-		}
-	}
-}
-\end{lstlisting}
-
-Die Methode in Listing \ref{lst:depthin} benötigte einen Start-Knoten an dem mit der Suche begonnen wird und einen Knoten der gesucht werden soll.
-Hat ein Knoten, Kindknoten wird die Methode Rekursiv aufgerufen und  wenn ein Blatt der Parsebaums erreicht wurde terminiert.
-Diese Methode wird von den Klassen \verb+ReferenceChecker+, \verb+TypeChecker+ und \verb+HierachieChecker+ implementiert.
-
-Dieser Algorithmus ermöglicht es im Zusammenhang mit der \verb+ReferenceChecker+ Klasse den Parsebaum nach etwaigen \verb+END+ Knoten zu durchsuchen.
-Hier wird das Attribut des \verb+END+ Knotens abgefragt und mit dem Attribut des \verb+HEAD+ Knotens der zugehörigen Prozedur verglichen. Sind die Werte unterschiedlich wird eine Exception geworfen.
-
-Neben einem Referenz-Fehler einer Prozedur-Terminierung, gibt es, wie eingangs beschrieben auch semantische Fehler bei der Initialisierung die nicht von dem Parser erkannt werden können.
-Der Ausdruck in Listing \ref{lst:depthin} wird fälschlicherweise von dem Parser verarbeitet.
-
-\begin{lstlisting}[language=PL/I, caption=Deklaration einer Varibale des Typs Decimal, label={lst:decimal}]
-	DCL var_1 DECIMAL(5);
-	var_1 = Hello;
-\end{lstlisting}
-
-
-Um solche Semantischen Fehler zu erkennen, wird die Klasse \verb+TypeChecker+ implementiert. 
-Auch diese Klasse ist eine Kindklasse der Checker-Klasse. Hier wird erneut der Depth-In-Frist Suchalgorhitmus verwendet um ein \verb+INIT+ Knoten zu finden. Dieser Knoten beinhaltet Informationen über die Variable die Initialisiert wurde und den Wert mit der sie initialisiert wurde.
- 
-Zusätzlich wird auch nach den \verb+VAR+ Knoten gesucht. Dieser Knoten beinhaltet durch seine Kindknoten Informationen über den Bezeichner der Variable und den Datentyp.
-
-Das Ergebnis beider Suchen wird je in einer \verb+ArrayList+ gespeichert. Schlussendlich werden die Datentypen miteinander verglichen. Liegt ein unzulässiger Wert vor wird eine entsprechende Exception geworfen.
+Wurde kein Fehler entdeckt beginnt die Transformation des Parsebaums in Java. Falls jedoch ein Fehler entdeckt wurde, wird eine entsprechende Fehlermeldung angezeigt.
+Mehr bezüglich Fehlermeldungen und allgemeine Fehlerbehandlung in dem Kapitel ?.?.
 
 Das Checker Modul bereitet den Parsebaum entsprechend so vor, dass dieser weiterhin in der Synthese verarbeitet werden kann.
-Nachdem also der Transpiler den PL/I-Quellcode in eine Zwischencode Erzeugung Umgewandelt hat, kann das Mapper-Modul mit der Synthese in Java-Zielcode beginnen.
  
 \subsubsection{Mapper}
-Das Mapper Modul transformiert die Zwischencode Repräsentation in den Java-Zielcode. Dazu wurde das Mapper-Modul nachdem Strategy Desgin-Pattern entworfen.
+Das Mapper Modul transformiert die Zwischencode Repräsentation in den Java-Zielcode. Dazu wurde das Mapper-Modul nach dem Strategy Desgin-Pattern entworfen.
 In Abbildung \ref{fig:mapper} ist das UML des Mapper Moduls zu sehen. 
 
 \dhgefigure[h]{{mapper-module-uml.png}[scale=0.4]{Mapper Modul}{fig:mapper}
 \pagebreak
+
 Die Klasse \verb+Mapper+ wird in der Main-Methode des Projektes instanziiert. Als Parameter wird der Wurzelknoten des Parssebaums übergegeben.
-Woraufhin mithilfe der \verb+iterateParsetree+ Methode durch den Parsbaum iteriert wird. Hier wurde ebenfalls der Depth-in-first Suchalgorhitmus implementiert um
-jeden Knoten zu verarbeiten. Jeder Knoten wird über seine zugehörige Identifizierungsnummer überprüft. Die in dem interface \verb+Pl1ParserTreeConstants+ des Parser Moduls definiert sind. 
+Woraufhin mithilfe der \verb+iterateParsetree+ Methode erneut durch den Parsbaum iteriert wird. Hier wurde ebenfalls der Depth-in-first Suchalgorhitmus implementiert um jeden Knoten zu verarbeiten. Jeder Knoten wird über eine Konstante die eine zugehörige Identifizierungsnummer überprüft. Die in dem interface \verb+Pl1ParserTreeConstants+ des Parser Moduls definiert sind. 
 In der Klasse \verb+AstMapper+ finden sich jegliche Identifikations-variablen der Knoten. Hier werden diese mit den zugehörigen Mapper-Klasse in einer HashMap gespeichert.
 Die Mapper Klassen stellen die unterschiedlichen Vorgehensweisen in dem Strategy-Pattern dar. Sie implementieren alle das \verb+ITranslationBehavior+ interface und aufgrund dessen eine \verb+translate+ Methode die den übersetzten Ausdruck zurückgibt. 
 
