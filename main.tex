@@ -651,13 +651,13 @@ fehlerbehandlung spielt besonder im Zusammenhang mit der Lexikalischen Analyse e
 \subsection{Ausführung des Transpilers}
 
 % Importieren in Eclipse
-Um den Transpiler zu benutzen gibt es drei Möglichkeiten.
+Für die unterschiedlichen Benutzergruppen, werden unterschiedliche Verwendungsmöglichkeiten des Transpilers angeboten.
 Einerseits über die \ac{ide} Eclipse, über die Kommandozeile und über das Webinterface.
 Bei der Benutzung des Transpilers werden erstmals Übersetzungsentscheidungen sichtbar.
 In diesem Kapitel sollen alle Möglichkeiten und Spezifikationen des Transpilers näher beschrieben werden.
 
 \paragraph{Eclipse}
-Wie schon erwähnt kann die \ac{ide} Eclipse dazu verwendet werden den Transpiler zu benutzen. 
+Wie eingangs beschrieben kann die \ac{ide} Eclipse dazu verwendet werden den Transpiler zu benutzen. 
 Interessant ist diese Herangehensweise für Administratoren, die den Quellcode selbst erweitern möchten. Hierfür wird neben Eclipse auch Git benötigt.
 
 Zuerst sollte das Projekt aus der GitHub-Repository mit Git in das lokale Verzeichnis geladen werden.
@@ -684,61 +684,66 @@ In dieser kann die Variable \verb+PATH+ geändert werden, um so auch von einer a
 %...
 
 \subsubsection{Umwandlung von Datentypen}
-Es wurden in Projektarbeit-IV selbstgeschriebene nicht-Primitive Datentypen verwendet um die PL/I Datentypen, 
-in entsprechenden Java-Zielcode zu übersetzen. Dies ist wie für den Umfang von Deklarationen ausreichend.
+Es wurden in der Projektarbeit-IV selbstgeschriebene nicht-Primitive Datentypen verwendet um die PL/I Datentypen, in entsprechenden Java-Zielcode zu übersetzen. Dies ist für den Umfang von Deklarationen ausreichend.
+Hingegen werden erst mit dem Umgang dieser Datentypen in einer Programmroutine, Mängel des Designs sichtbar.
+Ein Beispiel hierfür ist die DECIMAL Klasse. 
 
-Wird jedoch der Transpiler erweitert und eine Abfrage der eigentlichen
-Numerischen Werte notwendig um Werte miteinander zu vergleichen, oder
-Werte miteinander zu verrechnen, reicht diese Implementation nicht mehr aus.
+Gegenwärtig wurde der DECIMAL-Datentyp aus PL/I, in Java als Nicht-primitiver Datentyp über die Klasse DECIMAL implementiert.
+So wurde etwa über den Konstruktor eine Längenbeschränkung in Java möglich.  
 
-Es bedarf einer Erweiterung oder Neu-Gestaltung der Nicht-Primitiven Datentypen.
-Eine mögliche Erweiterung der bestehenden Transformation des \verb+DECIMAL+ Typs, ist die Implementation einer Methode die den Numerischen Inhalt des Objektes zurückgibt.
+Werden nun in dem PL/I-Quellcode die Deklarierten Variablen verwendet um Mathematische Berechnungen zu erstellen, ist dies ohne Problem mit den Mathematischen Standard Operatoren wie Plus oder Minus möglich.
 
-Um dies zu erreichen wurde  den bisher verwendeten Typ BigDecimal eine Klasse gebaut
-mit der initialisieren bzw. Zuweisung und Ausgabe des Inhalts möglich werden.
+Um solche Ausdrücke auch in Java mit einem DECIMAL Objekt zu ermöglichen, muss die Klasse DECIMAL erweitert werden.
+Denn in Java ist es nicht möglich nicht-primitive Datentypen zu verrechnen, ohne vorher eine Methode zu schreiben die diese Operation ermöglicht.
 
-In Listing \ref{lst:decimalclass} ist die DECIMAL Klasse zu sehen.
+In Java ist es nicht möglich Operatoren zu Überladen wie etwa in C++, sodass die Arithmetischen Operationen auch mit nicht-primitiven Datentype wie etwa dem DECIMAL-Objekt möglich sind.
 
-\begin{lstlisting}[language=Java, caption=Die DECIMAL Klasse, label={lst:decimalclass}]
-import java.math.BigDecimal;
+Eine solche Erweiterung, würde Zwangsläufig zu einer Komplexen Programmstruktur des übersetzen Java Programms führen.
+Angenommen der PL/I-Ausdruck in Listing ?.? wird mithilfe des Transpilers in Java übersetzt.
 
-public class DECIMAL {
+\begin{lstlisting}[language=PL/I, caption=Deklaration einer Varibale des Typs Decimal, label={lst:decimal}]
+	DCL var_1 DECIMAL(2);
+	DCL var_2 DECIMAL (2);
 	
-	BigDecimal content;
-		
-		public DECIMAL() {
-		
-	}
-	public DECIMAL(int integer, int factorial) {
-		String length = Integer.valueOf(factorial) == null ? integer + \"\" : integer + \".\" + factorial;
-		this.content = new BigDecimal(length);
-		
-	}
+	DCL var_3 = (var_1 * 2) + (var_2 * 3);
+\end{lstlisting}
+ 
+Ist nun in der Klasse DECIMAL für jede Arithmetische Operation eine Methode definiert, die es ermöglichen DECIMAL Objekte miteinander zu verrechnen, wäre die Übersetzung äquivalent zu Listing ?.?.
+
+\begin{lstlisting}[language=PL/I, caption=Deklaration einer Varibale des Typs Decimal, label={lst:decimal}]
+	DECIMAL var_1 = new DECIMAL(2);
+	DECIMAL var_2 = new DECIMAL(2);
 	
-	public DECIMAL(int integer) {
-		String length = integer + \"\";
-		this.content = new BigDecimal(length);
-	}
-
-	public DECIMAL init(int value) {
-		this.content.valueOf((double)value);	
-		return this;
-	}
-
-	private double toNumeric() {
-		return this.content.doubleValue();
-	}
-}
+	DECIMAL var_3.init(var_1.multiply(2).add(var_2.multiply(3)));
 \end{lstlisting}
 
-In Ziele ?-? ist die Methode \verb+toNumeric()+ zu sehen. Diese Methode 
-gibt den Inhalt eines DECIMAL Objekts als Double zurück. Dadurch ist eine Referenzierung im Quellcode möglich
-und ebenso eine Boolesche und eine Arithmetische Operation.
-Hingegen würde für jede zusätzliche Funktionalität eine Methode erstellt, die die Funktionalität 
-...
+In Listing ?.? wird deutlich das der Arithmetische Ausdruck durch die Verwendung von Methoden, anstatt der üblichen Operatoren weniger leserlich geworden ist.
+Eine solche Komplexitätssteigerung kann sich auf die Qualität des Endergebnisses des Transpilers auswirken. Etwa durch die verschachtelung der Operator Methoden.
 
-% TODO Spring-Annotaion Lösung hier...
-...
+Somit ist eine Lösung nötig die einfache Arithmetische Ausdrücke zulässt und gleichzeitig eine Längenbeschränkung.
+
+Um einfache Arithmetische Ausdrücke zu implementieren, kommen in Java lediglich die Verwendung von primitiven Datentypen wie \verb+double+, \verb+float+ oder \verb+int+ in Frage. In Verbindung mit einer Annotation ist in Java auch eine Längenbeschränkung denkbar.
+Mithilfe der Jarkarta Validations Software-Bibiolthek kann eine eigene Annotation erzeugt werden, die mit einer Java-Reflection überprüft wird.
+Dazu wird eine Implementierung von Valdierungs Klasse des übersetzen Programms notwendig. 
+Jedoch kann mit dieser Lösung der Ausdruck in Listing ?.? in den Java-Ausdruck in Listing Transformiert werden.
+
+\begin{lstlisting}[language=PL/I, caption=Deklaration einer Varibale des Typs Decimal, label={lst:decimal}]
+	@Decimal(10)
+	double var_1;
+	
+	@Decimal(10)
+	double var_2);
+
+	double var_3 = (var_1 * 2) + (var_2 * 3);
+\end{lstlisting}
+
+Zu erkennen ist das mithilfe von primitvien Datentypen die gleiche Darstellung der Arithmetische Berechnung wie in Listing ?.? ermöglicht wird.
+Dadurch ist auch die Einbindung und Erweiterung des übersetzen PL/I-Quellcode erleichtert.
+
+In diesem Zusammenhang wird in weiterführenden Entwicklung die Beschränkung der Länge mit Annotationen gelöst. So kann eine semantische nähe zu Java hergestellt werden und gleichzeitig der Wiedererkennungswert von PL/I beibehalten werden.
+
+Die beschriebene Version des Transpiler implementiert bisher lediglich die \verb+@Decimal+ Annotation.
+Weshalb in den nachfolgenden Kapiteln weiterhin Klassen wie etwa die Klasse \verb+CHAR+ eingebunden werden. Außerdem sollen nun die weiteren Übersetzungsentscheidungen vorgestellt werden.
 
 \subsubsection{Programmstruktur und Programmablauf}
 \paragraph{Umwandlung von Programmstrukturen }\label{programstruct}
@@ -871,7 +876,7 @@ Werden diese Zeichen korrekt übersetzt, können Boolesche Ausdrücke in Java ü
 Somit lässt sich der Ausdruck in Listing \ref{lst:label} in PL/I übersetzen.
 
 \begin{lstlisting}[language=PL/I, caption=\"PL/I if-statements, label={lst:javacallsproc}]
-IF (x < y ) THEN;
+IF (var_1 < var_2) THEN;
 	DISPLAY('smaller');
 ELSE
 	DISPLAY('Not smaller');
@@ -882,7 +887,7 @@ Bei der Transformation des Verzweigungskörpers erfolgt die Orientierung an dem 
 So entsteht der Java Ausdruck in Listing \ref{lst:javaifstatement}.
 
 \begin{lstlisting}[language=Java, caption=\"Java if-statements, label={lst:javaifstatement}]
-if (var_1.toNumeric () < var_2.toNumeric()) {
+if (var_1 < var_2) {
 	System.out.println ("smaller");
 }
 else {
@@ -893,10 +898,10 @@ else {
 Eine Else-if Verzweigung existiert in PL/I der Form eines verschachtelten If-Else Ausdrucks wie es in Listing \ref{lst:javaelseifstatement} dargestellt ist.
 
 \begin{lstlisting}[language=PL/I, caption=\"PL/I IF-Else Statement, label={lst:javaelseifstatement}]
-IF (x < y ) THEN;
+IF (var_1 < var_2) THEN;
 	DISPLAY('smaller');
 ELSE
-	IF (x = y) THEN;
+	IF (var_1 = var_2) THEN;
 		DISPLAY('Not smaller');
 	END;
 END;
@@ -905,10 +910,10 @@ END;
  Entsprechend wird in Java auch nur ein verschachtelter If-Else Ausdruck, wie Listing \ref{lst:javaelseifstatement} dargestellt übersetzt.
  
  \begin{lstlisting}[language=Java, caption=\"Java If´-Else Statement, label={lst:javaelseifstatement}]
- if (var_1.toNumeric() < var_2.toNumeric()){
+ if (var_1 < var_2){
  	System.out.println ("smaller");
  } else {
- 	if(var_1.toNumeric() == var_2.toNumeric()){
+ 	if(var_1 == var_2){
  		System.out.println("Not smaller");
  	}
  }
@@ -935,7 +940,7 @@ Schleife verwendet, sondern leitet lediglich einen Schleifen-Ausdruck ein.
 Die Übersetzung der Schleife folgt in Listing \ref{lst:javawhilecommand}.
 
 \begin{lstlisting}[language=Java, caption=\"Java If´-Else Statement, label={lst:javaelseifstatement}]
-while(var_1.toNumeric() < var_2.toNumeric()){
+while(var_1 < var_2){
 	System.out.println("smaller");
 }
 \end{lstlisting} 
@@ -954,8 +959,8 @@ Muss in Java eine äquivalente Abbruchbedingung erzeugt werden.
 In der aktuellen Version des Transpilers wurde sich für das Einfügen einer If-Verzweigung entschieden, die bei Eintritt die Schleife mit einem \verb+break+ beendet. Diese Lösung folgt in Listing \ref{lst:javauntilwhile}.
 
 \begin{lstlisting}[language=Java, caption=\"Java Until Statement, label={lst:javauntilwhile}]
-while (var_1.toNumeric() < var_2.toNumeric())){
-	if (var_1.toNumeric () == var_2.toNumeric()){
+while (var_1 < var_2)){
+	if (var_1) == var_2){
 		break; 
 	}
 	System.out.println ("smaller");
