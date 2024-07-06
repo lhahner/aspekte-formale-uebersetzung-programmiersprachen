@@ -651,83 +651,79 @@ fehlerbehandlung spielt besonder im Zusammenhang mit der Lexikalischen Analyse e
 \subsection{Ausführung des Transpilers}
 
 % Importieren in Eclipse
-Für die unterschiedlichen Benutzergruppen, werden unterschiedliche Verwendungsmöglichkeiten des Transpilers angeboten.
-Einerseits über die \ac{ide} Eclipse, über die Kommandozeile und über das Webinterface.
-Bei der Benutzung des Transpilers werden erstmals Übersetzungsentscheidungen sichtbar.
-In diesem Kapitel sollen alle Möglichkeiten und Spezifikationen des Transpilers näher beschrieben werden.
+Für die unterschiedlichen Benutzergruppen werden verschiedene Nutzungsmöglichkeiten des Transpilers angeboten. Diese umfassen die Verwendung über die \ac{ide} Eclipse, die Kommandozeile und das Webinterface. Bei der Benutzung des Transpilers werden erstmals Übersetzungsentscheidungen sichtbar. In diesem Kapitel sollen alle Nutzungsmöglichkeiten und Spezifikationen des Transpilers näher beschrieben werden.
 
 \paragraph{Eclipse}
-Wie eingangs beschrieben kann die \ac{ide} Eclipse dazu verwendet werden den Transpiler zu benutzen. 
-Interessant ist diese Herangehensweise für Administratoren, die den Quellcode selbst erweitern möchten. Hierfür wird neben Eclipse auch Git benötigt.
+Die \ac{ide} Eclipse kann verwendet werden, um den Transpiler zu nutzen. Diese Herangehensweise ist besonders interessant für Administratoren, die den Quellcode des Transpilers selbst erweitern möchten. Neben Eclipse wird hierfür auch Git benötigt.
 
-Zuerst sollte das Projekt aus der GitHub-Repository mit Git in das lokale Verzeichnis geladen werden.
+Zuerst sollte das Projekt aus dem GitHub-Repository mit Git in das lokale Verzeichnis geladen werden.
+In Listing \ref{lst:gitclone} ist der Git-Befehl, zum laden des Remote-Repositories dargestellt. 
 
-\begin{lstlisting}[language=PL/I, caption=Deklaration einer Varibale des Typs Decimal, label={lst:decimal}]
+\begin{lstlisting}[language=bash, caption=Herunterladen der Repository des Transpilers, label={lst:gitclone}]
 git clone https://github.com/lhahner/pl1-code-transpiler.git
 \end{lstlisting}
 
-Daraufhin ist das importieren des Maven Projekts in Eclipse möglich.
-Unter der Registerkarte Datei gibt es die Möglichkeit ein Maven-Projekt in Eclipse zu importieren.
-Es erscheint das Men\"ufenster aus Abbildung \ref{fig:importproject}.
+Daraufhin ist es möglich, das Maven-Projekt in Eclipse zu importieren. Unter der Registerkarte "Datei" gibt es die Option, ein Maven-Projekt in Eclipse zu importieren. Dabei erscheint das Menüfenster aus Abbildung \ref{fig:importproject}.
 
 \dhgefigure[h]{import-maven-project.png}[scale=0.5]{Importieren eines Maven Projekts}{fig:importproject}
 \pagebreak
 
-Hier sollte im n\"achsten Men\"u Fenster der Ordner ausgew\"ahlt werden, in dem die pom.xml liegt.
-Ist der Ordner korrekt ausgewählt wird das Projekt in Eclipse importiert.
-Nun kann das Projekt benutzt werden. Das Verzeichnis \verb+src/main/java/res/pli+
-ist das Standard Eingabe-Verzeichnis. Hier kann eine PL/I-Datei abgelegt werden die übersetzt werden soll. 
-Andererseits ist es auch möglich das Standard Eingabeverzeichnis zu verändern. In dem Ordner \verb+src/main/java/res/config+¸ befindet sich die Konfigurationsdatei \verb+config.propreties+.
-In dieser kann die Variable \verb+PATH+ geändert werden, um so auch von einer anderen Projektstruktur PL/I-Quellcode zu transformieren.
+Im nächsten Menüfenster sollte der Ordner ausgewählt werden, in dem die pom.xml liegt. Ist der Ordner korrekt ausgewählt, wird das Projekt in Eclipse importiert. Nun kann das Projekt verwendet werden. Das Verzeichnis \verb+src/main/java/res/pli+ ist das Standard-Eingabeverzeichnis. Hier kann eine PL/I-Datei abgelegt werden, die übersetzt werden soll.
+
+Es ist auch möglich, das Standard-Eingabeverzeichnis zu ändern. Im Ordner \verb+src/main/java/res/config+ befindet sich die Konfigurationsdatei \verb+config.properties+. In dieser Datei kann die Variable \verb+PATH+ geändert werden, um PL/I-Quellcode aus einer anderen Projektstruktur zu transformieren.
 
 \paragraph{Internet Schnittstelle}
 %...
 
-\subsubsection{Umwandlung von Datentypen}
-Es wurden in der Projektarbeit-IV selbstgeschriebene nicht-Primitive Datentypen verwendet um die PL/I Datentypen, in entsprechenden Java-Zielcode zu übersetzen. Dies ist für den Umfang von Deklarationen ausreichend.
-Hingegen werden erst mit dem Umgang dieser Datentypen in einer Programmroutine, Mängel des Designs sichtbar.
-Ein Beispiel hierfür ist die DECIMAL Klasse. 
+Neben der grafischen Oberfläche hat auch die Gestaltung der Übersetzung einen Einfluss auf die Benutzererfahrung. Eine Transformation des PL/I-Quellcodes in schwer lesbaren und wartbaren Java-Zielcode erreicht zwar das grundlegende Ziel der Übersetzung, ist jedoch für viele Benutzer nicht ausreichend.
 
-Gegenwärtig wurde der DECIMAL-Datentyp aus PL/I, in Java als Nicht-primitiver Datentyp über die Klasse DECIMAL implementiert.
-So wurde etwa über den Konstruktor eine Längenbeschränkung in Java möglich.  
+In den nachfolgenden Kapiteln werden PL/I-Strukturen beschrieben und die Transformation in Java diskutiert. Außerdem sollen die Ergebnisse der Projektarbeit IV revidiert und erneut diskutiert werden.
 
-Werden nun in dem PL/I-Quellcode die Deklarierten Variablen verwendet um Mathematische Berechnungen zu erstellen, ist dies ohne Problem mit den Mathematischen Standard Operatoren wie Plus oder Minus möglich.
+\subsection{Transformation nach Anweisungskategorien}
+\subsubsection{Deklarationen und Zuweisungen}
+In der Version des Transpilers aus der Projektarbeit IV wurden selbst geschriebene, nicht-primitive Datentypen verwendet, um die PL/I-Datentypen in entsprechenden Java-Zielcode zu übersetzen. Dies ist für Deklarationen ausreichend.
 
-Um solche Ausdrücke auch in Java mit einem DECIMAL Objekt zu ermöglichen, muss die Klasse DECIMAL erweitert werden.
-Denn in Java ist es nicht möglich nicht-primitive Datentypen zu verrechnen, ohne vorher eine Methode zu schreiben die diese Operation ermöglicht.
+Erst bei der Verwendung dieser Datentypen in einer Programmroutine werden jedoch Mängel des Designs sichtbar. Ein Beispiel hierfür ist die \verb+DECIMAL+-Klasse.
 
-In Java ist es nicht möglich Operatoren zu Überladen wie etwa in C++, sodass die Arithmetischen Operationen auch mit nicht-primitiven Datentype wie etwa dem DECIMAL-Objekt möglich sind.
+Werden in dem PL/I-Quellcode etwa die deklarierten Variablen verwendet um Mathematische Berechnungen zu erstellen, ist dies ohne Probleme mit den Mathematischen Standard Operatoren wie Plus oder Minus möglich.
 
-Eine solche Erweiterung, würde Zwangsläufig zu einer Komplexen Programmstruktur des übersetzen Java Programms führen.
-Angenommen der PL/I-Ausdruck in Listing ?.? wird mithilfe des Transpilers in Java übersetzt.
+In PL/I können Variablen, die als \verb+DECIMAL+ deklariert wurden, miteinander verrechnet werden. Dadurch sind einfache bis hin zu komplexen arithmetischen Operationen möglich. 
 
-\begin{lstlisting}[language=PL/I, caption=Deklaration einer Varibale des Typs Decimal, label={lst:decimal}]
+Wird ein Java-Programm auf der grünen Wiese erzeugt sind solche Ausdrücke ebenfalls möglich, wenn numerische primitive Datentypen zum Einsatz kommen.
+
+Um solche Ausdrücke auch in Java mit einem \verb+DECIMAL+-Objekt zu ermöglichen, muss die Klasse \verb+DECIMAL+ erweitert werden.
+Denn in Java ist es nicht möglich nicht-primitive Datentypen zu verrechnen, ohne vorher eine Methode zu schreiben die diese Operation ermöglicht. 
+Bei der Implementierung der Methoden können die Standard-Operatoren nicht überladen werden, wie es in C++ der Fall ist.
+Stattdessen müssen ausformulierte Methoden implementiert werden, die den numerischen Wert einer Variable abfragen und mit einer weiteren Verrechnen
+
+Ein Beispiel soll demonstrieren wie die Übersetzung eines Arithmetischen Ausdrucks aussehen könnte.
+Angenommen der PL/I-Ausdruck in Listing \ref{lst:pliarithmeticexpression} wird mithilfe des Transpilers in Java übersetzt.
+
+\begin{lstlisting}[language=PL/I, caption=Arithmetischer Ausdruck in PL/I, label={lst:pliarithmeticexpression}]
 	DCL var_1 DECIMAL(2);
 	DCL var_2 DECIMAL (2);
 	
-	DCL var_3 = (var_1 * 2) + (var_2 * 3);
+	DCL var_3 = var_1 * 2 + var_2 * 3;
 \end{lstlisting}
  
-Ist nun in der Klasse DECIMAL für jede Arithmetische Operation eine Methode definiert, die es ermöglichen DECIMAL Objekte miteinander zu verrechnen, wäre die Übersetzung äquivalent zu Listing ?.?.
+Ist nun in der Klasse \verb+DECIMAL+ für jede Arithmetische Operation eine Methode definiert, die es ermöglichen \verb+DECIMAL+-Objekte miteinander zu verrechnen, wäre die Übersetzung in Listing \ref{lst:javapliarithmeticexpression} äquivalent zu Listing \ref{lst:pliarithmeticexpression}.
 
-\begin{lstlisting}[language=PL/I, caption=Deklaration einer Varibale des Typs Decimal, label={lst:decimal}]
+\begin{lstlisting}[language=PL/I, caption=Arithmetischer Ausdruck aus PL/I in Java, label={lst:javapliarithmeticexpression}]
 	DECIMAL var_1 = new DECIMAL(2);
 	DECIMAL var_2 = new DECIMAL(2);
 	
-	DECIMAL var_3.init(var_1.multiply(2).add(var_2.multiply(3)));
+	DECIMAL var_3.init(var_1.multiply("2").add(var_2.multiply("3")));
 \end{lstlisting}
 
-In Listing ?.? wird deutlich das der Arithmetische Ausdruck durch die Verwendung von Methoden, anstatt der üblichen Operatoren weniger leserlich geworden ist.
-Eine solche Komplexitätssteigerung kann sich auf die Qualität des Endergebnisses des Transpilers auswirken. Etwa durch die verschachtelung der Operator Methoden.
+An diesem Punkt ist anzumerken, dass diese Übersetzung zwangsläufig zu einer komplexen Struktur des Java-Zielcodes führen wird. Für die weitere Übersetzung syntaktischer PL/I-Strukturen könnte die Entscheidung für eine solche Lösung die Lesbarkeit des übersetzten Programms beeinflussen. Beispielsweise würde die Verwendung sowohl arithmetischer als auch boolescher Operatoren in einer Verzweigung den Java-Zielcode komplex wirken lassen. Ein Grund hierfür liegt in der Nutzung implementierter Methoden anstelle mathematischer Operatoren.
 
-Somit ist eine Lösung nötig die einfache Arithmetische Ausdrücke zulässt und gleichzeitig eine Längenbeschränkung.
+Wenn das \verb+DECIMAL+-Objekt durch einen primitiven Datentyp ersetzt werden würde, wäre eine eins-zu-eins Transformation des zugewiesenen arithmetischen Ausdrucks in Listing \ref{lst:pliarithmeticexpression} möglich. Um die Längenbeschränkung aus PL/I auch in Java zu berücksichtigen, könnte die Implementierung einer Validierungs Annotation erwogen werden.
 
-Um einfache Arithmetische Ausdrücke zu implementieren, kommen in Java lediglich die Verwendung von primitiven Datentypen wie \verb+double+, \verb+float+ oder \verb+int+ in Frage. In Verbindung mit einer Annotation ist in Java auch eine Längenbeschränkung denkbar.
-Mithilfe der Jarkarta Validations Software-Bibiolthek kann eine eigene Annotation erzeugt werden, die mit einer Java-Reflection überprüft wird.
-Dazu wird eine Implementierung von Valdierungs Klasse des übersetzen Programms notwendig. 
-Jedoch kann mit dieser Lösung der Ausdruck in Listing ?.? in den Java-Ausdruck in Listing Transformiert werden.
+Mithilfe der Jarkarta-Validations Software-Bibliothek kann eine Annotation erzeugt werden, die mit einer Java-Reflection überprüft wird. \footcite[Vgl. ][]{jakarta}
+Dazu wird eine Implementierung von Validierungs-Klasse als Boiler-Plate-Code  notwendig. 
+Die Übersetzung des Ausdrucks in Listing \ref{lst:pliarithmeticexpression} würde wie in Listing \ref{lst:annotationdecimal} dargestellt erfolgen.
 
-\begin{lstlisting}[language=PL/I, caption=Deklaration einer Varibale des Typs Decimal, label={lst:decimal}]
+\begin{lstlisting}[language=PL/I, caption=Deklaration einer Varibale des Typs Decimal, label={lst:annotationdecimal}]
 	@Decimal(10)
 	double var_1;
 	
@@ -737,13 +733,12 @@ Jedoch kann mit dieser Lösung der Ausdruck in Listing ?.? in den Java-Ausdruck 
 	double var_3 = (var_1 * 2) + (var_2 * 3);
 \end{lstlisting}
 
-Zu erkennen ist das mithilfe von primitvien Datentypen die gleiche Darstellung der Arithmetische Berechnung wie in Listing ?.? ermöglicht wird.
-Dadurch ist auch die Einbindung und Erweiterung des übersetzen PL/I-Quellcode erleichtert.
+Durch diese Gestaltung ist auch die Einbindung und Erweiterung des übersetzen PL/I-Quellcode erleichtert.
 
 In diesem Zusammenhang wird in weiterführenden Entwicklung die Beschränkung der Länge mit Annotationen gelöst. So kann eine semantische nähe zu Java hergestellt werden und gleichzeitig der Wiedererkennungswert von PL/I beibehalten werden.
 
-Die beschriebene Version des Transpiler implementiert bisher lediglich die \verb+@Decimal+ Annotation.
-Weshalb in den nachfolgenden Kapiteln weiterhin Klassen wie etwa die Klasse \verb+CHAR+ eingebunden werden. Außerdem sollen nun die weiteren Übersetzungsentscheidungen vorgestellt werden.
+Die beschriebene Version des Transpilers implementiert bisher lediglich die \verb+@Decimal+ Annotation.
+Weshalb in den nachfolgenden Kapiteln weiterhin Klassen wie etwa die Klasse \verb+CHAR+ eingebunden werden.
 
 \subsubsection{Programmstruktur und Programmablauf}
 \paragraph{Umwandlung von Programmstrukturen }\label{programstruct}
@@ -799,26 +794,44 @@ public CHAR empty_proc(Object, para_1, Object para_2){
 
 Weiterhin wird in der Prozedur aus Listing \ref{lst:procassign} ein R\"uckgabewert des Typs \verb+CHAR+ der L\"ange f\"unf definiert.
 Aktuell wird \"uber eine Objektinstantiierung des Typs \verb+CHAR+ im Return Ausdruck die L\"ange definiert.
-Dadurch kann die L\"angen Beschr\"ankung und die implizierte Typ-Zuweisung des Parameters erfolgen.
+
+Auch hier würde sich die Verwendung der in Kapitel \ref{programstruct} beschriebenen Annotationslösung eignen. Anstatt die Methode in Listing \ref{lst:metassign} vom Typ des nicht-primitiven Objektes \verb+CHAR+ zu transformieren, könnte das native Java äquivalent \verb+String+ verwendet werden.
+Eine denkbare Alternative ist in Listing \ref{lst:javaannotationproc} dargestellt.
+
+\begin{lstlisting}[language=Java, caption=Annotation Lösung um eine Prozedur zu übersetzen, label={lst:javaannotationproc}]
+@Char(5)
+public String empty_proc(Obeject para_1, Object para_2){
+	para_1 = "foo";
+	para_2 = "baa";
+	return "";
+}
+\end{lstlisting} 
+
+Erneut wird auch hier über die Annotation die Längenbeschränkung definiert und der native Java Typ String verwendet.
+Die Validierung des Rückgabewertes erfolgt dann mithilfe von Boiler-plate Code der bei der Transformation bereitgestellt wird.
+Soll dann etwa einer der Parameter beim aufrufen der Methode Zurückgegeben werden, kann dies einfach über das Casten zu dem entsprechenden Rückgabetyp erreicht werden.
+
+\begin{lstlisting}[language=Java, caption=\"Ubersetzung der Prozedur, label={lst:metassign}]
+@Char(5)
+public String empty_proc(Obeject para_1){
+	return (String)para_1;
+}
+\end{lstlisting} 
 
 Ein weiteres Attribut das in der Prozedur in Listing \ref{lst:procassign} definiert ist, ist das \verb+OPTIONS+
 Attribut.
 In PL/I werden hier Compiler Optionen definiert. So wird wie in Listing \ref{lst:procassign}, die Option \verb+INLINE+ verwendet um den Kontext einer Prozedur zu beschreiben. \footcite[Vgl. ][]{optionsstmt}
 
 In der Version des Transpilers wird die Übersetzung dieses Ausdrucks nicht weiter berücksichtigt.
-Es ist auch fraglich ob eine solche Option in Java emuliert werden kann, da so das verhalten der \ac{jvm} beeinflusst werden müsste.
+Es ist auch fraglich ob eine solche Option in Java simuliert werden kann, da so das verhalten der \ac{jvm} beeinflusst werden müsste.
 
-Neben Prozeduren die in einem Programm direkt nachdem Package definiert werden,
-gibt es auch die Möglichkeit in PL/I Subroutinen einzubinden, bei denen 
-eine Prozedur etwa weitere Prozeduren beinhaltet.
-
-%TODO ...Übersetzung von Subroutinen
+Um nun einen tatsächlichen Programmfluss zu realisieren, sollte der Transpiler ebenfalls in der Lage sein die definierten Routinen auch aufzurufen.
+In dem nachfolgenden Paragraf wird die Umwandlung des Aufrufen von Prozeduren beschrieben.
 
 \paragraph{Umwandlung des Programmablaufs}
 
 In PL/I werden Prozeduren unter anderem mithilfe des \verb+CALL+ Statements aufgerufen. \footcite[Vgl. ][S.133ff. ]{pliref}
-Wie schon in dem vorangegangen Kapitel \ref{programstruct} beschrieben, werden Prozeduren in Java als
-Methode übersetzt.
+
 Um einen Programmfluss, wie er auch in einem nativen Java-Programm, vorhanden ist zu erzeugen wird der Call-Ausdruck in einen Methoden-Aufruf transformiert.
 
 Wird also das Programm aus Listing \ref{lst:callsproc} dem Transpiler übergeben.
@@ -858,7 +871,9 @@ das Programm in Listing \ref{lst:javacallsproc}
 Die gleiche Endlosschleife aus PL/I wird somit auch in Java erzeugt.
 Dadurch kann ein einfacher Programmablauf von einem PL/I-Programm in ein Java-Programm transformiert werden.
 
-\subsubsection{Verzweigungen und Schleifen}
+Um nun ein PL/I-Programm wie zusätzlicher Logik zu transformieren, sollten Verzweigungen und Schleifen ebenfalls übersetzt werden.
+
+\subsubsection{Kontrollflussanweisungen}
 \paragraph{Umwandlung von Verzweigungen}
 
 In PL/I werden Verzweigungen mit den Symbolen \verb+IF+ und \verb+ELSE+ implementiert. 
@@ -895,6 +910,10 @@ else {
 }
 \end{lstlisting} 
 
+Würden hier erneut nicht-Primitive Typen wie das \verb+DECIMAL+ Objekt verwendet, wäre eine solche einfache Vergleichs Operation nicht möglich.
+Stattdessen hätten die instanziierten Objekte erst mit einer Art \verb+toNumeric+ Methode in ein Numerisches Format umgewandelt werden müssen.
+Was erneut zu mehr Quellcode als nötig führen würde.
+
 Eine Else-if Verzweigung existiert in PL/I der Form eines verschachtelten If-Else Ausdrucks wie es in Listing \ref{lst:javaelseifstatement} dargestellt ist.
 
 \begin{lstlisting}[language=PL/I, caption=\"PL/I IF-Else Statement, label={lst:javaelseifstatement}]
@@ -919,8 +938,7 @@ END;
  }
  \end{lstlisting} 
 
-In Zukunft ist hier denkbar einen if-else Ausdruck als Übersetzung in Java zu erwägen.
-Aktuell ändert dieser Umstand jedoch nichts an der bestehenden Programmlogik des PL/I Programms. %TODO Wirklihc?
+Neben den Verzweigungen kann zusätzliche Logik eines Programms auch durch eine Schleife erreicht werden.
 
 \paragraph{Umwandlung von Schleifen}
 In PL/I wird in der aktuellen Version des Transpilers, die  While- und Until-Schleife übersetzt.
@@ -977,17 +995,18 @@ Weiterhin ist auch die Position der Verzweigung fraglich. Genauso kann die Abbru
 
 Da in PL/I die Bedingung jedoch am Schleifen-Kopf definiert wird, wurde in Java eine Prüfung des Abbruchbedingung ebenfalls im Kopf implementiert. 
 
+Um nun neben einem einfachen Programmablauf, zusätzlicher Logik eines Programms auch Ein- und Ausgabe Operationen von dem PL/I-Quellcode in den Java-Zielcode übersetzen zu können, wird in dem nachfolgenden Kapitel sowohl die Konsolen, also die Datei Ein- und Ausgabe diskutiert.
 
-\subsubsection{Ein- und Ausgabe Operationen}
+\subsubsection{Ein- und Ausgabe Befehle}
 \paragraph{Konsolen Ein- und Ausgabe}
-Um auch eine Benutzerinteraktion zu ermöglichen wird ebenfalls der Display-Ausdruck transformiert.
+Um eine Benutzerinteraktion zu ermöglichen wird der Display-Ausdruck transformiert.
 In PL/I gibt es sowohl die Möglichkeit mit dem Display-Ausdruck eine Text-Nachricht in der Konsole auszugeben, sowie eine Benutzereingabe abzufragen. \footcite[Vgl. ][S. 264ff.]{pliref}
 
 In Java gibt es verschiedene Implementierungen einer Umleitung des Ausgabe in die Konsole.
 Die gängige Methode ist die Verwendung des Ausdrucks \verb+System.out.println()+. 
 Alternativ könnte auch die Methode \verb+log.trace+ verwendet werden.
 Jedoch wird hier eine Abhängigkeit zu der Software-Bibliothek \verb+logger+  erzeugt, weshalb sich gegen diese Methode entschieden wurde.
-Eine weitere Alternative würde der \verb+PrintWriter+ bieten, hierbei müsste jedoch zuerst das Objekt \verb+PrintWriter+ erzeugt werden, was zusätzlichen Quellcode erzeugen würde. Diese könnte mit Implementierung des Sysout-Befehls vermieden werden.
+Eine weitere Alternative würde der \verb+PrintWriter+ bieten, hierbei müsste jedoch zuerst das Objekt \verb+PrintWriter+ erzeugt werden, was zusätzlichen Quellcode erzeugen würde. Diese könnte mit der Implementierung des Sysout-Befehls vermieden werden.
 Somit wurde die gängige Methode gewählt und der Ausdruck \verb+System.println.out+ gewählt.
 
 Entsprechend wird der Ausdruck in Listing \ref{lst:display}
@@ -1024,14 +1043,74 @@ Listing \ref{javadisplay} zeigt die Übersetzung des PL/I Ausdrucks aus Listing 
 username.init(System.console().readLine()); 
 \end{lstlisting} 
 
-Gepaart mit dem Programmfluss, Verzweigungen und schleifen ist die Transformation von einfachen PL/I-Programm denkbar.
+Damit ist das lesen eines Eingabe Strings möglich.
+
+Gepaart mit dem Programmfluss, Verzweigungen und schleifen ist die Transformation von einfachen PL/I-Programmen denkbar.
 Etwa kann ein einfaches Login-Programm mit den transformierten PL/I-Strukturen übersetzt werden. 
 
-\paragraph{Datei Ein- und Ausgabe}
+Damit das übersetze Programm auch auf das Dateisystem zugreifen kann, wird ebenfalls die Ein- und Ausgabe von Dateien integriert.
 
-\subsection{Optimierung}
+\paragraph{Datei Ein- und Ausgabe}
+In PL/I gibt es die Möglichkeit über des \verb+READ+-Statement Dateien von dem Dateisystem einzulesen.
+In Kapitel 1.1 wurde bereits erwähnt das PL/I Programm hauptsächlich auf einem Mainframe-System ausgeführt werden.
+Dieser Umstand ist in diesem Kapitel relevant, da auf einem Betriebssystem wie z/Os andere Formen von Dateien existieren wie etwa auf eine x86-Linux System.
+
+Auf einem z/Os Betriebssystem werden die Dateien als Data-Sets gespeichert.
+Ein Data-Set unterscheidet sich in der Speicherung von einer herkömmlichen Datei, da ein Data-Set die eigentlichen Informationen in einem Record speichert. 
+Ein Record kann dann von einem Programm, wie einem PL/I-Programm gelesen werden.
+Für die weitere Übersetzung von PL/I-Syntax ist dies wichtig, da es in PL/I im zusammenhang mit herkömmlichen Dateien irreführende Datentyp-Bezeichner wie den Typ \verb+FILE+ gibt.
+
+In PL/I kann der Datentyp FILE in Listing \ref{lst:plifiletyp} definiert werden.
+
+\begin{lstlisting}[language=PL/I, caption=FILE Typ in PL/I, label={lst:plifiletyp}]
+DCL file_1 FILE ENVIRONMENT STREAM INPUT SEQUENTIAL BUFFERED KEYED PRINT;
+\end{lstlisting} 
+
+In diesem Kontext handelt es sich hier um ein logisches Abbild des Inhalts also der Records eines physisch gespeicherten Data-Sets.
+Indirekt kann der Typ FILE etwa mit einem Buffer verglichen werden in dem der Inhalt einer Datei gelesen und für weitere Programmroutinen verfügbar wird.
+\footcite[Vgl. ][ S.305ff. ]{pliref}
+
+In Java existiert ein ähnlicher nicht-primitiver File-Typ.
+Java liest mit der Klasse File eine Datei direkt vom Betriebssystem ein und speichert den Inhalt in einem Buffer. 
+Hingegen besteht in Java kaum die Möglichkeit dabei direkt zu beeinflussen wie die Datei eingelesen werden soll. 
+In PL/I müssen Attribute für den Typ \verb+FILE+ angegeben werden die 
+In Listing \ref{lst:plifiletyp} angegeben sind. 
+Diese Attribute sind ähnliche wie auch das \verb+OPTIONS+ Attribut aus Kapitel \ref{programstruct} Compiler-Optionen, die dazu verwendet werden die Durchführung des Programms möglichst Effizienz zu gestalten.
+
+Dabei sind diese Attribute in Java nicht von Relevanz und können ignoriert werden.
+
+Wird nun Listing \ref{lst:plifiletyp} dem Transpiler als Eingabe übergeben entsteht der Java-Zielcode in Listing \ref{lst:plifiletyp}.
+
+\begin{lstlisting}[language=Java, caption=File Objekt in Java, label={lst:javafiletpye}]
+public File file_1 = new File("");
+\end{lstlisting} 
+
+Hierbei ist anzumerken das bisher lediglich ein File Objekt instanziiert wurde.
+Es wurde kein Pfad übergeben und somit auch keine Datei eingelesen.
+Allgemein ist Fraglich wie das einlesen von Dateien mit dem Transformierten PL/I Programm erfolgen wird, da die Organisation von Dateien auf einem z/Os-System anders aufgeteilt ist wie die eine Linux oder Windows Desktop Computer.
+
+In dieser Version des Transpilers, wird dem Benutzer die Verantwortung übergeben die Referenz zu den ursprünglichen Eingabedateien herzustellen.
+
+Wird in einem PL/I Programm die definierte Datei gelesen und in einer Variable gespeichert, geschieht das in PL/I mit dem \verb+READ+-Statement.
+Ein mögliches \verb+READ+-Statement ist in Listing \ref{lst:pliread} dargestellt.
+
+\begin{lstlisting}[language=PL/I, caption=READ Statement in PL/I, label={lst:pliread}]
+READ FILE(file_1); 
+\end{lstlisting} 
+
+Hierbei wird die definierte Datei gelesen.
+Transformiert wird diese Dateieingabe mit dem Scanner Objekt.
+
+\begin{lstlisting}[language=Java, caption=Scanner Objekt in Java, label={lst:javafiletpye}]
+Scanner readFile = new Scanner(file_1);
+\end{lstlisting} 
+
+Mit dem Scanner Objekt kann die definierte Datei nun Wort für Wort in einen String gelesen werden.
+
+%\subsection{Optimierung}
 % online-Smoketest von PL/I Code -> %todo: Verschieben nach Erweiterbarkeit (Schlusskapitel), weil momentan noch nicht vollstaendige Grammatik realisiert.
 
-\subsubsection{Performance und Benchmarks}
-\subsubsection{Testing}
+\subsection{Testing}
+\subsection{Performance und Benchmarks}
+
 \section{Fazit}
