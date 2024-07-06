@@ -1086,8 +1086,8 @@ public File file_1 = new File("");
 \end{lstlisting} 
 
 Hierbei ist anzumerken das bisher lediglich ein File Objekt instanziiert wurde.
-Es wurde kein Pfad übergeben und somit auch keine Datei eingelesen.
-Allgemein ist Fraglich wie das einlesen von Dateien mit dem Transformierten PL/I Programm erfolgen wird, da die Organisation von Dateien auf einem z/Os-System anders aufgeteilt ist wie die eine Linux oder Windows Desktop Computer.
+Es wurde kein Datei-Pfad übergeben und somit auch keine Datei eingelesen.
+Allgemein ist Fraglich wie das einlesen von Dateien mit dem Transformierten PL/I Programm erfolgen wird, da die Organisation von Dateien auf einem z/Os-System anders aufgeteilt ist wie die eine Linux oder Windows Desktop Computer und eine Kompatibilität mit der Zeichencodierung von etwa einer vsam Datei ebenfalls einer Transformation bedarf.
 
 In dieser Version des Transpilers, wird dem Benutzer die Verantwortung übergeben die Referenz zu den ursprünglichen Eingabedateien herzustellen.
 
