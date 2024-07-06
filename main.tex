@@ -522,7 +522,7 @@ Dabei wird das Modul \verb+SymbolTable+ implementiert und mit der Methode \verb+
 \subsubsection{Symboltable}
 Die Symboltabelle speichert die PL/I-Symbole in einem Hashtable ab. Mit ihr sollen die anderen Module
 erkennen können ob es sich bei einem ausgewählten Token um ein PL/I-Symbol handelt, oder um ein Bezeichner.
-In Abbildung \ref{fig:symboltable} ist das Modul \verb+symboltable+ als \ac{UML} dargestellt.
+In Abbildung \ref{fig:symboltable} ist das Modul \verb+symboltable+ als \ac{uml} dargestellt.
 
 \dhgefigure[h]{symboltable-module-uml.drawio.png}[scale=0.5]{Symboltabelle Modul}{fig:symboltable}
 \pagebreak
@@ -598,7 +598,8 @@ Das Checker Modul bereitet den Parsebaum entsprechend so vor, dass dieser weiter
 Das Mapper Modul transformiert die Zwischencode Repräsentation in den Java-Zielcode. Dazu wurde das Mapper-Modul nach dem Strategy Desgin-Pattern entworfen.
 In Abbildung \ref{fig:mapper} ist das UML des Mapper Moduls zu sehen. 
 
-\dhgefigure[h]{{mapper-module-uml.png}[scale=0.4]{Mapper Modul}{fig:mapper}
+
+\dhgefigure[h]{mapper-module-uml.png}[scale=0.4]{Mapper Modul}{fig:mapper}
 \pagebreak
 
 Die Klasse \verb+Mapper+ wird in der Main-Methode des Projektes instanziiert. Als Parameter wird der Wurzelknoten des Parssebaums übergegeben.
@@ -779,7 +780,7 @@ END empty_proc;
 
 Implizit wird hier der Typ \verb+CHAR+ zugewiesen. 
 In Java muss hingegen explizit der Typ des Parameter definiert werden.
-Eine Möglichkeit die Parameterliste zu transformieren, ist über den Typ \veb+Object+.
+Eine M\"oglichkeit die Parameterliste zu transformieren, ist über den Typ \verb+Object+.
 Da Object die Elternklasse aller Klassen ist, kann während der Zuweisung des Parameters beliebig in den gewünschten Typ umgewandelt werden. \footcite[Vgl. ][]{objectdocs}
 
 In Listing \ref{lst:metassign} ist die Prozedur aus Listing \ref{lst:procassign} als Methode dargestellt.
