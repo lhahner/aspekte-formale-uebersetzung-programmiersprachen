@@ -356,17 +356,15 @@ In Kapitel 1.4 wurde bereits mit JavaCC eine verwendete Technologie vorgestellt.
 
 %- Programmiersprache -> Java: Integration in das Projekt, Grund für die Wahl.
 Allgemein wurde der Transpiler in der Programmiersprache Java entwickelt. 
-Java eignet sich für die Entwickelung da sie eine Hochsprache ist, die ebenfalls explizite Handhabung zulässt. 
-Weiterhin zählen die Vorteile die in Kapitel ?.? für Java erwähnt wurden, ebenso in diesem Fall.
-
-Den Administratoren soll auch die Möglichkeit gegeben werden, Module einfach auszutauschen. Mithilfe von Objektorientierten Programmier- Paradigmen, lässt sich eine lose Kopplung der Klassen realisieren und damit eine Modulare Bauweise des Software Projekts.
+Java eignet sich  als Objekt-Orientierte Hochsprache gut für die Entwicklung des Transpilers. 
+Weiterhin zählen die Vorteile die in Kapitel 1.1 für Java erwähnt wurden, ebenso in diesem Fall. Den Administratoren soll die Möglichkeit gegeben werden, Module einfach auszutauschen. Mithilfe von Objektorientierten Programmierparadigmen, lässt sich eine lose Kopplung der Klassen realisieren und damit eine Modulare Bauweise des Softwareprojekts.
 Einhergehend fiel die Wahl auf JavaCC aufgrund der Entscheidung für die Entwicklung des Transpilers in Java. Eine alternativer Compiler-Compiler für Java, ist Antlr. 
 
 %- IDE -> Eclipse: Integration in das Projekt, Grund für die Wahl.
-Der Java-Quellcode des Transpilers wurde in Eclipse geschrieben. Die \ac{ide} Eclipse ermöglicht eine kostenlose Entwicklung, Verwaltung, Überprüfung und Kompilierung von Java Software-Projekten. Weiterhin bietet Eclipse eine breite Software-Repository an Plugins um die Funktionalität der  \ac{ide} zu erweitern. Dadurch ist eine Integration von JavaCC in die  \ac{ide} möglich und erleichtert die Entwicklung des Parser ebenfalls.
+Der Java-Quellcode des Transpilers wurde in Eclipse geschrieben. Das \ac{ide} Eclipse ermöglicht eine kostenlose Entwicklung, Verwaltung, Überprüfung und Kompilierung von Java Software-Projekten. Weiterhin bietet Eclipse eine breite Software-Repository an Plugins um die Funktionalität der  \ac{ide} zu erweitern. Dadurch ist eine Integration von JavaCC in die  \ac{ide} möglich und erleichtert die Entwicklung des Parser ebenfalls.
 
 %- Maven -> Dependency Management: Integration in das Projetk, Grund für die Wahl der Technologie
-Die Version aus der Projektarbeit-IV des Transpilers verwendete die Native Projektstruktur von Eclipse als Vorlage. Diese Projektvorlage brachte jedoch negative Aspekte mit sich. Es war nötig JavaCC manuell zu installieren und einzurichten. Zusätzlich mussten Pfad variablen im Quellcode angepasst werden. 
+Die Version aus der Projektarbeit-IV des Transpilers verwendete die Native Projektstruktur von Eclipse als Vorlage. Diese Projektvorlage brachte jedoch negative Aspekte mit sich. Es war nötig JavaCC manuell zu installieren und einzurichten. Zusätzlich mussten Pfadvariablen im Quellcode angepasst werden. 
 Das erschwerte den Benutzern den Zugang zu dem eigentlichen Projekt.
 Zurückzuführen ist dies auf die fehlenden Software-Abhängigkeitsverwaltung. In der Ursprünglichen Version des Transpilers musste der Benutzer selbst herausfinden welche Software dieser benötigt um das Programm zu starten
 
@@ -376,7 +374,7 @@ Ein weiterer Vorteil den Maven liefert ist die vordefinierte Projektstruktur, in
 
 %- Testing -> JUNit Tests: Integration in das Projetk, Grund für die Wahl der Technologie
 Zum Testen der Anwendung wurde das Java-Test Framework JUnit 5 verwendet. Es wurden für jede Klasse zugehörige Test-Klassen geschrieben. In den Test-Klassen wurde komplexere Methoden isoliert getestet.
-Die Wahl von JUnit ist begründet durch die einfache Handhabung, der Kompatibilität mit der IDE Eclipse und dem Projektmanagement Werkzeug Maven. Weiterhin ist JUnit mit eines der bekanntesten Unit-Test-Frameworks für Java-Quellcode. Alternativen wären etwa gewesen TestNG \footcite[Vgl. ][]{testng} oder mockito \footcite[Vgl. ][]{mockito}.
+Die Wahl von JUnit ist begründet durch die einfache Handhabung, der Kompatibilität mit der IDE Eclipse und dem Projektmanagement Werkzeug Maven. Weiterhin ist JUnit mit eines der bekanntesten Unit-Test-Frameworks für Java-Quellcode. Alternativen wären etwa gewesen TestNG \footcite[Vgl. ][]{testng} oder Mockito \footcite[Vgl. ][]{mockito}.
 
 %- Platform -> Spring
 Für die Entwicklung des Frontends wurde das Java Framework Spring-boot verwendet.
@@ -395,35 +393,29 @@ Der Transpiler wurde Modular in die Arbetisschritte aus Abbildung \ref{fig:trans
 Die Module repräsentieren je einen Arbeitsschritt des Transpilers.
 In Abbildung \ref{fig:modules} ist eine Grob-Ansicht der Module des Transpilers dargestellt.
 
-\dhgefigure[h]{AbstraktesUML_1.png}[scale=0.5]{Der Aufbau des Transpilers}{fig:modules}[][]
+\dhgefigure[h]{AbstraktesUML_1.png}[scale=0.5]{Aufbau des Transpilers}{fig:modules}[][]
 
 % Wie sind die Module momentan gebaut?
 % App Modul
-Die Verarbeitung des PL/I-Quellcodes beginnt mit dem App-Modul. Das App Modul ist die Schnittstelle für alle weiteren Module. Ein Modul kann durch die Instanziierung der Hauptklasse eingefügt werden. Entfernt wird das Modul durch das Löschen der Instanz. Das App-Modul beinhaltet auch die \verb+main+ Methode und ist somit auch der Startpunkt des Java-Compilers.
+Die Verarbeitung des PL/I-Quellcodes beginnt mit dem App-Modul. Das App Modul ist die Schnittstelle für alle weiteren Module. Ein Modul kann durch die Instanziierung der Client-Klasse des zugehörigen Moduls eingefügt werden. Entfernt wird das Modul durch das Löschen der Instanz. Das App-Modul beinhaltet auch die \verb+main+ Methode und ist somit auch der Startpunkt für den Java-Compilers.
 
 Der Scanner wird als erstes Instanziiert. Dieser liest aus der Konfigurations-Datei den Pfad der PL/I Datei, die übersetzt werden soll. Die Datei wird als \verb+InputStream+ an den Parser übergeben.
-
-Der durch JavaCC erzeugte Parser wird ebenfalls in dem App-Modul instanziiert. Dieser behandelt den PL/I-Quellcode entsprechend der vorher definierten Grammatik. 
-
-Während des parsings werden Variablen-, Prozeduren-, oder Packagebezeichner des PL/I-Quellcode, in die Symboltabelle eingefügt. 
-
-Das Ergebnis des Parsers ist ein Parse-Baum. 
+\pagebreak
+Der durch JavaCC erzeugte Parser wird ebenfalls in dem App-Modul instanziiert. Dieser behandelt den PL/I-Quellcode entsprechend der vorher definierten Grammatik.  Während des parsings werden Variablen-, Prozeduren-, oder Packagebezeichner des PL/I-Quellcode, in die Symboltabelle eingefügt. Das Ergebnis des Parsers ist ein Syntax-Baum. 
 In Abbildung \ref{fig:parsetree} is exemplarisch ein Syntaxbaum des Transpilers abgebildet der eine Variablen Deklaration und eine Definition einer Prozedur darstellt.
 
-\dhgefigure[h]{parsetree-example.drawio.png}[scale=0.5]{Beispielhafter Syntaxbaum des PL/I-Parsers}{fig:parsetree}[][]
+\dhgefigure[h]{parsetree-example.drawio.png}[scale=0.7]{Beispielhafter Syntaxbaum des PL/I-Parsers}{fig:parsetree}[][]
 
-Ist der Syntaxbaum entsprechend erzeugt, wird dieser weiterhin durch das Checker-Modul verarbeitet. In diesem Modul wird die semantische Analyse des Quellcodes durchgeführt. Dabei wird auch die Symboltabelle verwendet um die Referenzen der Bezeichner im Quellcode auf Korrektheit zu überprüfen.
+Ist der Syntaxbaum entsprechend erzeugt, wird dieser weiterhin durch das Checker-Modul verarbeitet. In diesem Modul wird die semantische Analyse des Quellcodes durchgeführt. In der aktuellen Version erfolgt hauptsächlich eine Typ-Überprüfung der initialisierten Variablen.
 
 % @review: Hier erwähnen wie Configdatei bzw. Scanner den Ausgabe Ordner beeinflussen wenn das implementiert wurde.
 Das Mapper-Modul repräsentiert die Synthese des PL/I-Quellcodes in Java-Zielcode. Der Syntaxbaum wird hier Stück für Stück abgearbeitet und mit entsprechenden Java-Ausdrücken übersetzt.
 
 % @todo: Wie sind Module zueinander abhängig?
-Die Kopplung der Module sollte lose sein, um dem Administrator eine leichte Erweiterung der Anwendung zu ermöglichen.
-
-Um einen Überblick über Abhängigkeiten zu verschaffen, zeigt
+Um einen Überblick über Abhängigkeiten der Module zu verschaffen, zeigt
 Abbildung \ref{fig:modulesdep} aktuell die Beziehungen der Module untereinander.
 
-\dhgefigure[h]{Beziehungen_Modules.png}[scale=0.5]{Die Abhängigkeiten der Module}{fig:modulesdep}[][]
+\dhgefigure[h]{Beziehungen_Modules.png}[scale=0.7]{Die Abhängigkeiten der Module}{fig:modulesdep}[][]
 \pagebreak
 
 Zu erkennen ist in Abbildung \ref{fig:modulesdep} das die Abhängigkeiten unter den Modulen eine Kaskade Form aufweisen.
@@ -443,7 +435,7 @@ Referenz zu ersetzen.
 %Der Quellcode des Lexer besteht jedoch und ist lediglich als Deprecated markiert. Die erneute Verwendung des Lexer würde über den Aufruf der Methode in Main erfolgen.
 %Hingegen wären hier weitere Schritte notwendig, wie etwa das einfügen einer temporären Datei, die von dem Parser als InputStream entgegen genommen wird und weiter verarbeitet wird.
 
-Nachdem nun ein Überblick über die Architektur gegeben wurde, soll nun in Kapitel ?.? eine Detailansicht des Transpilers erfolgen.
+Nachdem nun ein Überblick über die Architektur gegeben wurde, soll nun in Kapitel 2.3 eine Detailansicht des Transpilers erfolgen.
 Ab diesem Punkt soll genauer auf den Quellcode der einzelnen Module eingegangen werden um nachzuvollziehen wie der Transpiler den PL/I-Quellcode
 in Java-Zielcode umwandelt.
 
@@ -464,10 +456,10 @@ in Java-Zielcode umwandelt.
 %- JavaBeans
 %- Spring
 %	- Wie setzt Spring Aspektorientierte Programmierkonzepte ein?
- 
+ \pagebreak
 \subsection{Module des Transpilers}
 %Wie in dem vorangegangen Kapitel schon dargestellt, werden in jedem Modul
-die Verarbeitungsschritte aus Abbildung \ref{fig:transpiler} implementiert.
+%die Verarbeitungsschritte aus Abbildung \ref{fig:transpiler} implementiert.
 %In diesem Kapitel sollen die Module nach ihrer Verarbeitungsreihenfolge vorgestellt werden.
 %Dabei soll ein \ac{uml}-Diagramm je zu beginn der Unterkapitel verdeutlichen wie die Klassen
 %in den Modulen zueinander aufgebaut sind. In jedem Diagramm wird auch auf die Einbindung in die App-Klasse eingegangen.
@@ -475,23 +467,17 @@ die Verarbeitungsschritte aus Abbildung \ref{fig:transpiler} implementiert.
 
 \subsubsection{Der Scanner und Parser}
 \paragraph{Scanner}
-Wie Kapitel 1.? eingeführt wird der Parser vollständig durch JavaCC generiert.
+Wie Kapitel 1.5 eingeführt wird der Parser vollständig durch JavaCC generiert.
 Damit der Parser den PL/I-Quellcode in die Zwischencode Darstellung übersetzen kann,
-braucht dieser eine PL/I-Datei, die als Stream Übergeben wird.
+braucht dieser eine PL/I-Datei, die als Input-Stream übergeben wird.
 Den Pfad zu der Datei gibt der Administrator in der Konfigurationsdatei an.
 Das Modul Scanner liest die Konfigurationsdatei und versorgt den Parser mit notwendigen Ressourcen.
 Abbildung \ref{fig:scannermodul} zeigt das UML-Diagramm des Scanner Moduls.
 
-\dhgefigure[h]{scanner-klasse-uml.drawio.png}[scale=0.5]{Das Scanner-Modul}{fig:scannermodul}[][]
+\dhgefigure[h]{scanner-klasse-uml.drawio.png}[scale=0.8]{Das Scanner-Modul}{fig:scannermodul}[][]
 
-Das Scanner Modul besteht aus den Klassen \verb+InputReader+ und \verb+Lexer+. 
-Die \verb+InputReader+ Klasse liest und verarbeitet die Konfigurationsdatei. Ein Ausschnitt einer möglichen Konfigurationsdatei ist in Listing ?.? hinterlegt.
-
-\begin{verbatim}
-	PATH=./src/main/java/res/pli/NPP1NFG.pli;
-\end{verbatim}
-
-Die Methode \verb+getInputFilePath+ gibt den Pfad der PL/I-Quellcode Datei als String zurück.
+Das Scanner Modul besteht aus der Klasse \verb+InputReader+. 
+Die \verb+InputReader+ Klasse liest und verarbeitet die Konfigurationsdatei. Die Methode \verb+getInputFilePath+ gibt den Pfad der PL/I-Quellcode Datei als String zurück.
 Dieser String wird beim Aufruf der \verb+getInputFile+ Methode benötigt, um aus der Datei einen \verb+InputStream+ zu erzeugen.
 Mithilfe des InputStreams kann die Datei als Parameter an den Parser in der Klasse \verb+App+ im Modul \verb+App+
 übergeben werden. 
@@ -511,37 +497,43 @@ Wie schon in Kapitel 1.4 erwähnt werden jegliche Klassen des Parsers durch die 
 Der Parser wird über die Klasse \verb+Pl1Parser+ in dem App Modul instanziiert. In der Parser-Klasse sind auch jegliche manuell geschriebenen Methoden aus der Grammatikdatei integriert. 
 Dazu gehören etwa die Methode \verb+installId+, sowie weitere. 
 
-Die ebenfalls in der Grammatikdatei definierten Tokens werden in der Klasse \verb+Pl1ParserConstants+ als Konstanten definiert. Wobei während der Lexikalischen Analyse, die Klasse Token verwendet wird um Terminalsymbole zu verarbeiten. 
+Die ebenfalls in der Grammatikdatei definierten Tokens, 
+werden in der Klasse \verb+Pl1ParserConstants+ als Konstanten definiert. 
+Wobei während der Lexikalischen Analyse, die Klasse Token verwendet wird um Terminalsymbole zu verarbeiten. 
 Schlussendlich wird einhergehend mit der Klasse \verb+Pl1Parser+ geprüft ob der PL/I-Quellcode zulässig ist. 
-Diese beinhaltet die Java Repräsentation der in der Grammatikdatei definierten Methoden. Hier ist auch der großteils der Verarbeitungslogik des Parser-Moduls implementiert.
+Diese beinhaltet die Methoden der in der Grammatikdatei definierten Nicht-Terminalen Ausdrücke, wie die Methode \verb+if-statement+. 
+Hier ist auch der Großteil der Verarbeitungslogik des Parser-Moduls implementiert.
 
 Wird ein Ausdruck während der Verarbeitung in Pl1Parser-Klasse als nicht zulässig  interpretiert wird eine \verb+ParseException+ geworfen, die in der Klasse \verb+ParseException+ definiert ist.
 
-Um den Ausdruck in einem Syntaxbaum zu repräsentieren wird ein Objekt der Klasse \verb+SimpleNode+ erzeugt. Durch die Methoden \verb+clearNodeScope+ und \verb+closeNodeScope+ der Klasse \verb+JJTPl1ParserState+ wird der verarbeitete Ausdruck mit bspw. der Repräsentation \verb+PROC+ in den Prasebaum eingefügt. 
+Um den Ausdruck in einem Syntaxbaum zu repräsentieren wird ein Objekt der Klasse \verb+SimpleNode+ erzeugt. Durch die Methoden \verb+clearNodeScope+ und \verb+closeNodeScope+ der Klasse \verb+JJTPl1ParserState+ wird der verarbeitete Ausdruck mit bspw. der Repräsentation \verb+VAR+ in den Syntaxbaum eingefügt. 
+Siehe Abbildung \ref{fig:parsetree} So verarbeitet der Praser des Transpilers Stück für Stück den PL/I-Quellcode. 
 
-So verarbeitet der Praser des Transpilers Stück für Stück den PL/I-Quellcode. Hat der Parser ein Nicht-Terminalsymbol gefunden, wird die Methode \verb+installIds+ aufgerufen und der Bezeichner unter bestimmten Bedingungen in die Symboltabelle eingefügt. 
+Hat der Parser ein Nicht-Terminalsymbol gefunden, wird die Methode \verb+installIds+ aufgerufen und der Bezeichner unter bestimmten Bedingungen in die Symboltabelle eingefügt. 
 Ein Bezeichner wird nicht eingefügt, 
 wenn dieser schon vorhanden ist und den selben Sichtbarkeitswert hat.
 
 Dabei wird das Modul \verb+SymbolTable+ implementiert und mit der Methode \verb+insertId+ ein Bezeichner in die Symboltabelle eingefügt. In dem folgenden Unterkapitel wird das Modul der Symboltabelle genauer beschrieben. 
 
+\pagebreak
 \subsubsection{Symboltable}
 Die Symboltabelle speichert die PL/I-Symbole in einem Hashtable ab. Mit ihr sollen die anderen Module
-erkennen können ob es sich bei einem ausgewählten Token um ein PL/I-Symbol handelt, oder um ein Bezeichner.
+erkennen können ob es sich bei dem ausgewählten Token um ein PL/I-Symbol handelt, oder um ein Bezeichner.
 In Abbildung \ref{fig:symboltable} ist das Modul \verb+symboltable+ als \ac{uml} dargestellt.
 
-\dhgefigure[h]{symboltable-module-uml.drawio.png}[scale=0.5]{Symboltabellen-Modul}{fig:symboltable}
+\dhgefigure[h]{symboltable-module-uml.drawio.png}[scale=0.7]{Symboltabellen-Modul}{fig:symboltable}
 \pagebreak
 
-Das Modul \verb+Symboltable+ enthält die Klassen \verb+SymbolTable+, \verb+Pl1Symbols+ und \verb+PictureMapper+.
-Zusätzlich enthält das Modul die Enums \verb+Pl1Symbols+ und \verb+Template+.
+Das Modul \verb+Symboltable+ enthält die Klasse \verb+SymbolTable+
+sowie die Enums \verb+Pl1Symbols+ und \verb+Template+.
 
 % Wie funktioniert SymbolTable und Pl1Smybols?
-Die Klasse \verb+SymbolTable+ wird beim instanziieren des Objekts mit den Werten aus dem Enum \verb+Pl1Symbols+ initialisiert. 
+Die Klasse \verb+SymbolTable+ wird beim instanziieren des Objekts mit den Werten aus dem Enum \verb+Pl1Symbols+ initialisiert. Weshalb ein Singleton Design-Pattern implementiert wurde um sicherzugehen, dass von der Symboltabelle während der Laufzeit nur eine Instanz existiert. 
+Über die Methode \verb+getInstance+ können andere Module auf diese Instanz zugreifen.
 
-Wenn ein Bezeichner in die Symboltabelle eingefügt wird müssen, ein String für den Bezeichner, ein String für den Typ, ein Integer für die Sichtbarkeit und ein Integer für die Hierarchiestufe der Variable hinterlegt sein. Nur so kann in darauffolgenden Arbeitsschritten wie in der semantischen Analyse, die Werte korrekt verarbeiten.
+Wenn ein Bezeichner in die Symboltabelle eingefügt wird, wird ein String für den Bezeichner, ein String für den Typ, ein String für die Sichtbarkeit und ein String für die Hierarchiestufe der Variable hinterlegt. Nur so kann in darauffolgenden Arbeitsschritten wie in der semantischen Analyse, die Werte korrekt verarbeitet werden.
 
-Die Methoden sind hauptsächlich dazu da, Symbole oder Attribute von Symbolen gezielt abzufragen oder in der Konsole auszugeben.
+Die restlichen Methoden der Klasse \verb+SymbolTable+ dienen der dezidierten Abfrage von Werten.
 
 Etwa die \verb+getSymbolScope+ Methode wird dazu verwendet den Sichtbarkeitswert eines Bezeichners auszugeben.
 
@@ -552,30 +544,21 @@ um nach und nach den Java-Zielcode zu erzeugen.
 
 Um den Syntaxbaum zu erzeugen muss der Syntaxbaum Stück für Stück überprüft werden. Dieser Prozess wird als semantische Analyse bezeichnet und erfolgt im Checker Modul.
  
+ \pagebreak
 \subsubsection{Checker}
 Das Checker-Modul prüft den PL/I-Quellcode auf seine Korrektheit. 
 Dieses Modul ist repräsentativ für die Semantische-Analyse. 
 Eine Aufgabe des Checker-Moduls ist es die Typ-Definition von Variablen mit den Zuweisungen abzugleichen.
-Wird beispielsweise dem Decimal-Typ ein Alphanumerischer Wert zugewiesen, soll dieses Modul den Benutzer auf einen Syntaxfehler hinweisen.
-Der Ausdruck in Listing \ref{lst:depthin} wird fälschlicherweise von dem Parser verarbeitet.
+Wird beispielsweise dem Decimal-Typ ein Alphanumerischer Wert zugewiesen, soll dieses Modul den Benutzer auf einen Syntaxfehler hinweisen. Um solche Semantischen Fehler zu erkennen, wird das Checker-Modul nach dem Vorbild des Composite Design-Patterns implementiert. In Abbildung \ref{fig:checker} ist das \ac{uml} des Checker Modul abgebildet.
 
-\begin{lstlisting}[language=PL/I, caption=Deklaration einer Varibale des Typs Decimal, label={lst:decimal}]
-DCL var_1 DECIMAL(5);
-
-var_1 = 'Hello';
-\end{lstlisting}
-
-Um solche Semantischen Fehler zu erkennen, wird das Checker-Modul nach dem Vorbild des Composite Design-Patterns implementiert.
-
-In Abbildung \ref{fig:checker} ist das \ac{uml} des Checker Modul abgebildet.
-
-\dhgefigure[h]{checker-module-uml.png}[scale=0.4]{Checker Modul}{fig:checker}
+\dhgefigure[h]{checker-module-uml.png}[scale=0.58]{Checker Modul}{fig:checker}
 \pagebreak
 
-Entsprechend des Composite Design-Patterns, wird der Component \verb+ITypeExpression+, das Composite \verb+VarChecker+ und mehrere leafs wie etwa die \verb+DecimalChecker+ Klasse, definiert.
-Bei den Leafs wurde sich nach den PL/I-Datentypen orientiert, die überprüft werden sollen.
+Entsprechend des Composite Design-Patterns, wird der Component; \verb+ITypeExpression+, das Composite; \verb+VarChecker+ und mehrere Leafs wie etwa die \verb+DecimalChecker+ Klasse, definiert.
+Die zu überprüfenden PL/I-Datentypen ergeben ein Leaf.
 Dabei hilft das Composite-Design Pattern für alle Typ-Klassen, einheitliche Validierungstrukturen zu definieren.
-Etwa in Abbildung \ref{fig:checker} die Methode \verb+getType+ um die korrekte Zuweisung von Variablen zu erschließen. 
+Etwa in Abbildung \ref{fig:checker} ist die Methode \verb+getType+ definiert, um die korrekte Zuweisung von Variablen zu erschließen. 
+
 Weiterhin kann mit dem Design-Pattern die Speicherstruktur, die einer Überprüfung unterzogen wird, in der Composite-Klasse dargestellt werden.
 Eine mögliche Erweiterung um weiter Speicherstruktur-Elemente wie einem Array ist somit denkbar.
 
@@ -586,35 +569,41 @@ Dazu wurde in der \verb+DecimalChecker+ Klasse die Methode \verb+iterateTree+ im
 Um den Syntaxbaum erfolgreich zu iterieren wurde der Depth-first Suchalgorhitmus rekursiv in dieser Methode implementiert.
 Die Iterationsweise des Algorhitmus im Zusammenhang mit dem Syntaxbaum ist in Abbildung \ref{fig:parsetreealgo} dargestellt.
 
-\dhgefigure[h]{parsetree-example-searchalgo.png}[scale=0.5]{Beispielhafte Iteration des Syntaxbaums}{fig:parsetreealgo}[][]
+\dhgefigure[h]{parsetree-example-searchalgo.png}[scale=0.8]{Beispielhafte Iteration des Syntaxbaums}{fig:parsetreealgo}[][]
 \pagebreak
 
 So wird es möglich gezielt nach Knoten zu suchen und die Attribute des Knotens auszulesen.
 In dem Checker Modul wird dieser Algorithmus vor allem benutzt um festzustellen welche Variablen, mit welchem Typ und welchen Bezeichner deklariert wurde und ob dieser Bezeichner in einem \verb+ASSIGN+ Knoten wiederverwendet wurde.
 
 So kann der Syntaxbaum mit seinen Attributen vollständig iteriert und überprüft werden.
-Die Überprüfung ist dann abgeschlossen, wenn die Iteration des Suchalgorithmus wieder bei dem Ausgangspunkt angekommen ist. In Abbildung \ref{fig:parsetreealgo} ist das der Knoten \verb+PRORGRAM+.
+Die Überprüfung ist dann abgeschlossen, wenn die Iteration des Suchalgorithmus wieder bei dem Ausgangspunkt angekommen ist. In Abbildung \ref{fig:parsetreealgo} ist das etwa der Knoten \verb+PRORGRAM+.
 
 Wurde kein Fehler entdeckt beginnt die Transformation des Syntaxbaums in Java. Falls jedoch ein Fehler entdeckt wurde, wird eine entsprechende Fehlermeldung angezeigt.
-Mehr bezüglich Fehlermeldungen und allgemeine Fehlerbehandlung in dem Kapitel ?.?.
 
 Das Checker Modul bereitet den Syntaxbaum entsprechend so vor, dass dieser weiterhin in der Synthese verarbeitet werden kann.
+Die Synthese wird durch das Mapper-Modul implementiert und ist Bestandteil des nächsten Kapitels.
  
+ \pagebreak
 \subsubsection{Mapper}
 Das Mapper Modul transformiert die Zwischencode Repräsentation in den Java-Zielcode. Dazu wurde das Mapper-Modul nach dem Strategy Desgin-Pattern entworfen.
 In Abbildung \ref{fig:mapper} ist das UML des Mapper Moduls zu sehen. 
 
 
-\dhgefigure[h]{mapper-module-uml.png}[scale=0.4]{Mapper Modul}{fig:mapper}
+\dhgefigure[h]{mapper-module-uml.png}[scale=0.7]{Mapper Modul}{fig:mapper}
 \pagebreak
 
 Die Klasse \verb+Mapper+ wird in der Main-Methode des Projektes instanziiert. Als Parameter wird der Wurzelknoten des Parssebaums übergegeben.
-Woraufhin mithilfe der \verb+iterateParsetree+ Methode erneut durch den Parsbaum iteriert wird. Hier wurde ebenfalls der Depth-first Suchalgorhitmus implementiert um jeden Knoten zu verarbeiten. Jeder Knoten wird über eine Konstante die eine zugehörige Identifizierungsnummer überprüft. Die in dem interface \verb+Pl1ParserTreeConstants+ des Parser Moduls definiert sind. 
-In der Klasse \verb+AstMapper+ finden sich jegliche Identifikations-variablen der Knoten. Hier werden diese mit den zugehörigen Mapper-Klasse in einer HashMap gespeichert.
-Die Mapper Klassen stellen die unterschiedlichen Vorgehensweisen in dem Strategy-Pattern dar. Sie implementieren alle das \verb+ITranslationBehavior+ interface und aufgrund dessen eine \verb+translate+ Methode die den übersetzten Ausdruck zurückgibt. 
+Woraufhin mithilfe der \verb+iterateTree+ Methode erneut durch den Parsbaum iteriert wird. Hier wurde ebenfalls der Depth-first Suchalgorhitmus implementiert um jeden Knoten zu verarbeiten. 
 
-In der \verb+iterateParseTree+ Methode wird für jeden Knoten, überprüft ob eine solche Mapper-Klasse in der HashMap instanziiert wurde.
-Falls eine Klasse vorhanden ist, wird in der TranslationBehavior Klasse das entsprechende Strategie-Objekt des Typs \verb+ITranslationBehavior+ in der
+Jeder Knoten wird über eine Konstante mit einer zugehörigen Identifizierungsnummer überprüft. Die in dem interface \verb+Pl1ParserTreeConstants+ des Parser Moduls definiert sind. 
+
+In der Klasse \verb+AstMapper+ finden sich jegliche Identifikations-variablen der Knoten. Hier werden diese mit den zugehörigen Mapper-Klasse in einer HashMap gespeichert.
+
+Die Mapper Klassen stellen die unterschiedlichen Vorgehensweisen in dem Strategy-Pattern dar. Sie implementieren alle das \verb+ITranslationBehavior+ interface und aufgrund dessen eine \verb+translate+ Methode, die den übersetzten Ausdruck zurückgibt. 
+
+In der \verb+iterateTree+ Methode wird für jeden Knoten, überprüft ob eine solche Mapper-Klasse in der HashMap instanziiert wurde.
+Falls eine Klasse vorhanden ist, wird in der TranslationBehavior Klasse das entsprechende Strategie-Objekt
+des Typs \path{ITranslationBehavior} in der
 Mapper Klasse gesetzt. So wird die Translate-Methode der aktuell gesetzten Klasse aufgerufen und der Syntaxbaum-Knote in Java übersetzt.
 
 % wie funktioniert der PicturemMapper
@@ -623,12 +612,18 @@ Die Klasse \verb+PictureMapper+ enthält Zeichenkettenbeschränkungen des PL/I-P
 Da die Zeichenkettenbeschränkung aus PL/I nicht in dem Java Zielcode angewendet werden kann, werden die Beschränkungen des Picture-Typs entsprechend in Reguläre Ausdrücke übersetzt.
 Mit der \verb+getRegex+ Methode der \verb+PictureMapper+ Klasse wird der übersetzte Reguläre Ausdruck als String zurückgegeben.
 Der PL/I-Ausdruck \verb+(4)A+ wird etwa zu dem Regulären Ausdruck \verb+(A-Za-z ){4}+.   
+
+
 Neben der PictureMapper Klassen, erzeugen weitere Mapper Klassen Stück für Stück den Java-Zielcode. 
 Jegliche Ausdrücke werden am Ende in einer Arraylist mit dem Namen \verb+javaExpression+ der Mapper Eltern-Klasse  gespeichert.
 Wenn über jeden Knoten des Parse-Baums iteriert wurde, ist das Programm vollständig übersetzt.
-Während der Synthese und semantischen Analyse des PL/I-Quellcodes kann es zu Fehlern kommen.
-Zu den Fehlermeldungen soll im folgenden Kapitel das Modul Errorhandling vorgestellt werden.
-Dieses dient hauptsächlich der Fehlerbehandlung und -information für den Anwender.
+
+
+Dabei kann es jederzeit zu Fehlern, durch eine Fehlerhafte Benutzereingabe kommen.
+Entsprechend sollte der Benutzer auf die Probleme hingewiesen werden.
+In dem Modul Errorhandling, werden Fehlermeldungen definiert und von anderen Modulen implementiert das folgenden Kapitel 2.4 gibt eine Übersicht über Eigen-implementierte Fehlermeldungen und verwendete Fehlermeldungen aus der Standardbibliotheken.
+
+\pagebreak
 
 \subsection{Fehlerbehandlung}
 um dem Benutzer die Bediengung während der Laufzeit zu erleichtern, wurden Selbstgewählte Fehlermeldungen implementiert. Diese Fehlermeldungen sollen den Benutzer der Software in eine Feedback schleife bringe welche klare Anweisung zur Bediengung gibt. In der usprünglichen Version des Transpilers wurde dem Benutzer lediglich die von Java geworfenen Fehler in der Konsole ausgegeben. Die Fehlermeldung"IndexOutOfBounds", ließ dabei nicht darauf schließe das der Transpiler die PL/I Datei zum lesen nicht findet. Eine solche Fehlermeldung führt erneut dazu, dass der Benutzer sich selbst um die Lösung des Problems kümmern musste und somit einer weiteren Hürde begenete.
