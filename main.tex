@@ -626,12 +626,47 @@ In dem Modul Errorhandling, werden Fehlermeldungen definiert und von anderen Mod
 \pagebreak
 
 \subsection{Fehlerbehandlung}
-um dem Benutzer die Bediengung während der Laufzeit zu erleichtern, wurden Selbstgewählte Fehlermeldungen implementiert. Diese Fehlermeldungen sollen den Benutzer der Software in eine Feedback schleife bringe welche klare Anweisung zur Bediengung gibt. In der usprünglichen Version des Transpilers wurde dem Benutzer lediglich die von Java geworfenen Fehler in der Konsole ausgegeben. Die Fehlermeldung"IndexOutOfBounds", ließ dabei nicht darauf schließe das der Transpiler die PL/I Datei zum lesen nicht findet. Eine solche Fehlermeldung führt erneut dazu, dass der Benutzer sich selbst um die Lösung des Problems kümmern musste und somit einer weiteren Hürde begenete.
-eben für dan fall das die Datei nicht gelesen werden kann, wurde eine Exception geschrieben. Die Exception "PliFileNotFound", beschreibt dem Benutzer die Ursache des Problems und nennt auch ein etwaaigen Lösungsvorschlag. Es exstieren in der neusten Version einige Exceptions die in der folgenden Tabelle näher Beschrieben werden.
+Die Fehlerbehandlung wird über das Modul Errorhandling bereitgestellt.
+In diesem wurden Kind-Klassen der Exception Klasse, der Java Standard Bibliothek implementiert.
+Allgemein wurde versucht möglichst wenig selbstdefinierte Exception Klassen zu erstellen.
+Denn der Erfahrene Java-Entwickler wird mit den Standard-Java Exception vertraut sein 
+und entsprechend schneller die Fehler behandeln. In der Tabelle \ref{tab:exceptiontabelle} sind die verwendeten Exception dargestellt.
 
-...tabelle mit exceptions...
+\begin{tabular}[h]{lcr}
+	\caption{Exceptions des Transpilers }
+	Exception & Quelle & Kurzbeschreibung \\
+	\verb+IncorretInputFileException+ & Errorhandling-Modul & Wird bei der Eingabe eines Dateityps, anders als .pli geworfen. \\
+	\verb+LexicalErrorException+ & Errorhandling-Modul & Wird aufgrund eines Lexikalischen Fehlers im Picture-Ausdruck geworfen.\\
+	\verb+TypeMappingException+ & Errorhandling-Modul & Wird beim transformieren von unbekannten PL/I-Datentypen geworfen.\\
+	\verb+ParseException+ & Parser-Modul & Wird beim Parsen des PL/I-Quellcodes geworfen.\\
+	\verb+MappingException+ & Errorhandling-Modul & Wird geworfen wenn Werte beim Mappen des Syntaxbaums fehlen.\\
+	\verb+IOExcpetion+ & Java-IO-Package & Fehlerhafte Dateieingabe im Scanner-Modul \\
+	\verb+NumberFormateExcpetion+ & Java-Lang-Package & Typfehler beim zuweisen von eines Numerischen-Datentyps. \\
+	\verb+IllegalArgumentException+ & Java-Lang-Package & Typfehler beim zuweisen von eines Alphanumerischen-Datentyps. \\
+	\verb+NullPointerException+ & Java-Lang-Package & Fehlerhafte Datenstruktur, wie etwa Symboltabelle oder Syntaxbaum \\
+	\verb+DuplicateRequestException+ & Jdi-Request-Package & Wenn ein Wert in die Symboltabelle eingefügt werden soll, der schon vorhanden ist.\\
+	\label{tab:exceptiontabelle}
+\end{tabular}
 
-fehlerbehandlung spielt besonder im Zusammenhang mit der Lexikalischen Analyse eine Rolle. Um zu gewährleisten das die Transformation korrekt albläuft braucht es der formalen PL/I Grammatik enstrpechend richtigen PL/I Code als Eingabe. Eine nicht behandlung hätte zur Folge das das Programm entweder eine Fehlerhafte Ausgabe produziert, oder Fehlschlägt. Dies soll vermieden werden.
+Mithilfe der \verb+MappingException+ etwa wird vor jeder Terminierung der \verb+translate+ Methode des Mapper-Moduls überprüft ob 
+die benötigten Werte, wie etwa ein Bezeichner oder ein Parameter auch korrekt aus dem Syntaxbaum verarbeitet wurden.
+Es ist zwar zu erwarten das der Parser einen solchen Fehler erkennt, aufgrund der definierten Grammatik, 
+dennoch soll nach Möglichkeit vermieden werden das ein Fehlerhaftes Programm Transformiert wird.
+
+Der Benutzer wird durch die \verb+ParseException+ darauf hingewiesen wo ein Fehlerauftritt
+und welche Schritte unternommen werden müssen um den Fehler zu beheben.
+Wird etwa ein Syntaktisch falscher Ausdruck an das Parser-Module übergeben, parsed diesen den Ausdruck
+bis zu der Stelle in der die definierte Grammatik nicht länger greift.
+Der PL/I-Parser wirft die \verb+ParseException+ und gibt in dieser die Zeilen- und Spaltennummer des
+entstanden Fehlers an.
+
+In der aktuellen Version des Transpilers werden auch nicht alle PL/I-Syntaxelemente eingebunden.
+Das hat zur folge das es äußerst wahrscheinlich ist, dass der Benutzer auf eine ParseException stoßen wird.
+Es wurde sich, aufgrund der beschränkten Arbeitszeit, auf die wesentlichen Strukturelemente 
+einer Programmiersprache entschieden.
+Dazu zählen Deklarationen, Kontrollflussanweisungen und Ein- und Ausgabeströme.
+In dem nachfolgenden Kapitel werden diese Kernfunktionen vorgestellt und die Übersetzungsentscheidung
+diskutiert. 
 
 \pagebreak
 \section{Technische Spezifikation}
