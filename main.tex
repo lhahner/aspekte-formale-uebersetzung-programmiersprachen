@@ -599,7 +599,7 @@ Jeder Knoten wird über eine Konstante mit einer zugehörigen Identifizierungsnu
 
 In der Klasse \verb+AstMapper+ finden sich jegliche Identifikations-variablen der Knoten. Hier werden diese mit den zugehörigen Mapper-Klasse in einer HashMap gespeichert.
 
-Die Mapper Klassen stellen die unterschiedlichen Vorgehensweisen in dem Strategy-Pattern dar. Sie implementieren alle das \verb+ITranslationBehavior+ interface und aufgrund dessen eine \verb+translate+ Methode, die den übersetzten Ausdruck zurückgibt. 
+Die Mapper Klassen stellen die unterschiedlichen Vorgehensweisen in dem Strategy-Pattern dar. Sie implementieren alle das \path{ITranslationBehavior} interface und aufgrund dessen eine \verb+translate+ Methode, die den übersetzten Ausdruck zurückgibt. 
 
 In der \verb+iterateTree+ Methode wird für jeden Knoten, überprüft ob eine solche Mapper-Klasse in der HashMap instanziiert wurde.
 Falls eine Klasse vorhanden ist, wird in der TranslationBehavior Klasse das entsprechende Strategie-Objekt
@@ -629,42 +629,73 @@ In dem Modul Errorhandling, werden Fehlermeldungen definiert und von anderen Mod
 Die Fehlerbehandlung wird über das Modul Errorhandling bereitgestellt.
 In diesem wurden Kind-Klassen der Exception Klasse, der Java Standard Bibliothek implementiert.
 Allgemein wurde versucht möglichst wenig selbstdefinierte Exception Klassen zu erstellen.
-Denn der Erfahrene Java-Entwickler wird mit den Standard-Java Exception vertraut sein 
-und entsprechend schneller die Fehler behandeln. In der Tabelle \ref{tab:exceptiontabelle} sind die verwendeten Exception dargestellt.
+Denn der Erfahrene Java-Entwickler der mit den Standard-Java Exception vertraut ist, kann so schneller die geworfenen Fehler behandeln. In der Tabelle \ref{tab:exceptiontabelle} sind die verwendeten Exception dargestellt.
 
-\begin{tabular}[h]{lcr}
-	\caption{Exceptions des Transpilers }
-	Exception & Quelle & Kurzbeschreibung \\
-	\verb+IncorretInputFileException+ & Errorhandling-Modul & Wird bei der Eingabe eines Dateityps, anders als .pli geworfen. \\
-	\verb+LexicalErrorException+ & Errorhandling-Modul & Wird aufgrund eines Lexikalischen Fehlers im Picture-Ausdruck geworfen.\\
-	\verb+TypeMappingException+ & Errorhandling-Modul & Wird beim transformieren von unbekannten PL/I-Datentypen geworfen.\\
-	\verb+ParseException+ & Parser-Modul & Wird beim Parsen des PL/I-Quellcodes geworfen.\\
-	\verb+MappingException+ & Errorhandling-Modul & Wird geworfen wenn Werte beim Mappen des Syntaxbaums fehlen.\\
-	\verb+IOExcpetion+ & Java-IO-Package & Fehlerhafte Dateieingabe im Scanner-Modul \\
-	\verb+NumberFormateExcpetion+ & Java-Lang-Package & Typfehler beim zuweisen von eines Numerischen-Datentyps. \\
-	\verb+IllegalArgumentException+ & Java-Lang-Package & Typfehler beim zuweisen von eines Alphanumerischen-Datentyps. \\
-	\verb+NullPointerException+ & Java-Lang-Package & Fehlerhafte Datenstruktur, wie etwa Symboltabelle oder Syntaxbaum \\
-	\verb+DuplicateRequestException+ & Jdi-Request-Package & Wenn ein Wert in die Symboltabelle eingefügt werden soll, der schon vorhanden ist.\\
+\begin{table}[h]
+	\centering
+	
 	\label{tab:exceptiontabelle}
+\begin{tabular}[h]{|l|l|l|}
+	\hline
+	\textbf{Exception} & \textbf{Quelle}  \\
+	\hline
+	\verb+IncorretInputFileException+ & Errorhandling-Modul  \\
+	\hline
+	\verb+LexicalErrorException+ & Errorhandling-Modul  \\
+	\hline
+	\verb+TypeMappingException+ & Errorhandling-Modul \\
+	\hline
+	\verb+ParseException+ & Parser-Modul \\
+	\hline
+	\verb+MappingException+ & Errorhandling-Modul \\
+	\hline
+	\verb+IOExcpetion+ & Java-IO-Package \\
+	\hline
+	\verb+NumberFormateExcpetion+ & Java-Lang-Package \\
+	\hline
+	\verb+IllegalArgumentException+ & Java-Lang-Package \\
+	\hline
+	\verb+NullPointerException+ & Java-Lang-Package \\
+	\hline
+	\verb+DuplicateRequestException+ & Jdi-Request-Package \\
+	\hline
+	
 \end{tabular}
+\caption{Liste der verwendeten Exceptions}
+\end{table}
 
-Mithilfe der \verb+MappingException+ etwa wird vor jeder Terminierung der \verb+translate+ Methode des Mapper-Moduls überprüft ob 
-die benötigten Werte, wie etwa ein Bezeichner oder ein Parameter auch korrekt aus dem Syntaxbaum verarbeitet wurden.
-Es ist zwar zu erwarten das der Parser einen solchen Fehler erkennt, aufgrund der definierten Grammatik, 
-dennoch soll nach Möglichkeit vermieden werden das ein Fehlerhaftes Programm Transformiert wird.
+Nachfolgenden soll der Kontext der Exceptions näher beschrieben werden.
 
-Der Benutzer wird durch die \verb+ParseException+ darauf hingewiesen wo ein Fehlerauftritt
-und welche Schritte unternommen werden müssen um den Fehler zu beheben.
+Die \verb+IncorretInputFileException+ wird immer dann geworfen, wenn
+es sich bei der Eingabedatei nicht um eine PL/I-Datei handelt.
+Der Transpiler akzeptiert lediglich das Dateiformat \verb+.pli+.
+
+Enthält dabei der zu übersetzende Ausdruck eine Variable des Typs Picture,
+soll die \verb+LexicalErrorException+ verhindern das ein fehlerhafter Picture-Ausdruck übersetzt wird.
+Diese Fehlermeldung eignet sich auch weiterhin um Lexikalische von Syntaktischen Fehlern zu unterscheiden. Da jedoch in der aktuellen Version des Transpilers die lexikalische Analyse und syntaktische Analyse von dem Parser-Modul übernommen werden, wird auch die \verb+ParseException+ zurückgegriffen.
+
+Der Benutzer wird durch die \verb+ParseException+ darauf hingewiesen wo ein Fehlerauftritt und welche Schritte unternommen werden müssen um den Fehler zu beheben.
 Wird etwa ein Syntaktisch falscher Ausdruck an das Parser-Module übergeben, parsed diesen den Ausdruck
 bis zu der Stelle in der die definierte Grammatik nicht länger greift.
 Der PL/I-Parser wirft die \verb+ParseException+ und gibt in dieser die Zeilen- und Spaltennummer des
 entstanden Fehlers an.
 
+Woraufhin das Checker-Modul nochmal die Zwischencode-Erzeugung des Parser überprüft.
+Da das Checker-Modul aktuell lediglich einen Typ-Checker implementiert, existiert aktuell nur eine \verb+TypeMappingException+.
+Diese wird immer dann geworfen, wenn der Typ einer deklarierten Variable mit einem nicht zugelassenen Wert zugewiesen wird.
+Für weitere Semantische Analyse Schritte, sind ebenfalls weitere Exceptions denkbar. Allgemein dient das Checker-Modul lediglich der Fehlererkennung und Unterbrechung des Transformations-Prozesses.
+
+Mithilfe der \verb+MappingException+ wird vor jeder Terminierung der \verb+translate+ Methode des Mapper-Moduls überprüft ob 
+die benötigten Werte, wie etwa ein Bezeichner oder ein Parameter auch korrekt aus dem Syntaxbaum verarbeitet wurden.
+Es ist zwar zu erwarten das der Parser einen solchen Fehler erkennt, aufgrund der definierten Grammatik, 
+dennoch soll nach Möglichkeit vermieden werden das ein Fehlerhaftes Programm Transformiert wird.
+
+Die restlichen Standard Java-Exceptions werden auch in dem zu erwarteten Zusammenhang eingesetzt.
+
 In der aktuellen Version des Transpilers werden auch nicht alle PL/I-Syntaxelemente eingebunden.
 Das hat zur folge das es äußerst wahrscheinlich ist, dass der Benutzer auf eine ParseException stoßen wird.
-Es wurde sich, aufgrund der beschränkten Arbeitszeit, auf die wesentlichen Strukturelemente 
-einer Programmiersprache entschieden.
-Dazu zählen Deklarationen, Kontrollflussanweisungen und Ein- und Ausgabeströme.
+Aufgrund der beschränkten Arbeitszeit, wurden lediglich wesentliche Syntaxelemente einer Programmiersprache implementiert.
+Dazu zählen Deklarationen, Kontrollflussanweisungen, sowie Ein- und Ausgabeströme.
 In dem nachfolgenden Kapitel werden diese Kernfunktionen vorgestellt und die Übersetzungsentscheidung
 diskutiert. 
 
