@@ -117,9 +117,9 @@ Ein Transpiler kann sowohl als Interpreter und als Compiler gestaltet werden. In
 %  - Perspektive des Benutzers
     \pagebreak
 
-\subsection{Abgrenzung Interpreter und Transpiler}
+\subsection{Abgrenzung Interpreter und Compiler}
 % Wie können Programme ausgeführt werden?
-Für die nachfolgenden Kapitel soll in diesem Kapitel ein Compiler von einem Interpreter abgegrenzt werden.
+Um das zu entwickelnde Programm von einem Interpreter abzugrenzen, werden in diesem Kapitel die Unterschiede zwischen einem Interpreter und einem Compiler beschrieben. Zusätzlich wird ein Compiler mit einem Transpiler verglichen und Unterschiede dargestellt.
   
 % Wie arbeitet ein Compiler?
 Ein Compiler besteht aus einem Frontend und einem Backend. Das Frontend umfasst die lexikalische, syntaktische, semantische Analyse und die Symboltabelle.
@@ -131,10 +131,10 @@ Um weiterhin den Prozess der Übersetzung mithilfe eines Compilers darzustellen,
 \dhgefigure[h]{compiler-ablauf-diagramm.png}[scale=0.75]{Funktionsweise eines Compilers}{fig:compiler}[][]
 
 \pagebreak
-Abbildung \ref{fig:compiler} zeigt eine Übersicht und das Ergebnis der einzelnen Phasen. Die Abbildung unterteilt den Ablauf wie eingangs beschrieben in Frontend und Backend.
+Abbildung \ref{fig:compiler} zeigt eine Übersicht und das Ergebnis der einzelnen Compiler-Phasen. Die Abbildung unterteilt den Ablauf wie eingangs beschrieben in Frontend und Backend.
 
 In der ersten Phase teilt der Compiler den eingegebenen String in Tokens auf. Danach entsteht ein Syntaxbaum, der in diesem Beispiel die Zwischencodedarstellung repräsentiert. Ab diesem Punkt beginnt das Backend des Compilers. Zuerst erzeugt das Backend maschinenunabhängigen Code und anschließend maschinenabhängigen Code. Dieser maschinenabhängige Code ist auf dem zugrundeliegenden System ausführbar. \footcite[Vgl. ][S.30 ]{aho}
-In jeder Phase wird die Symboltabelle gelesen und geschrieben.
+In jeder Phase wird aus der Symboltabelle gelesen und geschrieben.
 
 %  Warum ein Transpiler?
 Neben den Eingangs beschriebenen Compiler, gibt es weitere Lösungen die auf einem ähnlichen Konzept basieren.
@@ -187,6 +187,7 @@ Das Quoting folgt dem Prinzip der lexikalischen Analyse, bei der alle Sonderzeic
 Anschließend beginnt das Parsing, das der syntaktischen Analyse im Kompilierprozess ähnelt, jedoch keine Zwischencodeerzeugung beinhaltet. Hier wird lediglich zwischen einfachen Bash-Befehlen wie \verb+wc+ und zusammengesetzten Befehlen wie einem \verb+if+-Ausdruck unterscheiden.
 
 Der Verarbeitungsprozess setzt sich mit der Shell-Expansion fort, bei der in einem Befehl eingebettete relative Ausdrücke durch ihre absoluten Repräsentationen ersetzt werden.
+Ab hier nimmt nun das Betriebssystem die Befehle des Shell-Skriptes entgegen und führt das entsprechende Programm aus.
 Schließlich wird das Ergebnis in der Kommandozeile ausgegeben. \footcite[Vgl. ][]{gnubash}
 
 % Absatz: Zusammenfassende Unterscheidung zwischen Interpreter und Transpiler, Was sind gemeinsamkeiten und unterschiede von Transpiler und interpreter?
@@ -195,7 +196,7 @@ Zusammenfassend zeigen sich sowohl Ähnlichkeiten als auch Unterschiede zwischen
 
 Um PL/I-Code korrekt in Java zu übersetzen, sind Verbindungen zwischen den Ausdrücken relevant. Eine zeilenweise Übersetzung könnte zu einem Java-Programm führen, das den restlichen Kontext des Programms nicht weiter berücksichtigt. Der Transpiler sollte eine solche Repräsentation berücksichtigen können.
 
-Um eine solche Zwischencodeerzeugung zu generieren wird ein Frontend benötigt. Wie schon in den Abbildungen \ref{fig:transpiler} dargestellt sind die ersten Arbeitsschritte des Frontends die lexiklaische und syntaktische Analyse. Für beide Prozessschritte werden ein Parser und Lexer benötigt. Mit einem Compiler-Compiler können automatisiert Programme erzeugt werden die einen PL/I-Quellcode in eine Zwischencodedarstellung transformieren.
+Um eine Zwischencodeerzeugung zu generieren wird ein Frontend benötigt. Wie schon in den Abbildungen \ref{fig:transpiler} dargestellt sind die ersten Arbeitsschritte des Frontends die lexiklaische und syntaktische Analyse. Für beide Prozessschritte werden ein Parser und Lexer benötigt. Mit einem Compiler-Compiler können automatisiert Programme erzeugt werden die einen PL/I-Quellcode in eine Zwischencodedarstellung transformieren.
 Das folgende Kapitel beleuchtet Grammatiken formaler Sprachen wie PL/I und Java genauer um auf die Verwendung eines Compiler-Compilers vorzubereiten.
 % Der entscheidende Unterschied liegt darin, dass der Interpreter den Quellcode lediglich zeilenweise direkt übersetzt, während der Compiler das Programm in eine andere Form transformiert und liest. Dabei stehen die verwendeten Ausdrücke des Eingabecodes in Beziehung zueinander, beispielsweise durch die Verschachtelung von Verzweigungen und Schleifen.
 
@@ -292,24 +293,25 @@ Die aktuellste Grammatik wird durch IBM, in der PL/I Language Referenz definiert
 \subsection{Anwendung von Formalen Grammatiken in JavaCC}
 % 1. Was ist ein Compiler-Compiler? (Verbindung von formalen Grammatiken zu JavaCC)
 
-In Kapitel 1.3 wurde bereits in die Thematik der formalen Grammatiken eingeführt, in diesem Kapitel wird nun die praktische Implementation dieser Grammatiken im Zusammenhang mit dem Transpiler beschrieben.
+In Kapitel 1.4 wurde bereits in die Thematik der formalen Grammatiken eingeführt, in diesem Kapitel wird nun die praktische Implementation dieser Grammatiken im Zusammenhang mit dem Transpiler beschrieben.
 Ein Compiler-Compiler wie JavaCC ist eine Technologie mit der aus einer formalen Beschreibung einer Grammatik ein Lexer und ein Parser erzeugt werden. 
-Der Lexer und der Parser wenden die in der Grammatik definierten Regeln an und verarbeiten entsprechend die übergebenen Ausdrücke.
+
+Der Lexer und der Parser wenden die in der Grammatik-Datei definierten Regeln an und verarbeiten in einer Java-Klasse die übergebenen Ausdrücke.
 Die Darstellung der Grammatik erfolgt in der Regel in einer Art \ac{ebnf}. 
 Beispielhafte Compiler-Compiler sind neben JavaCC, Yacc, Antlr und Lexer.
-In Kapitel 1.3 wurde bereits vereinfacht eine Syntaxregel aus der PL/I-Grammatik dargestellt. Ähnlich erfolgt auch die Darstellung in einer Grammatikdatei. Folgendes Beispiel zeigt die Darstellung eines \verb+IF ELSE+ Ausdrucks. 
+
+
+In Kapitel 1.4 wurde bereits vereinfacht eine Syntaxregel aus der PL/I-Grammatik dargestellt. Ähnlich erfolgt auch die Darstellung in einer Grammatikdatei. Folgendes Beispiel zeigt die Darstellung eines \verb+IF ELSE+ Ausdrucks. 
 \footcite[Vgl. ][]{javaccdoku}
 
 
 \begin{lstlisting}[language=Java, caption=If Statement aus der Grammatikdatei, label={lst:ifstatement}]
-	void if_statement() #IF :
+	void if_statement() #BRANCH :
 	{}
 	{
-		< IF > bool_expression() (bool_operation() bool_expression() )*
+		< IF >bool_expression()
 		< THEN >proc_body()
-		[< ELSE >
-		proc_body()]
-		
+		[else_statement()]
 	}
 \end{lstlisting}
 
@@ -321,10 +323,49 @@ Im Körper der Methode wird der If-Ausdruck weiter definiert. Terminalsymbole we
 Ähnlich wie bei der Syntaxregel aus Listing \ref{lst:ifstatement}, so lange bis lediglich Terminalsymbole übrig bleiben.
 Die Methode \verb+bool_expression+ etwa, beschreibt einen zulässigen Boolschen Ausdruck, der durch einen weiteren boolschen Operator mit einem weiteren booleschen Ausdruck verknüft werden kann.
 
-Weiterhin wird in der Methode \verb+proc_body+ beschrieben welche Ausdrücke weiter zulässig sind. Dazu zählt bspw. auch eine weitere \verb+IF ELSE+ Verzweigung. So werden auch verschachtelte Ausdrücke möglich.
-Werden nach und nach die Methoden durch den Compiler-Compiler aufgerufen, ergibt sich eine Regel für Verzweigungen. Nach diesem Prinzip ist die gesamte Grammatik für PL/I gestaltet. 
-Die Wurzel aller Methoden, die einen Ausdruck beschreiben, die Methode \verb+program+, welche das gesamte Programm darstellt.
-Aus dem definierten Ausdruck aus Listing \ref{lst:ifstatement} wird schlussendlich ein Syntaxbaum erzeugt, der durch die Module des Transpilers weiter verarbeitet wird.
+Weiterhin wird in der Methode \verb+proc_body+ beschrieben welche Ausdrücke weiter zulässig sind. Dazu zählt bspw. auch eine weitere \verb+IF ELSE+ Verzweigung. 
+
+ So werden aus der Grammatikdatei, durch den Compiler-Compiler, nach und nach Java-Klassen erzeugt die Programmroutinen zur Syntaktischen Verarbeitung von PL/I-Ausdrücken beinhalten.
+Der Ausschnitt aus der Grammatikdatei in Listing \ref{lst:ifstatement} wird zu dem Java-Quellcode in Listing \ref{lst:ifstatementmethode}.
+
+
+\begin{lstlisting}[language=Java, caption=Verkürzte If-Statement Methode aus dem Parser, label={lst:ifstatementmethode}]
+ final public void if_statement() throws ParseException {
+			SimpleNode jjtn000 = new SimpleNode(JJTBRANCH);
+			boolean jjtc000 = true;
+			jjtree.openNodeScope(jjtn000);
+	try {
+			jj_consume_token(IF);
+			bool_expression();
+			jj_consume_token(THEN);
+			proc_body();
+		
+		if (jj_2_30(3)) {
+				else_statement();
+		} else {
+			;
+		}
+	} catch (Throwable jjte000) {
+		if (jjtc000) {
+				jjtree.clearNodeScope(jjtn000);
+				jjtc000 = false;
+		} else {
+				jjtree.popNode();
+		}
+		if (jjte000 instanceof RuntimeException) {
+				if (true) throw (RuntimeException)jjte000;
+		}
+		if (jjte000 instanceof ParseException) {
+				if (true) throw (ParseException)jjte000;
+		}
+				if (true) throw (Error)jjte000;
+	}
+}	
+\end{lstlisting}
+
+In Listing \ref{lst:ifstatementmethode} ist zu erkennen, dass die ebenfalls definierten Methoden in der Grammatikdatei, die repräsentativ für die Nicht-Terminal-Symbole sind, auch in der Methode der generierten Parser-Klasse zu Methodenaufrufen führen. Dies ist in Zeile 7 zu sehen. Weiterhin werden Token, also die Repräsentationen der Terminalsymbole, durch die Methode \verb+jj_consume_token+ verarbeitet. Die restlichen Verzweigungen in der generierten Java-Methode prüfen die verarbeiteten Token auf Fehler.
+
+Außerdem wird mit dem Objekt \ver+SimpleNode+ in der Java-Methode aus Listing \ref{lst:ifstatementmethode} ein Knoten im Syntaxbaum erzeugt. Diese Knoten ermöglichen die Verarbeitung des PL/I-Quellcodes durch die weiteren Module des Transpilers.
 
 % Warum ein Compiler-Compiler verwenden?
 
