@@ -728,14 +728,47 @@ Im Ordner \path{src/main/java/res/config} befindet sich die Konfigurationsdatei
 \verb+config.properties+. In dieser Datei kann die Variable \verb+PATH+ geändert werden, 
 um PL/I-Quellcode aus einer anderen Projektstruktur zu transformieren.
 
-% \paragraph{Internet Schnittstelle}
-%...
+\paragraph{Webanwendung}
+Um es dem Benutzer leicht zu gestalten den Transpiler zu verwenden wurde mithilfe des Spring-Boot Frameworks eine Webanwendung entwickelt.
+Die Webanwendung enthält neben der Integration des Transpilers auch Dokumentationen der bisherigen Versionen.
+Um die Webanwendung zu verwenden muss erneut eine GitHub-Repository geladen werden. Verwendet wird der Git-Befehl in Listing
+\ref{lst:gitcloneweb}
+
+\begin{lstlisting}[language=bash, caption=Herunterladen der Repository der Web-Schnittstelle, label={lst:gitcloneweb}]
+	git clone https://github.com/lhahner/plitra-web.git
+\end{lstlisting}
+
+Um die Anwendung zu starten sollte mit der Kommandozeile in den Projektordner navigiert werden.
+Daraufhin kann das Spring-Boot Projekt gestartet werden. In Listing \ref{lst:springboot} ist der Befehl beschrieben um die Spring-Boot Anwendung lokal zu starten.
+
+\begin{lstlisting}[language=bash, caption=Build Spring-Boot Projekt, label={lst:springboot}]
+	.\mvnw spring-boot:run
+\end{lstlisting}
+
+Daraufhin wird die Spring-Boot Anwendung unter dem Port 8080, lokal erreichbar.
+Zu sehen ist unter diesem Port die grafische Oberfläche aus Abbildung \ref{fig:homepage}.
+
+\dhgefigure[h]{homepage-plitra-web.png}[scale=0.5]{Startseite der Grafischen Oberfläche}{fig:homepage}[][]
+
+Hier kann entweder unter "Documentation" die Dokumentation der bisherigen Versionen eingesehen werden und unter Transpile
+die eigentliche Anwendung aufgerufen werden.
+Unter "Transpile" öffnet sich die Grafische Oberflächliche aus Abbildung \ref{fig:translator}.
+
+\dhgefigure[h]{translate-view.png}[scale=0.5]{Grafische Oberfläche des Übersetzers}{fig:translator}[][]
+
+Auf der linken Seite der Grafischen Oberfläche kann der PL/I-Quellcode eingefügt werden und auf der linken Seite erscheint dann, entweder der übersetze Java-Zielcode oder eine Fehlermeldung.
+Der Benutzer kann diese Schnittstelle benutzen um einfache PL/I-Programm zu übersetzen, oder um die Java-Repräsentation eines PL/I-Ausdruck anzusehen.
 
 Neben der grafischen Oberfläche hat auch die Gestaltung der Übersetzung einen Einfluss auf die Benutzererfahrung. Eine Transformation des PL/I-Quellcodes in schwer lesbaren und wartbaren Java-Zielcode erreicht zwar das grundlegende Ziel der Übersetzung, ist jedoch für viele Benutzer nicht ausreichend.
 
 In den nachfolgenden Kapiteln werden PL/I-Strukturen beschrieben und die Transformation in Java diskutiert.
 
 \pagebreak
+
+
+
+
+
 \subsection{Transformation nach Anweisungskategorien}
 \subsubsection{Deklarationen und Zuweisungen}
 Die erste Version des Transpilers enthielt lediglich die Transformation von PL/I-Datentypen in nicht-primitive Java Datentypen wie etwa die Klasse \verb+DECIMAL+, \verb+CHAR+ oder \verb+PICTURE+.
