@@ -17,29 +17,29 @@
 \subsection{Problemstellung}
 	
 Es gibt zwei Probleme die eine PL/I zu Java Übersetzung lösen soll. 
-Einerseits ein Portabilitätsproblem von PL/I-Programmen, die auf modernen Plattformen laufen sollen, wie etwa Cloud-Instanzen, oder Linux-Server. Andererseits die mit einem hohen Aufwand verbundene Wartung von bestehenden PL/I-Programmen. 
+Einerseits ein Portabilitätsproblem von PL/I-Programmen, die auf modernen Plattformen laufen sollen, wie etwa Cloud-Instanzen oder Linux-Server, andererseits die mit hohen Aufwand verbundene Wartung von bestehenden PL/I-Programmen. 
 	
-Die bestehende Auswahl von PL/I Compilern führen zu einem Portabilitätsproblem. Der PL/I Compiler, der auf den meisten Computer-Systemen im Einsatz ist, wird von IBM entwickelt und vermarktet. Hierbei handelt es sich um einen Compiler der für, dass von IBM entwickelte Betriebssystem z/Os geschrieben wurde. Eine Kompilierung von PL/I auf einem herkömmlichen x86-Desktop Computer oder ähnlichen ist mit diesem Compiler nicht möglich. \footcite[Vgl. ][]{plicomp}
+Die bestehende Auswahl von PL/I Compilern führen zu einem Portabilitätsproblem. Der PL/I Compiler, der auf den meisten Computer-Systemen im Einsatz ist, wird von IBM entwickelt und vermarktet. Hierbei handelt es sich um einen Compiler für das von IBM entwickelte Betriebssystem z/OS geschrieben wurde. Eine Kompilierung von PL/I auf einem herkömmlichen x86-Desktop Computer oder ähnlichen ist mit diesem Compiler nicht möglich. \footcite[Vgl. ][]{plicomp}
 
 
 Eine mögliche Alternative bietet die Organisation GNU mit der \ac{GCC}. Der Softwareentwickler Henrick Sorensen entwickelte Teile des Frontends für einen PL/I Compiler. Dabei verwendete er das Backend, dass die \ac{GCC} zu Verfügung stellt. Jedoch gab es bei diesem Projekt seit 2007 keine weiteren Neuerungen mehr. Der Entwickler gibt an, das bisher keine Zwischencode Erzeugung stattfindet, was diesen Compiler bisher unbrauchbar macht. \footcite[Vgl. ][]{pligcc} 
-Heutzutage ist die gängige Möglichkeit, ein IBM 3270 Terminal zu emulieren, das eine Verbindung zu einem z/Os System herstellt, um den PL/I Code auf diesem zu kompilieren.
+Heutzutage ist eine gängige Möglichkeit, ein IBM 3270 Terminal zu emulieren, das eine Verbindung zu einem z/OS System herstellt, um den PL/I Code auf diesem zu kompilieren.
 
 
-Neben technischen Problemen, existiert auch ein Personalproblem. PL/I ist eine Altsprache, die seit den 1960er Jahren im Einsatz ist und durch den Generationenwechsel an Entwicklern verliert. Wartung und Entwicklung werden so häufig schwer und teuer.\footcite[Vgl. ][S. 227ff.]{histopli} 
+Neben technischen Problemen, existieren auch Personalprobleme. PL/I ist eine Altsprache, die seit den 1960er Jahren im Einsatz ist und durch den Generationenwechsel an Entwicklern verliert. Wartung und Entwicklung werden so häufig teuer.\footcite[Vgl. ][S. 227ff.]{histopli} 
 
 Java hingegen ist auf nahezu allen modernen Systemen durch die plattformunabhängige Java Virtual Machine (JVM) kompilierbar. \footcite[Vgl. ][]{jvm}
-Insbesondere ist eine Kompilierung auch auf einem IBM-Großrechner mit z/Os möglich. \footcite[Vgl. ][]{zos} 
+Insbesondere ist eine Kompilierung auch auf einem IBM-Großrechner mit z/OS möglich. \footcite[Vgl. ][]{zos} 
 Das macht Java zu einer flexibel einsetzbaren Sprache. 
 
-Weiterhin is Java die mit am meisten verwendete Programmiersprache in der heutigen Zeit. \footcite[Vgl. ][]{tiobe} Das führt zu einer höheren Anzahl an Entwickler, die in der Lage sind Java Programme zu warten.
+Weiterhin ist Java heute eine beliebte Programmiersprache. \footcite[Vgl. ][]{tiobe} Das führt zu einer höheren Anzahl an Entwickler, die in der Lage sind Java Programme zu warten.
 
 % Was ist ein Transpiler?
-Um die Programmiersprache Java zur Lösung der eingangs beschriebenen Probleme zu verwenden, wird ein Transpiler benötigt, der PL/I-Quellcode in Java-Zielcode übersetzt. Ein solcher Transpiler verarbeitet den Quellcode der Sprache PL/I und generiert daraus entsprechenden Quellcode in der Sprache Java. Dabei hat der Benutzer die Möglichkeit, selbst zu bestimmen, wie bestimmte Ausdrücke übersetzt werden sollen. Sobald der Programmcode in Java übersetzt ist, kann der Java-Zielcode von dem Java-Compiler kompiliert werden und durch die \ac{jvm} ausgeführt werden.
+Um die Programmiersprache Java zur Lösung der eingangs beschriebenen Probleme zu verwenden, wird ein Transpiler benötigt, der PL/I-Quellcode in Java-Zielcode übersetzt. Dabei hat der Benutzer die Möglichkeit, selbst zu bestimmen, wie bestimmte Ausdrücke übersetzt werden sollen. Sobald der Programmcode in Java übersetzt ist, kann der Java-Zielcode von dem Java-Compiler kompiliert werden und auf der \ac{jvm} ausgeführt werden.
 
 % Weiterführung
-Erst ab diesem Punkt ist die Qualität des Transpilers zu erkennen. Faktoren wie Lesbarkeit und Erweiterbarkeit des Java-Zielcodes gehen in die Beurteilung mit ein. 
-Die Beurteilung der Qualität des Transpilers ist auch von Zielaspekten der Benutzer abhängig. In dieser Arbeit wurden Zielgruppen definiert die im nachfolgenden Kapitel 1.2 weiter erläutert werden sollen. Diese Zielgruppen sind für weitere Gestaltungsentscheidungen in der Entwicklung des Transpilers wichtig.
+Ab diesem Punkt spielen Anforderungen an das Ergebnisses des Transpilers eine Rolle. Faktoren wie Lesbarkeit und Erweiterbarkeit des Java-Zielcodes gehen in die Beurteilung mit ein. 
+Die Beurteilung der Ausgabe des Transpiler ist auch von Zielaspekten der Benutzer abhängig. In dieser Arbeit wurden Zielgruppen definiert die im nachfolgenden Kapitel 1.2 weiter erläutert werden sollen. Diese Zielgruppen sind für weitere Gestaltungsentscheidungen in der Entwicklung des Transpilers wichtig.
 
 % @review: Begriffswahl
 In den folgenden Kapiteln wird zwischen dem Transpiler, dem Eingabeprogramm (PL/I-Quellcode) und dem Ausgabeprogramm (Java-Zielcode) unterschieden. Diese Begriffe helfen dabei, die verschiedenen Programme eindeutig zu identifizieren.
@@ -81,19 +81,18 @@ Diese Arbeit richtet sich an juniore Anwendungsentwickler in den Sprachen PL/I b
 Juniore Entwickler profitieren von dieser Arbeit als Einstiegspunkt in die Programmiersprache PL/I. Beispielhaft könnten Entwickler den Transpiler als Test-Umgebung für den eigenen entwickelten PL/I-Quellcode verwenden.
 
 % Lernhilfe
-Für Benutzer, die mehr Erfahrung mit Java haben, eignet sich der Transpiler als Lernhilfe. Es wird ihnen so erleichtert, PL/I-Quellcode zu analysieren. Sie können bestehende Kenntnisse aus Java anwenden, um gleiche Muster in PL/I wiederzuerkennen. Dies kann den Lernprozess beschleunigen.
+Für Benutzer, die mehr Erfahrung mit Java haben, eignet sich der Transpiler als Lernhilfe. Es wird ihnen so erleichtert, PL/I-Quellcode zu analysieren. Sie können bestehende Kenntnisse aus Java anwenden, um Muster in PL/I wiederzuerkennen. Dies kann den Lernprozess beschleunigen.
 
 % Benutzbarkeit
-Der Transpiler aus der Projektarbeit-IV konnte bisher über die Kommandozeile, sowie der IDE Eclipse verwendet werden. Diese ursprüngliche Benutzung des Transpilers führte zu einer erhöhten Fehleranfälligkeit und Dokumentationsbedarf. Die Komplexität der Benutzung wird durch ein Graphical-User-Inferface (GUI) vereinfacht.
+Der Transpiler aus der Projektarbeit-IV konnte bisher über die Kommandozeile, sowie der IDE Eclipse verwendet werden. Diese ursprüngliche Benutzung des Transpilers führte zu einer hohen Fehleranfälligkeit und Dokumentationsbedarf. Die Komplexität der Benutzung wird durch ein Graphical-User-Inferface (GUI) vereinfacht.
 %Das Konzept dieser GUI soll dem eines Übersetzers der natürlichen Sprache, wie etwa 'DeepL' oder 'Google-Translate', ähneln. Mit diesen Konzepten sind Benutzer vertraut, erleichtert den Einstieg in die Programmiersprache PL/I, das Testen des PL/I-Quellcode, sowie die schnelle Übersetzung.
 
 %  Entwickler die das Programm eigenständig erweitern, verändern wollen.
-Durch die modularisierte Gestaltung des Transpilers können Administratoren selbst Module austauschen und erweitern, etwa durch eine API-Schnittstelle zu externen Übersetzungsbibliotheken und Services. 
+Durch die modularisierte Gestaltung des Transpilers können Administratoren selbst Module austauschen und erweitern, etwa durch eine API-Schnittstelle zu externen Übersetzungsbibliotheken. 
 
 %  Zusammenfassung und hinführung zum nächsten zu dem Unterschied Interpreter und Compiler
-Neben den Nebenzielen der unterschiedlichen Zielgruppen, bleibt das Hauptziel die automatisierte Übersetzung von PL/I-Quellcode in Java Zielcode.
 
-Der Transpiler soll eine Transformation der grundlegenden Anweisungskategorien implementieren. Die Variablendeklaration sowie -zuweisung, die Ein- und Ausgabesteuerung und allgemeine Kontrollflussanweisungen werden im Zuge der Entwicklung implementiert. Der entstehende Quellcode ist mit der Verwendung des mitgegebenen Boilerplate-Codes kompilierbar. Weiterhin wird der PL/I-Quellcode nicht vollständig auf seine Korrektheit überprüft. In der entstandenen Version des Transpilers ist die Mitübersetzung von Fehlern denkbar. Nichtsdestotrotz werden syntaktische Fehler und datentypspezifische semantische Fehler erkannt. Entsprechend wird eine Fehlermeldung geworfen und das Programm nicht weiter übersetzt.
+Der Transpiler soll eine Transformation der grundlegenden Anweisungskategorien implementieren. Die Variablendeklaration sowie -zuweisung, die Ein- und Ausgabesteuerung und allgemeine Kontrollflussanweisungen werden im Zuge der Entwicklung implementiert. Der entstehende Quellcode ist unter Verwendung des mitgelieferten Boilerplate-Codes kompilierbar. Weiterhin wird der PL/I-Quellcode nicht vollständig auf seine Korrektheit überprüft. In der entstandenen Version des Transpilers ist die Mitübersetzung von Fehlern denkbar. Nichtsdestotrotz werden syntaktische Fehler und datentypspezifische semantische Fehler erkannt. Entsprechend wird eine Fehlermeldung ausgegeben und das Programm nicht weiter übersetzt.
 
 Ein Transpiler kann sowohl als Interpreter und als Compiler gestaltet werden. In dem nachfolgenden Kapitel 1.3 werden die Begriffe voneinander abgegrenzt. 
 	
@@ -126,23 +125,23 @@ Ein Compiler besteht aus einem Frontend und einem Backend. Das Frontend umfasst 
 Das Ergebnis des Frontends ist eine Zwischencodedarstellung, die an das Backend übergeben wird, um daraus Maschinencode zu generieren. Der Maschinencode kann auf dem zugrundeliegenden System ausgeführt werden. \footcite[Vgl. ][S.106ff. ]{aho}
 Um weiterhin den Prozess der Übersetzung mithilfe eines Compilers darzustellen, wird Abbildung \ref{fig:compiler} verwendet.
 
-\pagebreak
-% @todo: Quelle
-\dhgefigure[h]{compiler-ablauf-diagramm.png}[scale=0.75]{Funktionsweise eines Compilers}{fig:compiler}[][]
-
-\pagebreak
-Abbildung \ref{fig:compiler} zeigt eine Übersicht und das Ergebnis der einzelnen Compiler-Phasen. Die Abbildung unterteilt den Ablauf wie eingangs beschrieben in Frontend und Backend.
-
 In der ersten Phase teilt der Compiler den eingegebenen String in Tokens auf. Danach entsteht ein Syntaxbaum, der in diesem Beispiel die Zwischencodedarstellung repräsentiert. Ab diesem Punkt beginnt das Backend des Compilers. Zuerst erzeugt das Backend maschinenunabhängigen Code und anschließend maschinenabhängigen Code. Dieser maschinenabhängige Code ist auf dem zugrundeliegenden System ausführbar. \footcite[Vgl. ][S.30 ]{aho}
 In jeder Phase wird aus der Symboltabelle gelesen und geschrieben.
 
 %  Warum ein Transpiler?
-Neben den Eingangs beschriebenen Compiler, gibt es weitere Lösungen die auf einem ähnlichen Konzept basieren.
+Es gibt weitere Lösungen die auf einem ähnlichen Konzept basieren.
 Ein One-Pass-Compiler etwa erzeugt keinen Zwischencode, sondern führt den Code direkt aus. Diese Methode wurde angewendet, um Speicherplatz zu sparen, da frühe Computer nur begrenzte Kapazitäten hatten und keine Zwischenergebnisse speichern konnten. Ein Beispiel für eine Sprache, die mit einem One-Pass-Compiler kompiliert wird, ist Turbo Pascal. \footcite[Vgl. ][]{onepass}
 
 Eine weitere Ausprägung ist ein Source-to-Source Compiler.
 Während ein C-Compiler den C-Code nach der Zwischencodeerzeugung in Assemblersprache und anschließend der Assembler den C-Quellcode in Maschinencode übersetzt, wandelt ein Source-to-Source-Compiler beispielsweise C-Quellcode in Java-Zielcode um. 
 Ein Source-to-Source-Compiler wird im Zusammenhang dieser Arbeit als Transpiler bezeichnet und ist deckungsgleich mit dem entwickelten Programm.
+
+Abbildung \ref{fig:compiler} zeigt eine Übersicht und das Ergebnis der einzelnen Compiler-Phasen. Die Abbildung unterteilt den Ablauf wie eingangs beschrieben in Frontend und Backend.
+
+\pagebreak
+% @todo: Quelle
+\dhgefigure[h]{compiler-ablauf-diagramm.png}[scale=0.75]{Funktionsweise eines Compilers}{fig:compiler}[][]
+\pagebreak
 
 Abbildung \ref{fig:transpiler} zeigt die Prozessschritte eines Transpilers.
 
@@ -152,7 +151,7 @@ Abbildung \ref{fig:transpiler} zeigt die Prozessschritte eines Transpilers.
 
 Ein Vergleich von Abbildung \ref{fig:compiler} mit Abbildung \ref{fig:transpiler} zeigt, dass die ersten Phasen bis zur Zwischencodeerzeugung gleich bleiben. In Abbildung \ref{fig:transpiler} sind jedoch die Prozesse des Frontends neben denen des Backends dargestellt. Während in Abbildung \ref{fig:compiler} diese untereinander angeordnet sind. Zurückzuführen ist diese Darstellung auf die verwendeten Sprachebenen.
 
-Ein Compiler übersetzt den Quellcode einer Hochsprache in eine maschinennahe Sprache wie Assembler. Hingegen bleibt der Transpiler auf der Sprachebene der Quellsprache. In Abbildung \ref{fig:transpiler} werden zudem die Phasen des Backends reduziert, da keine Übersetzung in eine maschinenabhängige Sprache erforderlich ist.
+Ein Compiler übersetzt den Quellcode einer Hochsprache in eine maschinennahe Sprache wie Assembler. Hingegen bleibt der Transpiler, bei der Ein- und Ausgabe, auf der Sprachebene der Quellsprache. In Abbildung \ref{fig:transpiler} werden zudem die Phasen des Backends reduziert, da keine Übersetzung in eine maschinenabhängige Sprache erforderlich ist.
 
 % @review
 Ein weiter Unterschied zu einem herkömmlichen Compiler ist die Art der Ausführung des übersetzten Zielcodes.
@@ -188,13 +187,13 @@ Anschließend beginnt das Parsing, das der syntaktischen Analyse im Kompilierpro
 
 Der Verarbeitungsprozess setzt sich mit der Shell-Expansion fort, bei der in einem Befehl eingebettete relative Ausdrücke durch ihre absoluten Repräsentationen ersetzt werden.
 Ab hier nimmt nun das Betriebssystem die Befehle des Shell-Skriptes entgegen und führt das entsprechende Programm aus.
-Schließlich wird das Ergebnis in der Kommandozeile ausgegeben. \footcite[Vgl. ][]{gnubash}
+Schließlich wird das Ergebnis in der Standardausgabe ausgegeben. \footcite[Vgl. ][]{gnubash}
 
 % Absatz: Zusammenfassende Unterscheidung zwischen Interpreter und Transpiler, Was sind gemeinsamkeiten und unterschiede von Transpiler und interpreter?
 
 Zusammenfassend zeigen sich sowohl Ähnlichkeiten als auch Unterschiede zwischen einem Interpreter und einem Compiler bzw. Transpiler. Beide durchlaufen die Phasen der lexikalischen und syntaktischen Analyse, wobei sie den Quellcode zunächst um Kommentare, Leerstellen oder andere für die Übersetzung irrelevante Symbole bereinigen. Anschließend erfolgt entweder die direkte Übersetzung des Quellcodes oder die Erzeugung einer unabhängigen Repräsentation.
 
-Um PL/I-Code korrekt in Java zu übersetzen, sind Verbindungen zwischen den Ausdrücken relevant. Eine zeilenweise Übersetzung könnte zu einem Java-Programm führen, das den restlichen Kontext des Programms nicht weiter berücksichtigt. Der Transpiler sollte eine solche Repräsentation berücksichtigen können.
+Um PL/I-Code korrekt in Java zu übersetzen, sind Verbindungen zwischen den Ausdrücken relevant. Diese Verbindungen können in einer Zwischencoderepräsentation des PL/I-Quellcodes, komprimiert dargestellt werden. Eine zeilenweise Übersetzung könnte zu einem Java-Programm führen, das den restlichen Kontext des Programms nicht weiter berücksichtigt.
 
 Um eine Zwischencodeerzeugung zu generieren wird ein Frontend benötigt. Wie schon in den Abbildungen \ref{fig:transpiler} dargestellt sind die ersten Arbeitsschritte des Frontends die lexiklaische und syntaktische Analyse. Für beide Prozessschritte werden ein Parser und Lexer benötigt. Mit einem Compiler-Compiler können automatisiert Programme erzeugt werden die einen PL/I-Quellcode in eine Zwischencodedarstellung transformieren.
 Das folgende Kapitel beleuchtet Grammatiken formaler Sprachen wie PL/I und Java genauer um auf die Verwendung eines Compiler-Compilers vorzubereiten.
@@ -214,8 +213,7 @@ Das folgende Kapitel beleuchtet Grammatiken formaler Sprachen wie PL/I und Java 
 % Warum braucht ein Compiler eine Grammatik?
 % In dem vorangegangen Kapitel wurden unterschiedliche Methoden, Anwendungsgebiete und Formen der Sprachinterpretation eines Computers vorgestellt. Damit die Interpretation von Sprachen korrekt erfolgt, braucht ein Computer Regeln. Grammatiken beinhalten diese Regeln. 
 
-Damit der Transpiler korrekt arbeitet wird eine definierte Grammatik benötigt. Nur so können die Prozessschritte der Lexikalischen- und der Syntaktischen Analyse korrekt erfolgen. Denn diese Schritte prüfen den eingegeben Quellcode auf seine grammatikalische Richtigkeit. Bevor also die Sprachliche Analyse erfolgen kann, sollte eine Grammatik definiert und angewendet werden. Um eine Grammatik für eine formale Sprache, wie einer Programmiersprache zu definieren sind logische präzise Beschreibungen von Ausdrücken notwendig. \footcite[Vgl. ][S. 149ff. ]{automata} 
-Eine Grammatik einer formalen Sprache besteht aus Variablen, Terminalsymbolen, einen Startsymbol und einer Syntaxregel. Zusammengefasst in:
+Damit der Transpiler korrekt arbeitet wird eine definierte Grammatik benötigt. Nur so können die Prozessschritte der Lexikalischen- und der Syntaktischen Analyse korrekt erfolgen. Denn diese Schritte prüfen den eingegeben Quellcode auf seine grammatikalische Richtigkeit. Bevor also die Sprachliche Analyse erfolgen kann, sollte eine Grammatik definiert und angewendet werden. Um eine Grammatik für eine formale Sprache, wie einer Programmiersprache zu definieren sind logische präzise Beschreibungen von Ausdrücken notwendig. \footcite[Vgl. ][S. 149ff. ]{automata} Zusammengefasst in:
 
 \begin{center}
 \begin{equation}\label{eqn:grammar}
@@ -290,10 +288,10 @@ Die aktuellste Grammatik wird durch IBM, in der PL/I Language Referenz definiert
 %  Erst Chomsky Hierachier, dann nach Komplexität einordnen und am Beispiel von Regulären Ausdrücken und PL/I Grammatik einführen.
      
 \pagebreak
-\subsection{Anwendung von Formalen Grammatiken in JavaCC}
+\subsection{Anwendung von formalen Grammatiken in JavaCC}
 % 1. Was ist ein Compiler-Compiler? (Verbindung von formalen Grammatiken zu JavaCC)
 
-In Kapitel 1.4 wurde bereits in die Thematik der formalen Grammatiken eingeführt, in diesem Kapitel wird nun die praktische Implementation dieser Grammatiken im Zusammenhang mit dem Transpiler beschrieben.
+In Kapitel 1.4 wurde bereits in die Thematik der formalen Grammatiken eingeführt, in diesem Kapitel wird nun die praktische Implementierung dieser Grammatiken im Zusammenhang mit dem Transpiler beschrieben.
 Ein Compiler-Compiler wie JavaCC ist eine Technologie mit der aus einer formalen Beschreibung einer Grammatik ein Lexer und ein Parser erzeugt werden. 
 
 Der Lexer und der Parser wenden die in der Grammatik-Datei definierten Regeln an und verarbeiten in einer Java-Klasse die übergebenen Ausdrücke.
@@ -320,7 +318,7 @@ In Zeile 1 ist der Methodenkopf zu sehen. In diesem Fall erzeugt die Methode \ve
 Das durch die Raute gekennzeichnete Symbol ist die Repräsentation im Syntaxbaum und zusätzlich auch die Darstellung im Zwischencode.
 Im Körper der Methode wird der If-Ausdruck weiter definiert. Terminalsymbole werden in der JavaCC Grammatik mit den größer-als und kleiner-als Zeichne umrandet. Die Nicht-Terminalsymbole hingegen sind wie in Listing \ref{lst:ifstatement} dargestellt weitere Methoden, die wiederum weitere Ausdrücke beschreiben.
 
-Ähnlich wie bei der Syntaxregel aus Listing \ref{lst:ifstatement}, so lange bis lediglich Terminalsymbole übrig bleiben.
+Ähnlich wie bei der Syntaxregel \ref{eqn:start}, so lange bis lediglich Terminalsymbole übrig bleiben.
 Die Methode \verb+bool_expression+ etwa, beschreibt einen zulässigen Boolschen Ausdruck, der durch einen weiteren boolschen Operator mit einem weiteren booleschen Ausdruck verknüft werden kann.
 
 Weiterhin wird in der Methode \verb+proc_body+ beschrieben welche Ausdrücke weiter zulässig sind. Dazu zählt bspw. auch eine weitere \verb+IF ELSE+ Verzweigung. 
@@ -369,20 +367,19 @@ Außerdem wird mit dem Objekt \ver+SimpleNode+ in der Java-Methode aus Listing \
 
 % Warum ein Compiler-Compiler verwenden?
 
-Ein Compiler-Compiler generiert somit einen fertigen Parser. Nun gibt es auch die Möglichkeit einen Parser und Lexer selbst zu programmieren. In der Version aus der Projektarbeit-IV wurde ursprünglich ein selbstgeschriebener Lexer verwendet.
+Ein Compiler-Compiler generiert einen fertigen Parser. Nun gibt es auch die Möglichkeit einen Parser und Lexer selbst zu programmieren. In der Version aus der Projektarbeit-IV wurde ursprünglich ein selbstgeschriebener Lexer verwendet.
 
 Jedoch birgt dieses Vorgehen einen Nachteil. Die Grammatik für den Transpiler ist an zwei stellen definiert und muss somit auch an zwei Stellen gewartet werden.
 Wird in die Grammatikdatei für den Parser ein neuer Ausdruck hinzugefügt, muss dieser Ausdruck auch durch den Lexer verarbeitet werden können.
-Ursprünglich musste so der Lexer angepasst werden und die Grammatikdatei für den Parser. 
-Das führte zu einem erhöhten Arbeitsaufwand und Fehleranfälligkeit. Schlussendlich wurde der selbstgeschriebene Lexer entfernt und der von JavaCC definierte Lexer verwendet.
-Somit ist ein Compiler-Compiler gut dazu geeignet den Arbeitsaufwand für die Entwicklung eines Compilers, bzw. eines Transpilers zu reduzieren. 
-Es lohnt sich auch bei der Entwicklung eines Parser für andere Sprachen auf bereits definierte Ressourcen zurückzugreifen. 
+Das führte zu einem höheren Arbeitsaufwand und Fehleranfälligkeit. Schlussendlich wurde der selbstgeschriebene Lexer entfernt und der von JavaCC generierte Lexer verwendet.
+Ein Compiler-Compiler ist gut dazu geeignet den Arbeitsaufwand für die Entwicklung eines Compilers bzw. eines Transpilers zu reduzieren. 
+Es lohnt sich auch bei der Entwicklung eines Parsers für andere Sprachen auf bereits definierte Ressourcen zurückzugreifen. 
 Grammatiken für Cobol und Java wurden bereits von der JavaCC Community bereitgestellt. \footcite[Vgl. ][]{javaccdoku}
-Im Fall von PL/I ist keine Grammatik vorhanden. Weshalb bei der Entwicklung des Transpilers, die IBM Language Reference für PL/I die Hauptquelle für die Grammatikdatei ist.   
+Im Fall von PL/I ist keine Grammatik vorhanden, weshalb bei der Entwicklung des Transpilers die IBM Language Reference für PL/I die Hauptquelle für die Grammatikdatei ist.   
 
 % Wie wird JavaCC in die Entwicklung des Transpiler eingebunden ? (Hinleitung zur Architektur beschreibung)
 Durch die Verwendung des JavaCC Jjtree-Moduls, kann global innerhalb des Projekts auf den Parse-Baum zugegriffen werden. 
-Der Prase-Baum wird unteranderem durch die Module verwendet, die die Semantische-Analyse und -Synthese repräsentieren.
+Der Syntaxbaum wird unter anderem durch die Module verwendet, die die semantische-Analyse und -Synthese repräsentieren.
 Erst durch diese wird der Java-Code erzeugt.
 
 Ebenfalls wird für den Parser ein File-Stream benötigt, ein Scanner liefert solchen.
@@ -396,25 +393,20 @@ Hier werden auch die Technologien vorgestellt die neben JavaCC verwendet werden.
 In Kapitel 1.4 wurde bereits mit JavaCC eine verwendete Technologie vorgestellt. Neben JavaCC kommen auch weitere Technologien während der Entwicklung zum Einsatz. In dem folgenden Kapitel werden die weiteren verwendeten Technologien vorgestellt.
 
 %- Programmiersprache -> Java: Integration in das Projekt, Grund für die Wahl.
-Allgemein wurde der Transpiler in der Programmiersprache Java entwickelt. 
-Java eignet sich  als Objekt-Orientierte Hochsprache gut für die Entwicklung des Transpilers. 
-Weiterhin zählen die Vorteile die in Kapitel 1.1 für Java erwähnt wurden, ebenso in diesem Fall. Den Administratoren soll die Möglichkeit gegeben werden, Module einfach auszutauschen. Mithilfe von Objektorientierten Programmierparadigmen, lässt sich eine lose Kopplung der Klassen realisieren und damit eine Modulare Bauweise des Softwareprojekts.
-Einhergehend fiel die Wahl auf JavaCC aufgrund der Entscheidung für die Entwicklung des Transpilers in Java. Eine alternativer Compiler-Compiler für Java, ist Antlr. 
+Allgemein wurde der Transpiler in der Programmiersprache Java, der Version 17 von Oracle entwickelt. 
+Java eignet sich  als objekt-Orientierte Hochsprache gut für die Entwicklung des Transpilers. 
+Weiterhin zählen die Vorteile die in Kapitel 1.1 für Java erwähnt wurden, ebenso in diesem Fall. Den Administratoren soll die Möglichkeit gegeben werden, Module einfach auszutauschen. Mithilfe von Objektorientierten Programmierparadigmen, lässt sich eine lose Kopplung der Klassen realisieren und damit eine modulare Bauweise des Softwareprojekts.
+Einhergehend fiel die Wahl auf JavaCC aufgrund der Entscheidung für die Entwicklung des Transpilers in Java. Ein alternativer Compiler-Compiler für Java, ist Antlr. 
 
 %- IDE -> Eclipse: Integration in das Projekt, Grund für die Wahl.
 Der Java-Quellcode des Transpilers wurde in Eclipse geschrieben. Das \ac{ide} Eclipse ermöglicht eine kostenlose Entwicklung, Verwaltung, Überprüfung und Kompilierung von Java Software-Projekten. Weiterhin bietet Eclipse eine breite Software-Repository an Plugins um die Funktionalität der  \ac{ide} zu erweitern. Dadurch ist eine Integration von JavaCC in die  \ac{ide} möglich und erleichtert die Entwicklung des Parser ebenfalls.
 
 %- Maven -> Dependency Management: Integration in das Projetk, Grund für die Wahl der Technologie
-Die Version aus der Projektarbeit-IV des Transpilers verwendete die Native Projektstruktur von Eclipse als Vorlage. Diese Projektvorlage brachte jedoch negative Aspekte mit sich. Es war nötig JavaCC manuell zu installieren und einzurichten. Zusätzlich mussten Pfadvariablen im Quellcode angepasst werden. 
-Das erschwerte den Benutzern den Zugang zu dem eigentlichen Projekt.
-Zurückzuführen ist dies auf die fehlenden Software-Abhängigkeitsverwaltung. In der Ursprünglichen Version des Transpilers musste der Benutzer selbst herausfinden welche Software dieser benötigt um das Programm zu starten
-
-Dieses Problem wurde gelöst in dem das Software-Projektmanagement-Werkzeug Maven eingesetzt wurde. Maven löst mithilfe des \ac{pom} Abhängigkeiten. 
+Es wurde das Software-Projektmanagement-Werkzeug Maven eingesetzt. Maven löst mithilfe des \ac{pom} Abhängigkeiten. 
 Dadurch werden Benutzer und Administratoren bei dem Build-Prozess entlastet.
-Ein weiterer Vorteil den Maven liefert ist die vordefinierte Projektstruktur, in den sich vertraute Administratoren zurecht finden.
 
 %- Testing -> JUNit Tests: Integration in das Projetk, Grund für die Wahl der Technologie
-Zum Testen der Anwendung wurde das Java-Test Framework JUnit 5 verwendet. Es wurden für jede Klasse zugehörige Test-Klassen geschrieben. In den Test-Klassen wurde komplexere Methoden isoliert getestet.
+Zum Testen der Anwendung wurde das Java-Test Framework JUnit 5 verwendet. Es wurden für jede Klasse zugehörige Testklassen geschrieben. In den Testklassen wurde komplexere Methoden isoliert getestet.
 Die Wahl von JUnit ist begründet durch die einfache Handhabung, der Kompatibilität mit der IDE Eclipse und dem Projektmanagement Werkzeug Maven. Weiterhin ist JUnit mit eines der bekanntesten Unit-Test-Frameworks für Java-Quellcode. Alternativen wären etwa gewesen TestNG \footcite[Vgl. ][]{testng} oder Mockito \footcite[Vgl. ][]{mockito}.
 
 %- Platform -> Spring
@@ -423,9 +415,9 @@ Dabei wurde das Web-Interface mit der CSS-Softwarebibliothek Bootstrap gestaltet
 Spring-Boot wird für das behandeln von REST-Anfragen verwendet und bindet über eine API Schnittstelle den Transpiler ein.
 Dadurch wird eine Interaktion über den Browser möglich.
 
-Mithilfe der, in diesem Kapitel genannten Software-Werkzeuge, wurde der Transpiler entwickelt. Die Entwicklungsphase folgte jedoch nach der Konzeptionsphase.
+Mithilfe der in diesem Kapitel genannten Software-Werkzeuge, wurde der Transpiler entwickelt. Die Entwicklungsphase folgte jedoch nach der Konzeptionsphase.
 In der Konzeptionsphase wurde die Architektur der Anwendung ausgearbeitet und später als Quellcode realisiert. 
-In dem nächsten Kapitel soll dieses Architekturbild vorgestellt werden.
+Im nächsten Kapitel soll dieses Architekturbild vorgestellt werden.
 
 \pagebreak
 \subsection{Architektur} 
@@ -438,16 +430,16 @@ In Abbildung \ref{fig:modules} ist eine Grob-Ansicht der Module des Transpilers 
 
 % Wie sind die Module momentan gebaut?
 % App Modul
-Die Verarbeitung des PL/I-Quellcodes beginnt mit dem App-Modul. Das App Modul ist die Schnittstelle für alle weiteren Module. Ein Modul kann durch die Instanziierung der Client-Klasse des zugehörigen Moduls eingefügt werden. Entfernt wird das Modul durch das Löschen der Instanz. Das App-Modul beinhaltet auch die \verb+main+ Methode und ist somit auch der Startpunkt für den Java-Compilers.
+Die Verarbeitung des PL/I-Quellcodes beginnt mit dem App-Modul. Das App Modul ist die Schnittstelle für alle weiteren Module. Ein Modul kann durch die Instanziierung der Client-Klasse des zugehörigen Moduls eingefügt werden. Entfernt wird das Modul durch das Löschen der Instanz. Das App-Modul beinhaltet auch die \verb+main+ Methode und ist somit auch der Startpunkt der \ac{jvm}.
 
 Der Scanner wird als erstes Instanziiert. Dieser liest aus der Konfigurations-Datei den Pfad der PL/I Datei, die übersetzt werden soll. Die Datei wird als \verb+InputStream+ an den Parser übergeben.
 \pagebreak
-Der durch JavaCC erzeugte Parser wird ebenfalls in dem App-Modul instanziiert. Dieser behandelt den PL/I-Quellcode entsprechend der vorher definierten Grammatik.  Während des parsings werden Variablen-, Prozeduren-, oder Packagebezeichner des PL/I-Quellcode, in die Symboltabelle eingefügt. Das Ergebnis des Parsers ist ein Syntax-Baum. 
+Der durch JavaCC erzeugte Parser wird ebenfalls im App-Modul instanziiert. Dieser behandelt den PL/I-Quellcode entsprechend der vorher definierten Grammatik.  Während des Parsings werden Variablen-, Prozeduren-, oder Packagebezeichner des PL/I-Quellcode in die Symboltabelle eingefügt. Das Ergebnis des Parsers ist ein Syntax-Baum. 
 In Abbildung \ref{fig:parsetree} is exemplarisch ein Syntaxbaum des Transpilers abgebildet der eine Variablen Deklaration und eine Definition einer Prozedur darstellt.
 
 \dhgefigure[h]{parsetree-example.drawio.png}[scale=0.7]{Beispielhafter Syntaxbaum des PL/I-Parsers}{fig:parsetree}[][]
 
-Ist der Syntaxbaum entsprechend erzeugt, wird dieser weiterhin durch das Checker-Modul verarbeitet. In diesem Modul wird die semantische Analyse des Quellcodes durchgeführt. In der aktuellen Version erfolgt hauptsächlich eine Typ-Überprüfung der initialisierten Variablen.
+Ist der Syntaxbaum entsprechend erzeugt, wird dieser durch das Checker-Modul weiterverarbeitet. In diesem Modul wird die semantische Analyse des Quellcodes durchgeführt. In der aktuellen Version erfolgt hauptsächlich eine Typ-Überprüfung der initialisierten Variablen.
 
 % @review: Hier erwähnen wie Configdatei bzw. Scanner den Ausgabe Ordner beeinflussen wenn das implementiert wurde.
 Das Mapper-Modul repräsentiert die Synthese des PL/I-Quellcodes in Java-Zielcode. Der Syntaxbaum wird hier Stück für Stück abgearbeitet und mit entsprechenden Java-Ausdrücken übersetzt.
@@ -459,13 +451,13 @@ Abbildung \ref{fig:modulesdep} aktuell die Beziehungen der Module untereinander.
 \dhgefigure[h]{Beziehungen_Modules.png}[scale=0.7]{Die Abhängigkeiten der Module}{fig:modulesdep}[][]
 \pagebreak
 
-Zu erkennen ist in Abbildung \ref{fig:modulesdep} das die Abhängigkeiten unter den Modulen eine Kaskade Form aufweisen.
+Zu erkennen ist in Abbildung \ref{fig:modulesdep}, dass die Abhängigkeiten unter den Modulen eine kaskadierende Form aufweisen.
 Diese Form hat den Vorteil das Module aus dieser Kette verändert werden können ohne Vertikal verlaufende Module direkt zu beeinträchtigen.
-Dennoch ist an dieser Stelle zu erwähnen das kein Modul isoliert betrachtet werden darf. Denn eine Veränderung eines Moduls bedeutet das auf Horizontaler 
+Dennoch ist an dieser Stelle zu erwähnen, dass kein Modul isoliert betrachtet werden darf. Denn eine Veränderung eines Moduls bedeutet, dass auf horizontaler 
 Ebene die Verarbeitung verändert wird.
 
 % Wie sind die Module momentan gebaut?
-Jedes Modul gibt die Ergebnisse weiter an das nächste bis ein Zielcode entsteht, oder eine Fehlermeldung.
+Jedes Modul gibt die Ergebnisse weiter an das nächste Modul bis ein Zielcode entsteht oder eine Fehlermeldung.
 
 % @todo: Wie wird es erweitert?
 Der Administrator kann die Module erweitern oder ersetzen.
@@ -508,7 +500,8 @@ in Java-Zielcode umwandelt.
 
 \subsubsection{Der Scanner und Parser}
 \paragraph{Scanner}
-Wie Kapitel 1.5 eingeführt wird der Parser vollständig durch JavaCC generiert.
+Wie Kapitel 1.5 eingeführt wird der Parser vollständig durch 
+JavaCC generiert.
 Damit der Parser den PL/I-Quellcode in die Zwischencode Darstellung übersetzen kann,
 braucht dieser eine PL/I-Datei, die als Input-Stream übergeben wird.
 Den Pfad zu der Datei gibt der Administrator in der Konfigurationsdatei an.
@@ -530,7 +523,7 @@ Mithilfe des InputStreams kann die Datei als Parameter an den Parser in der Klas
 
 \paragraph{Parser}
 Das Parser-Modul deckt die lexikalische und syntaktische Analyse des PL/I-Quellcodes ab.
-Wie schon in Kapitel 1.4 erwähnt werden jegliche Klassen des Parsers durch die \verb+.jjt+ Grammatikdatei generiert. Da diese Klassen sehr umfangreich sind, werden diese in Abbildung \ref{fig:moduleparser} lediglich in Abgekürzter Form dargestellt. 
+Wie schon in Kapitel 1.4 erwähnt werden jegliche Klassen des Parsers durch die \verb+.jjt+ Grammatikdatei generiert. Da diese Klassen sehr umfangreich sind, werden diese in Abbildung \ref{fig:moduleparser} lediglich in abgekürzter Form dargestellt. 
 
 \dhgefigure[h]{parser-module-uml.drawio.png}[scale=0.4]{Das Parser-Modul}{fig:moduleparser}[][]
 \pagebreak
@@ -554,11 +547,11 @@ Hat der Parser ein Nicht-Terminalsymbol gefunden, wird die Methode \verb+install
 Ein Bezeichner wird nicht eingefügt, 
 wenn dieser schon vorhanden ist und den selben Sichtbarkeitswert hat.
 
-Dabei wird das Modul \verb+SymbolTable+ implementiert und mit der Methode \verb+insertId+ ein Bezeichner in die Symboltabelle eingefügt. In dem folgenden Unterkapitel wird das Modul der Symboltabelle genauer beschrieben. 
+Dabei wird das Modul \verb+SymbolTable+ implementiert und mit der Methode \verb+insertId+ ein Bezeichner in die Symboltabelle eingefügt. Im folgenden Unterkapitel wird das Modul der Symboltabelle genauer beschrieben. 
 
 \pagebreak
 \subsubsection{Symboltable}
-Die Symboltabelle speichert die PL/I-Symbole in einem Hashtable ab. Mit ihr sollen die anderen Module
+Die Symboltabelle speichert die PL/I-Symbole in einer Hashtable ab. Mit ihr sollen die anderen Module
 erkennen können ob es sich bei dem ausgewählten Token um ein PL/I-Symbol handelt, oder um ein Bezeichner.
 In Abbildung \ref{fig:symboltable} ist das Modul \verb+symboltable+ als \ac{uml} dargestellt.
 
@@ -579,8 +572,8 @@ Die restlichen Methoden der Klasse \verb+SymbolTable+ dienen der dezidierten Abf
 Etwa die \verb+getSymbolScope+ Methode wird dazu verwendet den Sichtbarkeitswert eines Bezeichners auszugeben.
 
 % Wie funktioniert Template?
-Der weitere Enum \verb+Template+ dient, in dem Prozessschritt der Synthese den Syntaxbaum in Java-Code umzuwandeln.
-In diesem Enum sind Java-Quellcode Ausschnitte hinterlegt die PL/I-Quellcode repräsentieren können. Sie werden in dem Mapper Modul verwendet
+Der weitere Enum \verb+Template+ dient dazu, im Prozessschritt der Synthese den Syntaxbaum in Java-Code umzuwandeln.
+In diesem Enum sind Java-Quellcode Ausschnitte hinterlegt die PL/I-Quellcode repräsentieren können. Sie werden in dem Mapper Modul verwendet,
 um nach und nach den Java-Zielcode zu erzeugen.
 
 Um den Syntaxbaum zu erzeugen muss der Syntaxbaum Stück für Stück überprüft werden. Dieser Prozess wird als semantische Analyse bezeichnet und erfolgt im Checker Modul.
@@ -590,7 +583,7 @@ Um den Syntaxbaum zu erzeugen muss der Syntaxbaum Stück für Stück überprüft
 Das Checker-Modul prüft den PL/I-Quellcode auf seine Korrektheit. 
 Dieses Modul ist repräsentativ für die Semantische-Analyse. 
 Eine Aufgabe des Checker-Moduls ist es die Typ-Definition von Variablen mit den Zuweisungen abzugleichen.
-Wird beispielsweise dem Decimal-Typ ein Alphanumerischer Wert zugewiesen, soll dieses Modul den Benutzer auf einen Syntaxfehler hinweisen. Um solche Semantischen Fehler zu erkennen, wird das Checker-Modul nach dem Vorbild des Composite Design-Patterns implementiert. In Abbildung \ref{fig:checker} ist das \ac{uml} des Checker Modul abgebildet.
+Wird beispielsweise dem Decimal-Typ ein alphanumerischer Wert zugewiesen, soll dieses Modul den Benutzer auf einen Syntaxfehler hinweisen. Um solche Semantischen Fehler zu erkennen, wird das Checker-Modul nach dem Vorbild des Composite Design-Patterns implementiert. In Abbildung \ref{fig:checker} ist das \ac{uml} des Checker Modul abgebildet.
 
 \dhgefigure[h]{checker-module-uml.png}[scale=0.58]{Checker Modul}{fig:checker}
 \pagebreak
@@ -601,7 +594,7 @@ Dabei hilft das Composite-Design Pattern für alle Typ-Klassen, einheitliche Val
 Etwa in Abbildung \ref{fig:checker} ist die Methode \verb+getType+ definiert, um die korrekte Zuweisung von Variablen zu erschließen. 
 
 Weiterhin kann mit dem Design-Pattern die Speicherstruktur, die einer Überprüfung unterzogen wird, in der Composite-Klasse dargestellt werden.
-Eine mögliche Erweiterung um weiter Speicherstruktur-Elemente wie einem Array ist somit denkbar.
+Eine mögliche Erweiterung um weitere Speicherstruktur-Elemente wie einem Array ist somit denkbar.
 
 In dem Checker-Modul wird zum ersten Mal auf den Syntaxbaum, das Ergebnis des Parser Moduls, zugegriffen.
 Um auf alle Knoten des Syntaxbaums zuzugreifen, wird eine Methode definiert die zum iterieren des Syntaxbaums benötigt wird.
@@ -613,8 +606,8 @@ Die Iterationsweise des Algorhitmus im Zusammenhang mit dem Syntaxbaum ist in Ab
 \dhgefigure[h]{parsetree-example-searchalgo.png}[scale=0.8]{Beispielhafte Iteration des Syntaxbaums}{fig:parsetreealgo}[][]
 \pagebreak
 
-So wird es möglich gezielt nach Knoten zu suchen und die Attribute des Knotens auszulesen.
-In dem Checker Modul wird dieser Algorithmus vor allem benutzt um festzustellen welche Variablen, mit welchem Typ und welchen Bezeichner deklariert wurde und ob dieser Bezeichner in einem \verb+ASSIGN+ Knoten wiederverwendet wurde.
+So wird es möglich, gezielt nach Knoten zu suchen und die Attribute des Knotens auszulesen.
+In dem Checker Modul wird dieser Algorithmus vor allem benutzt, um festzustellen, welche Variablen mit welchem Typ und welchem Bezeichner deklariert wurden und ob dieser Bezeichner in einem \verb+ASSIGN+ Knoten wiederverwendet wurde.
 
 So kann der Syntaxbaum mit seinen Attributen vollständig iteriert und überprüft werden.
 Die Überprüfung ist dann abgeschlossen, wenn die Iteration des Suchalgorithmus wieder bei dem Ausgangspunkt angekommen ist. In Abbildung \ref{fig:parsetreealgo} ist das etwa der Knoten \verb+PRORGRAM+.
@@ -642,7 +635,7 @@ In der Klasse \verb+AstMapper+ finden sich jegliche Identifikations-variablen de
 
 Die Mapper Klassen stellen die unterschiedlichen Vorgehensweisen in dem Strategy-Pattern dar. Sie implementieren alle das \path{ITranslationBehavior} interface und aufgrund dessen eine \verb+translate+ Methode, die den übersetzten Ausdruck zurückgibt. 
 
-In der \verb+iterateTree+ Methode wird für jeden Knoten, überprüft ob eine solche Mapper-Klasse in der HashMap instanziiert wurde.
+In der \verb+iterateTree+ Methode wird für jeden Knoten überprüft ob eine solche Mapper-Klasse in der HashMap instanziiert wurde.
 Falls eine Klasse vorhanden ist, wird in der TranslationBehavior Klasse das entsprechende Strategie-Objekt
 des Typs \path{ITranslationBehavior} in der
 Mapper Klasse gesetzt. So wird die Translate-Methode der aktuell gesetzten Klasse aufgerufen und der Syntaxbaum-Knote in Java übersetzt.
@@ -652,7 +645,7 @@ Eine exemplarische Mapper Klasse ist etwa die \verb+PictureMapper+ Klasse.
 Die Klasse \verb+PictureMapper+ enthält Zeichenkettenbeschränkungen des PL/I-Picture Typs und deren Übersetzung als Regulären Ausdruck.
 Da die Zeichenkettenbeschränkung aus PL/I nicht in dem Java Zielcode angewendet werden kann, werden die Beschränkungen des Picture-Typs entsprechend in Reguläre Ausdrücke übersetzt.
 Mit der \verb+getRegex+ Methode der \verb+PictureMapper+ Klasse wird der übersetzte Reguläre Ausdruck als String zurückgegeben.
-Der PL/I-Ausdruck \verb+(4)A+ wird etwa zu dem Regulären Ausdruck \verb+(A-Za-z ){4}+.   
+Der PL/I-Ausdruck \verb+(4)A+ wird etwa zu dem Regulären Ausdruck \verb+[A-Za-z ]{4}+.   
 
 
 Neben der PictureMapper Klassen, erzeugen weitere Mapper Klassen Stück für Stück den Java-Zielcode. 
@@ -748,8 +741,7 @@ diskutiert.
 Für die unterschiedlichen Benutzergruppen werden verschiedene Nutzungsmöglichkeiten des Transpilers angeboten. Diese umfassen die Verwendung über die \ac{ide} Eclipse, die Kommandozeile und das Webinterface. Bei der Benutzung des Transpilers werden erstmals Übersetzungsentscheidungen sichtbar. In diesem Kapitel sollen alle Nutzungsmöglichkeiten und Spezifikationen des Transpilers näher beschrieben werden.
 
 \paragraph{Eclipse}
-Die \ac{ide} Eclipse kann verwendet werden, um den Transpiler zu nutzen. Diese Herangehensweise ist besonders interessant für Administratoren, die den Quellcode des Transpilers selbst erweitern möchten. Neben Eclipse wird hierfür auch Git benötigt. 
-
+Die \ac{ide} Eclipse kann verwendet werden, um den Transpiler zu nutzen. Diese Herangehensweise ist besonders interessant für Administratoren, die den Quellcode des Transpilers selbst erweitern möchten.
 Zuerst sollte das Projekt aus dem GitHub-Repository mit Git in das lokale Verzeichnis geladen werden.
 In Listing \ref{lst:gitclone} ist der Git-Befehl, zum laden des Remote-Repositories dargestellt. 
 
@@ -757,7 +749,7 @@ In Listing \ref{lst:gitclone} ist der Git-Befehl, zum laden des Remote-Repositor
 git clone https://github.com/lhahner/pl1-code-transpiler.git
 \end{lstlisting}
 
-Daraufhin ist es möglich, das Maven-Projekt in Eclipse zu importieren. Unter der Registerkarte "Datei", kann das Projekt importiert werden. %Dabei erscheint das Menüfenster aus Abbildung \ref{fig:importproject}.
+Daraufhin ist es möglich, das Maven-Projekt in Eclipse zu Importieren. Unter der Registerkarte "Datei", kann das Projekt importiert werden. %Dabei erscheint das Menüfenster aus Abbildung \ref{fig:importproject}.
 
 %\pagebreak
 %\dhgefigure[h]{import-maven-project.png}[scale=0.4]{Importieren eines Maven Projekts}{fig:importproject}
@@ -820,7 +812,7 @@ Erst bei der Verwendung dieser Datentypen in einer Programmroutine werden jedoch
 
 Werden in dem PL/I-Quellcode etwa die deklarierten Variablen verwendet um Mathematische Berechnungen zu erstellen, ist dies ohne Probleme mit den Mathematischen Standard Operatoren wie Plus oder Minus möglich.
 
-Wird ein Java-Programm auf der grünen Wiese erzeugt sind solche Ausdrücke ebenfalls möglich, wenn numerische primitive Datentypen zum Einsatz kommen.
+Wird ein Java-Programm auf der grünen Wiese erzeugt sind solche Ausdrücke ebenfalls möglich, wenn Numerische primitive Datentypen zum Einsatz kommen.
 
 Um solche Ausdrücke auch in Java mit einem \verb+DECIMAL+-Objekt zu ermöglichen, muss die Klasse \verb+DECIMAL+ erweitert werden.
 Denn in Java ist es nicht möglich nicht-primitive Datentypen zu verrechnen, ohne vorher eine Methode zu schreiben die diese Operation ermöglicht. 
@@ -876,7 +868,7 @@ Weshalb in den nachfolgenden Kapiteln weiterhin Klassen wie etwa die Klasse \ver
 \subsubsection{Programmstruktur und Programmablauf}
 \paragraph{Umwandlung von Programmstrukturen }\label{programstruct}
 
-Mit dieser Version des Transpilers ist es möglich Prozeduren umzuwandeln.
+Mit dieser Version des Transpilers ist es möglich, Prozeduren umzuwandeln.
 In PL/I werden Unterprogramm-Routinen in Block-Strukturen definiert. Eine mögliche Block Struktur ist die Prozedur. \footcite[Vgl. ][S. 97ff. ]{pliref}
 Eine Prozedur wird durch den Bezeichner, das PL/I-Symbol \verb+PROCEDURE+ und einer Terminierung wie \verb+END+ beschrieben.
 Zusätzlich können Parameter, Rückgabetypen und allgemeine Attribut Optionen definiert werden. In Listing \ref{lst:procchar} ist eine beispielhafte Prozedur gelistet.
@@ -909,7 +901,7 @@ END empty_proc;
 \end{lstlisting}
 
 Implizit wird hier der Typ \verb+CHAR+ zugewiesen. 
-In Java muss hingegen explizit der Typ des Parameter definiert werden.
+In Java muss hingegen explizit der Typ des Parameter angegeben werden.
 Eine M\"oglichkeit die Parameterliste zu transformieren, ist über den Typ \verb+Object+.
 Da Object die Elternklasse aller Klassen ist, kann während der Zuweisung des Parameters beliebig in den gewünschten Typ umgewandelt werden. \footcite[Vgl. ][]{objectdocs}
 
@@ -951,17 +943,19 @@ public String empty_proc(Obeject para_1){
 
 Ein weiteres Attribut das in der Prozedur in Listing \ref{lst:procassign} definiert ist, ist das \verb+OPTIONS+
 Attribut.
-In PL/I werden hier Compiler Optionen definiert. So wird wie in Listing \ref{lst:procassign}, die Option \verb+INLINE+ verwendet um den Kontext einer Prozedur zu beschreiben. \footcite[Vgl. ][]{optionsstmt}
+In PL/I werden hier Compiler-Optionen definiert. So wird, wie in Listing \ref{lst:procassign} gezeigt, die Option \verb+INLINE+ verwendet, um den Kontext einer Prozedur zu beschreiben. Ist die Prozedur etwa \verb+INLINE+, ruft der Compiler nicht die Prozedur auf, sondern ersetzt den Aufruf mit dem Körper der Prozedur. \footcite[Vgl.][]{optionsstmt} Diese sogenannte Inline-Expansion ist eine Optimierungsanweisung an den Compiler. Mit diesen Optionen kann der PL/I-Programmierer direkten Einfluss auf die Kompilierung des PL/I-Programms nehmen.
 
-In der Version des Transpilers wird die Übersetzung dieses Ausdrucks nicht weiter berücksichtigt.
-Es ist auch fraglich ob eine solche Option in Java simuliert werden kann, da so das verhalten der \ac{jvm} beeinflusst werden müsste.
+In Java wird der Java-Quellcode und häufig aufgerufene Methoden durch die Inline-Expansion der \ac{JIT} optimiert.
+
+Entsprechend existiert derselbe Optimierungsschritt auch in Java, kann jedoch nur bedingt beeinflusst werden. Die Deaktivierung dieser Optimierung würde zu einer Manipulation der Arbeitsweise des Java-Compilers führen. Es ist fraglich, ob eine solche Anpassung sinnvoll ist, da der Java-Compiler selbst entscheidet, welche Methoden durch die Inline-Expansion optimiert werden sollen. Ein Eingriff in diese Entscheidung könnte zum Gegenteil der Optimierung führen.
+Aus diesem Grund wird in der Version des Transpilers die Übersetzung dieses Ausdrucks nicht weiter berücksichtigt.
 
 Um nun einen tatsächlichen Programmfluss zu realisieren, sollte der Transpiler ebenfalls in der Lage sein die definierten Routinen auch aufzurufen.
 In dem nachfolgenden Paragraf wird die Umwandlung des Aufrufen von Prozeduren beschrieben.
 
 \paragraph{Umwandlung des Programmablaufs}
 
-In PL/I werden Prozeduren unter anderem mithilfe des \verb+CALL+ Statements aufgerufen. \footcite[Vgl. ][S.133ff. ]{pliref} Um einen Programmfluss, wie er auch in einem nativen Java-Programm, vorhanden ist zu erzeugen wird der Call-Ausdruck in einen Methoden-Aufruf transformiert. Wird also das Programm aus Listing \ref{lst:callsproc} dem Transpiler übergeben.
+In PL/I werden Prozeduren unter anderem mithilfe des \verb+CALL+ Statements aufgerufen. \footcite[Vgl. ][S.133ff. ]{pliref} Um einen Programmfluss, wie er auch in einem nativen Java-Programm vorhanden ist zu erzeugen wird der Call-Ausdruck in einen Methoden-Aufruf transformiert. Wird also das Programm aus Listing \ref{lst:callsproc} dem Transpiler übergeben.
 
 \begin{lstlisting}[language=PL/I, caption=\"Ubersetzung der Prozedur, label={lst:callsproc}]
 
