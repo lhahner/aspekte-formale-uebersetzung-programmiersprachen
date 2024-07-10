@@ -210,6 +210,7 @@ Das folgende Kapitel beleuchtet Grammatiken formaler Sprachen wie PL/I und Java 
    
    
 \subsection{Formale Sprachen und ihre Grammatiken}
+% TODO Warum 
 % Warum braucht ein Compiler eine Grammatik?
 % In dem vorangegangen Kapitel wurden unterschiedliche Methoden, Anwendungsgebiete und Formen der Sprachinterpretation eines Computers vorgestellt. Damit die Interpretation von Sprachen korrekt erfolgt, braucht ein Computer Regeln. Grammatiken beinhalten diese Regeln. 
 
@@ -619,6 +620,7 @@ Die Synthese wird durch das Mapper-Modul implementiert und ist Bestandteil des n
  
  \pagebreak
 \subsubsection{Mapper}
+% TODO Referenz zu Kapitel 3.2 einbauen
 Das Mapper Modul transformiert die Zwischencode Repräsentation in den Java-Zielcode. Dazu wurde das Mapper-Modul nach dem Strategy Desgin-Pattern entworfen.
 In Abbildung \ref{fig:mapper} ist das UML des Mapper Moduls zu sehen. 
 
@@ -802,7 +804,7 @@ In den nachfolgenden Kapiteln werden PL/I-Strukturen beschrieben und die Transfo
 
 
 
-\subsection{Transformation nach Anweisungskategorien}
+\subsection{Transformationsstrategien}
 \subsubsection{Deklarationen und Zuweisungen}
 Die erste Version des Transpilers enthielt lediglich die Transformation von PL/I-Datentypen in nicht-primitive Java Datentypen wie etwa die Klasse \verb+DECIMAL+, \verb+CHAR+ oder \verb+PICTURE+.
 
@@ -947,8 +949,9 @@ In PL/I werden hier Compiler-Optionen definiert. So wird, wie in Listing \ref{ls
 
 In Java wird der Java-Quellcode und häufig aufgerufene Methoden durch die Inline-Expansion der \ac{JIT} optimiert.
 
-Entsprechend existiert derselbe Optimierungsschritt auch in Java, kann jedoch nur bedingt beeinflusst werden. Die Deaktivierung dieser Optimierung würde zu einer Manipulation der Arbeitsweise des Java-Compilers führen. Es ist fraglich, ob eine solche Anpassung sinnvoll ist, da der Java-Compiler selbst entscheidet, welche Methoden durch die Inline-Expansion optimiert werden sollen. Ein Eingriff in diese Entscheidung könnte zum Gegenteil der Optimierung führen.
+Entsprechend existiert derselbe Optimierungsschritt auch in Java, kann jedoch nur bedingt beeinflusst werden. Die Deaktivierung dieser Optimierung würde zu einer Manipulation der Arbeitsweise des Java-Compilers führen. Es ist fraglich, ob eine solche Anpassung sinnvoll ist, da der Java-Compiler selbst entscheidet, welche Methoden durch die Inline-Expansion optimiert werden sollen. Ein Eingriff entspricht für \verb+javac+ im Allgemeinen keinem Optimierungsprozess.
 Aus diesem Grund wird in der Version des Transpilers die Übersetzung dieses Ausdrucks nicht weiter berücksichtigt.
+
 
 Um nun einen tatsächlichen Programmfluss zu realisieren, sollte der Transpiler ebenfalls in der Lage sein die definierten Routinen auch aufzurufen.
 In dem nachfolgenden Paragraf wird die Umwandlung des Aufrufen von Prozeduren beschrieben.
@@ -964,11 +967,11 @@ In PL/I werden Prozeduren unter anderem mithilfe des \verb+CALL+ Statements aufg
 	END main_proc;
 
 	proc_1: PROC;
-		CALL proc_1;
+		CALL proc_2;
 	END proc_1;
 
 	proc_2: PROC;
-		CALL proc_2;
+		CALL proc_1;
 	END proc_2;
 
 \end{lstlisting} 
@@ -1166,31 +1169,24 @@ Damit das übersetze Programm neben der Konsole, auch auf das Dateisystem zugrei
 \paragraph{Datei Ein- und Ausgabe}
 In PL/I gibt es die Möglichkeit über des \verb+READ+-Statement Dateien von dem Dateisystem einzulesen.
 In Kapitel 1.1 wurde bereits erwähnt das PL/I-Programme hauptsächlich auf einem Mainframe-System ausgeführt werden.
-Dieser Umstand ist in diesem Kapitel relevant, da auf einem Betriebssystem wie z/Os andere Formen von Dateien existieren wie etwa auf eine x86-Linux System.
-
-Auf einem z/Os Betriebssystem werden die Dateien als Data-Sets gespeichert.
-Ein Data-Set unterscheidet sich in der Speicherung von einer herkömmlichen Datei, da ein Data-Set die eigentlichen Informationen in einem Record speichert. 
+Auf einem z/OS Betriebssystem wird das Dateisystem \ac{zfs} verwendet.
+Hier werden anders als bei herkömmlichen \ac{hfs} Ordner als Datasets und Dateien als Records gespeichert.
 Ein Record kann dann von einem Programm, wie einem PL/I-Programm gelesen werden.
-Für die weitere Übersetzung von PL/I-Syntax ist dies wichtig, da es in PL/I im zusammenhang mit herkömmlichen Dateien irreführende Datentyp-Bezeichner wie den Typ \verb+FILE+ gibt.
 
-In PL/I kann der Datentyp FILE in Listing \ref{lst:plifiletyp} definiert werden.
+Ein PL/I Programm kann einen Record verarbeiten, sowie Ausgaben. In Java ist es gewöhnlich den Dateipfad der zu verarbeitenden Datei über einen gespeicherten Pfad einzulesen.
+In PL/I werden spezfische Dateien über die Batch-Verarbeitung definiert, weshalb im Quellcode selbst keine Referenz zu dem eigentlichen Record gegeben ist.
+
+Um den durch die Batchverarbeitung definierten Record in einem PL/I-Programm zu verwenden, kann der Datentyp \verb+FILE+ in Listing \ref{lst:plifiletyp} definiert werden.
 
 \begin{lstlisting}[language=PL/I, caption=FILE Typ in PL/I, label={lst:plifiletyp}]
-DCL file_1 FILE ENVIRONMENT STREAM INPUT SEQUENTIAL BUFFERED KEYED PRINT;
+DCL file_1 FILE;
 \end{lstlisting} 
 
-In diesem Kontext handelt es sich hier um ein logisches Abbild des Inhalts also der Records eines physisch gespeicherten Data-Sets.
-Indirekt kann der Typ FILE etwa mit einem Buffer verglichen werden in dem der Inhalt einer Datei gelesen und für weitere Programmroutinen verfügbar wird.
-\footcite[Vgl. ][ S.305ff. ]{pliref}
+Bei dem Typ FILE handelt es sich um einen Buffer in dem der Inhalt einer Datei gelesen und für weitere Programmroutinen verfügbar wird. \footcite[Vgl. ][ S.305ff. ]{pliref}
 
 In Java existiert ein ähnlicher nicht-primitiver File-Typ.
 Java liest mit der Klasse File eine Datei direkt vom Betriebssystem ein und speichert den Inhalt in einem Buffer. 
 Hingegen besteht in Java kaum die Möglichkeit dabei direkt zu beeinflussen wie die Datei eingelesen werden soll. 
-In PL/I müssen Attribute für den Typ \verb+FILE+ angegeben werden die 
-In Listing \ref{lst:plifiletyp} angegeben sind. 
-Diese Attribute sind ähnliche wie auch das \verb+OPTIONS+ Attribut aus Kapitel \ref{programstruct} Compiler-Optionen, die dazu verwendet werden die Durchführung des Programms möglichst Effizienz zu gestalten.
-
-Dabei sind diese Attribute in Java nicht von Relevanz und können ignoriert werden.
 
 Wird nun Listing \ref{lst:plifiletyp} dem Transpiler als Eingabe übergeben entsteht der Java-Zielcode in Listing \ref{lst:javafiletpye}.
 
@@ -1198,21 +1194,26 @@ Wird nun Listing \ref{lst:plifiletyp} dem Transpiler als Eingabe übergeben ents
 public File file_1 = new File("");
 \end{lstlisting} 
 
+Bezüglich Listing \ref{lst:javafiletpye} ist anzumerken das bisher lediglich ein File-Objekt instanziiert wurde.
+Es wurde kein Pfad übergeben und somit auch keine Datei eingelesen. 
+Die Ausführung dieses Java-Codes wird zu einer Input-Output-Exception führen, da kein Pfad zu einer Datei übergeben wurde.
 
-Bezüglich Listing \ref{lst:javafiletpye} ist anzumerken das bisher lediglich ein File Objekt instanziiert wurde.
-Es wurde kein Pfad übergeben und somit auch keine Datei eingelesen.
-Allgemein ist Fraglich wie das einlesen von Dateien mit dem Transformierten PL/I Programm erfolgen wird, da die Organisation von Dateien auf einem z/Os-System anders aufgeteilt ist wie die eine Linux oder Windows Desktop Computer.
+Hier ist die eigentliche Übersetzung des PL/I-Programms abhängig von der Betriebssystemumgebung, in der das Java-Programm ausgeführt werden soll.
 
-In dieser Version des Transpilers, wird dem Benutzer die Verantwortung übergeben die Referenz zu den ursprünglichen Eingabedateien herzustellen.
+Für den Transpiler ist ohne die Referenz auf die Batch-Verarbeitung eine Einbindung des Dateipfades nicht möglich.
 
-In PL/I wird mit einem \verb+READ+-Ausdruck definierte Datei gelesen und kann in einer Variable gespeichert werden
-Ein mögliches \verb+READ+-Statement ist in Listing \ref{lst:pliread} dargestellt.
+Entsprechend wird in dieser Version des Transpilers dem Benutzer die Verantwortung übergeben, die Referenz zu den ursprünglichen Eingabedateien herzustellen.
+
+In PL/I wird mit einem \verb+READ+-Ausdruck die definierte Datei gelesen und kann in einer Alphanumerischen-Variable gespeichert werden.
+Ein mögliches \verb+READ+-Statement aus einem PL/I-Programm ist in Listing \ref{lst:pliread} dargestellt.
 
 \begin{lstlisting}[language=PL/I, caption=READ Statement in PL/I, label={lst:pliread}]
-READ FILE(file_1); 
+DCL var_1 CHAR(20);
+
+READ FILE(file_1) INTO (var_1); 
 \end{lstlisting} 
 
-Hierbei wird die definierte Datei gelesen.
+Hierbei wird die in Listing \ref{lst:javafiletpye} definierte Datei gelesen.
 Transformiert wird diese Dateieingabe mit dem Scanner Objekt. Zu sehen in Listing \ref{lst:scannerjava}
 
 \begin{lstlisting}[language=Java, caption=Scanner Objekt in Java, label={lst:scannerjava}]
@@ -1221,8 +1222,6 @@ Scanner readFile = new Scanner(file_1);
 
 Mit dem Scanner Objekt kann die definierte Datei nun Wort für Wort in einen String gelesen werden.
 
-%\subsection{Optimierung}
-% online-Smoketest von PL/I Code -> %todo: Verschieben nach Erweiterbarkeit (Schlusskapitel), weil momentan noch nicht vollstaendige Grammatik realisiert.
 \pagebreak
 \subsection{Test und Integration}
 %1. transpiler wird getestet
