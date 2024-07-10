@@ -364,7 +364,7 @@ Der Ausschnitt aus der Grammatikdatei in Listing \ref{lst:ifstatement} wird zu d
 
 In Listing \ref{lst:ifstatementmethode} ist zu erkennen, dass die ebenfalls definierten Methoden in der Grammatikdatei, die repräsentativ für die Nicht-Terminal-Symbole sind, auch in der Methode der generierten Parser-Klasse zu Methodenaufrufen führen. Dies ist in Zeile 7 zu sehen. Weiterhin werden Token, also die Repräsentationen der Terminalsymbole, durch die Methode \verb+jj_consume_token+ verarbeitet. Die restlichen Verzweigungen in der generierten Java-Methode prüfen die verarbeiteten Token auf Fehler.
 
-Außerdem wird mit dem Objekt \ver+SimpleNode+ in der Java-Methode aus Listing \ref{lst:ifstatementmethode} ein Knoten im Syntaxbaum erzeugt. Diese Knoten ermöglichen die Verarbeitung des PL/I-Quellcodes durch die weiteren Module des Transpilers.
+Außerdem wird mit dem Objekt \verb+SimpleNode+ in der Java-Methode aus Listing \ref{lst:ifstatementmethode} ein Knoten im Syntaxbaum erzeugt. Diese Knoten ermöglichen die Verarbeitung des PL/I-Quellcodes durch die weiteren Module des Transpilers.
 
 % Warum ein Compiler-Compiler verwenden?
 
@@ -1221,6 +1221,28 @@ Scanner readFile = new Scanner(file_1);
 \end{lstlisting} 
 
 Mit dem Scanner Objekt kann die definierte Datei nun Wort für Wort in einen String gelesen werden.
+
+Neben dem einlesen kann ein PL/I-Programm auch mit dem \verb+WRITE+ Befehl in eine Datei schreibe.
+Auch hierbei ist zu erwähnen das die eigentliche Steuerung der Ausgabe durch das Batch-Programm vorgenommen wird.
+In Listing \ref{lst:pliwrite} ist ein \verb+WRITE+ Befehl gelistet.
+Es wird in der Buffer, der vorher definierten Variable des Typs \verb+FILE+ benutzt um in die Datei bzw. den Record
+des Datasets zu schreiben. Dabei wird wie in diesem Fall der Inhalt des Strings \verb+var_1+ gelesen und entsprechend
+in den Buffer geschrieben.
+
+\begin{lstlisting}[language=PL/I, caption=Scanner Objekt in Java, label={lst:pliwrite}]
+	WRITE FILE (file_1) FROM (var_1);
+\end{lstlisting} 
+
+Die Übersetzung des PL/I-Quellcode führt zu der Ausgabe in Listing \ref{lst:javawriter}.
+
+\begin{lstlisting}[language=Java, caption=Writer, label={lst:javawriter}]
+	BufferedWriter writer = new BufferedWriter(new FileWriter(file_1)); 
+	writer.write(var_1);
+\end{lstlisting} 
+
+Hierbei wird ein \verb+BufferedWriter+-Objekt erzeugt, dem ein \verb+FileWriter+ übergeben wird. Dies ist eine mögliche Methode, um in Java eine Datei mit Inhalt zu füllen. Ähnlich wie bei der Standardeingabe können auch weitere Objekte aus ausgewählten Java-Bibliotheken verwendet werden, wie etwa der \verb+FileWriter+, \verb+PrintWriter+ oder beide in Kombination mit dem \verb+DataOutputStream+-Objekt. Es wurde sich hier für den \verb+BufferedWriter+ entschieden, aufgrund der damit verbunden Reduktion des Programmcodes. Bei den anderen Lösungen werden mehr als zwei Objekte für das Schreiben in die Datei benötigt.
+
+Zusammenfassend werden so die grundlegenden Anweisungen der Programmiersprache PL/I in Java übersetzt. Um die Richtigkeit der Übersetzung und des Übersetzungsprozesses zu bestätigen, wurden Unit-Tests definiert. Wie in Kapitel ?.? eingeführt, wurde das Test-Framework JUnit verwendet. Im folgenden Kapitel soll die Integration von neuen Übersetzungs-Routinen beschrieben und die dazugehörigen Tests gezeigt werden.
 
 \pagebreak
 \subsection{Test und Integration}
