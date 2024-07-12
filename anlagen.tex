@@ -1,8 +1,288 @@
-\begin{figure}[H]
-\begin{lstlisting}[language=PL/I, escapeinside=``]
 
+
+% Tests
+\begin{figure}[H]
+\begin{lstlisting}[language=Java, caption=mapArithmetic Test, label={lst:pliarithmeticexpression_test}]
+@Test
+@DisplayName("Identifier &  Decimal Mapping")
+void mapChildNodes_checkIdentifierMapping() {
+	DeclarationMapper declarationMapper = new DeclarationMapper();
+	String identifier = "var_3";
+	String javaExpression = "@Decimal(5) double";
+	String decimalExpression = "test_1_package: PACKAGE;" + "	DCL var_3 FIXED DECIMAL(5)" + "END test_1_package;";
+	
+	try {
+		
+		InputStream stream = new ByteArrayInputStream(decimalExpression.getBytes(StandardCharsets.UTF_8));
+		Pl1Parser pl1parser = new Pl1Parser(stream);
+		SimpleNode program = pl1parser.program();
+		SimpleNode varNode = (SimpleNode) program.jjtGetChild(0).jjtGetChild(1);
+		
+		declarationMapper.mapChildNodes(varNode);
+		declarationMapper.mapArithmetic((SimpleNode)varNode.jjtGetChild(1).jjtGetChild(0));
+		
+	} catch (Exception e) {
+		
+		e.printStackTrace();
+		
+	}
+	assertEquals(identifier, declarationMapper.getIdentifier());
+	assertEquals(javaExpression, declarationMapper.getType());
+}		
 \end{lstlisting}
 \end{figure}
 
+
+\begin{figure}[H]
+	\begin{lstlisting}[language=PL/I, caption=mapHeadNode Test, label={lst:procchar_test}]
+		@Test
+		@DisplayName("Map Head Node")
+		void mapHeadNode_Identifier() {
+			HeadMapper headm = new HeadMapper();
+			
+			String identifier = "A10_Revenue";
+			String paraList = "(Object rev_1)";
+			String type  = "@Char(5) double";
+			
+			String javaExpression = "public void proc_1()";
+			String decimalExpression = "testproc_1_package: PACKAGE;" 
+			+ "	A10_Revenue: PROC(rev_1) RETURNS(DECIMAL(5)) OPTIONS(INLINE);"
+			+ "	END proc_1;" 
+			+ "END testproc_1_package;";
+			
+			try {
+				
+				InputStream stream = new ByteArrayInputStream(decimalExpression.getBytes(StandardCharsets.UTF_8));
+				Pl1Parser pl1parser = new Pl1Parser(stream);
+				SimpleNode program = pl1parser.program();
+				SimpleNode varNode = (SimpleNode) program.jjtGetChild(0).jjtGetChild(1);
+				
+				headm.mapHeadNode((SimpleNode)varNode.jjtGetChild(0));
+				
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+				
+			}
+			assertEquals(identifier, headm.getIdentifier());
+			assertEquals(paraList, headm.getParameter());
+			assertEquals(type, headm.getType());
+		}		
+	\end{lstlisting}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{lstlisting}[language=Java, caption=mapCallStatement Test, label={lst:callstatement_test}]
+	@Test
+	@DisplayName("Test Call Statement")
+	void mapCallStatement_withoutParameter() {
+		String identifier = "proc_2";
+		String parameter = "(\"test_1\",1)";
+		String charExpression = 
+		"testcall1_package: PACKAGE;" 
+		+ "proc_4: PROC;"
+		+ "	CALL proc_2;" 
+		+ "END proc_4;" 
+		+ "END testcall1_package;";
+		
+		try {
+			
+			InputStream stream = new ByteArrayInputStream(charExpression.getBytes(StandardCharsets.UTF_8));
+			Pl1Parser pl1parser = new Pl1Parser(stream);
+			SimpleNode program = pl1parser.program();
+			SimpleNode varNode = (SimpleNode) program.jjtGetChild(0).jjtGetChild(1).jjtGetChild(1).jjtGetChild(0);
+			
+			CallMapper cm = new CallMapper();
+			cm.mapCallStatement(varNode);
+			assertEquals(identifier, cm.getIdentifier());
+			assertEquals(parameter, cm.getParameter());
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+	}
+	\end{lstlisting}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{lstlisting}[language=Java, caption=setExpressionList Test, label={lst:branchmapping_test}]
+	@Test
+	@DisplayName("Tests Mapping of Boolean Expression")
+	void setExpressionList_secondTest() {
+		
+		BooleanExpressionMapper bm = new BooleanExpressionMapper();
+		String javaExpression = "(var_1 < var_2)";
+		String booleanExpression = 
+		"booleanTest1Package: PACKAGE;"
+		+ "booleanTest1Proc: PROC;"
+		+ "	IF (var_1 < var_2) THEN;"
+		
+		+ "	END;"
+		+ "END booleanTest1Proc;"
+		+ "END booleanTest1Package;";
+		ArrayList<String> expressionList = new ArrayList<String>();
+		try {
+			
+			InputStream stream = new ByteArrayInputStream(booleanExpression.getBytes(StandardCharsets.UTF_8));
+			Pl1Parser pl1parser = new Pl1Parser(stream);
+			SimpleNode program = pl1parser.program();
+			SimpleNode varNode = (SimpleNode) program.jjtGetChild(0).jjtGetChild(1).jjtGetChild(1).jjtGetChild(0).jjtGetChild(0);
+			
+			bm.setExpressionList(varNode, expressionList);
+			bm.mapBooleanExpression(expressionList);
+			
+			assertEquals(javaExpression, bm.getExpression());
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+	}
+	\end{lstlisting}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{lstlisting}[language=Java, caption=mapUntilNode Test, label={lst:untilwhile_test}]
+		@Test
+		@DisplayName("Tests Mapping of Boolean Expression")
+		void mapUntilNode_test() {
+			
+			BooleanExpressionMapper bm = new BooleanExpressionMapper();
+			String javaExpression1 = "(var_1 < var_2)";
+			String javaExpression2 = "(!var_1 = var_2)";
+			String javaExpression3 = "while(" + javaExpression2 + ")";
+			String untilLoop = 
+			"looptestpack: PACKAGE;"
+			+ "looptestproc: PROC;"
+			+ "DO"
+			+ "	WHILE(var_1 < var_2) UNTIL(var_1 = var_2);"
+			+ "END;"
+			+ "END booleanTestProc;"
+			+ "END booleanTestPackage;";
+			
+			try {
+				
+				InputStream stream = new ByteArrayInputStream(untilLoop.getBytes(StandardCharsets.UTF_8));
+				Pl1Parser pl1parser = new Pl1Parser(stream);
+				SimpleNode program = pl1parser.program();
+				
+				SimpleNode whileBool = (SimpleNode) program.jjtGetChild(0).jjtGetChild(0).jjtGetChild(0).jjtGetChild(0);
+				bm.translate(whileBool);
+				assertEquals(javaExpression1, bm.getExpression());
+				
+				SimpleNode untilBool = (SimpleNode) program.jjtGetChild(0).jjtGetChild(0).jjtGetChild(0).jjtGetChild(1).jjtGetChild(0);
+				bm.translate(untilBool);
+				assertEquals(javaExpression2, bm.getExpression());
+				
+				
+				assertEquals(javaExpression3, new EndMapper().getClosingExpression());
+				
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+				
+			}
+		}
+	\end{lstlisting}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{lstlisting}[language=Java, caption=mapDisplayNode Test, label={lst:displayreply_test}]
+		@Test
+		@DisplayName("Read and write to stdio")
+		void mapDisplayNode_testMessage() {
+			DisplayMapper dm = new DisplayMapper();
+			
+			String message = "\"Hello World\"";
+			String parameter = "message_para";
+			String displayStatement = 
+			"displayTest: PACKAGE;"
+			+ "DCL message_para CHAR(5);"
+			+ "displayProc: PROC;"
+			+ " DISPLAY('Hello World') REPLY (message_para);"
+			+ " END displayProc;"
+			+ "END displayTest;";
+			
+			try {
+				
+				InputStream stream = new ByteArrayInputStream(displayStatement.getBytes(StandardCharsets.UTF_8));
+				Pl1Parser pl1parser = new Pl1Parser(stream);
+				SimpleNode program = pl1parser.program();
+				SimpleNode varNode = (SimpleNode) program.jjtGetChild(0).jjtGetChild(2).jjtGetChild(1).jjtGetChild(0);
+				
+				dm.mapDisplayNode((SimpleNode) varNode);
+				
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+				
+			}
+			assertEquals(message, dm.getMessage());
+			assertEquals(parameter, dm.getParameter());
+			
+		}
+	\end{lstlisting}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{lstlisting}[language=Java, caption=mapWriteNode Test, label={lst:javawriter_test}]
+		@Test
+		void mapWriteNode_expectedJavaExpression_withIdToWriteTo() {
+			try {
+				String charSequence = "str_1";
+				String[] values = { filename, charSequence };
+				writeStatment.jjtSetValue(values);
+				
+				assertEquals("BufferedWriter writer = new BufferedWriter(new FileWriter(" + filename
+				+ ")); \n writer.write(" + charSequence + ");", writeMapper.translate(writeStatment));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	\end{lstlisting}
+\end{figure}
+
+% Benchmark Programm
+\begin{lstlisting}[language=PL/I, caption=Probdivision-Algorhitmus PL/I, label={lst:pliprobedivision}]
+PACKBA: PACKAGE;
+	DCL Z DECIMAL(5);
+	DCL MESSAGE CHAR(5);
+	
+	PROCBA: PROC(M);
+		IF(M<2) THEN;
+			RETURN 1;
+		END;
+		IF(MOD(M, 2) = 0) THEN;
+			IF(M=2) THEN;
+				RETURN 0;
+			ELSE
+				RETURN 1;
+			END;
+		END;
+		IF(MOD(M, 3) = 0) THEN;
+			IF(M = 3) THEN;
+				RETURN 0;
+			ELSE
+				RETURN 1;
+			END;
+		END;
+		Z=5;
+		DO
+			WHILE(Z*Z<=M);
+				IF(MOD(M, Z) = 0) THEN;
+					RETURN 1;
+				END;
+		Z = Z + 2;
+		IF(MOD(M,Z) = 0) THEN;
+			RETURN 1;
+		END;
+	Z = Z + 4;
+	END;
+	END PROCBA;
+END PACKBA;
+\end{lstlisting}
 
 

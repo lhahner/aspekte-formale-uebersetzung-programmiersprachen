@@ -823,24 +823,38 @@ Stattdessen müssen ausformulierte Methoden implementiert werden, die den numeri
 
 Ein Beispiel soll demonstrieren wie die Übersetzung eines Arithmetischen Ausdrucks aussehen könnte.
 Angenommen der PL/I-Ausdruck in Listing \ref{lst:pliarithmeticexpression} wird mithilfe des Transpilers in Java übersetzt.
+Ist nun in der Klasse \verb+DECIMAL+ für jede Arithmetische Operation eine Methode definiert wäre die Übersetzung wie in Listing \ref{lst:pliarithmeticexpression} denkbar.
 
-\begin{lstlisting}[language=PL/I, caption=Arithmetischer Ausdruck in PL/I , label={lst:pliarithmeticexpression}]
-	DCL var_1 FIXED DECIMAL(3) INIT(2);
-	DCL var_2 FIXED DECIMAL(3) INIT(2);
-	DCL var_3 FIXED DECIMAL(5);
-	
-	DCL var_3 = var_1 * 2 + var_2 * 3;
-\end{lstlisting}
-\pagebreak 
- 
-Ist nun in der Klasse \verb+DECIMAL+ für jede Arithmetische Operation eine Methode definiert wäre die Übersetzung in Listing \ref{lst:javapliarithmeticexpression} äquivalent zu Listing \ref{lst:pliarithmeticexpression}.
-
-\begin{lstlisting}[language=PL/I, caption=Arithmetischer Ausdruck aus PL/I in Java, label={lst:javapliarithmeticexpression}]
-	DECIMAL var_1 = new DECIMAL(2);
-	DECIMAL var_2 = new DECIMAL(2);
-	
-	DECIMAL var_3.init(var_1.multiply("2").add(var_2.multiply("3")));
-\end{lstlisting}
+%testing Side-by-side
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=PL/I,label=SliceExaple}
+	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
+		caption={Transformation DECIMAL}, label={lst:pliarithmeticexpression}]
+		DCL var_1 FIXED DECIMAL(3) INIT(2);
+		DCL var_2 FIXED DECIMAL(3) INIT(2);
+		DCL var_3 FIXED DECIMAL(5);
+		
+		proc_1: PROC;
+			var_3 = var_1 + var_2;
+		END proc_1;
+	\end{lstlisting}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=Java,label=SliceExaple}
+	\begin{lstlisting}[frame=single, mathescape,%
+		title={}]
+		DECIMAL var_1 = new DECIMAL(2).INIT(2);
+		DECIMAL var_2 = new DECIMAL(2).INIT(2);
+		DECIMAL var_3 = new DECIMAL(5);
+		
+		public void proc_1() {
+			var_3.INIT(var_1.add(var_2));
+		}
+	\end{lstlisting}
+\end{minipage}
 
 An diesem Punkt ist anzumerken, dass diese Übersetzung zwangsläufig zu einer komplexen Struktur des Java-Zielcodes führen wird. Für die weitere Übersetzung syntaktischer PL/I-Strukturen könnte die Entscheidung für eine solche Lösung die Lesbarkeit des übersetzten Programms beeinflussen. Beispielsweise würde die Verwendung sowohl arithmetischer als auch boolescher Operatoren in einer Verzweigung den Java-Zielcode komplex wirken lassen. Ein Grund hierfür liegt in der Nutzung implementierter Methoden anstelle mathematischer Operatoren.
 
@@ -850,22 +864,46 @@ Mithilfe der Jarkarta-Validations Software-Bibliothek kann eine Annotation erzeu
 Dazu wird eine Implementierung von Validierungs-Klasse als Boiler-Plate-Code  notwendig. 
 Die Übersetzung des Ausdrucks in Listing \ref{lst:pliarithmeticexpression} würde wie in Listing \ref{lst:annotationdecimal} dargestellt erfolgen.
 
-\begin{lstlisting}[language=Java, caption=Annotations Lösung des DECIMAL-Typs, label={lst:annotationdecimal}]
-	@Decimal(10)
-	double var_1;
-	
-	@Decimal(10)
-	double var_2);
-
-	double var_3 = (var_1 * 2) + (var_2 * 3);
-\end{lstlisting}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=PL/I,label=SliceExaple}
+	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
+		caption={Transformation DECIMAL}, label={lst:annotationdecimal}]
+		DCL var_1 FIXED DECIMAL(3) INIT(2);
+		DCL var_2 FIXED DECIMAL(3) INIT(2);
+		DCL var_3 FIXED DECIMAL(5);
+		
+		proc_1: PROC;
+			var_3 = var_1 + var_2;
+		END proc_1;
+	\end{lstlisting}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=Java,label=SliceExaple}
+	\begin{lstlisting}[frame=single, mathescape,%
+		title={}]
+		public @Decimal(3) double var_1 = 2;
+		public @Decimal(3) double var_2 = 2;
+		public @Decimal(5) double var_3;
+		
+		public void proc_1() {
+			var_3 = var_1 + var_2;
+		}
+	\end{lstlisting}
+\end{minipage}
 
 Durch diese Gestaltung ist auch die Einbindung und Erweiterung des übersetzen PL/I-Quellcode erleichtert.
 
-In diesem Zusammenhang wird in weiterführenden Entwicklung die Beschränkung der Länge mit Annotationen gelöst. So kann eine semantische nähe zu Java hergestellt werden und gleichzeitig der Wiedererkennungswert von PL/I beibehalten werden.
+In diesem Zusammenhang wird in der weiterführenden Entwicklung die Beschränkung der Länge mit Annotationen gelöst. So kann eine semantische nähe zu Java hergestellt werden und gleichzeitig der Wiedererkennungswert von PL/I beibehalten werden.
 
-Die beschriebene Version des Transpilers implementiert bisher lediglich die \verb+@Decimal+ Annotation.
-Weshalb in den nachfolgenden Kapiteln weiterhin Klassen wie etwa die Klasse \verb+CHAR+ eingebunden werden.
+Da auch weitere PL/I-Datentypen wie etwa der \verb+PICTURE+ oder \verb+BINARY+ Typ mit dieser Lösung leichter implementiert werden können, werden in zukünftigen Versionen des Transpilers auch hier die eigen definierten Klassen ersetzt.
+Aktuell ist eine Zuweisung von Werten lediglich mit einer Variable des Typs \verb+CHAR+ und \verb+DECIMAL+ möglich.
+
+Wie schon in Listing \ref{lst:annotationdecimal} und Listing \ref{lst:pliarithmeticexpression}
+in Zeile ? bis ? zu sehen, werden in der aktuellen Version auch Prozeduren übersetzt.
+In dem folgenden Kapitel werden die Übersetzungsentscheidungen dieser näher diskutiert.
 
 \pagebreak
 \subsubsection{Programmstruktur und Programmablauf}
@@ -876,13 +914,33 @@ In PL/I werden Unterprogramm-Routinen in Block-Strukturen definiert. Eine mögli
 Eine Prozedur wird durch den Bezeichner, das PL/I-Symbol \verb+PROCEDURE+ und einer Terminierung wie \verb+END+ beschrieben.
 Zusätzlich können Parameter, Rückgabetypen und allgemeine Attribut Optionen definiert werden. In Listing \ref{lst:procchar} ist eine beispielhafte Prozedur gelistet.
 
-\begin{lstlisting}[language=PL/I, caption=Deklaration einer Prozedur des Typs Char, label={lst:procchar}]
-empty_proc: PROC(para_1, para_2) RETURNS(CHAR(5)) OPTION(INLINE);
-	...
-END empty_proc;
-\end{lstlisting}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=PL/I,label=SliceExaple}
+	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
+		caption={Transformation DECIMAL}, label={lst:procchar}]
+		DCL Revenue FIXED DECIMAL(5);
 
-Die Prozedur \verb+empty_proc+ hat zwei Parameter und gibt einen Wert des Typs \verb+CHAR+ der L\"ange 5 zur\"uck.
+		A10_Revenue: PROC(rev_1) RETURNS(DECIMAL(5)) OPTIONS(INLINE);
+			RETURN rev_1;
+		END proc_1;
+	\end{lstlisting}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=Java,label=SliceExaple}
+	\begin{lstlisting}[frame=single, mathescape,%
+		title={}]
+		public @Decimal(5) double Revenue;
+		
+		public @Decimal(5) double A10_Revenue (Object rev_1) { 
+			return (double)rev_1;
+		}
+	\end{lstlisting}
+\end{minipage}
+
+Die Prozedur \verb+A10_Revenue+ hat einen Parameter und gibt einen Wert des Typs \verb+DECIMAL+ der L\"ange 5 zur\"uck.
 Weiterhin wird die Option \verb+INLINE+ definiert.
 
 Um in Java Unterprogramm-Routinen zu definieren gibt es Methoden. 
@@ -892,57 +950,22 @@ Es wird ein Modifier, Rückgabetyp, Bezeichner und eine Parameterliste benötigt
 Einige dieser Attribute sind auch in einer Prozedur definiert.
 Jedoch gibt es Unterschiede, die zu einer nicht eindeutigen Übersetzung führen können.
 
-Wird etwa versucht die in der PL/I-Prozedur definierten Parameter direkt zu übersetzen, fehlt die explizite Angabe des Typs im Parameter.
+Wird etwa versucht die in der PL/I-Prozedur definierten Parameter direkt zu übersetzen, fehlt die explizite Angabe des Typs im Parameter. Dieser wird in PL/I implizit durch die Zuweisung definiert.
 
-Dieser wird in PL/I implizit durch die Zuweisung definiert, etwa wie in Listing \ref{lst:procassign} dargestellt
-
-\begin{lstlisting}[language=PL/I, caption=Zuweisung von Variablen in einer Prozedur, label={lst:procassign}]
-empty_proc: PROC(para_1, para_2) RETURNS(CHAR(5)) OPTION(INLINE);
-	para_1 = 'foo';
-	para_2 = 'baa';
-END empty_proc;
-\end{lstlisting}
-
-Implizit wird hier der Typ \verb+CHAR+ zugewiesen. 
+Implizit wird hier der Typ \verb+DECIMAL+ zugewiesen. 
 In Java muss hingegen explizit der Typ des Parameter angegeben werden.
 Eine M\"oglichkeit die Parameterliste zu transformieren, ist über den Typ \verb+Object+.
 Da Object die Elternklasse aller Klassen ist, kann während der Zuweisung des Parameters beliebig in den gewünschten Typ umgewandelt werden. \footcite[Vgl. ][]{objectdocs}
 
-In Listing \ref{lst:metassign} ist die Prozedur aus Listing \ref{lst:procassign} als Methode dargestellt.
+In Listing \ref{lst:procchar} wird etwa in den Typ \verb+double+ gecastet.
 
-\begin{lstlisting}[language=Java, caption=\"Ubersetzung der Prozedur, label={lst:metassign}]
-public CHAR empty_proc(Object, para_1, Object para_2){
-	para_1 = "foo";
-	para_2 = "baa";
-	return new CHAR(5);
-}
-\end{lstlisting} 
+Weiterhin wird in der Prozedur aus Listing \ref{lst:procassign} ein R\"uckgabewert des Typs \verb+DECIMAL+ der L\"ange f\"unf definiert.
 
-Weiterhin wird in der Prozedur aus Listing \ref{lst:procassign} ein R\"uckgabewert des Typs \verb+CHAR+ der L\"ange f\"unf definiert.
-Aktuell wird \"uber eine Objektinstantiierung des Typs \verb+CHAR+ im Return Ausdruck die L\"ange definiert.
+Auch hier eignet sich die Verwendung der in Kapitel \ref{programstruct} beschriebenen Annotationslösung.
 
-Auch hier würde sich die Verwendung der in Kapitel \ref{programstruct} beschriebenen Annotationslösung eignen. Anstatt die Methode in Listing \ref{lst:metassign} vom Typ des nicht-primitiven Objektes \verb+CHAR+ zu transformieren, könnte das native Java äquivalent \verb+String+ verwendet werden.
-Eine denkbare Alternative ist in Listing \ref{lst:javaannotationproc} dargestellt.
-
-\begin{lstlisting}[language=Java, caption=Java-Annotation für übersetze Prozeduren, label={lst:javaannotationproc}]
-@Char(5)
-public String empty_proc(Obeject para_1, Object para_2){
-	para_1 = "foo";
-	para_2 = "baa";
-	return "";
-}
-\end{lstlisting} 
-
-Erneut wird auch hier über die Annotation die Längenbeschränkung definiert und der native Java Typ String verwendet.
+Erneut wird auch in Listing \ref{lst:procchar} über die Annotation die Längenbeschränkung definiert und der native Java Typ String verwendet.
 Die Validierung des Rückgabewertes erfolgt dann mithilfe von Boiler-plate Code der bei der Transformation bereitgestellt wird.
 Über eine Typ-Umwandlung des Parameter kann auch dieser in der Methode zurückgegeben werden. 
-
-\begin{lstlisting}[language=Java, caption=\"Ubersetzung der Prozedur, label={lst:metassign}]
-@Char(5)
-public String empty_proc(Obeject para_1){
-	return (String)para_1;
-}
-\end{lstlisting} 
 
 Ein weiteres Attribut das in der Prozedur in Listing \ref{lst:procassign} definiert ist, ist das \verb+OPTIONS+
 Attribut.
@@ -959,44 +982,50 @@ In dem nachfolgenden Paragraf wird die Umwandlung des Aufrufen von Prozeduren be
 
 \paragraph{Umwandlung des Programmablaufs}
 
-In PL/I werden Prozeduren unter anderem mithilfe des \verb+CALL+ Statements aufgerufen. \footcite[Vgl. ][S.133ff. ]{pliref} Um einen Programmfluss, wie er auch in einem nativen Java-Programm vorhanden ist zu erzeugen wird der Call-Ausdruck in einen Methoden-Aufruf transformiert. Wird also das Programm aus Listing \ref{lst:callsproc} dem Transpiler übergeben.
+In PL/I werden Prozeduren unter anderem mithilfe des \verb+CALL+ Statements aufgerufen. \footcite[Vgl. ][S.133ff. ]{pliref} Um einen Programmfluss, wie er auch in einem nativen Java-Programm vorhanden ist zu erzeugen wird der Call-Ausdruck in einen Methoden-Aufruf transformiert. 
+So ergibt sich die Übersetzung aus Listing \ref{lst:callstatement}.
 
-\begin{lstlisting}[language=PL/I, caption=\"Ubersetzung der Prozedur, label={lst:callsproc}]
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=PL/I,label=SliceExaple}
+	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
+		caption={Transformation des CALL-Statements}, label={lst:callstatement}]
+		main_proc: PROC;
+			CALL proc_1;
+		END main_proc;
+		
+		proc_1: PROC;
+			CALL proc_2;
+		END proc_1;
+		
+		proc_2: PROC;
+			CALL proc_1;
+		END proc_2;
+	\end{lstlisting}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=Java,label=SliceExaple}
+	\begin{lstlisting}[frame=single, mathescape,%
+		title={}]
+		public void main_proc (){
+			proc_1 ();
+		}
+		
+		public void proc_1 (){
+			proc_2 ();
+		}
+		
+		public void proc_2 (){
+			proc_1 ();
+		}
+	\end{lstlisting}
+\end{minipage}
 
-	main_proc: PROC;
-		CALL proc_1;
-	END main_proc;
-
-	proc_1: PROC;
-		CALL proc_2;
-	END proc_1;
-
-	proc_2: PROC;
-		CALL proc_1;
-	END proc_2;
-
-\end{lstlisting} 
-
-Ergibt die Transformation, den Code-Ausschnitt aus Listing \ref{lst:callsproc}.
-
-\begin{lstlisting}[language=Java, caption=\"Ubersetzung des Call-Statments, label={lst:javacallsproc}]
-	public void main_proc (){
-		proc_1();
-	}
-
-	public void proc_1 (){
-		proc_2();
-	}
-	public void proc_2 (){
-		proc_1();
-	}
-\end{lstlisting} 
 
 Die gleiche Endlosschleife aus PL/I wird somit auch in Java erzeugt.
 Dadurch kann ein einfacher Programmablauf von einem PL/I-Programm in ein Java-Programm transformiert werden.
-
-% TODO Beispiel mit Parametern
-
 Um nun ein PL/I-Programm wie zusätzlicher Logik zu transformieren, sollten Verzweigungen und Schleifen ebenfalls übersetzt werden.
 
 \pagebreak
@@ -1006,108 +1035,109 @@ Um nun ein PL/I-Programm wie zusätzlicher Logik zu transformieren, sollten Verz
 In PL/I werden Verzweigungen mit den Symbolen \verb+IF+ und \verb+ELSE+ implementiert. 
 Gepaart mit einem Booleschen Ausdruck kann so ein Wahrheitswert abgefragt werden.
 Dabei gibt es Boolesch Operatoren in PL/I die in Java anders repräsentiert werden.
-Während in Java ein einfaches Ausrufezeichen eine Negation beschreibt, wird in PL/I das logische Negationszeichen (¬) verwendet. Dieses ist nicht UTF-8 Codiert und wird in Java nicht verwendet. Bei der Transformation wird dieses Zeichen in ein Ausrufezeichen übersetzt.
+Während in Java ein einfaches Ausrufezeichen eine Negation beschreibt, wird in PL/I das logische Negationszeichen (¬) verwendet. Bei der Transformation wird dieses Zeichen in ein Ausrufezeichen übersetzt.
 
 Weiterhin wird in PL/I ein einzelnes Gleichheitszeichen als logischer Vergleichsoperator verwendet. Da in Java das einzelne Gleichheitszeichen der Zuweisung von Variablen dient, sollte der PL/I-Vergleichsoperator mit den Java-Vergleichsoperator ersetzt werden.
 
 Gleiches gilt für das logische-Und, in PL/I wird lediglich ein Et-Zeichen verwendet. Während in Java zwei als logisches-Und verwendet werden.
 
 Werden diese Zeichen korrekt übersetzt, können Boolesche Ausdrücke in Java überführt werden.
-Somit lässt sich der Ausdruck in Listing \ref{lst:javacallsproc} in PL/I übersetzen.
+Somit lässt sich der Ausdruck in Listing \ref{lst:branchmapping} in PL/I übersetzen.
 
-\begin{lstlisting}[language=PL/I, caption=PL/I if-statements, label={lst:javacallsproc}]
-IF (var_1 < var_2) THEN;
-	DISPLAY('smaller');
-ELSE
-	DISPLAY('Not smaller');
-END;
-\end{lstlisting} 
-
-Bei der Transformation des Verzweigungskörpers erfolgt die Orientierung an dem \verb+THEN+ und \verb+END+.
-So entsteht der Java Ausdruck in Listing \ref{lst:javaifstatement}.
-
-\begin{lstlisting}[language=Java, caption=Java if-statements, label={lst:javaifstatement}]
-if (var_1 < var_2) {
-	System.out.println ("smaller");
-}
-else {
-	System.out.println ("Not smaller");
-}
-\end{lstlisting} 
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=PL/I,label=SliceExaple}
+	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
+		caption={Transformation deiner If-Else-Statements}, label={lst:branchmapping}]	
+			IF (var_1 < var_2) THEN;
+				
+			ELSE
+				
+			END;
+	\end{lstlisting}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=Java,label=SliceExaple}
+	\begin{lstlisting}[frame=single, mathescape,%
+		title={}]
+			if(var_1 < var_2){
+				
+			} else {
+				
+			}
+	\end{lstlisting}
+\end{minipage} 
 
 Würden hier erneut der nicht-Primitive Typ, wie das \verb+DECIMAL+ Objekt verwendet, wäre eine solche einfache Vergleichs Operation nicht möglich.
 Stattdessen hätten die instanziierten Objekte erst mit einer Art \verb+toNumeric+ Methode in ein Numerisches Format umgewandelt werden müssen.
 Was erneut zu mehr Quellcode als nötig führen würde.
 
-Eine Else-if Verzweigung existiert in PL/I der Form eines verschachtelten If-Else Ausdrucks wie es in Listing \ref{lst:pliifelsestatement} dargestellt ist.
-
-\begin{lstlisting}[language=PL/I, caption=PL/I IF-ELSE Statement, label={lst:pliifelsestatement}]
-IF (var_1 < var_2) THEN;
-	DISPLAY('smaller');
-ELSE
-	IF (var_1 = var_2) THEN;
-		DISPLAY('Not smaller');
-	END;
-END;
-\end{lstlisting} 
- 
- Entsprechend wird in Java auch nur ein verschachtelter If-Else Ausdruck, wie in Listing \ref{lst:javaelseifstatement} dargestellt übersetzt.
- 
- \begin{lstlisting}[language=Java, caption=Java If-Else Statement, label={lst:javaelseifstatement}]
- if (var_1 < var_2){
- 	System.out.println ("smaller");
- } else {
- 	if(var_1 == var_2){
- 		System.out.println("Not smaller");
- 	}
- }
- \end{lstlisting} 
-
 Neben den Verzweigungen kann zusätzliche Logik eines Programms auch durch eine Schleife erreicht werden.
+Folglich wird die Übersetzung von Schleifen dargestellt.
 
 \paragraph{Umwandlung von Schleifen}
 In PL/I wird in der aktuellen Version des Transpilers, die  While- und Until-Schleife übersetzt.
+Weitere Schleifen wie die etwa die \verb+UPTHRU+ oder \verb+DOWNTHRU+ wurden in dieser Version nicht implementiert.
+
 Da Java ebenfalls eine While-Schleife implementiert, kann diese als Übersetzungsmuster verwendet werden.
 
-\begin{lstlisting}[language=PL/I, caption=PL/I IF-Else Statement, label={lst:whilecomamnd}]
-DO 
-	WHILE(var_1 < var_2);
-		DISPLAY('smaller');
-END;
-\end{lstlisting} 
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=PL/I,label=SliceExaple}
+	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
+		caption={Transformation deiner If-Else-Statements}, label={lst:whilecomamnd}]
+		DO 
+			WHILE(var_1 < var_2);
+		END;
+	\end{lstlisting}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=Java,label=SliceExaple}
+	\begin{lstlisting}[frame=single, mathescape,%
+		title={}]
+			while(var_1 < var_2){
+				
+			}
+	\end{lstlisting}
+\end{minipage} 
 
 Listing \ref{lst:whilecomamnd} zeigt eine einfache While-Schleife in PL/I.
 Dabei wird in PL/I das Symbol \verb+DO+ nicht wie in Java für eine Do-While
 Schleife verwendet, sondern leitet lediglich einen Schleifen-Ausdruck ein.
 
-Die Übersetzung der Schleife folgt in Listing \ref{lst:javawhilecommand}.
-
-\begin{lstlisting}[language=Java, caption=Java While-Statement, label={lst:javawhilecommand}]
-while(var_1 < var_2){
-	System.out.println("smaller");
-}
-\end{lstlisting} 
-
 Wird nun in PL/I eine \verb+UNTIL+ Beschränkung definiert, wie etwa in Listing
 \ref{lst:untilwhile}.
 
-\begin{lstlisting}[language=PL/I, caption=PL/I IF-ELSE Statement, label={lst:untilwhile}]
-DO 
-	WHILE(var_1 < var_2) UNTIL(var_1 = var_2);
-		DISPLAY('smaller');
-END;
-\end{lstlisting} 
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=PL/I,label=SliceExaple}
+	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
+		caption={Transformation deiner If-Else-Statements}, label={lst:untilwhile}]
+		DO 
+			WHILE(var_1 < var_2) UNTIL(var_1 = var_2);
+				
+		END;
+	\end{lstlisting}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=Java,label=SliceExaple}
+	\begin{lstlisting}[frame=single, mathescape,%
+		title={}]
+		while (var_1 < var_2) {
+			do {
+				
+			} while(!(var_1 == var_2));
+		}
+	\end{lstlisting}
+\end{minipage} 
 
-Sollte in Java eine äquivalente Abbruchbedingung erzeugt werden, wurde in der aktuellen Version des Transpilers das Einfügen einer do-while-Schleife gewählt. Der Schleifen-Körper der do-while-Schleife beinhaltet die gleiche Logik, die auch in Listing \ref{lst:untilwhile} im Schleifen-Körper dargestellt ist. Die eigentliche Until-Bedingung wird dann negiert, um eine zusätzliche Abbruchbedingung zu definieren. Diese Lösung ist in Listing \ref{lst:javauntilwhile} dargestellt.
-
-\begin{lstlisting}[language=Java, caption=Java Until-Statement, label={lst:javauntilwhile}]
-while (var_1 < var_2)){
-	do {
-	System.out.println ("smaller");
-	} while(!var_1 == var_2);
-}
-\end{lstlisting} 
-
+Sollte in Java eine äquivalente Abbruchbedingung erzeugt werden, wurde in der aktuellen Version des Transpilers das Einfügen einer do-while-Schleife gewählt. Die eigentliche Until-Bedingung wird negiert, um eine zusätzliche Abbruchbedingung zu definieren. 
 Da in Java kein Muster existiert, welches das äquivalent zu dem \verb+UNTIL+ bietet, ist die Definition einer zusätzlichen Verzweigung mit der do-while-Schleife.
 
 %Weiterhin ist auch die Position der Verzweigung fraglich. Genauso kann die Abbruchbedingung im Fuß der Schleife definiert werden. Dieser Umstand führt zu einer weiteren Iteration des Schleifenkörpers. 
@@ -1127,24 +1157,49 @@ Die gängige Methode ist die Verwendung des Ausdrucks \path{System.out.println()
 Alternativ könnte auch die Methode \verb+log.trace+ verwendet werden.
 Jedoch wird hier eine Abhängigkeit zu der Software-Bibliothek \verb+logger+  erzeugt, weshalb sich gegen diese Methode entschieden wurde.
 Eine weitere Alternative würde der \verb+PrintWriter+ bieten, hierbei müsste jedoch zuerst das Objekt \verb+PrintWriter+ erzeugt werden, was zusätzlichen Quellcode erzeugen würde. Diese könnte mit der Implementierung des Sysout-Befehls vermieden werden.
-Somit wurde mit dem Sysout-Befehl die gängige Methode gewählt. Entsprechend wird der Ausdruck in Listing \ref{lst:display} Zu Listing \ref{lst:sysout}
+Somit wurde mit dem Sysout-Befehl die gängige Methode gewählt. Entsprechend wird der Ausdruck in Listing \ref{lst:display} übersetzt.
 
-\begin{lstlisting}[language=PL/I, caption=Display-Statments, label={lst:display}]
-DISPLAY('Hello World');
-\end{lstlisting} 
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=PL/I,label=SliceExaple}
+	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
+		caption={Transformation deiner If-Else-Statements}, label={lst:display}]
+		DISPLAY('Hello World');
+	\end{lstlisting}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=Java,label=SliceExaple}
+	\begin{lstlisting}[frame=single, mathescape,%
+		title={}]
+		System.out.println("Hello World");
+	\end{lstlisting}
+\end{minipage} 
 
-\begin{lstlisting}[language=Java, caption=\"Ubersetzung des Display-Statments, label={lst:sysout}]
-System.out.println("Hello World");
-\end{lstlisting} 
 
 Um den Display-Ausdruck ebenfalls für das einlesen von Benutzereingaben zu verwenden, wird an den bekannten Display-Ausdruck ein \verb+REPLY+ angefügt. Siehe Listing \ref{lst:displayreply}.
 
-\begin{lstlisting}[language=PL/I, caption=Display-Reply-Statments, label={lst:displayreply}]
-DISPLAY('Username') REPLY(var_1)
-\end{lstlisting} 
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=PL/I,label=SliceExaple}
+	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
+		caption={Transformation deiner If-Else-Statements}, label={lst:displayreply}]
+		DISPLAY('Username') REPLY(username)
+	\end{lstlisting}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=Java,label=SliceExaple}
+	\begin{lstlisting}[frame=single, mathescape,%
+		title={}]
+		username = System.console().readLine(); 
+	\end{lstlisting}
+\end{minipage} 
 
 In dem Beispiel in Listing \ref{lst:displayreply} wird die Benutzereingabe in der
-Variable \verb+var_1+ gespeichert.
+Variable \verb+username+ gespeichert.
 In PL/I kann die Benutzereingabe nur in einen Bit, Widechar, oder Char gespeichert
 werden. 
 In Java gibt es verschiedene Lösungen um die Benutzereingabe Abzufragen.
@@ -1153,12 +1208,6 @@ Jedoch würden beide Lösungen eine Instanziierung der zugehörigen Objekte ben�
 
 Stattdessen wird das System Objekt verwendet, welches auch bei der \verb+System.out.println+ verwendet wurde.
 Mit \verb+System.console.readLine()+ wird die Benutzereingabe gelesen.
-Listing \ref{lst:javadisplay} zeigt die Übersetzung des PL/I Ausdrucks aus Listing \ref{lst:diplay}.
-
-\begin{lstlisting}[language=Java, caption=Java übersetzung des Display-Reply-Statments, label={lst:javadisplay}]
-username.init(System.console().readLine()); 
-\end{lstlisting} 
-
 Damit das übersetze Programm neben der Konsole, auch auf das Dateisystem zugreifen kann, wird ebenfalls die Ein- und Ausgabe von Dateien integriert.
 
 \paragraph{Datei Ein- und Ausgabe}
@@ -1173,9 +1222,23 @@ In PL/I werden spezfische Dateien über die Batch-Verarbeitung definiert, weshal
 
 Um den durch die Batchverarbeitung definierten Record in einem PL/I-Programm zu verwenden, kann der Datentyp \verb+FILE+ in Listing \ref{lst:plifiletyp} definiert werden.
 
-\begin{lstlisting}[language=PL/I, caption=FILE Typ in PL/I, label={lst:plifiletyp}]
-DCL file_1 FILE;
-\end{lstlisting} 
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=PL/I,label=SliceExaple}
+	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
+		caption={Transformation deiner If-Else-Statements}, label={lst:plifiletyp}]
+		DCL file_1 FILE;
+	\end{lstlisting}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=Java,label=SliceExaple}
+	\begin{lstlisting}[frame=single, mathescape,%
+		title={}]
+		public File file_1 = new File("");
+	\end{lstlisting}
+\end{minipage}  
 
 Bei dem Typ FILE handelt es sich um einen Buffer in dem der Inhalt einer Datei gelesen und für weitere Programmroutinen verfügbar wird. \footcite[Vgl. ][ S.305ff. ]{pliref}
 
@@ -1183,13 +1246,8 @@ In Java existiert ein ähnlicher nicht-primitiver File-Typ.
 Java liest mit der Klasse File eine Datei direkt vom Betriebssystem ein und speichert den Inhalt in einem Buffer. 
 Hingegen besteht in Java kaum die Möglichkeit dabei direkt zu beeinflussen wie die Datei eingelesen werden soll. 
 
-Wird nun Listing \ref{lst:plifiletyp} dem Transpiler als Eingabe übergeben entsteht der Java-Zielcode in Listing \ref{lst:javafiletpye}.
 
-\begin{lstlisting}[language=Java, caption=File Objekt in Java, label={lst:javafiletpye}]
-public File file_1 = new File("");
-\end{lstlisting} 
-
-Bezüglich Listing \ref{lst:javafiletpye} ist anzumerken das bisher lediglich ein File-Objekt instanziiert wurde.
+Bezüglich Listing \ref{lst:plifiletyp} ist anzumerken das bisher lediglich ein File-Objekt instanziiert wurde.
 Es wurde kein Pfad übergeben und somit auch keine Datei eingelesen. 
 Die Ausführung dieses Java-Codes wird zu einer Input-Output-Exception führen, da kein Pfad zu einer Datei übergeben wurde.
 
@@ -1202,38 +1260,57 @@ Entsprechend wird in dieser Version des Transpilers dem Benutzer die Verantwortu
 In PL/I wird mit einem \verb+READ+-Ausdruck die definierte Datei gelesen und kann in einer Alphanumerischen-Variable gespeichert werden.
 Ein mögliches \verb+READ+-Statement aus einem PL/I-Programm ist in Listing \ref{lst:pliread} dargestellt.
 
-\begin{lstlisting}[language=PL/I, caption=READ Statement in PL/I, label={lst:pliread}]
-DCL var_1 CHAR(20);
+Hierbei wird die in Listing \ref{lst:pliread} definierte Datei gelesen.
+Transformiert wird diese Dateieingabe mit dem Scanner Objekt.
 
-READ FILE(file_1) INTO (var_1); 
-\end{lstlisting} 
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=PL/I,label=SliceExaple}
+	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
+		caption={Transformation deiner If-Else-Statements}, label={lst:pliread}]
+		DCL var_1 CHAR(20);
+		
+		READ FILE(file_1) INTO (var_1); 
+	\end{lstlisting}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=Java,label=SliceExaple}
+	\begin{lstlisting}[frame=single, mathescape,%
+		title={}]
+		Scanner readFile = new Scanner(file_1);
+	\end{lstlisting}
+\end{minipage}  
 
-Hierbei wird die in Listing \ref{lst:javafiletpye} definierte Datei gelesen.
-Transformiert wird diese Dateieingabe mit dem Scanner Objekt. Zu sehen in Listing \ref{lst:scannerjava}
-
-\begin{lstlisting}[language=Java, caption=Scanner Objekt in Java, label={lst:scannerjava}]
-Scanner readFile = new Scanner(file_1);
-\end{lstlisting} 
 
 Mit dem Scanner Objekt kann die definierte Datei nun Wort für Wort in einen String gelesen werden.
 
 Neben dem einlesen kann ein PL/I-Programm auch mit dem \verb+WRITE+ Befehl in eine Datei schreibe.
 Auch hierbei ist zu erwähnen das die eigentliche Steuerung der Ausgabe durch das Batch-Programm vorgenommen wird.
-In Listing \ref{lst:pliwrite} ist ein \verb+WRITE+ Befehl gelistet.
 Es wird in der Buffer, der vorher definierten Variable des Typs \verb+FILE+ benutzt um in die Datei bzw. den Record
 des Datasets zu schreiben. Dabei wird wie in diesem Fall der Inhalt des Strings \verb+var_1+ gelesen und entsprechend
 in den Buffer geschrieben.
-
-\begin{lstlisting}[language=PL/I, caption=Scanner Objekt in Java, label={lst:pliwrite}]
-	WRITE FILE (file_1) FROM (var_1);
-\end{lstlisting} 
-
 Die Übersetzung des PL/I-Quellcode führt zu der Ausgabe in Listing \ref{lst:javawriter}.
 
-\begin{lstlisting}[language=Java, caption=Writer, label={lst:javawriter}]
-	BufferedWriter writer = new BufferedWriter(new FileWriter(file_1)); 
-	writer.write(var_1);
-\end{lstlisting} 
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=PL/I,label=SliceExaple}
+	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
+		caption={Transformation deiner If-Else-Statements}, label={lst:javawriter}]
+		WRITE FILE (file_1) FROM (var_1);
+	\end{lstlisting}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[b]{0.5\linewidth}
+	\centering
+	\lstset{language=Java,label=SliceExaple}
+	\begin{lstlisting}[frame=single, mathescape,%
+		title={}]
+		BufferedWriter writer = new BufferedWriter(new FileWriter(file_1)); 
+		writer.write(var_1);
+	\end{lstlisting}
+\end{minipage}  
 
 Hierbei wird ein \verb+BufferedWriter+-Objekt erzeugt, dem ein \verb+FileWriter+ übergeben wird. Dies ist eine mögliche Methode, um in Java eine Datei mit Inhalt zu füllen. Ähnlich wie bei der Standardeingabe können auch weitere Objekte aus ausgewählten Java-Bibliotheken verwendet werden, wie etwa der \verb+FileWriter+, \verb+PrintWriter+ oder beide in Kombination mit dem \verb+DataOutputStream+-Objekt. Es wurde sich hier für den \verb+BufferedWriter+ entschieden, aufgrund der damit verbunden Reduktion des Programmcodes. Bei den anderen Lösungen werden mehr als zwei Objekte für das Schreiben in die Datei benötigt.
 
@@ -1241,13 +1318,14 @@ Zusammenfassend werden so die grundlegenden Anweisungen der Programmiersprache P
 
 \pagebreak
 \subsection{Test und Integration}
+\subsubsection{Unit-Tests}
+Um die in Kapitel 3.2 beschriebenen Übersetzungen zu testen wurden für die Übersetzungsmethoden, Unit-Tests geschrieben.
+Dazu wurden ebenfalls die PL/I-Quellcode Auszüge aus Kapitel 3.2 übersetzt und die Übersetzungen mithilfe von Unit-Tests überprüft.
 
-Um die in Kapitel 3.2 beschriebenen Übersetzungen zu Testen wurden für die entscheiden Übersetzungsmethoden,
-Unit-Tests geschrieben.
-Allgemein erfolgt die Integration der Transformation von weiteren PL/I-Ausdrücken durch Test-Driven-Development Vorgehensweise.
-Zuerst wurde die Übersetzungsentscheidung ausgearbeitet und ein dazugehöriger Unit-Test geschrieben,
-woraufhin die Logik implementiert wurde.
-Beispielhaft ist in Listing \ref{lst:javaunittest} eine Test-Methode für das Mappen von Variablen dargestellt.
+Allgemein erfolgt die Integration von weiteren Übersetzungsstrategien durch die Test-Driven-Development Vorgehensweise.
+Somit wurde zuerst die Übersetzungsentscheidung ausgearbeitet und ein dazugehöriger Unit-Test geschrieben.
+Daraufhin folgt die Implementation der Programmroutinen um den PL/I-Quellcode in einen Java-Zielcode zu übersetzen.
+Beispielhaft ist in Listing \ref{lst:javaunittest} eine Test-Methode für das Transformieren von Variablen dargestellt.
 
 \begin{lstlisting}[language=Java, caption=Arithmetic Node Unit-test, label={lst:javaunittest}]
 @Test
@@ -1257,7 +1335,7 @@ void mapChildNodes_checkIdentifierMapping() {
 	DeclarationMapper declarationMapper = new DeclarationMapper();
 	String decimalExpression = 
 				  "test_1_package: PACKAGE;" 
-				+ "	DCL var_3 FIXED DECIMAL(5)" 
+				+ "	DCL var_3 FIXED DECIMAL(5);" 
 				+ "END test_1_package;";
 	
 	InputStream stream = new ByteArrayInputStream(decimalExpression.getBytes(StandardCharsets.UTF_8));
@@ -1273,40 +1351,105 @@ void mapChildNodes_checkIdentifierMapping() {
 }
 \end{lstlisting} 
 
+% Test-Coverage
 In diesem Test wird der Typ \verb+DECIMAL+ getestet. Untersucht wird, ob sich die zu erwartende Übersetzung 
 aus den Bezeichner und dem Typ ergeben, die durch die Methoden \verb+mapChildNodes+ und \verb+mapArithmetic+
 gesetzt werden.
 Es wird erwartet das der Bezeichner der PL/I-Variable, dem Inhalt der Variable \verb+identifier+ der Klasse \verb+DeclarationMapper+ entspricht.
 Weiterhin wird erwartet das der Typ \verb+DECIMAL+ zu dem entsprechenden Typ aus Listing \ref{lst:annotationdecimal}
 übersetzt wird wird.
-Mit jeden Test wird auch ein Parser Objekt erzeugt, dadurch wird auch mit jeden Test der PL/I-Ausdruck gegen die geschriebene Grammatik überprüft.
+Mit jeden Test wird auch ein Parser Objekt erzeugt, dadurch wird auch mit den Unit-Tests die geschriebene Grammatik überprüft.
+Für die Mapper Klassen ergibt das die allgemeine Test-Abdeckung.
+Die Tests der restlichen Test-Klassen für die übrigen Mapper-Klassen befinden sich im Anhang.
 
 Ähnlich wurden auch für die weiteren Mapper-Klassen Test-Klassen erzeugt die eine Repräsentation des PL/I-Codes in Java ergeben.
 Für die restlichen Module, wie etwa der Symboltabelle wurden ebenfalls Tests geschrieben.
 Da dieses Modul bereits in der Version, der Projektarbeit-IV integriert war, wurden hier nachträglich Tests geschrieben.
 Dabei wurden die Kern-Funktionen wie das einfügen von Variablen, oder das Abfragen von Variablen nach einem bestimmten Kriterium überprüft. 
 
-Bei der Implementierung des Tests, wurden sowohl negativ, wie auch postive Tests geschrieben.
+%Negative Tests
+Bei der Implementierung der Tests, wurden sowohl Negativ-, wie auch Positivtests geschrieben.
 In Listing \ref{lst:javaunittest} handelt es sich um einen Positiven Test. 
-Der dazugehörige negative Test, überprüft die Übersetzung eines nicht zulässigen Ausdruck mit einem Fehlerhaften Beispiel.
+Ein Beispiel für einen Negativ-Test, wäre etwa die Transformation eines Knotens, mit der falschen Mapper-Klasse.
+Da die Methode \verb+mapArithmetic+ speziell für die Übersetzung von Numerischen Typen geeignet ist,
+sollte die Methode einen Fehlermeldung ausgeben, wenn eine Übersetzung von einem Alphanumerischen Datentyp verlangt wird.
+In Listing \ref{lst:javanegativetest} ist ein Negativtest exemplarisch gelistet, bei dem der Methode \verb+mapArithmetic+
+ein String-Knoten übergeben wird.
 
-So wurde die Allgemeine Veränderung des PL/I-Codes geprüft und integriert.
-Eine weitere Veränderung die der Parser versuchen kann, hängt mit der Laufzeit der Programms zusammen.
-In dem nächsten Kapitel wird die Performance von dem PL/I-Quellcode und dem Java-Zielcode verglichen.
+\begin{lstlisting}[language=Java, caption=Arithmetic Node Unit-test, label={lst:javanegativetest}]
+@Test
+@DisplayName("Negative Test")
+void mapArithmetic_NegativeTest() {
+	DeclarationMapper declarationMapper = new DeclarationMapper();
+	String decimalExpression = "test_1_package: PACKAGE;" 
+	+ "	DCL var_3 CHAR(5)" 
+	+ "END test_1_package;";
+	
+		InputStream stream = new ByteArrayInputStream(decimalExpression.getBytes(StandardCharsets.UTF_8));
+		Pl1Parser pl1parser = new Pl1Parser(stream);
+		SimpleNode program = pl1parser.program();
+		SimpleNode varNode = (SimpleNode) program.jjtGetChild(0).jjtGetChild(1);
+		
+		assertThrows(TypeMappingException.class, () -> {
+			declarationMapper.mapArithmetic((SimpleNode)varNode.jjtGetChild(1).jjtGetChild(0));
+		});
+}
+\end{lstlisting}
+
+Auch für die restlichen Test-Klassen wurden diese Negativtests implementiert. 
+Für den Ausdruck \ref{pliarithmeticexpression} ist im Anhang in Listing \ref{pliarithmeticexpression_test} der Test dargestellt. Ebenso gilt dies für die folgenden Listings:
+
+\begin{itemize}
+	\item Für Listing \ref{procchar} in Listing \ref{procchar_test}
+	\item Für Listing \ref{callstatement} in Listing \ref{callstatement_test}
+	\item Für Listing \ref{branchmapping} in Listing \ref{branchmapping_test}
+	\item Für Listing \ref{untilwhile} in Listing \ref{untilwhile_test}
+	\item Für Listing \ref{displayreply} in Listing \ref{displayreply_test}
+	\item Für Listing \ref{javawriter} in Listing \ref{javawriter_test}
+\end{itemize}
+
+Zusammenfassend wurden so die kleinsten logischen Einheiten des Transpilers überprüft.
+
+Um nun die die einzelnen Module mit ihren Klassen und Methoden zu testen, wurde ein Integrations-Test durchgeführt.
+Die Protokollierung dieses wird im nächsten Kapitel beschrieben.
+
+\subsubsection{Integrationstests}
+Der Integrations-Test beschreibt weiterhin ebenfalls wie der Transpiler benutzt werden kann und schlussendlich der Übersetzte Java-Zielcode
+durch die JVM-Kompiliert werden kann.
+In diesem Kapitel wird die Vollumfängliche Implementation des Transpilers, mit dem Frontend und der zum Kompilieren benötigte Codebase 
+protokolliert.
+Dazu wird ein Beispiel PL/I-Programm übersetzt welches eine Zahl auf Ihre Primzahl Eigenschaft überprüft.
+Um die Primzahl zu berechnen wurde hier der Probedivision-Algorithmus verwendet.
+In Lisitng \ref{lst:pliprobedivision} aus dem Anhang ist die Implementation des Algorithmus in PL/I zu sehen.
+Diese Programm soll während dieses Integrations-Tests getestet werden.
+
+Der Integrations-Test wird auf dem Betriebssystem Windows 11, mit dem Java Compiler der Version 17 durchgeführt.
+
+% Transpiler aus Github Repo holen
+
+% Transpiler kompilieren
+
+% Frontend aus Github repo holen
+
+% Server stareten
+
+% Code base Repository aus Github holen
+
+% Code integration des Übersetzen Codes in Repositry
+
+% kompilieren des Übersetzen Codes
 
 
-%1. transpiler wird getestet
-%1.1 testen der methoden von Lexer, Parser usw. (Bsp.: Kann dieses Zeichen verarbeitet werden?)
-%1.2 baum testen auf Korrektheit
-
-%2. transpilieren wird getestet
-%2.1 output des transpilierten Pl/1 Codes im Verhältnis zum Pl/1 Code testen.
-
-%3. der transpilierte Code wird getestet
-%- wie wird pl/1 Code Native getestet
-%- funktioniert der Java Code richtig
-
-%4. performance test (erst am ende)
 \subsection{Performance und Benchmarks}
+Das Ergebnis des durchgeführten integrations-Test soll nun mit der der nativen PL/I-Implementation überprüft werden.
+Dazu wurde das Probedivisionsprogramm aus dem Listing \ref{lst:pliprobedivision} im Anhang, auf einem z/Os-Mainframe System kompiliert und durch ein Batchverarbeitungs-Programm ausgeführt.
+
+Es soll folglich die Laufzeit des kompilierten PL/I-Quellcodes auf einem z/Os-System mit dem durch die JVM ausgeführten Java-Programm verglichen werden.
+
+Als Eingabe wird die Primzahl 131.071 bei beiden Codebeispielen geprüft.
+
+% PL/I-Benchmark Test mit System Spezifikationen
+
+% Java-Benchmark Test mit System Spezifikationen
 
 \section{Fazit}
