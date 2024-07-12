@@ -824,9 +824,10 @@ Stattdessen müssen ausformulierte Methoden implementiert werden, die den numeri
 Ein Beispiel soll demonstrieren wie die Übersetzung eines Arithmetischen Ausdrucks aussehen könnte.
 Angenommen der PL/I-Ausdruck in Listing \ref{lst:pliarithmeticexpression} wird mithilfe des Transpilers in Java übersetzt.
 
-\begin{lstlisting}[language=PL/I, caption=Arithmetischer Ausdruck in PL/I, label={lst:pliarithmeticexpression}]
-	DCL var_1 DECIMAL(2);
-	DCL var_2 DECIMAL (2);
+\begin{lstlisting}[language=PL/I, caption=Arithmetischer Ausdruck in PL/I , label={lst:pliarithmeticexpression}]
+	DCL var_1 FIXED DECIMAL(3) INIT(2);
+	DCL var_2 FIXED DECIMAL(3) INIT(2);
+	DCL var_3 FIXED DECIMAL(5);
 	
 	DCL var_3 = var_1 * 2 + var_2 * 3;
 \end{lstlisting}
@@ -1097,27 +1098,21 @@ DO
 END;
 \end{lstlisting} 
 
-Sollte in Java eine äquivalente Abbruchbedingung erzeugt werden.
-In der aktuellen Version des Transpilers wurde sich für das Einfügen einer If-Verzweigung entschieden, die bei Eintritt die Schleife mit einem \verb+break+ beendet. Diese Lösung folgt in Listing \ref{lst:javauntilwhile}.
+Sollte in Java eine äquivalente Abbruchbedingung erzeugt werden, wurde in der aktuellen Version des Transpilers das Einfügen einer do-while-Schleife gewählt. Der Schleifen-Körper der do-while-Schleife beinhaltet die gleiche Logik, die auch in Listing \ref{lst:untilwhile} im Schleifen-Körper dargestellt ist. Die eigentliche Until-Bedingung wird dann negiert, um eine zusätzliche Abbruchbedingung zu definieren. Diese Lösung ist in Listing \ref{lst:javauntilwhile} dargestellt.
 
 \begin{lstlisting}[language=Java, caption=Java Until-Statement, label={lst:javauntilwhile}]
 while (var_1 < var_2)){
-	if (var_1) == var_2){
-		break; 
-	}
+	do {
 	System.out.println ("smaller");
+	} while(!var_1 == var_2);
 }
-
 \end{lstlisting} 
 
-Wobei zu erwähnen ist das hier Java Bad-Practices angewendet werden. Ein \verb+break+ in einer While-Schleife macht in den meisten Fällen den Quellcode schwerer Lesbar, je nach Komplexität der Codestruktur.
-In diesem Zusammenhang ist die Verwendung des \verb+break+ Befehls weniger komplex. 
+Da in Java kein Muster existiert, welches das äquivalent zu dem \verb+UNTIL+ bietet, ist die Definition einer zusätzlichen Verzweigung mit der do-while-Schleife.
 
-Da in Java kein Muster existiert, welches das äquivalent zu dem \verb+UNTIL+ bietet, ist die Definition einer zusätzlichen Verzweigung mit einer Abbruchbedingung die bisher einzige Lösung.
+%Weiterhin ist auch die Position der Verzweigung fraglich. Genauso kann die Abbruchbedingung im Fuß der Schleife definiert werden. Dieser Umstand führt zu einer weiteren Iteration des Schleifenkörpers. 
 
-Weiterhin ist auch die Position der Verzweigung fraglich. Genauso kann die Abbruchbedingung im Fuß der Schleife definiert werden. Dieser Umstand führt zu einer weiteren Iteration des Schleifenkörpers. 
-
-Da in PL/I die Bedingung jedoch am Schleifen-Kopf definiert wird, wurde in Java eine Prüfung des Abbruchbedingung ebenfalls im Kopf implementiert. 
+%Da in PL/I die Bedingung jedoch am Schleifen-Kopf definiert wird, wurde in Java eine Prüfung des Abbruchbedingung ebenfalls im Kopf implementiert. 
 
 Um nun neben einem einfachen Programmablauf, zusätzlicher Logik eines Programms auch Ein- und Ausgabe Operationen von dem PL/I-Quellcode in den Java-Zielcode übersetzen zu können, wird in dem nachfolgenden Kapitel sowohl die Konsolen, als auch die Datei Ein- und Ausgabe diskutiert.
 
@@ -1246,6 +1241,60 @@ Zusammenfassend werden so die grundlegenden Anweisungen der Programmiersprache P
 
 \pagebreak
 \subsection{Test und Integration}
+
+Um die in Kapitel 3.2 beschriebenen Übersetzungen zu Testen wurden für die entscheiden Übersetzungsmethoden,
+Unit-Tests geschrieben.
+Allgemein erfolgt die Integration der Transformation von weiteren PL/I-Ausdrücken durch Test-Driven-Development Vorgehensweise.
+Zuerst wurde die Übersetzungsentscheidung ausgearbeitet und ein dazugehöriger Unit-Test geschrieben,
+woraufhin die Logik implementiert wurde.
+Beispielhaft ist in Listing \ref{lst:javaunittest} eine Test-Methode für das Mappen von Variablen dargestellt.
+
+\begin{lstlisting}[language=Java, caption=Arithmetic Node Unit-test, label={lst:javaunittest}]
+@Test
+@DisplayName("Identifier &  Decimal Mapping")
+void mapChildNodes_checkIdentifierMapping() {
+	
+	DeclarationMapper declarationMapper = new DeclarationMapper();
+	String decimalExpression = 
+				  "test_1_package: PACKAGE;" 
+				+ "	DCL var_3 FIXED DECIMAL(5)" 
+				+ "END test_1_package;";
+	
+	InputStream stream = new ByteArrayInputStream(decimalExpression.getBytes(StandardCharsets.UTF_8));
+	
+	Pl1Parser pl1parser = new Pl1Parser(stream);
+	SimpleNode varNode = pl1parser.program().jjtGetChild(0).jjtGetChild(1);
+		
+	declarationMapper.mapChildNodes(varNode);
+	declarationMapper.mapArithmetic((SimpleNode)varNode.jjtGetChild(1).jjtGetChild(0));
+		
+	assertEquals("var_3", declarationMapper.getIdentifier());
+	assertEquals("@Decimal(5) double", declarationMapper.getType());
+}
+\end{lstlisting} 
+
+In diesem Test wird der Typ \verb+DECIMAL+ getestet. Untersucht wird, ob sich die zu erwartende Übersetzung 
+aus den Bezeichner und dem Typ ergeben, die durch die Methoden \verb+mapChildNodes+ und \verb+mapArithmetic+
+gesetzt werden.
+Es wird erwartet das der Bezeichner der PL/I-Variable, dem Inhalt der Variable \verb+identifier+ der Klasse \verb+DeclarationMapper+ entspricht.
+Weiterhin wird erwartet das der Typ \verb+DECIMAL+ zu dem entsprechenden Typ aus Listing \ref{lst:annotationdecimal}
+übersetzt wird wird.
+Mit jeden Test wird auch ein Parser Objekt erzeugt, dadurch wird auch mit jeden Test der PL/I-Ausdruck gegen die geschriebene Grammatik überprüft.
+
+Ähnlich wurden auch für die weiteren Mapper-Klassen Test-Klassen erzeugt die eine Repräsentation des PL/I-Codes in Java ergeben.
+Für die restlichen Module, wie etwa der Symboltabelle wurden ebenfalls Tests geschrieben.
+Da dieses Modul bereits in der Version, der Projektarbeit-IV integriert war, wurden hier nachträglich Tests geschrieben.
+Dabei wurden die Kern-Funktionen wie das einfügen von Variablen, oder das Abfragen von Variablen nach einem bestimmten Kriterium überprüft. 
+
+Bei der Implementierung des Tests, wurden sowohl negativ, wie auch postive Tests geschrieben.
+In Listing \ref{lst:javaunittest} handelt es sich um einen Positiven Test. 
+Der dazugehörige negative Test, überprüft die Übersetzung eines nicht zulässigen Ausdruck mit einem Fehlerhaften Beispiel.
+
+So wurde die Allgemeine Veränderung des PL/I-Codes geprüft und integriert.
+Eine weitere Veränderung die der Parser versuchen kann, hängt mit der Laufzeit der Programms zusammen.
+In dem nächsten Kapitel wird die Performance von dem PL/I-Quellcode und dem Java-Zielcode verglichen.
+
+
 %1. transpiler wird getestet
 %1.1 testen der methoden von Lexer, Parser usw. (Bsp.: Kann dieses Zeichen verarbeitet werden?)
 %1.2 baum testen auf Korrektheit
