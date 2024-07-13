@@ -210,71 +210,95 @@ Das folgende Kapitel beleuchtet Grammatiken formaler Sprachen wie PL/I und Java 
    
    
 \subsection{Formale Sprachen und ihre Grammatiken}
-% TODO Warum 
-% Warum braucht ein Compiler eine Grammatik?
-% In dem vorangegangen Kapitel wurden unterschiedliche Methoden, Anwendungsgebiete und Formen der Sprachinterpretation eines Computers vorgestellt. Damit die Interpretation von Sprachen korrekt erfolgt, braucht ein Computer Regeln. Grammatiken beinhalten diese Regeln. 
+% Formale Sprachen - linearer Ausdruck
+Formale Sprachen sind geeignet Anweisungen an den Computer zu übergeben und gleichzeitig dem Menschen 
+verständnisvoll darzustellen. Dabei erfolgt das Schreiben von Formalen Sprachen,
+linear, also das lesen und schreiben beginnt von oben nach unten. 
+Um diese lineare Form zu verarbeiten braucht der Computer eine Regelung, die eine Verarbeitung
+der einzelnen Ausdrücke zulässt.
 
-Damit der Transpiler korrekt arbeitet wird eine definierte Grammatik benötigt. Nur so können die Prozessschritte der Lexikalischen- und der Syntaktischen Analyse korrekt erfolgen. Denn diese Schritte prüfen den eingegeben Quellcode auf seine grammatikalische Richtigkeit. Bevor also die Sprachliche Analyse erfolgen kann, sollte eine Grammatik definiert und angewendet werden. Um eine Grammatik für eine formale Sprache, wie einer Programmiersprache zu definieren sind logische präzise Beschreibungen von Ausdrücken notwendig. \footcite[Vgl. ][S. 149ff. ]{automata} Zusammengefasst in:
+Auch wie andere Sprachen besteht eine formale Sprache aus Syntax und Lexemen.
+Beide sind abhängig von der Sprache die verwendet wird.
+Etwa gibt es in PL/I, das Wort \verb+DECLARE+, während in Java so ein Wort
+nicht existiert.
+
+Der Syntax einer formalen Sprache kann durch eine Grammatik beschrieben werden.
+Um eine Grammatik für eine formale Sprache zu definieren sind logische präzise Beschreibungen von Ausdrücken notwendig. \footcite[Vgl. ][S. 149ff. ]{automata} Zusammengefasst in:
 
 \begin{center}
-\begin{equation}\label{eqn:grammar}
-G=(V,T,S,P)
-\end{equation}
+	\begin{equation}\label{eqn:grammar}
+		G=(V,T,S,P)
+	\end{equation}
 \end{center}
 
-Hierbei \verb+V+ für Variablen bzw. Nicht-Terminalsymbole, \verb+T+ für Terminale, \verb+S+ für Start und \verb+P+ für Produktion bzw. Syntaxregel steht. Dabei ist \verb+S+ ein Teil von \verb+V+.  \footcite[Vgl. ][S. 31ff. ]{automata}
-
-% @review: Keine Hierachie Einordnung, ledilgich nennen das es sie gibt.
-% Welche Typen von Grammatiken gibt es? Chomsky Hierarchie
-Grammatiken lassen sich weiter durch die Chomsky Hierarchie spezifizieren. Noam Chomsky unterteilt Grammatiken in vier Ebenen. Ebene null beschreibt unbeschränkte-, Ebene eins kontextsensitive-, Ebene zwei kontextfreie- und Ebene drei reguläre Grammatiken.\footcite[Vgl. ][]{chomsky}
-
-\pagebreak
-
+Hierbei \verb+V+ für Variablen bzw. Nicht-Terminalsymbole, \verb+T+ für Terminale, \verb+S+ für Start und \verb+P+ für Produktion steht. Dabei ist \verb+S+ ein Teil von \verb+V+.  \footcite[Vgl. ][S. 31ff. ]{automata}
+Die Terminalsymbole sind gleichbedeutend mit Lexemen und eine Produktion ergibt eine Syntaxregel für die Grammatik.
 Um eine Grammatik darzustellen werden Ableitungen von Syntaxregeln verwendet. In Listing \ref{eqn:start} ist die Syntaxregel einer einfachen \verb+if+ und \verb+else+ Verzweigung dargestellt.
 
 % @todo: PL/I Verwenden und Kontext herstellen
 \begin{center}
-\begin{equation}\label{eqn:start}
-S \to \mathbf{if}\: expr\: \mathbf{then}\: stmt\: \mathbf{else}\: stmt\: | \mathbf{if}\: expr\: \mathbf{then}\: stmt;
-\end{equation}
-\begin{equation}
-expr \to expr\: op\: term\: | term
-\end{equation}
-\begin{equation}
-op \to \mathbf{>}\: |\: \mathbf{<}\: |\: \mathbf{=}\: |\: \mathbf{!}
-\end{equation}
-\begin{equation}
-term \to term\: multOp\: factor\:
-\end{equation}
-\begin{equation}
-factor \to \mathbf{id}\: |\: \mathbf{constant} 
-\end{equation}
+	\begin{equation}\label{eqn:start}
+		S \to \mathbf{if}\: expr\: \mathbf{then}\: stmt\: \mathbf{else}\: stmt\: | \mathbf{if}\: expr\: \mathbf{then}\: stmt;
+	\end{equation}
+	\begin{equation}
+		expr \to expr\: op\: term\: | term
+	\end{equation}
+	\begin{equation}
+		op \to \mathbf{>}\: |\: \mathbf{<}\: |\: \mathbf{=}\: |\: \mathbf{!}
+	\end{equation}
+	\begin{equation}
+		term \to term\: multOp\: factor\:
+	\end{equation}
+	\begin{equation}
+		factor \to \mathbf{id}\: |\: \mathbf{constant}
+	\end{equation}
 \end{center}
- 
+
 Mit der beschriebenen Grammatik ist folgender Ausdruck zulässig.
 
 \begin{lstlisting}[language=PL/I, caption=If Statement PL/I, label={lst:pliifstatement}]
-IF A > B THEN 
-	CALL proc_1;
-ELSE 
-	CALL proc_2;
-END
+	IF A > B THEN
+		CALL proc_1;
+	ELSE
+		CALL proc_2;
+	END
 \end{lstlisting}
 
 Nicht zulässig ist hingegen.
 
 \begin{lstlisting}[language=PL/I, caption=Wrong Statement PL/I, label={lst:pliwrongstatement}]
-CALL IF THEN A > B proc_1;
+	CALL IF THEN A > B proc_1;
 \end{lstlisting}
 
 Weil das Wort \verb+CALL+ in Listing \ref{lst:pliwrongstatement} nicht in dem Kontext stehen darf.
 
-% @todo: Beispiel-Parsebaum analyse, https://en.wikipedia.org/wiki/LR_parser 
-	
-% Wie werden Grammtiken in einem Transpiler Programm verwendet?
-Grammatiken sind für den Transpiler von Bedeutung, weil die Lexikalische und Syntaktische Analyse aus einer solchen Grammatik erzeugt werden. Mithilfe eines Compiler-Compilers kann aus einer Repräsentation einer formalen Grammatik ein Parser definiert werden.
- 
-Die aktuellste Grammatik wird durch IBM, in der PL/I Language Referenz definiert. Aus dieser wird mithilfe von JavaCC ein Parser erzeugt. Weshalb in dem folgenden Kapitel 1.5 der Compiler-Compiler und die dazugehörige Grammatik näher beschrieben wird.
+Damit der Computer nach einer Grammatik formale Sprachen, bzw. PL/I Verarbeiten kann, wird ein Parser benötigt.
+Dabei verarbeitet der Parser den eingegeben PL/I-Quellcode und überprüft den geschriebenen Ausdruck auf seine Richtigkeit.
+Dieser Prozess verläuft dabei Rekursiv. 
+
+% Beispiel mit Go-to Tabelle usw
+
+Mit einem LR-Parser bspw. werden Zustände erzeugt die in Abhängigkeit der eingegebene Terminaltsymbole aufgerufen werden.
+Mithilfe eines Deterministischen Endlichen Automaten kann so eine Verarbeitung der Benutzereingabe erfolgen und überprüft 
+werden ob es sich beim Ausdruck um einen zulässigen Ausdruck handelt.
+
+Hierbei bleibt die Länge des Eingabe-Quellcodes unberücksichtigt, somit könnte ein unendlich langes Programm von einem Parser so lange
+verarbeitet werden wie keine Fehler existieren.
+
+Je nach Einschränkung der formalen Sprache, kann ein solches Programm sehr komplex sein.
+Grund dafür sind die unterschiedlichen Kombinationsmöglichkeiten von Ausdrücken, die das Programm
+berücksichtigen muss.
+
+% Hier Grund aus Compilerbau Buch
+
+Um für PL/I einen Parser aus der von IBM definierten Grammatik zu erzeugen, wäre
+dies ein aufwendiger Prozess. Stattdessen ist es effizienter einen Praser-Generator
+zu verwenden um aus einer beschriebenen Grammatik einen Parser zu erzeugen.
+In dem folgenden Kapitel wird der Parser-Generator näher vorgestellt.
+
+% TODO Warum 
+% Warum braucht ein Compiler eine Grammatik?
+% In dem vorangegangen Kapitel wurden unterschiedliche Methoden, Anwendungsgebiete und Formen der Sprachinterpretation eines Computers vorgestellt. Damit die Interpretation von Sprachen korrekt erfolgt, braucht ein Computer Regeln. Grammatiken beinhalten diese Regeln. 
 
 % - Theoretischer Abriss
 % - Einordnung der resultate der PA 4
