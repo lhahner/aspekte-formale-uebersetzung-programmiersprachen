@@ -27,12 +27,12 @@
 }
 
 
-\lstset{style=mystyle}
+\lstset{style=mystyle,aboveskip=20pt,showlines=true}
 \usepackage{setspace}
 \usepackage[hyperfootnotes = false, hidelinks]{hyperref}
 \usepackage{amssymb}
 \usepackage{fancyhdr}
-\usepackage[version = 3]{acro}
+\usepackage{acro}
 \usepackage{enumitem}
 \usepackage[style=german]{csquotes}
 \usepackage[backend=biber,
@@ -56,7 +56,7 @@
 \usepackage{icomma} % korrekte Darstellung von Kommas in Formeln
 
 % schönere Fonts, aber optional. Zum deaktivieren CFANCYFONTS in config.tex auf 0 setzen
-\if\CFANCYFONTS 0
+\if\CFANCYFONTS 1
     \usepackage{newpxtext,newpxmath}
     \usepackage{listings}
 \else

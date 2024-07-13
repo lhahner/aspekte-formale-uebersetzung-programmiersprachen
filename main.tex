@@ -211,11 +211,7 @@ Das folgende Kapitel beleuchtet Grammatiken formaler Sprachen wie PL/I und Java 
    
 \subsection{Formale Sprachen und ihre Grammatiken}
 % Formale Sprachen - linearer Ausdruck
-Formale Sprachen sind geeignet Anweisungen an den Computer zu übergeben und gleichzeitig dem Menschen 
-verständnisvoll darzustellen. Dabei erfolgt das Schreiben von Formalen Sprachen,
-linear, also das lesen und schreiben beginnt von oben nach unten. 
-Um diese lineare Form zu verarbeiten braucht der Computer eine Regelung, die eine Verarbeitung
-der einzelnen Ausdrücke zulässt.
+Formale Sprachen sind geeignet, Anweisungen an den Computer zu übergeben und gleichzeitig dem Menschen verständlich darzustellen. Dabei erfolgt das Schreiben von formalen Sprachen linear, das Lesen und Schreiben beginnt also von oben nach unten. Um diese lineare Form zu verarbeiten, braucht der Computer eine Regelung, die eine Verarbeitung der einzelnen Ausdrücke zulässt.
 
 Auch wie andere Sprachen besteht eine formale Sprache aus Syntax und Lexemen.
 Beide sind abhängig von der Sprache die verwendet wird.
@@ -231,9 +227,8 @@ Um eine Grammatik für eine formale Sprache zu definieren sind logische präzise
 	\end{equation}
 \end{center}
 
-Hierbei \verb+V+ für Variablen bzw. Nicht-Terminalsymbole, \verb+T+ für Terminale, \verb+S+ für Start und \verb+P+ für Produktion steht. Dabei ist \verb+S+ ein Teil von \verb+V+.  \footcite[Vgl. ][S. 31ff. ]{automata}
-Die Terminalsymbole sind gleichbedeutend mit Lexemen und eine Produktion ergibt eine Syntaxregel für die Grammatik.
-Um eine Grammatik darzustellen werden Ableitungen von Syntaxregeln verwendet. In Listing \ref{eqn:start} ist die Syntaxregel einer einfachen \verb+if+ und \verb+else+ Verzweigung dargestellt.
+
+Hierbei steht \verb+V+ für Variablen bzw. Nicht-Terminalsymbole, \verb+T+ für Terminale, \verb+S+ für Start und \verb+P+ für Produktion. Dabei ist \verb+S+ ein Teil von \verb+V+\footcite[Vgl.][S. 31ff.]{automata}. Die Terminalsymbole sind gleichbedeutend mit Lexemen, und eine Produktion ergibt eine Syntaxregel für die Grammatik. Um eine Grammatik darzustellen, werden Ableitungen von Syntaxregeln verwendet. In der Gleichung 2 bis 6 ist die Syntaxregel einer einfachen \verb+if+ und \verb+else+ Verzweigung dargestellt.
 
 % @todo: PL/I Verwenden und Kontext herstellen
 \begin{center}
@@ -254,9 +249,10 @@ Um eine Grammatik darzustellen werden Ableitungen von Syntaxregeln verwendet. In
 	\end{equation}
 \end{center}
 
-Mit der beschriebenen Grammatik ist folgender Ausdruck zulässig.
+\pagebreak
+Mit der beschriebenen Grammatik ist der PL/I-Quellcode in Listing \ref{lst:pliifstatement} zulässig.
 
-\begin{lstlisting}[language=PL/I, caption=If Statement PL/I, label={lst:pliifstatement}]
+\begin{lstlisting}[language=PL/I, caption=PL/I-Verzweigung, label={lst:pliifstatement}]
 	IF A > B THEN
 		CALL proc_1;
 	ELSE
@@ -264,37 +260,44 @@ Mit der beschriebenen Grammatik ist folgender Ausdruck zulässig.
 	END
 \end{lstlisting}
 
-Nicht zulässig ist hingegen.
+Nicht zulässig ist hingegen der Ausdruck in Listing \ref{lst:pliwrongstatement}.
 
 \begin{lstlisting}[language=PL/I, caption=Wrong Statement PL/I, label={lst:pliwrongstatement}]
 	CALL IF THEN A > B proc_1;
 \end{lstlisting}
 
-Weil das Wort \verb+CALL+ in Listing \ref{lst:pliwrongstatement} nicht in dem Kontext stehen darf.
+Damit der Computer nach einer Syntax-Regel wie in Gleichung 2 bis 6 formale Sprachen, bzw. PL/I, verarbeiten kann, wird ein Parser benötigt. Dabei verarbeitet der Parser den eingegebenen PL/I-Quellcode und überprüft den geschriebenen Ausdruck auf seine Grammatikalisch-Richtigkeit.
 
-Damit der Computer nach einer Grammatik formale Sprachen, bzw. PL/I Verarbeiten kann, wird ein Parser benötigt.
-Dabei verarbeitet der Parser den eingegeben PL/I-Quellcode und überprüft den geschriebenen Ausdruck auf seine Richtigkeit.
-Dieser Prozess verläuft dabei Rekursiv. 
+Je nach Einschränkung der formalen Sprache kann ein solches Programm sehr komplex sein. Grund dafür sind die unterschiedlichen Kombinationsmöglichkeiten von Ausdrücken, die das Programm berücksichtigen muss.
 
-% Beispiel mit Go-to Tabelle usw
+% Der zu implementierende Parser für PL/I
 
-Mit einem LR-Parser bspw. werden Zustände erzeugt die in Abhängigkeit der eingegebene Terminaltsymbole aufgerufen werden.
-Mithilfe eines Deterministischen Endlichen Automaten kann so eine Verarbeitung der Benutzereingabe erfolgen und überprüft 
-werden ob es sich beim Ausdruck um einen zulässigen Ausdruck handelt.
+Mit einem LR-Parser können Syntaxregeln wie die in Gleichung 2 bis 6 dargestellt verarbeitet werden.
+Dazu werden Aktionen verwendet um alle  Ausdrücke eines Eingabecodes zu verarbeiten, etwa das schieben zu einem anderen Zustand, dass reduzieren von Syntaxregeln, sowie das akzeptieren des Ausdrucks oder das werfen von Fehlern.
+Dabei laufen die Aktionen rekursiv so lange ab, bis keine  weitere Eingabe von Syntax folgt.
+Ebenfalls darstellbar in einem Deterministischen-Endlichen-Automaten.
 
-Hierbei bleibt die Länge des Eingabe-Quellcodes unberücksichtigt, somit könnte ein unendlich langes Programm von einem Parser so lange
-verarbeitet werden wie keine Fehler existieren.
+Wird etwa aus der Syntaxregel einer Verzweigung ein Deterministischer-Endlicher-Automat erzeugt, kann
+daraufhin eine Syntaxanalysetabelle erzeugt werden, mithilfe
+der ein LR-Syntaxanalyseprogramm geschrieben werden kann.
+% Hier evlt. Abbildung von DEA
 
-Je nach Einschränkung der formalen Sprache, kann ein solches Programm sehr komplex sein.
-Grund dafür sind die unterschiedlichen Kombinationsmöglichkeiten von Ausdrücken, die das Programm
-berücksichtigen muss.
+Ein LR-Parser eignet sich für die Verarbeitung von Programmiersprachen, da dieser eine große Klasse von kontextfreien Grammatiken syntaktisch analysieren kann.
+Auch wird durch die Verarbeitung von links-nach-rechts eine frühe Fehlererkennung möglich.
+
+Deutlich wird also das ein Computer formale Sprachen verarbeiten kann, wenn ihm präzise beschrieben wird, wie Ausdrücke zu verarbeiten sind. 
+Die eigentlich lineare, Lese und Schreibtätigkeit wird damit zu einer rekursiv gesteuerten Verarbeitung durch den Computer.
+
+Einen LR-Parser für PL/I manuell zu implementieren bedarf einen hohen intellektuellen Aufwand. \footcite[Vgl. ][S. 27ff. ]{compibau}
+Die verwendeten Algorithmen zur Syntaxanalyse sind häufig komplex, jedoch für jeden Parser verschiedener Programmiersprachen gleich. 
+Zusätzlich kann die Grammatik von PL/I Mehrdeutigkeiten aufweisen, welche in den Compiler eingearbeitet werden müssen.
+\footcite[Vgl. ][S. 262ff. ]{compibau}
+
+Anstatt den LR-Parser händisch zu implementieren, wurde ein entsprechendes Software-Werkzeug eingesetzt, welches den Parser aus einer kontextfreien Grammatik generiert.
+In dem folgenden Kapitel wird der verwendete Parser-Generator, bzw. Compiler-Compiler vorgestellt.
 
 % Hier Grund aus Compilerbau Buch
 
-Um für PL/I einen Parser aus der von IBM definierten Grammatik zu erzeugen, wäre
-dies ein aufwendiger Prozess. Stattdessen ist es effizienter einen Praser-Generator
-zu verwenden um aus einer beschriebenen Grammatik einen Parser zu erzeugen.
-In dem folgenden Kapitel wird der Parser-Generator näher vorgestellt.
 
 % TODO Warum 
 % Warum braucht ein Compiler eine Grammatik?
@@ -850,33 +853,38 @@ Angenommen der PL/I-Ausdruck in Listing \ref{lst:pliarithmeticexpression} wird m
 Ist nun in der Klasse \verb+DECIMAL+ für jede Arithmetische Operation eine Methode definiert wäre die Übersetzung wie in Listing \ref{lst:pliarithmeticexpression} denkbar.
 
 %testing Side-by-side
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}{\newline}
+	
 	\centering
-	\lstset{language=PL/I,label=SliceExaple}
+	\lstset{language=PL/I}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
 		caption={Transformation DECIMAL}, label={lst:pliarithmeticexpression}]
-		DCL var_1 FIXED DECIMAL(3) INIT(2);
-		DCL var_2 FIXED DECIMAL(3) INIT(2);
-		DCL var_3 FIXED DECIMAL(5);
+	DCL var_1 FIXED DECIMAL(3) 
+	INIT(2);
+	DCL var_2 FIXED DECIMAL(3) 
+	INIT(2);
+	DCL var_3 FIXED DECIMAL(5);
 		
-		proc_1: PROC;
-			var_3 = var_1 + var_2;
-		END proc_1;
+	proc_1: PROC;
+		var_3 = var_1 + var_2;
+	END proc_1;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
-	\lstset{language=Java,label=SliceExaple}
+	\lstset{language=Java}
 	\begin{lstlisting}[frame=single, mathescape,%
-		title={}]
-		DECIMAL var_1 = new DECIMAL(2).INIT(2);
-		DECIMAL var_2 = new DECIMAL(2).INIT(2);
-		DECIMAL var_3 = new DECIMAL(5);
+		title={" "}]
+	DECIMAL var_1 = new DECIMAL(2)
+	.INIT(2);
+	DECIMAL var_2 = new DECIMAL(2)
+	.INIT(2);
+	DECIMAL var_3 = new DECIMAL(5);
 		
-		public void proc_1() {
-			var_3.INIT(var_1.add(var_2));
-		}
+	public void proc_1() {
+		var_3.INIT(var_1.add(var_2));
+	}
 	\end{lstlisting}
 \end{minipage}
 
@@ -888,33 +896,37 @@ Mithilfe der Jarkarta-Validations Software-Bibliothek kann eine Annotation erzeu
 Dazu wird eine Implementierung von Validierungs-Klasse als Boiler-Plate-Code  notwendig. 
 Die Übersetzung des Ausdrucks in Listing \ref{lst:pliarithmeticexpression} würde wie in Listing \ref{lst:annotationdecimal} dargestellt erfolgen.
 
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
 		caption={Transformation DECIMAL}, label={lst:annotationdecimal}]
-		DCL var_1 FIXED DECIMAL(3) INIT(2);
-		DCL var_2 FIXED DECIMAL(3) INIT(2);
-		DCL var_3 FIXED DECIMAL(5);
+	DCL var_1 FIXED DECIMAL(3)
+	INIT(2);
+	DCL var_2 FIXED DECIMAL(3) 
+	INIT(2);
+	DCL var_3 FIXED DECIMAL(5);
 		
-		proc_1: PROC;
-			var_3 = var_1 + var_2;
-		END proc_1;
+	proc_1: PROC;
+		var_3 = var_1 + var_2;
+	END proc_1;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
-		title={}]
-		public @Decimal(3) double var_1 = 2;
-		public @Decimal(3) double var_2 = 2;
-		public @Decimal(5) double var_3;
+		title={" "}]
+	public @Decimal(3) double 
+	var_1 = 2;
+	public @Decimal(3) double 
+	var_2 = 2;
+	public @Decimal(5) double var_3;
 		
-		public void proc_1() {
-			var_3 = var_1 + var_2;
-		}
+	public void proc_1() {
+		var_3 = var_1 + var_2;
+	}
 	\end{lstlisting}
 \end{minipage}
 
@@ -938,29 +950,35 @@ In PL/I werden Unterprogramm-Routinen in Block-Strukturen definiert. Eine mögli
 Eine Prozedur wird durch den Bezeichner, das PL/I-Symbol \verb+PROCEDURE+ und einer Terminierung wie \verb+END+ beschrieben.
 Zusätzlich können Parameter, Rückgabetypen und allgemeine Attribut Optionen definiert werden. In Listing \ref{lst:procchar} ist eine beispielhafte Prozedur gelistet.
 
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Transformation DECIMAL}, label={lst:procchar}]
-		DCL Revenue FIXED DECIMAL(5);
+		caption={Prozeduren}, label={lst:procchar}]
+	DCL Revenue FIXED DECIMAL(5);
 
-		A10_Revenue: PROC(rev_1) RETURNS(DECIMAL(5)) OPTIONS(INLINE);
+	A10_Revenue: PROC(rev_1) 
+		RETURNS(DECIMAL(5)) 
+		OPTIONS(INLINE);
+			
 			RETURN rev_1;
-		END proc_1;
+	
+	END proc_1;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
-		title={}]
-		public @Decimal(5) double Revenue;
+		title={" "}]
+	public @Decimal(5) double Revenue;
 		
-		public @Decimal(5) double A10_Revenue (Object rev_1) { 
-			return (double)rev_1;
-		}
+	public @Decimal(5) double A10_Revenue (Object rev_1) { 
+		
+		return (double)rev_1;
+	
+	}
 	\end{lstlisting}
 \end{minipage}
 
@@ -1003,47 +1021,47 @@ Aus diesem Grund wird in der Version des Transpilers die Übersetzung dieses Aus
 
 Um nun einen tatsächlichen Programmfluss zu realisieren, sollte der Transpiler ebenfalls in der Lage sein die definierten Routinen auch aufzurufen.
 In dem nachfolgenden Paragraf wird die Umwandlung des Aufrufen von Prozeduren beschrieben.
-
+\pagebreak
 \paragraph{Umwandlung des Programmablaufs}
 
 In PL/I werden Prozeduren unter anderem mithilfe des \verb+CALL+ Statements aufgerufen. \footcite[Vgl. ][S.133ff. ]{pliref} Um einen Programmfluss, wie er auch in einem nativen Java-Programm vorhanden ist zu erzeugen wird der Call-Ausdruck in einen Methoden-Aufruf transformiert. 
 So ergibt sich die Übersetzung aus Listing \ref{lst:callstatement}.
 
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Transformation des CALL-Statements}, label={lst:callstatement}]
-		main_proc: PROC;
-			CALL proc_1;
-		END main_proc;
+		caption={Prozeduraufruf}, label={lst:callstatement}]
+	main_proc: PROC;
+		CALL proc_1;
+	END main_proc;
 		
-		proc_1: PROC;
-			CALL proc_2;
-		END proc_1;
+	proc_1: PROC;
+		CALL proc_2;
+	END proc_1;
 		
-		proc_2: PROC;
-			CALL proc_1;
-		END proc_2;
+	proc_2: PROC;
+		CALL proc_1;
+	END proc_2;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
-		title={}]
-		public void main_proc (){
-			proc_1 ();
-		}
+		title={" "}]
+	public void main_proc(){
+		proc_1 ();
+	}
 		
-		public void proc_1 (){
-			proc_2 ();
-		}
+	public void proc_1(){
+		proc_2 ();
+	}
 		
-		public void proc_2 (){
-			proc_1 ();
-		}
+	public void proc_2(){
+		proc_1 ();
+	}
 	\end{lstlisting}
 \end{minipage}
 
@@ -1068,29 +1086,25 @@ Gleiches gilt für das logische-Und, in PL/I wird lediglich ein Et-Zeichen verwe
 Werden diese Zeichen korrekt übersetzt, können Boolesche Ausdrücke in Java überführt werden.
 Somit lässt sich der Ausdruck in Listing \ref{lst:branchmapping} in PL/I übersetzen.
 
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Transformation deiner If-Else-Statements}, label={lst:branchmapping}]	
-			IF (var_1 < var_2) THEN;
-				
-			ELSE
-				
-			END;
+		caption={Verzweigungen}, label={lst:branchmapping}]	
+		IF (var_1 < var_2) THEN;
+				ELSE
+		END;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
-		title={}]
-			if(var_1 < var_2){
-				
+		title={" "}]
+		if(var_1 < var_2){	
 			} else {
-				
-			}
+		}
 	\end{lstlisting}
 \end{minipage} 
 
@@ -1100,31 +1114,29 @@ Was erneut zu mehr Quellcode als nötig führen würde.
 
 Neben den Verzweigungen kann zusätzliche Logik eines Programms auch durch eine Schleife erreicht werden.
 Folglich wird die Übersetzung von Schleifen dargestellt.
-
+\pagebreak
 \paragraph{Umwandlung von Schleifen}
 In PL/I wird in der aktuellen Version des Transpilers, die  While- und Until-Schleife übersetzt.
 Weitere Schleifen wie die etwa die \verb+UPTHRU+ oder \verb+DOWNTHRU+ wurden in dieser Version nicht implementiert.
 
 Da Java ebenfalls eine While-Schleife implementiert, kann diese als Übersetzungsmuster verwendet werden.
 
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Transformation deiner If-Else-Statements}, label={lst:whilecomamnd}]
-		DO 
-			WHILE(var_1 < var_2);
+		caption={While-Schleife}, label={lst:whilecomamnd}]
+		DO WHILE(var_1 < var_2);
 		END;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
-		title={}]
+		title={" "}]
 			while(var_1 < var_2){
-				
 			}
 	\end{lstlisting}
 \end{minipage} 
@@ -1136,26 +1148,25 @@ Schleife verwendet, sondern leitet lediglich einen Schleifen-Ausdruck ein.
 Wird nun in PL/I eine \verb+UNTIL+ Beschränkung definiert, wie etwa in Listing
 \ref{lst:untilwhile}.
 
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Transformation deiner If-Else-Statements}, label={lst:untilwhile}]
+		caption={While-Until-Schleife}, label={lst:untilwhile}]
 		DO 
-			WHILE(var_1 < var_2) UNTIL(var_1 = var_2);
-				
+		  WHILE(var_1 < var_2) 
+		  	UNTIL(var_1 = var_2);
 		END;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
-		title={}]
+		title={" "}]
 		while (var_1 < var_2) {
 			do {
-				
 			} while(!(var_1 == var_2));
 		}
 	\end{lstlisting}
@@ -1183,42 +1194,46 @@ Jedoch wird hier eine Abhängigkeit zu der Software-Bibliothek \verb+logger+  er
 Eine weitere Alternative würde der \verb+PrintWriter+ bieten, hierbei müsste jedoch zuerst das Objekt \verb+PrintWriter+ erzeugt werden, was zusätzlichen Quellcode erzeugen würde. Diese könnte mit der Implementierung des Sysout-Befehls vermieden werden.
 Somit wurde mit dem Sysout-Befehl die gängige Methode gewählt. Entsprechend wird der Ausdruck in Listing \ref{lst:display} übersetzt.
 
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Transformation deiner If-Else-Statements}, label={lst:display}]
-		DISPLAY('Hello World');
+		caption={Standardausgabe}, label={lst:display}]
+	DISPLAY
+	('Hello World');
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
-		title={}]
-		System.out.println("Hello World");
+		title={" "}]
+	System.out
+	.println("Hello World");
 	\end{lstlisting}
 \end{minipage} 
 
 
 Um den Display-Ausdruck ebenfalls für das einlesen von Benutzereingaben zu verwenden, wird an den bekannten Display-Ausdruck ein \verb+REPLY+ angefügt. Siehe Listing \ref{lst:displayreply}.
 
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Transformation deiner If-Else-Statements}, label={lst:displayreply}]
-		DISPLAY('Username') REPLY(username)
+		caption={Standardeingabe}, label={lst:displayreply}]
+		DISPLAY('Username') 
+		REPLY(username)
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
-		title={}]
-		username = System.console().readLine(); 
+		title={" "}]
+	username = 
+	System.console().readLine(); 
 	\end{lstlisting}
 \end{minipage} 
 
@@ -1246,21 +1261,23 @@ In PL/I werden spezfische Dateien über die Batch-Verarbeitung definiert, weshal
 
 Um den durch die Batchverarbeitung definierten Record in einem PL/I-Programm zu verwenden, kann der Datentyp \verb+FILE+ in Listing \ref{lst:plifiletyp} definiert werden.
 
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Transformation deiner If-Else-Statements}, label={lst:plifiletyp}]
-		DCL file_1 FILE;
+		caption={Dateityp}, label={lst:plifiletyp}]
+	DCL file_1 
+	FILE;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
-		title={}]
-		public File file_1 = new File("");
+		title={" "}]
+	public File file_1
+	= new File("");
 	\end{lstlisting}
 \end{minipage}  
 
@@ -1287,23 +1304,23 @@ Ein mögliches \verb+READ+-Statement aus einem PL/I-Programm ist in Listing \ref
 Hierbei wird die in Listing \ref{lst:pliread} definierte Datei gelesen.
 Transformiert wird diese Dateieingabe mit dem Scanner Objekt.
 
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Transformation deiner If-Else-Statements}, label={lst:pliread}]
-		DCL var_1 CHAR(20);
-		
-		READ FILE(file_1) INTO (var_1); 
+		caption={Dateieingabe}, label={lst:pliread}]
+		READ FILE(file_1) 
+		INTO (var_1); 
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
-		title={}]
-		Scanner readFile = new Scanner(file_1);
+		title={" "}]
+		Scanner readFile
+		= new Scanner(file_1);
 	\end{lstlisting}
 \end{minipage}  
 
@@ -1317,22 +1334,27 @@ des Datasets zu schreiben. Dabei wird wie in diesem Fall der Inhalt des Strings 
 in den Buffer geschrieben.
 Die Übersetzung des PL/I-Quellcode führt zu der Ausgabe in Listing \ref{lst:javawriter}.
 
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Transformation deiner If-Else-Statements}, label={lst:javawriter}]
-		WRITE FILE (file_1) FROM (var_1);
+		caption={Dateiausgabe}, label={lst:javawriter}]
+	WRITE 
+		FILE (file_1) 
+	FROM (var_1);	
+	
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
-\begin{minipage}[b]{0.5\linewidth}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
-		title={}]
-		BufferedWriter writer = new BufferedWriter(new FileWriter(file_1)); 
-		writer.write(var_1);
+		title={" "}]
+	BufferedWriter writer 
+	= new BufferedWriter
+	(new FileWriter(file_1)); 
+	writer.write(var_1);
 	\end{lstlisting}
 \end{minipage}  
 
