@@ -251,7 +251,7 @@ PACKBA: PACKAGE;
 	DCL Z DECIMAL(5);
 	DCL MESSAGE CHAR(5);
 	
-	PROCBA: PROC(M);
+	PROCBA: PROC(M) RETURNS(DECIMAL(5));
 		IF(M<2) THEN;
 			RETURN 1;
 		END;
@@ -285,4 +285,41 @@ PACKBA: PACKAGE;
 END PACKBA;
 \end{lstlisting}
 
-
+\begin{lstlisting}[language=PL/I, caption=Probdivision-Algorhitmus Java, label={lst:javaprobedivision}]
+public class { 
+	public @Decimal(5) double Z;
+	public @Char(5) String MESSAGE;
+	
+	@Decimal(5)
+	public double PROCBA(Object M){
+		if( M < 2 ){
+			return 1;
+		}
+		if( M%2 == 0 ){
+			if( M == 2 ){
+				return 0;
+			} else{ 
+				return 1;
+			}
+		} 
+		if(M%3 == 0) {
+			 if( M == 3 ){
+			 	return 0;
+			 } else{ 
+			 	return 1;
+			 }
+		}
+		Z = 5;
+		while(Z * Z <= M){ 
+			if(M%Z == 0) {
+				return 1;
+			}
+			Z = Z+2;
+			if(M%Z == 0){
+				return 1;
+			}
+			Z = Z+4;
+		}
+	}
+}
+\end{lstlisting}

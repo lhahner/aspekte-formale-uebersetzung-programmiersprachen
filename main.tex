@@ -282,7 +282,7 @@ daraufhin eine Syntaxanalysetabelle erzeugt werden, mithilfe
 der ein LR-Syntaxanalyseprogramm geschrieben werden kann.
 % Hier evlt. Abbildung von DEA
 
-Ein LR-Parser eignet sich für die Verarbeitung von Programmiersprachen, da dieser eine große Klasse von kontextfreien Grammatiken syntaktisch analysieren kann.
+Ein LR-Parser eignet sich für die Verarbeitung von Programmiersprachen, da dieser eine große e von kontextfreien Grammatiken syntaktisch analysieren kann.
 Auch wird durch die Verarbeitung von links-nach-rechts eine frühe Fehlererkennung möglich.
 
 Deutlich wird also das ein Computer formale Sprachen verarbeiten kann, wenn ihm präzise beschrieben wird, wie Ausdrücke zu verarbeiten sind. 
@@ -1459,33 +1459,118 @@ Zusammenfassend wurden so die kleinsten logischen Einheiten des Transpilers übe
 Um nun die die einzelnen Module mit ihren Klassen und Methoden zu testen, wurde ein Integrations-Test durchgeführt.
 Die Protokollierung dieses wird im nächsten Kapitel beschrieben.
 
+\pagebreak
 \subsubsection{Integrationstests}
-Der Integrations-Test beschreibt weiterhin ebenfalls wie der Transpiler benutzt werden kann und schlussendlich der Übersetzte Java-Zielcode
-durch die JVM-Kompiliert werden kann.
-In diesem Kapitel wird die Vollumfängliche Implementation des Transpilers, mit dem Frontend und der zum Kompilieren benötigte Codebase 
-protokolliert.
+Der Integrations-Test beschreibt weiterhin wie der Transpiler benutzt werden kann und schlussendlich der Übersetzte Java-Zielcode durch die JVM-Kompiliert werden kann.
+In diesem Kapitel wird die Vollumfängliche Implementation des Transpilers, mit dem Frontend und der zum Kompilieren benötigte Codebase protokolliert.
 Dazu wird ein Beispiel PL/I-Programm übersetzt welches eine Zahl auf Ihre Primzahl Eigenschaft überprüft.
 Um die Primzahl zu berechnen wurde hier der Probedivision-Algorithmus verwendet.
 In Lisitng \ref{lst:pliprobedivision} aus dem Anhang ist die Implementation des Algorithmus in PL/I zu sehen.
-Diese Programm soll während dieses Integrations-Tests getestet werden.
+Diese Programm soll während dieses Integrations-Tests in Java übersetzt und durch den Java-Compiler kompiliert werden.
+Eine Ausführung des Algorithmus ist nicht vorgesehen lediglich die Transformation und kompilieren durch den PL/I-Transpiler und des Java-Compilers
+soll getestet werden.
 
-Der Integrations-Test wird auf dem Betriebssystem Windows 11, mit dem Java Compiler der Version 17 durchgeführt.
+Die Hardware-Spezifikationen des Systems auf dem der Integrations-Test durchgeführt wird. Sind in Tabelle \ref{tab:hardwartable} beschrieben.
+
+\begin{table}[h]
+	\centering
+	
+	\label{tab:hardwartable}
+	\begin{tabular}[h]{|l|l|l|}
+		\hline
+		\textbf{Spezfikation} & \textbf{Beschreibung}  \\
+		\hline
+		Betriebssystem & Ubuntu 20.04.6 LTS x86_64 \\
+		\hline
+		Kernel & 5.15.0-113-generic  \\
+		\hline
+		CPU & Intel i3-9100F (4) @ 3.600GHz \\
+		\hline
+		GPU & NVIDIA GeForce GTX 970  \\
+		\hline
+		Arbeitsspeicher & 8217MiB / 15932MiB \\
+		\hline
+		
+	\end{tabular}
+	\caption{Hardwarespezifkation des Test-Systems}
+\end{table}
+
+Das System verwendet Version 17.0.11 des Java-Compilers.
+Sowie Version 5.0 des Parser Generator JavaCC und Apache Maven der Version 3.6.3.
+
+In dem folgenden Protokoll des Integration Test wurden alle Komponente getestet, 
+die zu Verwendung des Transpilers nötig sind.
+Dazu zählt der Transpiler selbst, die Web-Schnittstelle und Codebasis die zum kompilieren des 
+Java-Zielcodes notwendig ist.
 
 % Transpiler aus Github Repo holen
+Der Integrations-Test beginnt damit das Transpiler-Projekt aus dem Remote-Repository zu laden.
+
+\begin{lstlisting}[language=Bash, caption=Laden des Transpilers, label={lst:inttest1}]
+git clone -b integration https://github.com/lhahner/pl1-code-transpiler.git
+\end{lstlisting} 
+
+Es wird in das Projekt Verzeichnis navigiert.
+Worauf hin die JAR-Datei mit dem Maven-Kommand in \ref{lst:inttest2} Listing erzeugt wird.
 
 % Transpiler kompilieren
+\begin{lstlisting}[language=Bash, caption=Erzeugen der JAR, label={lst:inttest2}]
+mvn install
+\end{lstlisting}
 
 % Frontend aus Github repo holen
+Jetzt kann das Projekt in das Frontend eingebunden wurden.
+Dazu muss erneut das Frontend-Projekt aus dem Remote-Repository geladen werden.
+In Listing \ref{lst:inttest3} ist der Befehl dazu gelistet.
+
+\begin{lstlisting}[language=Bash, caption=Laden des Frontend-Projekts, label={lst:inttest3}]
+git clone https://github.com/lhahner/plitra-web.git
+\end{lstlisting}
 
 % Server stareten
+Nun wird in die Projektstruktur des Frontendprojektes navigiert.
+Der Spring-Boot Server wird lokal mit dem Befehl in Listing \ref{lst:inttest4} gestartet.
+
+\begin{lstlisting}[language=Bash, caption=Starten des Spring-Boot-Servers, label={lst:inttest4}]
+mvn spring-boot:run
+\end{lstlisting}
+
+Die Adresse \path{http://localhost:8080/} wird in Firefox geöffnet.
+Es wird über den "Transpile" Button auf die Seite \path{http://localhost:8080/trans}
+navigiert.
+Hier wird in das linke Testfeld der PL/I-Quellcode aus Anhang \ref{lst:pliprobedivision} eingefügt.
+In Anhang \ref{lst:javaprobedivision} ist das Ergebnis, welches auf der linken Seite ausgegeben wurde dargestellt.
 
 % Code base Repository aus Github holen
+Um nun das Ausgegebene Projekt zu kompilieren sollte eine bereitgestellte Code-Basis verwendet werden.
+Es wird das Code-Basis Projekt aus der Remote-Repository in Listing \ref{lst:inttest5} geladen.
+
+\begin{lstlisting}[language=Bash, caption=Laden der Code-Basis, label={lst:inttest5}]
+git clone https://github.com/lhahner/plitra-codebase.git
+\end{lstlisting}
 
 % Code integration des Übersetzen Codes in Repositry
+Der Code innerhalb des Klasse aus Anhang \ref{lst:javaprobedivision}
+wurde kopiert und in die Klasse TranspiledExamplePliProgram eingefügt.
+Dazu wurde in den Ordner \path{/src/main/java/org/plitra/codebase} innerhalb
+des Projektes navigiert und mit Eclipse der Java-Zielcode eingefügt.
 
 % kompilieren des Übersetzen Codes
+Das Casten des Parameters wird aktuell nicht unterstützt, weshalb der Object-Typ händisch
+in \verb+double+ geändert wurde.
+Weiterhin wurden all Fehler die von der \ac{IDE} erkannt wurden automatisch durch das aktzeptieren,
+der Änderungsvorschlag verbessert.
+Das Projekt wird nun erneut mithilfe des in Listing \ref{lst:inttest6} dargestellten Maven-Kommandos kompiliert.
 
+\begin{lstlisting}[language=Bash, caption=Kompilieren des Projekts, label={lst:inttest6}]
+mvn install -Dmaven.test.skip=true
+\end{lstlisting}
 
+Das Projekt wurde erfolgreich kompiliert, womit der Integrations-Test erfolgreich war.
+
+Um nun weitergehend auch die Laufzeit des Java-Zielcodes zu überprüfen,
+wird in dem nächsten Kapitel die Performance des PL/I-Quellcodes und des Java-Zielcodes überprüft und verglichen. 
+\pagebreak
 \subsection{Performance und Benchmarks}
 Das Ergebnis des durchgeführten integrations-Test soll nun mit der der nativen PL/I-Implementation überprüft werden.
 Dazu wurde das Probedivisionsprogramm aus dem Listing \ref{lst:pliprobedivision} im Anhang, auf einem z/Os-Mainframe System kompiliert und durch ein Batchverarbeitungs-Programm ausgeführt.
