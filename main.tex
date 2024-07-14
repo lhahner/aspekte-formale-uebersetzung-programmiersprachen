@@ -1365,32 +1365,35 @@ Zusammenfassend werden so die grundlegenden Anweisungen der Programmiersprache P
 \pagebreak
 \subsection{Test und Integration}
 \subsubsection{Unit-Tests}
-Um die in Kapitel 3.2 beschriebenen Übersetzungen zu testen wurden für die Übersetzungsmethoden, Unit-Tests geschrieben.
-Dazu wurden ebenfalls die PL/I-Quellcode Auszüge aus Kapitel 3.2 übersetzt und die Übersetzungen mithilfe von Unit-Tests überprüft.
 
-Allgemein erfolgt die Integration von weiteren Übersetzungsstrategien durch die Test-Driven-Development Vorgehensweise.
-Somit wurde zuerst die Übersetzungsentscheidung ausgearbeitet und ein dazugehöriger Unit-Test geschrieben.
-Daraufhin folgt die Implementation der Programmroutinen um den PL/I-Quellcode in einen Java-Zielcode zu übersetzen.
+Um die in Kapitel 3.2 beschriebenen Übersetzungen zu testen, wurden Unit-Tests geschrieben. 
+Diese Unit-Tests testen auf der Basis bisher vorgestellter Übersetzungen den Transpiler.
+
+Allgemein erfolgt die Integration von weiteren Übersetzungsstrategien durch die Test-Diven-Development-Vorgehensweise. Somit war während der Entwicklung des Transpilers ein Unit-Test der erste Schritt. Daraufhin folgt die Implementation der Programmroutinen, um den PL/I-Quellcode in einen Java-Zielcode zu übersetzen.
 Beispielhaft ist in Listing \ref{lst:javaunittest} eine Test-Methode für das Transformieren von Variablen dargestellt.
 
 \begin{lstlisting}[language=Java, caption=Arithmetic Node Unit-test, label={lst:javaunittest}]
 @Test
-@DisplayName("Identifier &  Decimal Mapping")
 void mapChildNodes_checkIdentifierMapping() {
 	
 	DeclarationMapper declarationMapper = new DeclarationMapper();
 	String decimalExpression = 
-				  "test_1_package: PACKAGE;" 
-				+ "	DCL var_3 FIXED DECIMAL(5);" 
-				+ "END test_1_package;";
+		 "test_1_package: PACKAGE;" 
+	   + "	DCL var_3 FIXED DECIMAL(5);" 
+	   + "END test_1_package;";
 	
-	InputStream stream = new ByteArrayInputStream(decimalExpression.getBytes(StandardCharsets.UTF_8));
+	InputStream stream = new ByteArrayInputStream
+	(decimalExpression
+	.getBytes(StandardCharsets.UTF_8));
 	
 	Pl1Parser pl1parser = new Pl1Parser(stream);
-	SimpleNode varNode = pl1parser.program().jjtGetChild(0).jjtGetChild(1);
+	SimpleNode varNode = pl1parser.program().jjtGetChild(0)
+	.jjtGetChild(1);
 		
 	declarationMapper.mapChildNodes(varNode);
-	declarationMapper.mapArithmetic((SimpleNode)varNode.jjtGetChild(1).jjtGetChild(0));
+	declarationMapper.mapArithmetic
+	((SimpleNode)varNode
+	.jjtGetChild(1).jjtGetChild(0));
 		
 	assertEquals("var_3", declarationMapper.getIdentifier());
 	assertEquals("@Decimal(5) double", declarationMapper.getType());
@@ -1398,84 +1401,76 @@ void mapChildNodes_checkIdentifierMapping() {
 \end{lstlisting} 
 
 % Test-Coverage
-In diesem Test wird der Typ \verb+DECIMAL+ getestet. Untersucht wird, ob sich die zu erwartende Übersetzung 
-aus den Bezeichner und dem Typ ergeben, die durch die Methoden \verb+mapChildNodes+ und \verb+mapArithmetic+
-gesetzt werden.
-Es wird erwartet das der Bezeichner der PL/I-Variable, dem Inhalt der Variable \verb+identifier+ der Klasse \verb+DeclarationMapper+ entspricht.
-Weiterhin wird erwartet das der Typ \verb+DECIMAL+ zu dem entsprechenden Typ aus Listing \ref{lst:annotationdecimal}
-übersetzt wird wird.
-Mit jeden Test wird auch ein Parser Objekt erzeugt, dadurch wird auch mit den Unit-Tests die geschriebene Grammatik überprüft.
-Für die Mapper Klassen ergibt das die allgemeine Test-Abdeckung.
-Die Tests der restlichen Test-Klassen für die übrigen Mapper-Klassen befinden sich im Anhang.
+In Listing \ref{lst:javaunittest}  wird der Typ \verb+DECIMAL+ getestet. Untersucht werden der resultierende Typ und Bezeichner, die durch die Methoden \verb+mapChildNodes+ und \verb+mapArithmetic+ gesetzt werden.
 
-Ähnlich wurden auch für die weiteren Mapper-Klassen Test-Klassen erzeugt die eine Repräsentation des PL/I-Codes in Java ergeben.
-Für die restlichen Module, wie etwa der Symboltabelle wurden ebenfalls Tests geschrieben.
-Da dieses Modul bereits in der Version, der Projektarbeit-IV integriert war, wurden hier nachträglich Tests geschrieben.
-Dabei wurden die Kern-Funktionen wie das einfügen von Variablen, oder das Abfragen von Variablen nach einem bestimmten Kriterium überprüft. 
+Es wird erwartet, dass der Bezeichner der PL/I-Variable dem Inhalt der Variable \verb+identifier+ der Klasse \verb+DeclarationMapper+ entspricht.
+Weiterhin wird erwartet, dass der Typ \verb+DECIMAL+ zu dem entsprechenden Typ aus Listing \ref{lst:annotationdecimal} übersetzt wird.
+Mit jedem Test wird auch ein Parser-Objekt erzeugt, dadurch wird  mit einem Unit-Tests die geschriebene Grammatik überprüft.
+Ähnlich wurden  für die weiteren Mapper-Klassen Test-Klassen erzeugt.
+Für die restlichen Module, wie etwa der Symboltabelle, wurden ebenfalls Tests geschrieben.
+Da die Symboltabelle bereits in der Version der Projektarbeit-IV integriert war, wurden hier  Tests nachträglich geschrieben. 
 
 %Negative Tests
-Bei der Implementierung der Tests, wurden sowohl Negativ-, wie auch Positivtests geschrieben.
+Bei der Implementierung der Tests wurden sowohl Negativ- als auch Positivtests geschrieben.
 In Listing \ref{lst:javaunittest} handelt es sich um einen Positiven Test. 
-Ein Beispiel für einen Negativ-Test, wäre etwa die Transformation eines Knotens, mit der falschen Mapper-Klasse.
-Da die Methode \verb+mapArithmetic+ speziell für die Übersetzung von Numerischen Typen geeignet ist,
-sollte die Methode einen Fehlermeldung ausgeben, wenn eine Übersetzung von einem Alphanumerischen Datentyp verlangt wird.
-In Listing \ref{lst:javanegativetest} ist ein Negativtest exemplarisch gelistet, bei dem der Methode \verb+mapArithmetic+
-ein String-Knoten übergeben wird.
+
+Da die Methode \verb+mapArithmetic+ speziell für die Übersetzung von numerischen Typen geeignet ist, sollte die Methode eine Fehlermeldung ausgeben, wenn eine Übersetzung von einem alphanumerischen Datentyp verlangt wird.  In Listing \ref{lst:javanegativetest} wird dieser Umstand getestet. 
 
 \begin{lstlisting}[language=Java, caption=Arithmetic Node Unit-test, label={lst:javanegativetest}]
 @Test
-@DisplayName("Negative Test")
 void mapArithmetic_NegativeTest() {
 	DeclarationMapper declarationMapper = new DeclarationMapper();
-	String decimalExpression = "test_1_package: PACKAGE;" 
+	
+	String decimalExpression = 
+	"test_1_package: PACKAGE;" 
 	+ "	DCL var_3 CHAR(5)" 
 	+ "END test_1_package;";
 	
-		InputStream stream = new ByteArrayInputStream(decimalExpression.getBytes(StandardCharsets.UTF_8));
-		Pl1Parser pl1parser = new Pl1Parser(stream);
-		SimpleNode program = pl1parser.program();
-		SimpleNode varNode = (SimpleNode) program.jjtGetChild(0).jjtGetChild(1);
+	InputStream stream
+	= new ByteArrayInputStream(decimalExpression
+	.getBytes(StandardCharsets.UTF_8));
 		
-		assertThrows(TypeMappingException.class, () -> {
-			declarationMapper.mapArithmetic((SimpleNode)varNode.jjtGetChild(1).jjtGetChild(0));
-		});
+	Pl1Parser pl1parser = new Pl1Parser(stream);
+	SimpleNode program = pl1parser.program();
+	SimpleNode varNode = 
+	(SimpleNode) program
+	.jjtGetChild(0)
+	.jjtGetChild(1);
+		
+	assertThrows(TypeMappingException.class, () -> 
+	{
+		declarationMapper.mapArithmetic(
+		(SimpleNode)varNode.jjtGetChild(1).jjtGetChild(0)
+		);
+	});
 }
 \end{lstlisting}
 
-Auch für die restlichen Test-Klassen wurden diese Negativtests implementiert. 
-Für den Ausdruck \ref{pliarithmeticexpression} ist im Anhang in Listing \ref{pliarithmeticexpression_test} der Test dargestellt. Ebenso gilt dies für die folgenden Listings:
+Auch für die restlichen Test-Klassen wurden diese Negativtests ebenfalls implementiert. 
+Weiterhin wurden sowohl Negativ- als auch Positivtests für alle weiteren Mapper-Klassen geschrieben. Für Ausdruck \ref{lst:pliarithmeticexpression} ist der Test im Anhang \ref{lst:pliarithmeticexpression_test} dargestellt. Ebenso gilt dies für die folgenden:
 
 \begin{itemize}
-	\item Für Listing \ref{procchar} in Listing \ref{procchar_test}
-	\item Für Listing \ref{callstatement} in Listing \ref{callstatement_test}
-	\item Für Listing \ref{branchmapping} in Listing \ref{branchmapping_test}
-	\item Für Listing \ref{untilwhile} in Listing \ref{untilwhile_test}
-	\item Für Listing \ref{displayreply} in Listing \ref{displayreply_test}
-	\item Für Listing \ref{javawriter} in Listing \ref{javawriter_test}
+	\item Für Listing \ref{lst:procchar} in Anhang \ref{lst:procchar_test}
+	\item Für Listing \ref{lst:callstatement} in Anhang \ref{lst:callstatement_test}
+	\item Für Listing \ref{lst:branchmapping} in Anhang \ref{lst:branchmapping_test}
+	\item Für Listing \ref{lst:untilwhile} in Anhang \ref{lst:untilwhile_test}
+	\item Für Listing \ref{lst:displayreply} in Anhang \ref{lst:displayreply_test}
+	\item Für Listing \ref{lst:javawriter} in Anhang \ref{lst:javawriter_test}
 \end{itemize}
 
-Zusammenfassend wurden so die kleinsten logischen Einheiten des Transpilers überprüft.
-
-Um nun die die einzelnen Module mit ihren Klassen und Methoden zu testen, wurde ein Integrations-Test durchgeführt.
-Die Protokollierung dieses wird im nächsten Kapitel beschrieben.
+Zusammenfassend wurden so die kleinsten Programm-Einheiten des Transpilers überprüft. Um nun die einzelnen Module mit ihren Klassen zu testen, wurde ein Integrations-Test durchgeführt. Die Protokollierung wird im nächsten Kapitel beschrieben.
 
 \pagebreak
 \subsubsection{Integrationstests}
-Der Integrations-Test beschreibt weiterhin wie der Transpiler benutzt werden kann und schlussendlich der Übersetzte Java-Zielcode durch die JVM-Kompiliert werden kann.
-In diesem Kapitel wird die Vollumfängliche Implementation des Transpilers, mit dem Frontend und der zum Kompilieren benötigte Codebase protokolliert.
-Dazu wird ein Beispiel PL/I-Programm übersetzt welches eine Zahl auf Ihre Primzahl Eigenschaft überprüft.
-Um die Primzahl zu berechnen wurde hier der Probedivision-Algorithmus verwendet.
-In Lisitng \ref{lst:pliprobedivision} aus dem Anhang ist die Implementation des Algorithmus in PL/I zu sehen.
-Diese Programm soll während dieses Integrations-Tests in Java übersetzt und durch den Java-Compiler kompiliert werden.
-Eine Ausführung des Algorithmus ist nicht vorgesehen lediglich die Transformation und kompilieren durch den PL/I-Transpiler und des Java-Compilers
+In diesem Kapitel wird die Durchführung eines Integrations-Tests aller Komponenten beschrieben. Der Integrations-Test beschreibt, wie der Transpiler benutzt und durch den Java-Compiler kompiliert werden kann.
+In diesem Kapitel wird die vollumfängliche Implementation des Transpilers, mit dem Frontend und der zum Kompilieren benötigte Codebase protokolliert. Dazu wird ein Beispiel PL/I-Programm übersetzt. Für die Berechnung einer Primzahl wurde hier der Probedivisions-Algorithmus implementiert. In Anhang \ref{lst:pliprobedivision} ist die Implementation des Algorithmus in PL/I zu sehen. Dieses Programm soll während des Integrations-Tests in Java-Zielcode übersetzt und durch den Java-Compiler kompiliert werden.
+Eine Ausführung des Algorithmus ist nicht vorgesehen, lediglich die Transformation und Kompilieren durch den PL/I-Transpiler sowie des Java-Compilers
 soll getestet werden.
 
-Die Hardware-Spezifikationen des Systems auf dem der Integrations-Test durchgeführt wird. Sind in Tabelle \ref{tab:hardwartable} beschrieben.
+Die Hardware-Spezifikationen des Systems, auf dem der Integrations-Test durchgeführt wird. Sind in Tabelle \ref{tab:hardwartable} beschrieben.
 
-\begin{table}[h]
+\begin{table}[h]\label{tab:hardwartable}
 	\centering
-	
-	\label{tab:hardwartable}
 	\begin{tabular}[h]{|l|l|l|}
 		\hline
 		\textbf{Spezfikation} & \textbf{Beschreibung}  \\
@@ -1492,26 +1487,19 @@ Die Hardware-Spezifikationen des Systems auf dem der Integrations-Test durchgef�
 		\hline
 		
 	\end{tabular}
-	\caption{Hardwarespezifkation des Test-Systems}
+	\caption{Hardwarespezifikation des Test-Systems}
 \end{table}
 
-Das System verwendet Version 17.0.11 des Java-Compilers.
-Sowie Version 5.0 des Parser Generator JavaCC und Apache Maven der Version 3.6.3.
-
-In dem folgenden Protokoll des Integration Test wurden alle Komponente getestet, 
-die zu Verwendung des Transpilers nötig sind.
-Dazu zählt der Transpiler selbst, die Web-Schnittstelle und Codebasis die zum kompilieren des 
-Java-Zielcodes notwendig ist.
+Das System verwendet die Version 17.0.11 des Java-Compilers. Sowie Version 5.0 des Parser-Generators-JavaCC und Apache Maven der Version 3.6.3.
 
 % Transpiler aus Github Repo holen
-Der Integrations-Test beginnt damit das Transpiler-Projekt aus dem Remote-Repository zu laden.
+Der Integrationstest beginnt damit, das Transpiler-Projekt aus dem Remote-Repository zu laden.
 
 \begin{lstlisting}[language=Bash, caption=Laden des Transpilers, label={lst:inttest1}]
 git clone -b integration https://github.com/lhahner/pl1-code-transpiler.git
 \end{lstlisting} 
 
-Es wird in das Projekt Verzeichnis navigiert.
-Worauf hin die JAR-Datei mit dem Maven-Kommand in \ref{lst:inttest2} Listing erzeugt wird.
+Es wird in das Projektverzeichnis des Transpilers navigiert. Worauf hin die JAR-Datei mit dem Maven-Kommando in \ref{lst:inttest2} Listing erzeugt wird.
 
 % Transpiler kompilieren
 \begin{lstlisting}[language=Bash, caption=Erzeugen der JAR, label={lst:inttest2}]
@@ -1519,47 +1507,34 @@ mvn install
 \end{lstlisting}
 
 % Frontend aus Github repo holen
-Jetzt kann das Projekt in das Frontend eingebunden wurden.
-Dazu muss erneut das Frontend-Projekt aus dem Remote-Repository geladen werden.
-In Listing \ref{lst:inttest3} ist der Befehl dazu gelistet.
+Jetzt kann das Projekt in das Frontend eingebunden werden. Dazu wird erneut das Frontend-Projekt aus dem Remote-Repository geladen. In Listing \ref{lst:inttest3} ist der Befehl dazu gelistet.
 
 \begin{lstlisting}[language=Bash, caption=Laden des Frontend-Projekts, label={lst:inttest3}]
 git clone https://github.com/lhahner/plitra-web.git
 \end{lstlisting}
 
 % Server stareten
-Nun wird in die Projektstruktur des Frontendprojektes navigiert.
-Der Spring-Boot Server wird lokal mit dem Befehl in Listing \ref{lst:inttest4} gestartet.
+Nun wird in die Projektstruktur des Frontendprojektes navigiert. Der Spring-Boot-Server wird lokal mit dem Befehl in Listing \ref{lst:inttest4} gestartet.
 
 \begin{lstlisting}[language=Bash, caption=Starten des Spring-Boot-Servers, label={lst:inttest4}]
 mvn spring-boot:run
 \end{lstlisting}
 
-Die Adresse \path{http://localhost:8080/} wird in Firefox geöffnet.
-Es wird über den "Transpile" Button auf die Seite \path{http://localhost:8080/trans}
-navigiert.
-Hier wird in das linke Testfeld der PL/I-Quellcode aus Anhang \ref{lst:pliprobedivision} eingefügt.
-In Anhang \ref{lst:javaprobedivision} ist das Ergebnis, welches auf der linken Seite ausgegeben wurde dargestellt.
+Die Adresse \path{http://localhost:8080/} wird in Firefox geöffnet. Es wird über den "Transpile"-Button auf die Seite \path{http://localhost:8080/trans} navigiert. Hier wird in das linke Testfeld der PL/I-Quellcode aus Anhang \ref{lst:pliprobedivision} eingefügt. In Anhang \ref{lst:javaprobedivision} ist das Ergebnis, welches auf der linken Seite ausgegeben wurde, dargestellt.
 
 % Code base Repository aus Github holen
-Um nun das Ausgegebene Projekt zu kompilieren sollte eine bereitgestellte Code-Basis verwendet werden.
-Es wird das Code-Basis Projekt aus der Remote-Repository in Listing \ref{lst:inttest5} geladen.
+Um nun das ausgegebene Projekt zu kompilieren, sollte eine bereitgestellte Code-Basis verwendet werden. Es wird das Code-Basis-Projekt aus der Remote-Repository in Listing \ref{lst:inttest5} geladen.
 
 \begin{lstlisting}[language=Bash, caption=Laden der Code-Basis, label={lst:inttest5}]
 git clone https://github.com/lhahner/plitra-codebase.git
 \end{lstlisting}
 
 % Code integration des Übersetzen Codes in Repositry
-Der Code innerhalb des Klasse aus Anhang \ref{lst:javaprobedivision}
-wurde kopiert und in die Klasse TranspiledExamplePliProgram eingefügt.
-Dazu wurde in den Ordner \path{/src/main/java/org/plitra/codebase} innerhalb
-des Projektes navigiert und mit Eclipse der Java-Zielcode eingefügt.
+Der Code innerhalb der Klasse aus Anhang \ref{lst:javaprobedivision} wurde kopiert und in die Klasse TranspiledExamplePliProgram eingefügt. Dazu wurde in den Ordner \path{/src/main/java/org/plitra/codebase} innerhalb des Codebasis-Projektes navigiert und mit Eclipse der Java-Zielcode eingefügt.
 
 % kompilieren des Übersetzen Codes
-Das Casten des Parameters wird aktuell nicht unterstützt, weshalb der Object-Typ händisch
-in \verb+double+ geändert wurde.
-Weiterhin wurden all Fehler die von der \ac{IDE} erkannt wurden automatisch durch das aktzeptieren,
-der Änderungsvorschlag verbessert.
+Das Casten des Parameters wird aktuell nicht unterstützt, weshalb der Objekttyp händisch
+in \verb+double+ geändert wurde. Weiterhin wurden alle Fehler, die von der \ac{IDE} erkannt wurden, automatisch durch das Akzeptieren, des Änderungsvorschlags der  \ac{IDE}  verbessert.
 Das Projekt wird nun erneut mithilfe des in Listing \ref{lst:inttest6} dargestellten Maven-Kommandos kompiliert.
 
 \begin{lstlisting}[language=Bash, caption=Kompilieren des Projekts, label={lst:inttest6}]
@@ -1571,13 +1546,14 @@ Das Projekt wurde erfolgreich kompiliert, womit der Integrations-Test erfolgreic
 Um nun weitergehend auch die Laufzeit des Java-Zielcodes zu überprüfen,
 wird in dem nächsten Kapitel die Performance des PL/I-Quellcodes und des Java-Zielcodes überprüft und verglichen. 
 \pagebreak
+
 \subsection{Performance und Benchmarks}
-Das Ergebnis des durchgeführten integrations-Test soll nun mit der der nativen PL/I-Implementation überprüft werden.
-Dazu wurde das Probedivisionsprogramm aus dem Listing \ref{lst:pliprobedivision} im Anhang, auf einem z/Os-Mainframe System kompiliert und durch ein Batchverarbeitungs-Programm ausgeführt.
+Um vergleichen zu können, wie sich die Laufzeit der Implementierung des Probedivisions-Algorithmus in PL/I und Java unterscheidet, wird in diesem Kapitel die Performance verglichen. Dazu wurde das Probedivisionsprogramm aus Anhang \ref{lst:pliprobedivision}, auf einem z/OS-Mainframe-System kompiliert und ausgeführt. Die allgemeinen System-Spezifikationen des Mainframes sind in Abbildung \ref{fig:mainframesysteminfo} dargestellt.
 
-Es soll folglich die Laufzeit des kompilierten PL/I-Quellcodes auf einem z/Os-System mit dem durch die JVM ausgeführten Java-Programm verglichen werden.
+\dhgefigure[h]{mainframe-system-info.png}[scale=0.47]{Mainframe System Informationen}{fig:mainframesysteminfo}[][]
+\pagebreak
 
-Als Eingabe wird die Primzahl 131.071 bei beiden Codebeispielen geprüft.
+Als Eingabe wird die Primzahl 131.071 bei beiden Codebeispielen geprüf
 
 % PL/I-Benchmark Test mit System Spezifikationen
 
