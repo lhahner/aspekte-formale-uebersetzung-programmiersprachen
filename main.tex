@@ -1548,15 +1548,45 @@ wird in dem nächsten Kapitel die Performance des PL/I-Quellcodes und des Java-Z
 \pagebreak
 
 \subsection{Performance und Benchmarks}
-Um vergleichen zu können, wie sich die Laufzeit der Implementierung des Probedivisions-Algorithmus in PL/I und Java unterscheidet, wird in diesem Kapitel die Performance verglichen. Dazu wurde das Probedivisionsprogramm aus Anhang \ref{lst:pliprobedivision}, auf einem z/OS-Mainframe-System kompiliert und ausgeführt. Die allgemeinen System-Spezifikationen des Mainframes sind in Abbildung \ref{fig:mainframesysteminfo} dargestellt.
+Um vergleichen zu können, wie sich die Laufzeit der Implementierung des Probedivisions-Algorithmus in PL/I und Java unterscheidet, wird in diesem Kapitel die Performance verglichen. 
+Dazu wird den Beiden Programmen die Primzahl 2.147.483.647 übergeben.
+Für die Berechnung wurde das Programm aus dem Anhang \ref{lst:pliprobedivision}, auf einem z/OS-Mainframe-System kompiliert und ausgeführt. 
+Die allgemeinen System-Spezifikationen des Mainframes sind in Abbildung \ref{fig:mainframesysteminfo} dargestellt.
 
 \dhgefigure[h]{mainframe-system-info.png}[scale=0.47]{Mainframe System Informationen}{fig:mainframesysteminfo}[][]
-\pagebreak
 
-Als Eingabe wird die Primzahl 131.071 bei beiden Codebeispielen geprüf
+Unter CPU ist der Maschinen-Typ 3931 gelistet. Bei dem Mainframe, handelt es sich um einen IBM z16 A02, mit
+einer maximalen Prozessorkern Kapazität von 16. Sowie Maximal 4 TB Arbeitsspeicher. (IBM z16 Model A02, S. 1, https://www.ibm.com/downloads/cas/EGJE0PGO)
+Damit wird das Programm auf der neusten Hardware von IBM kompiliert und ausgeführt.
 
 % PL/I-Benchmark Test mit System Spezifikationen
+Um ein PL/I-Programm auf einem z/Os Betriebssystem eines IBM-Mainframes zu starten, muss das Programm zuerst erfolgreich kompiliert und mit einem Batchjob-Programm
+ausgeführt werden. Das Batchjob-Programm wurde in der Job-Control-Language (JCL) geschrieben.
+Der Batch-Job ist neben dem ausführen des Programms, auch verantwortlich für die Ein- und Ausgabesteuerung des Programms.
+Wie schon in Kapitel 3.2 angemerkt, werden in dem PL/I-Quellcode selbst keine Dateipfade angegeben, lediglich in dem JCL-Job sind die benötigten Dateien angegeben.
+
+% Ab hier erstmal hypothetische annahme
+Ein Vergleichbarer Job der ein PL/I-Programm ausführt weißt eine Laufzeit von 2 Millisekunden auf, in Abbildung \ref{fig:joblogs}
+ist das Ergebnis des Log-Programms zu sehen.
+
+\dhgefigure[h]{job-logs.png}[scale=0.47]{Job Logs z/Os}{fig:joblogs}[][]
+
+Bei diesem Job wurden mehr als 2 Milliarden Datensätze verarbeitet, was diesen Job ungefähr vergleichbar
+mit der Berechnung der Primzahl 2.147.483.647 macht. Dabei ist jedoch anzumerken, das in dieser Verarbeitung
+auch die Ein- und Ausgabesteuerung mit in die Performance einspielen. Weiterhin ist ungewiss, welche Ressourcen 
+zur Bearbeitung des Jobs verwendet wurden. Weiterhin wird davon ausgegangen das dieser Job nicht bei einer Vollauslastung lief.
 
 % Java-Benchmark Test mit System Spezifikationen
+Das während des Integration-Test übersetzte Programm aus Anhang \ref{lst:javaprobedivision} wird ebenfalls für die Berechnung der Primzahl
+2.147.483.647 getestet.
+Das Programm wurde insgesamt 6 mal ausgeführt und erzielte dabei eine durchschnittliche Laufzeit von 1.44 Sekunden.
+Während der Laufzeit nahm das Programm 8 Kerne und 0,132 GB Arbeitsspeicher inanspruch.
+Somit auch hier nicht bei der Vollauslastung des System.
+
+% Umrechnung & Vergleich
+Um nun die Verarbeitung Vergleichbar zu machen sollte die Laufzeit umgerechnet werden.
+Der z16 hat viermal so viele Kerne wie der Rechner auf dem das Java Programm ausgeführt wird.
+Weiterhin hat der z16 umgerechnet 32.000 Gigabit Arbeitsspeicher (4TB * 8000 = 32.000).
+
 
 \section{Fazit}
