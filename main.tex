@@ -854,7 +854,6 @@ Ist nun in der Klasse \verb+DECIMAL+ für jede Arithmetische Operation eine Meth
 
 %testing Side-by-side
 \begin{minipage}[b]{0.48\linewidth}{\newline}
-	
 	\centering
 	\lstset{language=PL/I}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
@@ -1475,7 +1474,7 @@ Die Hardware-Spezifikationen des Systems, auf dem der Integrations-Test durchgef
 		\hline
 		\textbf{Spezfikation} & \textbf{Beschreibung}  \\
 		\hline
-		Betriebssystem & Ubuntu 20.04.6 LTS x86_64 \\
+		Betriebssystem & Ubuntu 20.04.6 LTS x86 64 \\
 		\hline
 		Kernel & 5.15.0-113-generic  \\
 		\hline
@@ -1534,7 +1533,7 @@ Der Code innerhalb der Klasse aus Anhang \ref{lst:javaprobedivision} wurde kopie
 
 % kompilieren des Übersetzen Codes
 Das Casten des Parameters wird aktuell nicht unterstützt, weshalb der Objekttyp händisch
-in \verb+double+ geändert wurde. Weiterhin wurden alle Fehler, die von der \ac{IDE} erkannt wurden, automatisch durch das Akzeptieren, des Änderungsvorschlags der  \ac{IDE}  verbessert.
+in \verb+double+ geändert wurde. Weiterhin wurden alle Fehler, die von der \ac{ide} erkannt wurden, automatisch durch das Akzeptieren, des Änderungsvorschlags der  \ac{ide}  verbessert.
 Das Projekt wird nun erneut mithilfe des in Listing \ref{lst:inttest6} dargestellten Maven-Kommandos kompiliert.
 
 \begin{lstlisting}[language=Bash, caption=Kompilieren des Projekts, label={lst:inttest6}]
@@ -1556,7 +1555,8 @@ Die allgemeinen System-Spezifikationen des Mainframes sind in Abbildung \ref{fig
 \dhgefigure[h]{mainframe-system-info.png}[scale=0.47]{Mainframe System Informationen}{fig:mainframesysteminfo}[][]
 
 Unter CPU ist der Maschinen-Typ 3931 gelistet. Bei dem Mainframe, handelt es sich um einen IBM z16 A02, mit
-einer maximalen Prozessorkern Kapazität von 16. Sowie Maximal 4 TB Arbeitsspeicher. (IBM z16 Model A02, S. 1, https://www.ibm.com/downloads/cas/EGJE0PGO)
+einer maximalen Prozessorkern Kapazität von 16. Sowie Maximal 4 TB Arbeitsspeicher. 
+(IBM z16 Model A02, S. 1, https://www.ibm.com/downloads/cas/EGJE0PGO)
 Damit wird das Programm auf der neusten Hardware von IBM kompiliert und ausgeführt.
 
 % PL/I-Benchmark Test mit System Spezifikationen
@@ -1569,7 +1569,7 @@ Wie schon in Kapitel 3.2 angemerkt, werden in dem PL/I-Quellcode selbst keine Da
 Ein Vergleichbarer Job der ein PL/I-Programm ausführt weißt eine Laufzeit von 2 Millisekunden auf, in Abbildung \ref{fig:joblogs}
 ist das Ergebnis des Log-Programms zu sehen.
 
-\dhgefigure[h]{job-logs.png}[scale=0.47]{Job Logs z/Os}{fig:joblogs}[][]
+\dhgefigure[h]{job-logs.png}[scale=0.3]{Job Logs z/Os}{fig:joblogs}[][]
 
 Bei diesem Job wurden mehr als 2 Milliarden Datensätze verarbeitet, was diesen Job ungefähr vergleichbar
 mit der Berechnung der Primzahl 2.147.483.647 macht. Dabei ist jedoch anzumerken, das in dieser Verarbeitung
