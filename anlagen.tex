@@ -286,7 +286,7 @@ END PACKBA;
 \end{lstlisting}
 
 \begin{lstlisting}[language=Java, caption=Probdivision-Algorhitmus Java, label={lst:javaprobedivision}]
-public class { 
+public class TranspiledExamplePliProgram implements IProgram  { 
 	public @Decimal(5) double Z;
 	public @Char(5) String MESSAGE;
 	
@@ -322,4 +322,58 @@ public class {
 		}
 	}
 }
+\end{lstlisting}
+
+\dhgefigure[h]{test-21.png}[scale=0.5]{Testergebnis PL/I-Programm: 2,147,483,647}{fig:test2147}[][]
+
+\dhgefigure[h]{test-999.png}[scale=0.5]{Testergebnis PL/I-Programm: 999,999,000,001}{fig:test999}[][]
+
+\dhgefigure[h]{test-672.png}[scale=0.5]{Testergebnis PL/I-Programm: 67,280,421,310,721}{fig:test672}[][]
+
+\dhgefigure[h]{test-10000.png}[scale=0.5]{Testergebnis PL/I-Programm: 10,000,000,002,065,383}{fig:test1000}[][]
+
+
+
+\begin{lstlisting}[language=Java, caption=Angepasste Java-Programm, label={lst:javaprobedivisionang}]
+public class TranspiledExamplePliProgram implements IProgram {
+	
+	public BigDecimal Z;
+	public String MESSAGE;
+	
+	public double PROCBA(BigDecimal M) {
+		if (M.compareTo(BigDecimal.valueOf(2)) < 0) {
+			return 1;
+		}
+		//M % 2 == 0
+		if (M.remainder(BigDecimal.valueOf(2)) == BigDecimal.valueOf(0)) {
+			if (M == BigDecimal.valueOf(2)) {
+				return 0;
+			} else {
+				return 1;
+			}
+		}
+		if (M.remainder(BigDecimal.valueOf(3)) == BigDecimal.valueOf(0)) {
+			if (M == BigDecimal.valueOf(3)) {
+				return 0;
+			} else {
+				return 1;
+			}
+		}
+		Z = Z.valueOf(5);
+		while (Z.multiply(Z).compareTo(M) <= 0 ) {
+			System.out.println(Z.toString());
+			if (M.remainder(Z) == BigDecimal.valueOf(0)) {
+				return 1;
+			}
+			Z = Z.add(BigDecimal.valueOf(2));
+			if (M.remainder(Z) == BigDecimal.valueOf(0)) {
+				return 1;
+			}
+			Z = Z.add(BigDecimal.valueOf(4));
+			
+		}
+		return M.doubleValue();
+	}
+}
+
 \end{lstlisting}
