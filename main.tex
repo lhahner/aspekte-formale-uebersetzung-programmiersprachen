@@ -35,7 +35,7 @@ Weiterhin ist Java heute eine beliebte Programmiersprache. \footcite[Vgl. ][]{ti
 
 % Was ist ein Transpiler?
 Um die Programmiersprache Java zur Lösung der eingangs beschriebenen Probleme zu verwenden, kann ein Transpiler benutzt werden um die Transformation des Quellcodes, teilweise automatisiert zu beschleunigen. 
-Dabei hat der Benutzer die Möglichkeit, selbst zu bestimmen, wie bestimmte Ausdrücke übersetzt werden sollen. Sobald der Programmcode in Java übersetzt ist, kann der Java-Zielcode von dem Java-Compiler kompiliert werden und auf der \ac{jvm} ausgeführt werden.
+Dabei hat der Benutzer die Möglichkeit, selbst zu bestimmen, wie bestimmte Ausdrücke übersetzt werden sollen. Sobald der Programmcode nach Java übersetzt ist, kann der Java-Zielcode von dem Java-Compiler kompiliert werden und auf der \ac{jvm} ausgeführt werden.
 
 % @review: Begriffswahl
 Diese Arbeit führt Eingangs in Kapitel eins, in die grundlegenden theoretischen Konzepte, wie Grammatiken von formalen Sprachen in Bezug auf die verwendete Compiler-Compiler Technologien ein. Darauffolgend werden weitere Technologie- und Design-Entscheidungen des Transpilers vorgestellt und diskutiert. In Kapitel drei werden dann die Verwendung des Transpilers, die Gestaltung der Übersetzungen, sowie die durchgeführten Tests beschrieben. Abschließend wird in Kapitel vier ein Ausblick auf die Weiterentwicklung gegeben.
@@ -608,7 +608,7 @@ In dem Checker Modul wird dieser Algorithmus vor allem benutzt, um festzustellen
 So kann der Syntaxbaum mit seinen Attributen vollständig überprüft werden.
 Die Überprüfung ist dann abgeschlossen, wenn die Iteration des Suchalgorithmus wieder bei dem Ausgangspunkt angekommen ist. In Abbildung \ref{fig:parsetreealgo} ist das der Knoten \verb+PRORGRAM+.
 
-Wurde kein Fehler entdeckt beginnt die Transformation des Syntaxbaums in Java. Falls jedoch ein Fehler entdeckt wurde, wird eine entsprechende Fehlermeldung angezeigt.
+Wurde kein Fehler entdeckt beginnt die Transformation des Syntaxbaums nach Java. Falls jedoch ein Fehler entdeckt wurde, wird eine entsprechende Fehlermeldung angezeigt.
 
 Das Checker Modul bereitet den Syntaxbaum entsprechend so vor, dass dieser weiterhin in der Synthese verarbeitet werden kann.
 Die Synthese wird durch das Mapper-Modul implementiert und ist Bestandteil des nächsten Kapitels.
@@ -635,7 +635,7 @@ Die Mapper Klassen stellen die unterschiedlichen Vorgehensweisen in dem Strategy
 In der \verb+iterateTree+ Methode wird für jeden Knoten überprüft, ob eine solche Mapper-Klasse in der HashMap instanziiert wurde.
 Falls eine Klasse vorhanden ist, wird in der TranslationBehavior Klasse das entsprechende Strategie-Objekt
 des Typs \path{ITranslationBehavior} in der
-Mapper Klasse gesetzt. So wird die Translate-Methode der aktuell gesetzten Klasse aufgerufen und der Syntaxbaum-Knote in Java übersetzt.
+Mapper Klasse gesetzt. So wird die Translate-Methode der aktuell gesetzten Klasse aufgerufen und der Syntaxbaum-Knote nach Java übersetzt.
 
 % wie funktioniert der PicturemMapper
 Eine exemplarische Mapper Klasse ist etwa die \verb+PictureMapper+ Klasse.
@@ -788,7 +788,7 @@ Der Benutzer kann diese Schnittstelle benutzen um einfache PL/I-Programm zu übe
 Die Syntaxhervorhebung soll dem Entwickler ein Vertrautes gefühl geben und das erkennen von Tippfehlern erleichtern.
 Für die Syntaxhervorhebung wurde die Lösung Codemirror implementiert. Da Codemirror keine Unterstützung für PL/I bietet, wurde stattdessen die Syntax von PL/SQL verwendet. Die Java-Syntaxhervorhebung stammt ebenfalls von Codemirror. Wichtig ist an dieser Stelle anzumerken, dass die grafische Oberfläche derzeit nur lokal funktioniert und nach jeder Übersetzung neu gestartet werden muss. Die grafische Oberfläche wird in Zukunft verbessert und weiter angepasst.
 Neben der grafischen Oberfläche hat auch die Gestaltung der Übersetzung einen Einfluss auf das Benutzererlebnis.
-In den nachfolgenden Kapiteln werden PL/I-Strukturen beschrieben und die Transformation in Java diskutiert.
+In den nachfolgenden Kapiteln werden PL/I-Strukturen beschrieben und die Transformation nach Java diskutiert.
 \pagebreak
 
 \subsection{Transformationsstrategien}
@@ -1476,8 +1476,7 @@ wird in dem nächsten Kapitel die Performance des PL/I-Quellcodes und des Java-Z
 
 \subsection{Performance und Benchmarks}
 Um vergleichen zu können, wie sich die Laufzeit der Implementierung des Probedivisions-Algorithmus in PL/I und Java unterscheidet, wird in diesem Kapitel die Performance verglichen. 
-Dazu wird den Beiden Programmen vier Primzahlen übergeben.
-Für die Berechnung wurde das Programm aus dem Anhang \ref{lst:pliprobedivision}, auf einem z/OS-Mainframe-System kompiliert und ausgeführt. 
+Dazu wird den Beiden Programmen vier Primzahlen übergeben. Für die Berechnung wurde das Programm aus dem Anhang \ref{lst:pliprobedivision}, auf einem z/OS-Mainframe-System kompiliert und ausgeführt. 
 Die allgemeinen System-Spezifikationen des Mainframes sind in Abbildung \ref{fig:mainframesysteminfo} dargestellt.
 
 \dhgefigure[h]{mainframe-system-info.png}[scale=0.47]{Mainframe System Informationen}{fig:mainframesysteminfo}[][]
@@ -1489,7 +1488,8 @@ Damit wird das Programm auf der neusten Hardware von IBM kompiliert und ausgefü
 % PL/I-Benchmark Test mit System Spezifikationen
 Um ein PL/I-Programm auf einem z/Os Betriebssystem eines IBM-Mainframes zu starten, muss das Programm zuerst erfolgreich kompiliert und mit einem Batchjob-Programm
 ausgeführt werden. Das Batchjob-Programm wurde in der Job-Control-Language (JCL) geschrieben.
-Es wurde die Laufzeit für vier Primzahlen gemessen. In Tabelle \ref{tab:plibenchmark} sind alle Primzahlen mit ihrer Laufzeit zu sehen.
+Es wurde die Laufzeit für vier Primzahlen gemessen. Die erste Primzahl ist die 1772 von Leonhard Euler entdeckte Primzahl mit 10 Stellen; 2,147,483,647. Die nächstgrößere getestete Primzahl ist die einzigartige 999.999.000.001. Darauf folgt die größte bekannte Primzahl, die nicht durch einen Computer bewiesen wurde: 67.280.421.310.721. Zuletzt wurde eine Primzahl verwendet, die nur durch einen Computer bewiesen werden kann. \footcite[Vgl. ]{prime}
+In Tabelle \ref{tab:plibenchmark} sind alle Primzahlen mit ihrer Laufzeit zu sehen. 
 
 \begin{table}[h]\label{tab:plibenchmark}
 	\centering
@@ -1506,7 +1506,7 @@ Es wurde die Laufzeit für vier Primzahlen gemessen. In Tabelle \ref{tab:plibenc
 		10,000,000,002,065,383 & 00:00:01,0 \\
 		\hline
 	\end{tabular}
-	\caption{PL/I-Programm Benchmarks}
+	\caption{PL/I-Programm Benchmarks, Siehe Anhang 1-4}
 \end{table}
 
 
@@ -1546,38 +1546,30 @@ Weiterhin sind die Testergebnisse des Java-Codes in \ref{tab:javabenchmark} geli
 		\hline
 		\textbf{Primzahl} & \textbf{Laufzeit}  \\
 		\hline
-		2,147,483,647 & 00:00:00,2 [Siehe Anhang \ref{fig:test2147}]\\
+		2,147,483,647 & 00:00:00,2 \\
 		
-		999,999,000,001 & 00:00:01,2  [Siehe Anhang \ref{fig:test999}]\\
+		999,999,000,001 & 00:00:01,2 \\
 		
-		67,280,421,310,721 & 00:00:05,9 [Siehe Anhang \ref{fig:test672}]\\
+		67,280,421,310,721 & 00:00:05,9 \\
 		
-		10,000,000,002,065,383 & 00:01:27,9 [Siehe Anhang \ref{fig:test100}]\\
+		10,000,000,002,065,383 & 00:01:27,9 \\
 		\hline
 	\end{tabular}
 	\caption{Java-Programm Benchmarks}
 \end{table}
 
 % Umrechnung & Vergleich: TODO nicht nötig
-Um die Verarbeitung vergleichbar zu machen, sollte die Laufzeit umgerechnet werden.
-Der z16 hat viermal so viele Kerne wie der Rechner, auf dem das Java-Programm ausgeführt wurde.
-Entsprechend lief das Programm vermutlich viermal so schnell. Dabei ist zu berücksichtigen, dass der z16 nicht bei Vollauslastung lief,
-sondern weitere Hintergrundprozesse die Rechenleistung beansprucht haben.
-Wenn dennoch davon ausgegangen wird, dass das Java-Programm viermal so schnell auf einem z16 laufen würde, ergibt sich eine Laufzeit von 00:00:31,75,
-was immer noch 31-mal langsamer ist als das PL/I-Programm. Weiterhin wurden hier nicht die Arbeitsspeicherauslastung oder sonstige Ressourcen berücksichtigt.
-Da jedoch auch die tatsächliche Auslastung auf dem Mainframe unbekannt ist, ist ein genauer Vergleich schwierig.
-Dennoch zeigt sich mit dieser Berechnung eine Tendenz, dass das PL/I-Programm schneller ist als das Java-Programm.
-
+Bei der Beurteilung sollten die Hardwareunterschiede berücksichtigt werden.
 Während des Benchmarks wurde auch versucht, die Primzahl 170,141,183,460,469,231,731,687,303,715,884,105,727
 zu berechnen. Dabei musste der Java-Zielcode angepasst werden. Die maximale Anzahl an Ziffern, die in dem größtmöglichen
-primitiven Datentyp gespeichert werden konnte, beträgt 64. Daher wurde stattdessen der nicht-primitive Datentyp \verb+BigDecimal+
-verwendet. Ebenso mussten die Berechnungen im Algorithmus angepasst werden. Im Anhang \ref{lst
-} befindet sich das angepasste Programm.
-Die Zahl wurde nicht weiter im Benchmark berücksichtigt, da das System aus Tabelle \ref{tab
-} für diese Operation zu lange bräuchte.
+primitiven Datentyp gespeichert werden konnte, beträgt 64. Daher wurde stattdessen der nicht-primitive Datentyp \verb+BigDecimal+ verwendet. 
+Ebenso mussten die Berechnungen im Algorithmus angepasst werden. Im Anhang \ref{lst:javaprobedivisionang} befindet sich das angepasste Programm.
+Die Zahl wurde nicht weiter im Benchmark berücksichtigt, da das System aus Tabelle \ref{tab:hardwartable} für diese Operation zu lange bräuchte.
 Dennoch zeigt sich hier eine Grenze auf. Um solche großen Zahlen zu berechnen, muss das Programm bzw. die Übersetzung angepasst werden,
 da in Java die Behandlung solcher großen Zahlen nur mit nicht-primitiven Datentypen möglich ist.
 Ein PL/I-Programm kann weiterhin die standardmäßig implementierten Datentypen wie \verb+DECIMAL+ oder \verb+BINARY+ verwenden, lediglich die Skalierung der Länge muss angepasst werden.
+Im Zuge dieser Arbeit wurde diese Zahl nicht auf dem Mainframe getestet, da unbekannt wie hoch die \ac{MIPS} bei dieser Zahl sind.
+Bedingt durch diese Ungewissheit, kann auch nicht genau gesagt werden wie viel eine solche Rechenoperation kosten würde. 
 
 Zusammenfassend wird so eine schwäche des Transpilers deutlich. In dem folgenden Kapitel sollen weitere schwächen betrachtet und diese Arbeit evaluiert werden.
 
