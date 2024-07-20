@@ -61,7 +61,7 @@
     %\fi
 
     % Lade Abstract abhängig von der Einstellung in config.tex
-    \if\CHASABSTRACT 0
+    \if\CHASABSTRACT 1
         \section*{Abstract}
         \input{../abstract.tex}
         \newpage % Sections haben hier noch keinen automatischen Seitenumbruch
@@ -70,7 +70,7 @@
     % INHALTSVERZEICHNIS
     \pagenumbering{Roman} \setcounter{page}{1}
     \tableofcontents{\fancyfoot{}}
-    \if\CKUSCHE 0 % im Kusche Mode erscheinen die Anlagen im InhaltsVZ
+    \if\CKUSCHE 1 % im Kusche Mode erscheinen die Anlagen im InhaltsVZ
         \phantomsection
         \listofanlagen
     \fi
@@ -110,13 +110,13 @@
     % TODO Formatierung
 
     % Im Kusche-Mode wird arabische Nummerierung beibehalten
-    \if\CKUSCHE 0
+    \if\CKUSCHE 1
         \pagenumbering{Roman} \setcounter{page}{\thesavepage}
     \fi
 
     % wenn keine Literatur verwendet (zitiert) wird, erstelle kein Literaturverzeichnis
     % im Kusche-Mode wird das LiteraturVZ generiert
-    \if\CKUSCHE 0
+    \if\CKUSCHE 1
         \ifnum\thetotalbibentries>0
             \printbibliography[title=Literaturverzeichnis]
             \addcontentsline{toc}{section}{Literaturverzeichnis}
@@ -134,8 +134,9 @@
     %\appendix
     \section*{Anlagen}
     \addcontentsline{toc}{section}{Anlagen}
-    \if\CKUSCHE 0
+    \if\CKUSCHE 1
         \begin{spacing}{2}
+        	
             \listofanlagen
         \end{spacing}
         \cleardoublepage
@@ -157,7 +158,7 @@
     \cleardoublepage
 
     % Im Kusche-Mode kommt das LiteraturVZ zuletzt
-    \if\CKUSCHE 1
+    \if\CKUSCHE 0	
         \ifnum\thetotalbibentries>0
             \printbibliography[title=Literaturverzeichnis]
             \addcontentsline{toc}{section}{Literaturverzeichnis}
