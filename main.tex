@@ -206,7 +206,7 @@ Um eine generative Grammatik für eine formale Sprache zu definieren sind logisc
 \end{center}
 
 
-Hierbei steht \verb+V+ für Variablen bzw. Nicht-Terminalsymbole, \verb+T+ für Terminale, \verb+S+ für Start und \verb+P+ für Produktionsregeln. Dabei ist \verb+S+ ein Teil von \verb+V+\footcite[Vgl.][S. 31ff.]{automata}. Eine Produktion ergibt eine Syntaxregel für die Grammatik. Um eine Grammatik darzustellen, werden Ableitungen von Syntaxregeln zur Erzeugung verwendet. Hier wird durch eine Reduktion von Nicht-Terminalsymbolen in Terminalsymbole der eingegebene Ausdruck überprüft. In der Gleichung 2 bis 6 ist die Syntaxregel zur Erzeugung einer einfachen \verb+if+ und \verb+else+ Verzweigung dargestellt.
+Hierbei steht \verb+V+ für Variablen bzw. Nicht-Terminalsymbole, \verb+T+ für Terminale, \verb+S+ für Start und \verb+P+ für Produktionsregeln. Dabei ist \verb+S+ ein Teil von \verb+V+. Eine Produktion ergibt eine Syntaxregel für die Grammatik. Um eine Grammatik darzustellen, werden Ableitungen von Syntaxregeln zur Erzeugung verwendet. Hier wird durch eine Reduktion von Nicht-Terminalsymbolen in Terminalsymbole der eingegebene Ausdruck überprüft. In der Gleichung 2 bis 6 ist die Syntaxregel zur Erzeugung einer einfachen \verb+if+ und \verb+else+ Verzweigung dargestellt.
 
 % @todo: PL/I Verwenden und Kontext herstellen
 \begin{center}
@@ -250,7 +250,7 @@ Entweder erfolgt die Reduktion von Links (LR-Parser), oder von Rechts (LL-Parser
 
 Um Programmiersprachen mithilfe eines Parser zu verarbeiten und aus dem Eingegebenen-Quellcode Zwischencode zu erzeugen, ist es gängig einen LR-Parser zu verwenden.
 Da dieser einen Großteil von kontextfreien Grammatiken syntaktisch analysieren kann.
-Auch wird durch die Verarbeitung eine frühe Fehlererkennung möglich. \footcite{}
+Auch wird durch die Verarbeitung eine frühe Fehlererkennung möglich.
 
 Je nach Einschränkung der formalen Sprache kann ein Parser sehr komplex sein. 
 Grund dafür sind die unterschiedlichen Kombinationsmöglichkeiten von Ausdrücken, die das Programm berücksichtigen muss.
@@ -301,7 +301,6 @@ Beispielhafte Compiler-Compiler sind neben JavaCC, Yacc, Antlr und Lexer.
 
 
 In Kapitel 1.4 wurde bereits vereinfacht eine Syntaxregel aus der PL/I-Grammatik dargestellt. Ähnlich erfolgt auch die Darstellung in einer Grammatikdatei. Folgendes Beispiel zeigt die Darstellung eines \verb+IF ELSE+ Ausdrucks. 
-\footcite[Vgl. ][]{javaccdoku}
 
 
 \begin{lstlisting}[language=Java, caption=If Statement aus der Grammatikdatei, label={lst:ifstatement}]
@@ -649,38 +648,6 @@ In der Tabelle \ref{tab:exceptiontabel} sind die verwendeten Exceptions dargeste
 \begin{table}[h]
 	\centering
 	
-\begin{tabularx}{\textwidth}{|X|X|}
-	\hline
-	\textbf{Exception} & \textbf{Quelle}  \\
-	\hline
-	\verb+IncorretInputFileException+ & Errorhandling-Modul  \\
-
-	\verb+LexicalErrorException+ & Errorhandling-Modul  \\
-
-	\verb+TypeMappingException+ & Errorhandling-Modul \\
-
-	\verb+ParseException+ & Parser-Modul \\
-
-	\verb+MappingException+ & Errorhandling-Modul \\
-
-	\verb+IOExcpetion+ & Java-IO-Package \\
-
-	\verb+NumberFormateExcpetion+ & Java-Lang-Package \\
-
-	\verb+IllegalArgumentException+ & Java-Lang-Package \\
-	
-	\verb+NullPointerException+ & Java-Lang-Package \\
-	
-	\verb+DuplicateRequestException+ & Jdi-Request-Package \\
-	\hline
-	
-\end{tabularx}
-
-\caption{Liste der verwendeten Exceptions \label{tab:exceptiontabel}}
-\end{table}
-\begin{table}[h]
-	\centering
-	
 	\begin{tabularx}{\textwidth}{|X|X|}
 		\hline
 		\textbf{Exception} & \textbf{Quelle}  \\
@@ -816,7 +783,7 @@ Listing \ref{lst:pliarithmeticexpression} soll demonstriert wie die Übersetzung
 Wäre in der Klasse \verb+DECIMAL+ für jede arithmetische Operation eine Methode definiert, wäre die Übersetzung wie in Listing \ref{lst:pliarithmeticexpression} denkbar.
 
 %testing Side-by-side
-\begin{minipage}[b]{0.48\linewidth}{\newline}
+\begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=PL/I}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
@@ -1524,7 +1491,7 @@ Damit wird das Programm auf der neusten Hardware von IBM kompiliert und ausgefü
 % PL/I-Benchmark Test mit System Spezifikationen
 Um ein PL/I-Programm auf einem z/Os Betriebssystem eines IBM-Mainframes zu starten, muss das Programm zuerst erfolgreich kompiliert und mit einem Batchjob-Programm
 ausgeführt werden. Das Batchjob-Programm wurde in der Job-Control-Language (JCL) geschrieben.
-Es wurde die Laufzeit für vier Primzahlen gemessen. Die erste Primzahl ist die 1772 von Leonhard Euler entdeckte Primzahl mit 10 Stellen; 2,147,483,647. Die nächstgrößere getestete Primzahl ist die 999.999.000.001. Darauf folgt die größte bekannte Primzahl, die nicht durch einen Computer bewiesen werden konnte: 67.280.421.310.721. Zuletzt wurde eine Primzahl verwendet, die bisher nur durch einen Computer bewiesen werden kann. \footcite[Vgl. ]{prime}
+Es wurde die Laufzeit für vier Primzahlen gemessen. Die erste Primzahl ist die 1772 von Leonhard Euler entdeckte Primzahl mit 10 Stellen; 2,147,483,647. Die nächstgrößere getestete Primzahl ist die 999.999.000.001. Darauf folgt die größte bekannte Primzahl, die nicht durch einen Computer bewiesen werden konnte: 67.280.421.310.721. Zuletzt wurde eine Primzahl verwendet, die bisher nur durch einen Computer bewiesen werden kann. \footcite[Vgl. ][]{prime}
 In Tabelle \ref{tab:plibenchmark} sind alle Primzahlen mit ihrer Laufzeit zu sehen. 
 
 \begin{table}[h]
