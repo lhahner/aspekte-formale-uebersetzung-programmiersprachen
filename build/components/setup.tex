@@ -107,7 +107,7 @@
 % sections sollen mit Seitenumbruch beginnen
 
 \let\stdsection\section
-\renewcommand\section{\newpage\stdsection}
+
 
 
 % MATHRM ADJUSTMENTS
@@ -177,6 +177,9 @@
 	\addcontentsline{alt}{anlagen}
 	{\name\protect\numberline{\theanlagen}\quad#1}\par
 }
+\renewcommand\appendixtocname{Anhang}
+\renewcommand\appendixname{Anhang}
+\renewcommand\appendixpagename{Anhang}
 
 \newenvironment{longfigure}{\captionsetup{type=figure}}{}
 

@@ -72,7 +72,7 @@
     \tableofcontents{\fancyfoot{}}
     \if\CKUSCHE 1 % im Kusche Mode erscheinen die Anlagen im InhaltsVZ
         \phantomsection
-        \listofanlagen
+       
     \fi
     \cleardoublepage
 
@@ -118,8 +118,8 @@
     % im Kusche-Mode wird das LiteraturVZ generiert
     \if\CKUSCHE 1
         \ifnum\thetotalbibentries>0
-            \printbibliography[title=Literaturverzeichnis]
-            \addcontentsline{toc}{section}{Literaturverzeichnis}
+            
+        
             \cleardoublepage
         \fi
     \fi
@@ -128,22 +128,15 @@
     % TODO %ANLAGENVERZEICHNIS UND ANLAGEN
     % erzeugt ein Anlagenkapitel und fuegt es zum InhaltsVZ hinzu, insofern Anlagen existieren.
 
-    \listofanlagen
+    
     % im Kusche-Modus wird kein Anlagenverzeichnis erzeugt, aber Anlagen im Inhaltsverzeichnis gefuehrt
     \ifnum\totvalue{anlagenentries}>0
     %\appendix
-    \section*{Anlagen}
-    \addcontentsline{toc}{section}{Anlagen}
-    \if\CKUSCHE 1
-        \begin{spacing}{2}
-        	
-            \listofanlagen
-        \end{spacing}
-        \cleardoublepage
-    \fi
-    \fi
+   
+    
+    
 
-    \if\CKUSCHE 1
+    \if\CKUSCHE 0
         % die Kapitel.lfd-Nummerierung wird im Kusche Mode ab hier wieder deaktiviert,
         % da Anhaenge mit Buchstaben nummeriert werden sollen (TODO: das funktioniert noch nicht, help wanted)
         \counterwithout{figure}{section}
@@ -152,13 +145,14 @@
         % deaktiviere Kapitel in Fusszeile im Kusche Mode ab hier
         \fancyfoot      [L]{}
     \fi
+    \fi
 
     \renewFigTabCap % Verhalten von Figure und Table Environments sowie \caption wird veraendert (TODO: wie genau? LG, ZPM)
     \input{anlagen.tex}
     \cleardoublepage
 
     % Im Kusche-Mode kommt das LiteraturVZ zuletzt
-    \if\CKUSCHE 0	
+    \if\CKUSCHE 1	
         \ifnum\thetotalbibentries>0
             \printbibliography[title=Literaturverzeichnis]
             \addcontentsline{toc}{section}{Literaturverzeichnis}

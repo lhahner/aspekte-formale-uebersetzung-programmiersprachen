@@ -1,6 +1,11 @@
 
-\begin{figure}[H]\caption{MapArithmetic Test} \label{lst:pliarithmeticexpression_test}
-\begin{lstlisting}[language=Java]
+\begin{appendices}
+
+\begingroup
+
+\section{Unit-Tests}\label{lst:tests}
+
+\begin{lstlisting}[language=Java, caption=Declaration Test]
 @Test
 @DisplayName("Identifier &  Decimal Mapping")
 void mapChildNodes_checkIdentifierMapping() {
@@ -28,11 +33,9 @@ void mapChildNodes_checkIdentifierMapping() {
 	assertEquals(javaExpression, declarationMapper.getType());
 }		
 \end{lstlisting}
-\end{figure}
+\pagebreak
 
-
-\begin{figure}[H]\caption{MapHeadNode Test} \label{lst:procchar_test}
-	\begin{lstlisting}[language=PL/I]
+	\begin{lstlisting}[language=PL/I, caption=Proc-Head Test]
 		@Test
 		@DisplayName("Map Head Node")
 		void mapHeadNode_Identifier() {
@@ -67,10 +70,8 @@ void mapChildNodes_checkIdentifierMapping() {
 			assertEquals(type, headm.getType());
 		}		
 	\end{lstlisting}
-\end{figure}
-
-\begin{figure}[H]\caption{MapCallStatement Test} \label{lst:callstatement_test}
-	\begin{lstlisting}[language=Java]
+\pagebreak
+	\begin{lstlisting}[language=Java, caption=Call-Statement Test]
 	@Test
 	@DisplayName("Test Call Statement")
 	void mapCallStatement_withoutParameter() {
@@ -102,10 +103,8 @@ void mapChildNodes_checkIdentifierMapping() {
 		}
 	}
 	\end{lstlisting}
-\end{figure}
-
-\begin{figure}[H]\caption{SetExpressionList Test} \label{lst:branchmapping_test}
-	\begin{lstlisting}[language=Java]
+\pagebreak
+	\begin{lstlisting}[language=Java,caption=Boolean-Expression Test]
 	@Test
 	@DisplayName("Tests Mapping of Boolean Expression")
 	void setExpressionList_secondTest() {
@@ -140,10 +139,8 @@ void mapChildNodes_checkIdentifierMapping() {
 		}
 	}
 	\end{lstlisting}
-\end{figure}
-
-\begin{figure}[H]\caption{MapUntilNode Test} \label{lst:untilwhile_test}
-	\begin{lstlisting}[language=Java]
+\pagebreak
+	\begin{lstlisting}[language=Java, caption=Until-Loop Test]
 		@Test
 		@DisplayName("Tests Mapping of Boolean Expression")
 		void mapUntilNode_test() {
@@ -185,10 +182,8 @@ void mapChildNodes_checkIdentifierMapping() {
 			}
 		}
 	\end{lstlisting}
-\end{figure}
-
-\begin{figure}[H]\caption{MapDisplayNode Test} \label{lst:displayreply_test}
-	\begin{lstlisting}[language=Java]
+\pagebreak
+	\begin{lstlisting}[language=Java, caption=Display-Statement Test]
 		@Test
 		@DisplayName("Read and write to stdio")
 		void mapDisplayNode_testMessage() {
@@ -223,10 +218,8 @@ void mapChildNodes_checkIdentifierMapping() {
 			
 		}
 	\end{lstlisting}
-\end{figure}
-
-\begin{figure}[H]\caption{MapWriteNode Test} \label{lst:javawriter_test}
-	\begin{lstlisting}[language=Java]
+\pagebreak
+	\begin{lstlisting}[language=Java, caption=Write-Statement Test]
 		@Test
 		void mapWriteNode_expectedJavaExpression_withIdToWriteTo() {
 			try {
@@ -241,12 +234,12 @@ void mapChildNodes_checkIdentifierMapping() {
 			}
 		}
 	\end{lstlisting}
-\end{figure}
-
+	\endgroup
+\pagebreak
 % Benchmark Programm
+\section{Benchmark Programme}\label{sec:benchm}
 
-\begin{figure}[H]\caption{Probdivision-Algorhitmus PL/I} \label{lst:pliprobedivision}
-\begin{lstlisting}[language=PL/I]
+\begin{lstlisting}[language=PL/I, caption=PL/I-Primzahlen Programm]
 PACKBA: PACKAGE;
 	DCL Z DECIMAL(5);
 	DCL MESSAGE CHAR(5);
@@ -284,10 +277,8 @@ PACKBA: PACKAGE;
 	END PROCBA;
 END PACKBA;
 \end{lstlisting}
-\end{figure}
-
-\begin{figure}[H]\caption{Probdivision-Algorhitmus Java} \label{lst:javaprobedivision}
-\begin{lstlisting}[language=Java]
+\pagebreak
+\begin{lstlisting}[language=Java, caption=Übersetzes Java-Primzahlen Programm]
 public class TranspiledExamplePliProgram implements IProgram  { 
 	public @Decimal(5) double Z;
 	public @Char(5) String MESSAGE;
@@ -325,59 +316,58 @@ public class TranspiledExamplePliProgram implements IProgram  {
 	}
 }
 \end{lstlisting}
-\end{figure}
-
-\begin{figure}[H]\caption{Angepasste Java-Program} \label{lst:javaprobedivisionang}\title{" "}
-	\begin{lstlisting}[language=Java]
+\pagebreak
+	\begin{lstlisting}[language=Java, caption=Angepasstes Java-Primzahlen Programm]
 	public class TranspiledExamplePliProgram implements IProgram {
 	
-	public BigDecimal Z;
-	public String MESSAGE;
+	 public BigDecimal Z;
+	 public String MESSAGE;
 	
-	public double PROCBA(BigDecimal M) {
-	if (M.compareTo(BigDecimal.valueOf(2)) < 0) {
-	return 1;
-	}
-	//M % 2 == 0
-	if (M.remainder(BigDecimal.valueOf(2)) == BigDecimal.valueOf(0)) {
-	if (M == BigDecimal.valueOf(2)) {
-	return 0;
-	} else {
-	return 1;
-	}
-	}
-	if (M.remainder(BigDecimal.valueOf(3)) == BigDecimal.valueOf(0)) {
-	if (M == BigDecimal.valueOf(3)) {
-	return 0;
-	} else {
-	return 1;
-	}
-	}
-	Z = Z.valueOf(5);
-	while (Z.multiply(Z).compareTo(M) <= 0 ) {
-	System.out.println(Z.toString());
-	if (M.remainder(Z) == BigDecimal.valueOf(0)) {
-	return 1;
-	}
-	Z = Z.add(BigDecimal.valueOf(2));
-	if (M.remainder(Z) == BigDecimal.valueOf(0)) {
-	return 1;
-	}
-	Z = Z.add(BigDecimal.valueOf(4));
-	
-	}
-	return M.doubleValue();
-	}
+	 public double PROCBA(BigDecimal M) {
+	 	if (M.compareTo(BigDecimal.valueOf(2)) < 0) {
+	 		return 1;
+	 	}
+		
+		if (M.remainder(BigDecimal.valueOf(2)) == BigDecimal.valueOf(0)) {
+			if (M == BigDecimal.valueOf(2)) {
+				return 0;
+			} else {
+				return 1;
+			}
+		}
+		if (M.remainder(BigDecimal.valueOf(3)) == BigDecimal.valueOf(0)) {
+			if (M == BigDecimal.valueOf(3)) {
+				return 0;
+			} else {
+				return 1;
+			}
+		}
+		Z = Z.valueOf(5);
+		while (Z.multiply(Z).compareTo(M) <= 0 ) {
+			System.out.println(Z.toString());
+			if (M.remainder(Z) == BigDecimal.valueOf(0)) {
+				return 1;
+			}
+			Z = Z.add(BigDecimal.valueOf(2));
+			if (M.remainder(Z) == BigDecimal.valueOf(0)) {
+				return 1;
+			}
+			Z = Z.add(BigDecimal.valueOf(4));
+		}
+		return M.doubleValue();
+		}
 	}
 	\end{lstlisting}
-\end{figure}
+\pagebreak
+\section{Benchmark Ergebnisse}
 
-\dhgefigure[h]{test-21.png}[scale=0.5]{Testergebnis PL/I-Programm: 2,147,483,647}{fig:test2147}[][]
+\dhgefigure[h]{test-21.png}[scale=0.6]{Testergebnis PL/I-Programm: 2,147,483,647}{fig:test2147}[][]
 
-\dhgefigure[h]{test-999.png}[scale=0.5]{Testergebnis PL/I-Programm: 999,999,000,001}{fig:test999}[][]
+\dhgefigure[h]{test-999.png}[scale=0.6]{Testergebnis PL/I-Programm: 999,999,000,001}{fig:test999}[][]
 
-\dhgefigure[h]{test-672.png}[scale=0.5]{Testergebnis PL/I-Programm: 67,280,421,310,721}{fig:test672}[][]
+\dhgefigure[h]{test-672.png}[scale=0.6]{Testergebnis PL/I-Programm: 67,280,421,310,721}{fig:test672}[][]
 
-\dhgefigure[h]{test-10000.png}[scale=0.5]{Testergebnis PL/I-Programm: 10,000,000,002,065,383}{fig:test1000}[][]
+\dhgefigure[h]{test-10000.png}[scale=0.6]{Testergebnis PL/I-Programm: 10,000,000,002,065,383}{fig:test1000}[][]
 
 
+\end{appendices}

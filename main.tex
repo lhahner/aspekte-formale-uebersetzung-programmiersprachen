@@ -12,7 +12,7 @@
 % 5. JavaCC -> Implementierung der Formalen Grammtik mit JavaCC und damit des Transpilers
 
 %-------------------------------------------
-
+\pagebreak
 \section{Theoretische Grundlagen}
 \subsection{Problemstellung}
 	
@@ -376,7 +376,7 @@ Durch die Verwendung des JavaCC Jjtree-Moduls, kann global innerhalb des Projekt
 Der Syntaxbaum wird unter anderem durch die Module verwendet, die die semantische-Analyse und -Synthese repräsentieren.
 Erst durch diese wird der Java-Code erzeugt.
 Die gesamte Architektur des Transpilers und dessen weitere Module wird in dem nachfolgenden Kapitel betrachtet. 
-
+\pagebreak
 \section{Technisches Vorgehen}
 \subsection{Verwendete Technologien}
 %- Compiler Compiler -> JavaCC: Integration in das Projetk, Grund für die Wahl der Technologie
@@ -536,7 +536,6 @@ wenn dieser schon vorhanden ist und den selben Sichtbarkeitswert hat.
 
 Dabei wird das Modul \verb+SymbolTable+ implementiert und mit der Methode \verb+insertId+ ein Bezeichner in die Symboltabelle eingefügt. Im folgenden Unterkapitel wird das Modul der Symboltabelle genauer beschrieben. 
 
-\pagebreak
 \subsubsection{Symboltable}
 Die Symboltabelle speichert die PL/I-Symbole in einer Hashtable ab. Mit ihr sollen die anderen Module
 erkennen können ob es sich bei dem ausgewählten Token um ein PL/I-Symbol handelt, oder um einen Bezeichner.
@@ -563,7 +562,6 @@ um nach und nach den Java-Zielcode zu erzeugen.
 
 Um den Syntaxbaum zu verwenden muss der Syntaxbaum Stück für Stück überprüft werden. Dieser Prozess wird als semantische Analyse bezeichnet und erfolgt im Checker Modul.
  
- \pagebreak
 \subsubsection{Checker}
 Das Checker-Modul prüft die Semantik des PL/I-Quellcode.
 Dieses Modul ist repräsentativ für die semantische Analyse. 
@@ -731,7 +729,7 @@ Das Verzeichnis \verb+src/main/java/res/pli+ ist das Standard-Eingabeverzeichnis
 Im Ordner \path{src/main/java/res/config} liegt die Datei \verb+config.properties+. 
 In dieser Datei kann die Variable \verb+PATH+ geändert werden, 
 um PL/I-Quellcode aus einer anderen Projektstruktur zu transformieren.
-\pagebreak
+
 \paragraph{Webanwendung}
 Um es dem Benutzer leicht zu gestalten den Transpiler zu verwenden wurde mithilfe des Spring-Boot Frameworks eine Webanwendung entwickelt.
 Die Webanwendung enthält neben der Integration des Transpilers auch Dokumentationen der bisherigen Versionen.
@@ -861,7 +859,7 @@ Aktuell ist eine Zuweisung von Werten lediglich mit einer Variable des Typs \ver
 Wie schon in Listing \ref{lst:annotationdecimal} und Listing \ref{lst:pliarithmeticexpression} zu sehen, werden in der aktuellen Version auch Prozeduren übersetzt.
 Im folgenden Kapitel werden Übersetzungsentscheidungen dieser näher diskutiert.
 
-\pagebreak
+
 \subsubsection{Programmstruktur und Programmablauf}
 \paragraph{Umwandlung von Programmstrukturen }\label{programstruct}
 
@@ -926,8 +924,6 @@ In PL/I werden hier Compiler-Optionen definiert. So wird, wie in Zeile 3 gezeigt
 In Java wird hingegen der Java-Quellcode und häufig aufgerufene Methoden durch die Inline-Expansion der \ac{JIT} optimiert. Entsprechend existiert derselbe Optimierungsschritt auch in Java, kann jedoch nur bedingt beeinflusst werden. Die Deaktivierung dieser Optimierung würde zu einer Manipulation der Arbeitsweise des Java-Compilers führen. Es ist fraglich, ob eine solche Anpassung sinnvoll ist, da der Java-Compiler selbst entscheidet, welche Methoden durch die Inline-Expansion optimiert werden sollen. Ein Eingriff entspricht für \verb+javac+ im Allgemeinen keinem Optimierungsprozess.
 Aus diesem Grund wird in der Version des Transpilers die Übersetzung dieses Ausdrucks nicht weiter berücksichtigt.
 
-
-\pagebreak
 \paragraph{Umwandlung des Programmablaufs}
 
 In PL/I werden Prozeduren unter anderem mithilfe des \verb+CALL+ Statements aufgerufen. \footcite[Vgl. ][S.133ff. ]{pliref} Um einen Programmfluss zu erzeugen, wie er auch in einem nativen Java-Programm vorhanden ist, wird der Call-Ausdruck in einen Methoden-Aufruf transformiert. 
@@ -1145,7 +1141,6 @@ Die While-Schleife kann mit der Until-Schleife kombiniert werden. Eine Until-Sch
 
 Um die Abbruchbedingung im Until-Teil der Schleife zu implementieren, wird die Boolesche Operation übersetzt und negiert. Dadurch kann die gleiche Laufzeit wie im PL/I-Programm erzeugt werden. Da der Do-Block mindesten einmal ausgeführt wird, jedoch nur einmal wenn die Bedingung im Fuß der Do-While-Schleife erfüllt ist.
 
-\pagebreak
 \subsubsection{Ein- und Ausgabe Befehle}
 \paragraph{Konsolen Ein- und Ausgabe}
 Um eine Benutzerinteraktion zu ermöglichen wird der Display-Ausdruck transformiert.
@@ -1208,7 +1203,6 @@ In Java gibt es die Möglichkeit über den Scanner oder BufferedReader eine Benu
 Hier wird das Objekt System verwendet, welches auch bei der \verb+System.out.println+ verwendet wurde.
 Mit \verb+System.console.readLine()+ wird die Benutzereingabe gelesen.
 
-\pagebreak
 \paragraph{Datei Eingabe}
 In PL/I gibt es die Möglichkeit, über des \verb+READ+-Statement Dateien vom Dateisystem einzulesen.
 In Kapitel 1.1 wurde bereits erwähnt das PL/I-Programme hauptsächlich auf einem Mainframe ausgeführt werden.
@@ -1414,7 +1408,6 @@ void mapArithmetic_NegativeTest() {
 Auch für die restlichen Test-Klassen wurden solche Negativtests implementiert. 
 Weiterhin wurden sowohl Negativ- als auch Positivtests für alle weiteren Mapper-Klassen geschrieben. Diese finden sich im Anhang 1-7 zu finden.
 Zusammenfassend wurden so die kleinsten Programm-Einheiten des Transpilers überprüft. 
-\pagebreak
 
 \subsubsection{Integrationstests}
 In diesem Kapitel wird die Durchführung eines Integrations-Tests aller Komponenten beschrieben. Der Integrations-Test ist so angelegt, dass im ersten Schritt der Transpiler kompiliert wird und danach ein Beispielprogramm damit übersetzt wird. Der übersetze Java-Code wird wiederum kompiliert und ein Test des Programms wird im Kapitel 3.4 durchgeführt.
@@ -1572,7 +1565,7 @@ Ein PL/I-Programm kann weiterhin die standardmäßig implementierten Datentypen 
 Im Zuge dieser Arbeit wurde diese Zahl nicht auf dem Mainframe getestet, da unbekannt wie hoch die \ac{MIPS} bei dieser Zahl sind.
 Bedingt durch diese Ungewissheit, kann auch nicht genau gesagt werden wie viel eine solche Rechenoperation kosten würde. 
 Zusammenfassend wird so eine schwäche des Transpilers deutlich. In dem folgenden Kapitel sollen weitere schwächen betrachtet und diese Arbeit evaluiert werden.
-
+\pagebreak
 \section{Fazit}
 % Erreichte Entwicklung
 Auch nach dieser Arbeit wurde der Transpiler zwar erweitert, aber noch nicht fertiggestellt.
