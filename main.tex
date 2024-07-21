@@ -160,7 +160,7 @@ Eine weitere Alternative ist der Interpreter. Dieser führt den Quellcode direkt
 \pagebreak
 
 Die Eingabe des Bash-Skripts wird zeilenweise gelesen.
-Das Quoting folgt dem Prinzip der lexikalischen Analyse, bei der alle Sonderzeichen entfernt werden, wie zum Beispiel Kommentare oder Backslashes. Sobald das Quoting abgeschlossen ist, entsteht ein String, der nur aus den Tokens eines Ausdrucks besteht.
+Das Quoting folgt dem Prinzip der lexikalischen Analyse, bei der alle Sonderzeichen entfernt werden, wie zum Beispiel Kommentare oder Schrägstriche. Sobald das Quoting abgeschlossen ist, entsteht ein String, der nur aus den Tokens eines Ausdrucks besteht.
 
 Anschließend beginnt das Parsing, das der syntaktischen Analyse im Kompilierprozess ähnelt, jedoch keine Zwischencodeerzeugung beinhaltet. Hier wird lediglich zwischen einfachen Bash-Befehlen wie \verb+wc+ und zusammengesetzten Befehlen wie einem \verb+if+-Ausdruck unterscheiden.
 
@@ -265,7 +265,7 @@ Der Entwickler implementiert lediglich eine kontextfreie Grammatik in der erwart
 woraufhin der Parser aus dieser erzeugt werden kann. Der gesamte Ein- und Ausgabeverarbeitungsprozess ist in Abbildung \ref{fig:ausgabe} dargestellt.
 
 
-\dhgefigure[h]{parser-generation.png}[scale=0.6]{Ein- und Ausgabeverarbeitungsprozess des Compiler-Compiler}{fig:ausgabe}[][]
+\dhgefigure[h]{parser-generation.png}[scale=0.7]{Ein- und Ausgabeverarbeitungsprozess des Compiler-Compiler}{fig:ausgabe}[][]
 \pagebreak
 
 Auch in der Entwicklung des Transpilers kommt ein Compiler-Compiler zum Einsatz. In dem folgenden Kapitel wird der implementierte Compiler-Compiler beschrieben.
@@ -303,7 +303,7 @@ Beispielhafte Compiler-Compiler sind neben JavaCC, Yacc, Antlr und Lexer.
 In Kapitel 1.4 wurde bereits vereinfacht eine Syntaxregel aus der PL/I-Grammatik dargestellt. Ähnlich erfolgt auch die Darstellung in einer Grammatikdatei. Folgendes Beispiel zeigt die Darstellung eines \verb+IF ELSE+ Ausdrucks. 
 
 
-\begin{lstlisting}[language=Java, caption=If Statement aus der Grammatikdatei, label={lst:ifstatement}]
+\begin{lstlisting}[language=Java, caption=JavaCC Syntaxregel einer Verzweigung, label={lst:ifstatement}]
 	void if_statement() #BRANCH :
 	{}
 	{
@@ -323,11 +323,11 @@ Die Methode \verb+bool_expression+ beschreibt einen zulässigen Boolschen Ausdru
 
 Weiterhin wird in der Methode \verb+proc_body+ beschrieben, welche Ausdrücke weiter zulässig sind. Dazu zählt bspw. auch eine weitere \verb+IF ELSE+ Verzweigung. 
 
- So werden aus der Grammatikdatei, durch den Compiler-Compiler, nach und nach Java-Klassen erzeugt die Programmroutinen zur Syntaktischen Verarbeitung von PL/I-Ausdrücken beinhalten.
+ So werden aus der Grammatikdatei, durch den Compiler-Compiler, Java-Klassen erzeugt die Programmroutinen zur Syntaktischen Verarbeitung von PL/I-Ausdrücken beinhalten.
 Der Ausschnitt aus der Grammatikdatei in Listing \ref{lst:ifstatement} wird zu dem Java-Quellcode in Listing \ref{lst:ifstatementmethode}.
+\pagebreak
 
-
-\begin{lstlisting}[language=Java, caption=Verkürzte If-Statement Methode aus dem Parser, label={lst:ifstatementmethode}]
+\begin{lstlisting}[language=Java, caption=Syntaxregel für Verzweigungen als Java-Methode, label={lst:ifstatementmethode}]
  final public void if_statement() throws ParseException {
 			SimpleNode jjtn000 = new SimpleNode(JJTBRANCH);
 			boolean jjtc000 = true;
@@ -385,11 +385,11 @@ Die gesamte Architektur des Transpilers und dessen weitere Module wird in dem na
 %- Programmiersprache -> Java: Integration in das Projekt, Grund für die Wahl.
 Der Transpiler wurde in der Programmiersprache Oracle-Java der Version 17 entwickelt. 
 Java eignet sich als objekt-Orientierte Hochsprache gut für die Entwicklung des Transpilers, da so eine lose Kopplung der Klassen realisiert werden kann und damit eine modulare Bauweise des Softwareprojekts.
-Weiterhin zählen die Vorteile die in Kapitel 1.1 für Java erwähnt wurden, ebenso in diesem Fall. Den Administratoren soll die Möglichkeit gegeben werden, Module einfach auszutauschen. 
-Damit einhergehend fiel die Wahl auf JavaCC. Ein alternativer Compiler-Compiler für Java, ist Antlr. 
+Weiterhin zählen die Vorteile die in Kapitel 1.1 für Java erwähnt wurden, ebenso in diesem Fall.  
+Als Compiler-Compiler fiel die Wahl auf JavaCC. Ein alternativer Compiler-Compiler für Java, ist Antlr. 
 
 %- IDE -> Eclipse: Integration in das Projekt, Grund für die Wahl.
-Der Java-Quellcode des Transpilers wurde in Eclipse geschrieben. Die \ac{ide} Eclipse ermöglicht eine kostenlose Entwicklung, Verwaltung, Überprüfung und Kompilierung von Java Software-Projekten. Weiterhin bietet Eclipse ein breites Software-Repository an Plugins um die Funktionalität der  \ac{ide} zu erweitern. Dadurch ist eine Integration von JavaCC in die  \ac{ide} möglich und erleichtert die Entwicklung des Parsers ebenfalls.
+Der Java-Quellcode des Transpilers wurde in Eclipse geschrieben. Das \ac{ide} Eclipse ermöglicht eine kostenlose Entwicklung, Verwaltung, Überprüfung und Kompilierung von Java Software-Projekten. Weiterhin bietet Eclipse ein breites Software-Repository an Plugins um die Funktionalität der  \ac{ide} zu erweitern. Dadurch ist eine Integration von JavaCC in die  \ac{ide} möglich und erleichtert die Entwicklung des Parsers ebenfalls.
 
 %- Maven -> Dependency Management: Integration in das Projetk, Grund für die Wahl der Technologie
 Es wurde das Software-Projektmanagement-Werkzeug Maven eingesetzt. Maven löst mithilfe des \ac{pom} Abhängigkeiten. 
@@ -486,8 +486,8 @@ in Java-Zielcode umwandelt.
 %Die Beschreibung beginnt mit dem Scanner.
 
 \subsubsection{Der Scanner und Parser}
-\paragraph{Scanner}
-Wie Kapitel 1.5 eingeführt wird der Parser vollständig durch 
+\paragraph*{Scanner}
+Wie in Kapitel 1.5 eingeführt wird der Parser vollständig durch 
 JavaCC generiert.
 Damit der Parser den PL/I-Quellcode in die Zwischencode Darstellung übersetzen kann,
 braucht dieser eine PL/I-Datei, die als Input-Stream übergeben wird.
@@ -508,11 +508,10 @@ Mithilfe des InputStreams kann die Datei als Parameter an den Parser in der Klas
 %Zu einem späteren Zeitpunkt ist denkbar den selbstgeschriebenen Lexer zu optimieren und erneut einzubinden. Weshalb dieser nicht gelöscht wurde. 
 %Weitere Methoden in dieser Klasse werden ebenfalls nicht länger von Klassen aus anderen Modulen verwendet. 
 
-\paragraph{Parser}
-Das Parser-Modul deckt die lexikalische und syntaktische Analyse des PL/I-Quellcodes ab.
-Wie schon in Kapitel 1.4 erwähnt werden jegliche Klassen des Parsers durch die \verb+.jjt+ Grammatikdatei generiert. Da diese Klassen sehr umfangreich sind, werden diese in Abbildung \ref{fig:moduleparser} lediglich in abgekürzter Form dargestellt. 
+\paragraph*{Parser}
+Das Parser-Modul deckt die lexikalische und syntaktische Analyse des PL/I-Quellcodes ab. Wie schon in Kapitel 1.4 erwähnt werden jegliche Klassen des Parsers durch die \verb+.jjt+ Grammatikdatei generiert. Da diese Klassen sehr umfangreich sind, werden diese in Abbildung \ref{fig:moduleparser} lediglich in abgekürzter Form dargestellt. 
 
-\dhgefigure[h]{parser-module-uml.drawio.png}[scale=0.41]{Das Parser-Modul}{fig:moduleparser}[][]
+\dhgefigure[h]{parser-module-uml.drawio.png}[width=160mm,height=130mm]{UML des Parser-Moduls}{fig:moduleparser}[][]
 \pagebreak
 
 Der Parser wird über die Klasse \verb+Pl1Parser+ in dem App Modul instanziiert. In der Parser-Klasse sind auch jegliche manuell geschriebenen Methoden aus der Grammatikdatei integriert. 
@@ -528,26 +527,21 @@ Hier ist auch der Großteil der Verarbeitungslogik des Parser-Moduls implementie
 Wird ein Ausdruck während der Verarbeitung in der Pl1Parser-Klasse als nicht zulässig  interpretiert wird eine \verb+ParseException+ geworfen, die in der Klasse \verb+ParseException+ definiert ist.
 
 Ein Knoten des Syntaxbaums wird durch ein Objekt der Klasse \verb+SimpleNode+ erzeugt. Durch die Methoden \verb+clearNodeScope+ und \verb+closeNodeScope+ wird der verarbeitete Ausdruck mit bspw. der Repräsentation \verb+VAR+ in den Syntaxbaum eingefügt. 
-Siehe Abbildung \ref{fig:parsetree} So verarbeitet der Praser des Transpilers Knoten für Knoten den PL/I-Quellcode. 
+Siehe Abbildung \ref{fig:parsetree} So verarbeitet der Parser des Transpilers Knoten für Knoten den PL/I-Quellcode. 
 
 Hat der Parser ein nichtterminalsymbol gefunden, wird die Methode \verb+installIds+ aufgerufen und der Bezeichner unter bestimmten Bedingungen in die Symboltabelle eingefügt. 
 Ein Bezeichner wird nicht eingefügt, 
-wenn dieser schon vorhanden ist und den selben Sichtbarkeitswert hat.
-
-Dabei wird das Modul \verb+SymbolTable+ implementiert und mit der Methode \verb+insertId+ ein Bezeichner in die Symboltabelle eingefügt. Im folgenden Unterkapitel wird das Modul der Symboltabelle genauer beschrieben. 
+wenn dieser schon vorhanden ist und den selben Sichtbarkeitswert hat. Dabei wird das Modul \verb+SymbolTable+ implementiert und mit der Methode \verb+insertId+ ein Bezeichner in die Symboltabelle eingefügt. Im folgenden Unterkapitel wird das Modul der Symboltabelle genauer beschrieben. 
 
 \subsubsection{Symboltable}
-Die Symboltabelle speichert die PL/I-Symbole in einer Hashtable ab. Mit ihr sollen die anderen Module
+Die Symboltabelle speichert die PL/I-Symbole in einer Hashtablle ab. Mit ihr sollen die anderen Module
 erkennen können ob es sich bei dem ausgewählten Token um ein PL/I-Symbol handelt, oder um einen Bezeichner.
 In Abbildung \ref{fig:symboltable} ist das Modul \verb+symboltable+ in \ac{uml} dargestellt.
 
-\dhgefigure[h]{symboltable-module-uml.drawio.png}[scale=0.6]{Symboltabellen-Modul}{fig:symboltable}
+\dhgefigure[h]{symboltable-module-uml.drawio.png}[scale=0.6]{UML des Symboltabellen-Moduls}{fig:symboltable}
 
 Das Modul \verb+Symboltable+ enthält die Klasse \verb+SymbolTable+
-sowie die Enums \verb+Pl1Symbols+ und \verb+Template+.
-
-% Wie funktioniert SymbolTable und Pl1Smybols?
-Die Klasse \verb+SymbolTable+ wird beim instanziieren des Objekts mit den Werten aus dem Enum \verb+Pl1Symbols+ initialisiert. Von der Symboltabelle soll während der Laufzeit nur eine Instanz existieren. 
+sowie die Enums Pl1Symbols und \verb+Template+. Die Klasse \verb+SymbolTable+ wird beim instanziieren des Objekts mit den Werten aus dem Enum \verb+Pl1Symbols+ initialisiert. Von der Symboltabelle soll während der Laufzeit nur eine Instanz existieren. 
 Dazu wird in der Klasse Symboltable die Instanz symbols erzeugt. Falls diese nicht bereits instanziiert wurde, kann sie instanziiert werden. Falls sie hingegen bereits instanziiert ist, wird lediglich die Instanz zurückgegeben.
 Über die Methode \verb+getInstance+ können andere Module auf diese Instanz zugreifen.
 
@@ -557,19 +551,18 @@ Die restlichen Methoden der Klasse \verb+SymbolTable+ dienen der dezidierten Abf
 
 % Wie funktioniert Template?
 Der weitere Enum \verb+Template+ dient, im Prozessschritt der Synthese dazu, den Syntaxbaum in Java-Code umzuwandeln.
-In diesem Enum sind Java-Quellcodeausschnitte hinterlegt, die PL/I-Quellcode repräsentieren können. Sie werden in dem Mapper Modul verwendet,
-um nach und nach den Java-Zielcode zu erzeugen.
+In diesem Enum sind Java-Quellcodeausschnitte hinterlegt, die PL/I-Quellcode repräsentieren können. Sie werden in dem Mapper Modul verwendet, um den Java-Zielcode zu erzeugen.
 
-Um den Syntaxbaum zu verwenden muss der Syntaxbaum Stück für Stück überprüft werden. Dieser Prozess wird als semantische Analyse bezeichnet und erfolgt im Checker Modul.
+Um den Syntaxbaum zu verwenden muss der Syntaxbaum Knoten für Knoten überprüft werden. Dieser Prozess erfolgt im Checker Modul.
  
 \subsubsection{Checker}
 Das Checker-Modul prüft die Semantik des PL/I-Quellcode.
 Dieses Modul ist repräsentativ für die semantische Analyse. 
 Eine Aufgabe des Checker-Moduls ist es die Typ-Definition von Variablen mit den Zuweisungen abzugleichen.
-Wird beispielsweise dem Decimal-Typ ein alphanumerischer Wert zugewiesen, soll dieses Modul den Benutzer auf einen Syntaxfehler hinweisen. Um solche semantischen Fehler zu erkennen, wird das Checker-Modul nach dem Vorbild des Composite Design-Patterns implementiert. Dadurch kann mit einer Abstrakten Klasse, Objekte die diese Implementieren als auch ihre Kompositionen einheitlich behandelt werden.
+Wird beispielsweise dem Decimal-Typ ein alphanumerischer Wert zugewiesen, soll dieses Modul den Benutzer auf einen Fehler hinweisen. Um solche semantischen Fehler zu erkennen, wird das Checker-Modul nach dem Vorbild des Composite Design-Patterns implementiert. Dadurch kann mit einer Abstrakten Klasse, Objekte die diese Implementieren als auch ihre Kompositionen einheitlich behandelt werden.
 In Abbildung \ref{fig:checker} ist das \ac{uml} des Checker Modul abgebildet.
 
-\dhgefigure[h]{checker-module-uml.png}[scale=0.55]{UML des Checker Modul}{fig:checker}
+\dhgefigure[h]{checker-module-uml.png}[scale=0.55]{UML des Checker-Moduls}{fig:checker}
 
 Dabei hilft das Composite-Design Pattern für alle Typ-Klassen, einheitliche Validierungstrukturen zu definieren.
 Etwa in Abbildung \ref{fig:checker} ist die Methode \verb+getType+ definiert, um die korrekte Zuweisung von Variablen zu erschließen. 
@@ -586,7 +579,7 @@ Um den Syntaxbaum erfolgreich zu iterieren, wurde ein depth-first Suchalgorhitmu
 Die Iterationsweise des Algorhitmus im Zusammenhang mit dem Syntaxbaum ist in Abbildung \ref{fig:parsetreealgo} dargestellt.
 
 \dhgefigure[h]{parsetree-example-searchalgo.png}[scale=0.6]{Beispielhafte Iteration des Syntaxbaums}{fig:parsetreealgo}[][]
-
+\pagebreak
 So wird es möglich, gezielt nach Knoten zu suchen und die Attribute des Knotens auszulesen.
 In dem Checker Modul wird dieser Algorithmus vor allem benutzt, um festzustellen, welche Variablen mit welchem Typ und welchem Bezeichner deklariert wurden und ob dieser Bezeichner in einem \verb+ASSIGN+ Knoten wiederverwendet wurde.
 
@@ -598,14 +591,13 @@ Wurde kein Fehler entdeckt beginnt die Transformation des Syntaxbaums nach Java.
 Das Checker Modul bereitet den Syntaxbaum entsprechend so vor, dass dieser weiterhin in der Synthese verarbeitet werden kann.
 Die Synthese wird durch das Mapper-Modul implementiert und ist Bestandteil des nächsten Kapitels.
  
- \pagebreak
 \subsubsection{Mapper}
 Das Mapper Modul transformiert die Zwischencode Repräsentation in den Java-Zielcode. Dazu wurde das Mapper-Modul nach dem Strategy Desgin-Pattern entworfen.
 In Abbildung \ref{fig:mapper} ist das UML des Mapper Moduls zu sehen. 
 Das Strategy-Design-Pattern ermöglicht die Zuweisung einer Klasse, die eine konkrete Strategie repräsentiert, über ein Interface. Unter bestimmten Bedingungen kann die deklarierte Variable mit einer anderen Strategie-Klasse gesetzt werden. Dadurch wird die Verwendung verschiedener Algorithmen zur Laufzeit ermöglicht. 
 
-\dhgefigure[h]{mapper-module-uml.png}[scale=0.58]{UML des Mapper Moduls}{fig:mapper}
-
+\dhgefigure[h]{mapper-module-uml.png}[scale=0.58]{UML des Mapper-Moduls}{fig:mapper}
+\pagebreak
 Die Klasse \verb+Mapper+ wird in der Main-Methode des Projektes instanziiert. Als Parameter wird der Wurzelknoten des Parssebaums übergegeben,
 woraufhin mithilfe der \verb+iterateTree+ Methode erneut durch den Parsbaum iteriert wird. Hier wurde ebenfalls der Depth-first Suchalgorhitmus implementiert um jeden Knoten zu verarbeiten. 
 
@@ -639,7 +631,7 @@ In dem Modul Errorhandling werden Fehlermeldungen definiert und von anderen Modu
 
 \subsection{Fehlerbehandlung}
 Die Fehlerbehandlung wird im Modul Errorhandling organisiert.
-In diesem wurden Kind-Klassen der Exception Klasse der Java Standard Bibliothek implementiert.
+In diesem wurden Kind \newline -Klassen der Exception Klasse der Java Standard Bibliothek implementiert.
 Allgemein wurde versucht, möglichst wenig selbstdefinierte Exception Klassen zu erstellen.
 In der Tabelle \ref{tab:exceptiontabel} sind die verwendeten Exceptions dargestellt.
 
@@ -713,7 +705,7 @@ diskutiert.
 % Importieren in Eclipse
 Für die unterschiedlichen Benutzergruppen werden verschiedene Nutzungsmöglichkeiten des Transpilers angeboten. Diese umfassen die Verwendung über die \ac{ide} Eclipse und das Webinterface.
 
-\paragraph{Eclipse}
+\paragraph*{Eclipse}
 Die \ac{ide} Eclipse kann verwendet werden, um den Transpiler zu nutzen. Diese Herangehensweise ist besonders interessant für Administratoren, die den Quellcode des Transpilers selbst erweitern möchten.
 Zuerst sollte das Projekt aus dem GitHub-Repository mit Git in das lokale Verzeichnis geladen werden.
 In Listing \ref{lst:gitclone} ist der Git-Befehl, zum laden des Remote-Repositories dargestellt. 
@@ -730,7 +722,7 @@ Im Ordner \path{src/main/java/res/config} liegt die Datei \verb+config.propertie
 In dieser Datei kann die Variable \verb+PATH+ geändert werden, 
 um PL/I-Quellcode aus einer anderen Projektstruktur zu transformieren.
 
-\paragraph{Webanwendung}
+\paragraph*{Webanwendung}
 Um es dem Benutzer leicht zu gestalten den Transpiler zu verwenden wurde mithilfe des Spring-Boot Frameworks eine Webanwendung entwickelt.
 Die Webanwendung enthält neben der Integration des Transpilers auch Dokumentationen der bisherigen Versionen.
 Um die Webanwendung zu verwenden muss erneut eine GitHub-Repository geladen werden. Verwendet wird der Git-Befehl in Listing
@@ -823,7 +815,7 @@ Die Übersetzung des Ausdrucks ist in Listing \ref{lst:annotationdecimal} darges
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Transformation DECIMAL}, label={lst:annotationdecimal},
+		caption={Annotations Lösung}, label={lst:annotationdecimal},
 		basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
  DCL var_1 FIXED DECIMAL(3) INIT(2);
  DCL var_2 FIXED DECIMAL(3) INIT(2);
@@ -861,7 +853,7 @@ Im folgenden Kapitel werden Übersetzungsentscheidungen dieser näher diskutiert
 
 
 \subsubsection{Programmstruktur und Programmablauf}
-\paragraph{Umwandlung von Programmstrukturen }\label{programstruct}
+\paragraph*{Umwandlung von Programmstrukturen }\label{programstruct}
 
 In PL/I werden Unterprogramm-Routinen in Block-Strukturen definiert. Eine mögliche Block Struktur ist die Prozedur. \footcite[Vgl. ][S. 97ff. ]{pliref}
 Eine Prozedur wird durch den Bezeichner, das PL/I-Symbol \verb+PROCEDURE+ und einer Terminierung wie \verb+END+ beschrieben.
@@ -871,7 +863,7 @@ Zusätzlich können Parameter, Rückgabetypen und allgemeine Attribut Optionen d
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Prozeduren}, label={lst:procchar},
+		caption={Transformation einer Prozedur}, label={lst:procchar},
 		basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
  DCL Revenue FIXED DECIMAL(5);
 
@@ -921,10 +913,10 @@ Ein weiteres Attribut das in der Prozedur in Listing \ref{lst:procchar} definier
 Attribut.
 In PL/I werden hier Compiler-Optionen definiert. So wird, wie in Zeile 3 gezeigt, die Option \verb+INLINE+ verwendet, um den Kontext einer Prozedur zu beschreiben. Ist die Prozedur etwa \verb+INLINE+, ruft der Compiler nicht die Prozedur auf, sondern ersetzt den Aufruf mit dem Body der Prozedur. \footcite[Vgl.][]{optionsstmt} Diese sogenannte Inline-Expansion ist eine Optimierungsanweisung an den Compiler. Mit solchen Optionen kann der PL/I-Programmierer direkten Einfluss auf die Kompilierung des PL/I-Programms nehmen.
 
-In Java wird hingegen der Java-Quellcode und häufig aufgerufene Methoden durch die Inline-Expansion der \ac{JIT} optimiert. Entsprechend existiert derselbe Optimierungsschritt auch in Java, kann jedoch nur bedingt beeinflusst werden. Die Deaktivierung dieser Optimierung würde zu einer Manipulation der Arbeitsweise des Java-Compilers führen. Es ist fraglich, ob eine solche Anpassung sinnvoll ist, da der Java-Compiler selbst entscheidet, welche Methoden durch die Inline-Expansion optimiert werden sollen. Ein Eingriff entspricht für \verb+javac+ im Allgemeinen keinem Optimierungsprozess.
+In Java wird hingegen der Java-Quellcode und häufig aufgerufene Methoden durch die Inline-Expansion des \ac{JIT} optimiert. Entsprechend existiert derselbe Optimierungsschritt auch in Java, kann jedoch nur bedingt beeinflusst werden. Die Deaktivierung dieser Optimierung würde zu einer Manipulation der Arbeitsweise des Java-Compilers führen. Es ist fraglich, ob eine solche Anpassung sinnvoll ist, da der Java-Compiler selbst entscheidet, welche Methoden durch die Inline-Expansion optimiert werden sollen. Ein Eingriff entspricht für \verb+javac+ im Allgemeinen keinem Optimierungsprozess.
 Aus diesem Grund wird in der Version des Transpilers die Übersetzung dieses Ausdrucks nicht weiter berücksichtigt.
 
-\paragraph{Umwandlung des Programmablaufs}
+\paragraph*{Umwandlung des Programmablaufs}
 
 In PL/I werden Prozeduren unter anderem mithilfe des \verb+CALL+ Statements aufgerufen. \footcite[Vgl. ][S.133ff. ]{pliref} Um einen Programmfluss zu erzeugen, wie er auch in einem nativen Java-Programm vorhanden ist, wird der Call-Ausdruck in einen Methoden-Aufruf transformiert. 
 Das Beispiel in Listing \ref{lst:callstatement} beschriebt ein Programm, in dem sich die Prozeduren \verb+proc_1+ und \verb+proc_2+ gegenseitig aufrufen, was in der Main-Prozedur eine Endlosschleife simuliert.
@@ -933,7 +925,7 @@ Das Beispiel in Listing \ref{lst:callstatement} beschriebt ein Programm, in dem 
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Prozeduraufruf}, label={lst:callstatement},
+		caption={Transformation Prozeduraufrufe}, label={lst:callstatement},
 		basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
 	main_proc: PROC;
 		CALL proc_1;
@@ -976,7 +968,7 @@ Um nun ein PL/I-Programm mit zusätzlicher Logik zu transformieren, sollten Verz
 
 \pagebreak
 \subsubsection{Kontrollflussanweisungen}
-\paragraph{Umwandlung von Boolesche Ausdrücke}
+\paragraph*{Umwandlung von Boolesche Ausdrücke}
 Für die Übersetzung von Kontrollflussanweisungen werden Boolesche Ausdrücke verwendet, um den Programmfluss basierend auf Wahrheitswerten zu verändern. Um sowohl Verzweigungen als auch Schleifen zu implementieren müssen die Booleschen Ausdrücke von PL/I nach Java überführt werden. Da es in PL/I leicht unterschiedliche Boolesche Operatoren im Vergleich zu Java gibt werden diese während der Übersetzung angepasst. In Tabelle \ref{tab:booloperator} sind die Booleschen Operatoren in PL/I sowie ihre Repräsentation in Java abgebildet.
 
 % TODO Mappung Tabelle von boolesche Operationen, Tabelle: Boolesche-Operator -> PL/I-Symbol -> Java-Symbol
@@ -993,7 +985,7 @@ Für die Übersetzung von Kontrollflussanweisungen werden Boolesche Ausdrücke v
 		Oder & $\mid$ &	$\mid$$\mid$ \\
 		Größer-als & $>$ & $>$ \\
 		Kleiner-als & $<$ & $<$ \\
-		Größer-Gleich & $<=$ & $<=$ \\
+		Größer-Gleich & $>=$ & $>=$ \\
 		Kleiner-Gleich & $<=$ & $<=$ \\
 		\hline
 		
@@ -1008,7 +1000,7 @@ Während in Java ein einfaches Ausrufezeichen eine Negation beschreibt, wird in 
 
 Weiterhin wird in PL/I ein einzelnes Gleichheitszeichen als logischer Vergleichsoperator verwendet. Da in Java das einzelne Gleichheitszeichen der Zuweisung von Variablen dient, wird der PL/I-Vergleichsoperator mit den Java-Vergleichsoperator ersetzt.
 
-Gleiches gilt für das logische-Und, in PL/I wird lediglich ein Et-Zeichen verwendet. Während in Java zwei als logisches-Und verwendet werden.
+Gleiches gilt für das logische-Und, in PL/I wird lediglich ein Et-Zeichen verwendet. Während in Java zwei Gleichheitszeichen als logisches-Und verwendet werden.
 
 In Listing \ref{lst:branchmapping} ist die Übersetzung eines Booleschen-Ausdrucks dargestellt.
 
@@ -1031,7 +1023,7 @@ title={" "}]
 \end{minipage}
 \pagebreak
 
-\paragraph{Umwandlung von Verzweigungen}
+\paragraph*{Umwandlung von Verzweigungen}
 
 In PL/I werden Verzweigungen mit den Symbolen \verb+IF+ und \verb+ELSE+ implementiert. 
 Gepaart mit einem Booleschen Ausdruck kann so ein Wahrheitswert abgefragt werden.
@@ -1041,7 +1033,7 @@ Somit lässt sich der Ausdruck in Listing \ref{lst:branchmapping} in Java übers
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Verzweigungen}, label={lst:branchmapping}]	
+		caption={Transformation Verzweigungen}, label={lst:branchmapping}]	
  IF (var_1 < var_2) THEN;
  	var_1 = 0;
  ELSE
@@ -1065,7 +1057,7 @@ Somit lässt sich der Ausdruck in Listing \ref{lst:branchmapping} in Java übers
 
 Würden hier erneut der nichtprimitive Typ wie das \verb+DECIMAL+ Objekt verwendet, hätten die instanziierten Objekte erst mit einer Art \verb+toNumeric+ Methode in ein numerisches Format umgewandelt werden müssen. Was erneut zu mehr Quellcode als nötig führen würde. Alternativ könnte \verb+DEICMAL+ um eine \verb+compareTo(DECIMAL)+ Methode erweitert werden. In Java kann so das Interface \verb+Comparable+ implementiert werden. 
 
-\paragraph{Umwandlung von While-Schleifen}
+\paragraph*{Umwandlung von While-Schleifen}
 In PL/I wird in der aktuellen Version des Transpilers, die  While- und Until-Schleife übersetzt.
 Weitere Schleifen wie \verb+UPTHRU+ oder \verb+DOWNTHRU+ wurden in dieser Version nicht implementiert.
 Da Java ebenfalls eine While-Schleife implementiert, kann diese als Übersetzungsmuster verwendet werden. 
@@ -1079,7 +1071,7 @@ Schleife verwendet, sondern leitet lediglich einen Schleifen-Ausdruck ein.
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={While-Schleife}, label={lst:whilecomamnd}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
+		caption={Transformation While-Schleife}, label={lst:whilecomamnd}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
  DCL var_1 DECIMAL(2) INIT(0);
  DCL var_2 DECIMAL(2) INIT(5);
  
@@ -1102,8 +1094,11 @@ Schleife verwendet, sondern leitet lediglich einen Schleifen-Ausdruck ein.
  }
 	\end{lstlisting}
 \end{minipage} 
+
+Wie auch in dem PL/I-Programm Ausschnitt, wird in dem übersetzten Java-Zielcode in Listing \ref{lst:whilecomamnd} eine Schleife erzeugt die \verb+var_1+ solange erhöht bis diese den Wert 5 erreicht hat.
+
 \pagebreak
-\paragraph{Umwandlung von Until-Schleifen}
+\paragraph*{Umwandlung von Until-Schleifen}
 
 Die While-Schleife kann mit der Until-Schleife kombiniert werden. Eine Until-Schleife prüft eine Bedingung, deren Eintreten zum Abbruch der Schleife führt. Diese Form der Schleife existiert in Java nicht. Stattdessen wurde die \verb+do while+-Schleife als Übersetzung gewählt. In Listing \ref{lst:untilwhile} ist die Übersetzung dargestellt.
 
@@ -1111,7 +1106,7 @@ Die While-Schleife kann mit der Until-Schleife kombiniert werden. Eine Until-Sch
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-	caption={While-Until-Schleife}, label={lst:untilwhile}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
+	caption={Transformation Until-Schleife}, label={lst:untilwhile}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
  DCL var_1 DECIMAL(2) INIT(0);
  DCL var_2 DECIMAL(2) INIT(5);
  
@@ -1142,7 +1137,7 @@ Die While-Schleife kann mit der Until-Schleife kombiniert werden. Eine Until-Sch
 Um die Abbruchbedingung im Until-Teil der Schleife zu implementieren, wird die Boolesche Operation übersetzt und negiert. Dadurch kann die gleiche Laufzeit wie im PL/I-Programm erzeugt werden. Da der Do-Block mindesten einmal ausgeführt wird, jedoch nur einmal wenn die Bedingung im Fuß der Do-While-Schleife erfüllt ist.
 
 \subsubsection{Ein- und Ausgabe Befehle}
-\paragraph{Konsolen Ein- und Ausgabe}
+\paragraph*{Konsolen Ein- und Ausgabe}
 Um eine Benutzerinteraktion zu ermöglichen wird der Display-Ausdruck transformiert.
 In PL/I gibt es sowohl die Möglichkeit mit dem Display-Ausdruck eine Text-Nachricht in der Konsole auszugeben, sowie eine Benutzereingabe abzufragen. \footcite[Vgl. ][S. 264ff.]{pliref}
 
@@ -1158,7 +1153,7 @@ Somit wurde mit dem Sysout-Befehl die gängige Methode gewählt. Entsprechend wi
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Standardausgabe}, label={lst:display}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
+		caption={Transformation Standardausgabe}, label={lst:display}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
  DISPLAY ('Hello World');
 	\end{lstlisting}
 \end{minipage}
@@ -1179,7 +1174,7 @@ Um den Display-Ausdruck ebenfalls für das Einlesen von Benutzereingaben zu verw
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Standardeingabe}, label={lst:displayreply}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
+		caption={Transformation Standardeingabe}, label={lst:displayreply}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
  DCL username CHAR(5);
  DISPLAY('Username') REPLY(username)
 	\end{lstlisting}
@@ -1203,7 +1198,7 @@ In Java gibt es die Möglichkeit über den Scanner oder BufferedReader eine Benu
 Hier wird das Objekt System verwendet, welches auch bei der \verb+System.out.println+ verwendet wurde.
 Mit \verb+System.console.readLine()+ wird die Benutzereingabe gelesen.
 
-\paragraph{Datei Eingabe}
+\paragraph*{Datei Eingabe}
 In PL/I gibt es die Möglichkeit, über des \verb+READ+-Statement Dateien vom Dateisystem einzulesen.
 In Kapitel 1.1 wurde bereits erwähnt das PL/I-Programme hauptsächlich auf einem Mainframe ausgeführt werden.
 Auf einem z/Os Betriebssystem wird das Dateisystem \ac{zfs} verwendet.
@@ -1219,7 +1214,7 @@ Um den durch die Batchverarbeitung definierten Record in einem PL/I-Programm zu 
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Dateityp}, label={lst:plifiletyp}]
+		caption={Transformation Dateityp}, label={lst:plifiletyp}]
  DCL file_1 FILE;
 	\end{lstlisting}
 \end{minipage}
@@ -1242,20 +1237,13 @@ Hingegen besteht in Java kaum die Möglichkeit, dabei direkt zu beeinflussen, wi
 
 Bezüglich Listing \ref{lst:plifiletyp} ist anzumerken das bisher lediglich ein File-Objekt instanziiert wurde.
 Es wurde kein Pfad übergeben und somit auch keine Datei eingelesen. 
-Die Ausführung dieses Java-Codes wird zu einer Input-Output-Exception führen, da kein Pfad zu einer Datei übergeben wurde. Hier ist die eigentliche Übersetzung des PL/I-Programms abhängig von der Betriebssystemumgebung, in der das Java-Programm ausgeführt werden soll. Für den Transpiler ist ohne die Referenz auf die Batch-Verarbeitung eine Einbindung des Dateipfades nicht möglich.
-
-Entsprechend wird in dieser Version des Transpilers dem Benutzer die Verantwortung übergeben, die Referenz zu den ursprünglichen Eingabedateien herzustellen.
-
-In PL/I wird mit einem \verb+READ+-Ausdruck die definierte Datei gelesen und in einer Alphanumerischen-Variable gespeichert. Ein mögliches \verb+READ+-Statement aus einem PL/I-Programm ist in Listing \ref{lst:pliread} dargestellt.
-
-Hierbei wird die in Listing \ref{lst:pliread} definierte Datei gelesen.
-Transformiert wird diese Dateieingabe mit dem Scanner Objekt.
+Die Ausführung dieses Java-Codes wird zu einer Input-Output-Exception führen, da kein Pfad zu einer Datei übergeben wurde. Hier ist die eigentliche Übersetzung des PL/I-Programms abhängig von der Betriebssystemumgebung, in der das Java-Programm ausgeführt werden soll. Für den Transpiler ist ohne die Referenz auf die Batch-Verarbeitung eine Einbindung des Dateipfades nicht möglich. Entsprechend wird in dieser Version des Transpilers dem Benutzer die Verantwortung übergeben, die Referenz zu den ursprünglichen Eingabedateien herzustellen. In PL/I wird mit einem \verb+READ+-Ausdruck die definierte Datei gelesen und in einer alphanumerischen Variable gespeichert. Ein mögliches \verb+READ+-Statement aus einem PL/I-Programm ist in Listing \ref{lst:pliread} dargestellt. Hierbei wird die in Listing \ref{lst:pliread} definierte Datei gelesen. Transformiert wird diese Dateieingabe mit dem Scanner Objekt.
 
 \begin{minipage}[b]{0.48\linewidth}
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Dateieingabe}, label={lst:pliread}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
+		caption={Transformation Dateieingabe}, label={lst:pliread}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
  DCL var_1 CHAR(4);
  READ FILE(file_1) INTO (var_1); 
 		
@@ -1284,10 +1272,9 @@ Transformiert wird diese Dateieingabe mit dem Scanner Objekt.
 
 Mit dem Scanner Objekt kann die definierte Datei nun Wort für Wort in einen String gelesen werden.
 
-\paragraph{Datei Ausgabe}
+\paragraph*{Datei Ausgabe}
 
-Neben dem Einlesen kann ein PL/I-Programm auch mit dem \verb+WRITE+ Befehl in eine Datei schreiben.
-Auch hierbei ist zu erwähnen, dass die eigentliche Steuerung der Ausgabe durch das Batch-Programm vorgenommen wird.
+Neben dem Einlesen kann ein PL/I-Programm auch, mit dem \verb+WRITE+ Befehl, in eine Datei schreiben. Hierbei ist zu erwähnen, dass die eigentliche Steuerung der Ausgabe durch das Batch-Programm vorgenommen wird.
 Es wird der Buffer der vorher definierten Variable des Typs \verb+FILE+ benutzt, um in die Datei bzw. den Record
 des Datasets zu schreiben. Dabei wird wie in diesem Fall der Inhalt des Strings \verb+var_1+ gelesen und entsprechend
 in den Buffer geschrieben.
@@ -1297,7 +1284,7 @@ Die Übersetzung des PL/I-Quellcode führt zu der Ausgabe in Listing \ref{lst:ja
 	\centering
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
-		caption={Dateiausgabe}, label={lst:javawriter},  basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
+		caption={Transformation Dateiausgabe}, label={lst:javawriter},  basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
 	WRITE FILE (file_1) FROM (var_1);	
 	
 	
@@ -1326,14 +1313,12 @@ Zusammenfassend werden so die grundlegenden Anweisungen der Programmiersprache P
 \subsubsection{Unit-Tests}
 
 Um die in Kapitel 3.2 beschriebenen Übersetzungen zu testen, wurden Unit-Tests geschrieben. 
-Diese Unit-Tests testen auf der Basis bisher vorgestellter Übersetzungen den Transpiler.
-
-Die Vorgehensweise bei der Entwicklung des Transpilers orientiert sich am Test-Diven-Development. 
+Diese Unit-Tests testen auf der Basis bisher vorgestellter Übersetzungen den Transpiler. Die Vorgehensweise bei der Entwicklung des Transpilers orientiert sich am Test-Diven-Development. 
 Der erste Schritt bestand in der Konzeption von Elementarübersetzungen wie in der technischen Spezifikation vorgestellt.
 Für jede dieser Elementarübersetzungen wurde ein Unit-Test geschrieben. Diese werden mit dem Maven-Kommando \verb+mvn test+ als Teil des Buildprozesses durchgeführt. Daraufhin folgt die Implementation der Programmroutinen, um den PL/I-Quellcode nach Java zu übersetzen.
 Beispielhaft ist in Listing \ref{lst:javaunittest} eine Test-Methode für das Transformieren von Variablen dargestellt.
 
-\begin{lstlisting}[language=Java, caption=Arithmetic Node Unit-test, label={lst:javaunittest}]
+\begin{lstlisting}[language=Java, caption=Positv-Test für die Übersetzung eines Arithmetischen Ausdrucks, label={lst:javaunittest}]
 @Test
 void mapChildNodes_checkIdentifierMapping() {
 	
@@ -1362,7 +1347,7 @@ void mapChildNodes_checkIdentifierMapping() {
 \end{lstlisting} 
 
 % Test-Coverage
-In Listing \ref{lst:javaunittest}  wird der Typ \verb+DECIMAL+ getestet. Untersucht werden der resultierende Typ und Bezeichner, die durch die Methoden \verb+mapChildNodes+ und \verb+mapArithmetic+ gesetzt werden.Es wird erwartet, dass der Bezeichner der PL/I-Variable dem Inhalt der Variable identifier der Klasse \verb+DeclarationMapper+ entspricht.
+In Listing \ref{lst:javaunittest}  wird der Typ \verb+DECIMAL+ getestet. Untersucht werden der resultierende Typ und Bezeichner, die durch die Methoden \verb+mapChildNodes+ und \verb+mapArithmetic+ gesetzt werden. Es wird erwartet, dass der Bezeichner der PL/I-Variable dem Inhalt der Variable identifier der Klasse \verb+DeclarationMapper+ entspricht.
 Weiterhin wird erwartet, dass der Typ \verb+DECIMAL+ zu dem entsprechenden Typ aus Listing \ref{lst:annotationdecimal} übersetzt wird.
 Mit jedem Test wird auch ein Parser-Objekt erzeugt, dadurch wird  mit einem Unit-Tests die geschriebene Grammatik überprüft.
 Ähnlich wurden  für die weiteren Mapper-Klassen Test-Klassen erzeugt.
@@ -1371,11 +1356,9 @@ Da die Symboltabelle bereits in der Version der Projektarbeit-IV integriert war,
 
 %Negative Tests
 Bei der Implementierung der Tests wurden sowohl Negativ- als auch Positivtests geschrieben.
-In Listing \ref{lst:javaunittest} handelt es sich um einen Positiven Test. 
+In Listing \ref{lst:javaunittest} handelt es sich um einen Positivtest. Da die Methode \verb+mapArithmetic+ speziell für die Übersetzung von numerischen Typen geeignet ist, sollte die Methode eine Fehlermeldung ausgeben, wenn eine Übersetzung von einem alphanumerischen Datentyp verlangt wird.  In Listing \ref{lst:javanegativetest} wird dieser Umstand getestet. 
 
-Da die Methode \verb+mapArithmetic+ speziell für die Übersetzung von numerischen Typen geeignet ist, sollte die Methode eine Fehlermeldung ausgeben, wenn eine Übersetzung von einem alphanumerischen Datentyp verlangt wird.  In Listing \ref{lst:javanegativetest} wird dieser Umstand getestet. 
-
-\begin{lstlisting}[language=Java, caption=Arithmetic Node Unit-test, label={lst:javanegativetest}]
+\begin{lstlisting}[language=Java, caption=Negativ-Test für die Übersetzung eines Arithmetischen Ausdrucks, label={lst:javanegativetest}]
 @Test
 void mapArithmetic_NegativeTest() {
 	DeclarationMapper declarationMapper = new DeclarationMapper();
@@ -1405,19 +1388,16 @@ void mapArithmetic_NegativeTest() {
 }
 \end{lstlisting}
 
-Auch für die restlichen Test-Klassen wurden solche Negativtests implementiert. 
-Weiterhin wurden sowohl Negativ- als auch Positivtests für alle weiteren Mapper-Klassen geschrieben. Diese finden sich im Anhang 1-7 zu finden.
+Weiterhin wurden sowohl Negativ- als auch Positivtests für alle weiteren Mapper-Klassen geschrieben. Diese finden sich in Anhang A.
 Zusammenfassend wurden so die kleinsten Programm-Einheiten des Transpilers überprüft. 
+Folglich wird die Gesamtfunktionalität in einem Integrations-Test getestet.
 
 \subsubsection{Integrationstests}
-In diesem Kapitel wird die Durchführung eines Integrations-Tests aller Komponenten beschrieben. Der Integrations-Test ist so angelegt, dass im ersten Schritt der Transpiler kompiliert wird und danach ein Beispielprogramm damit übersetzt wird. Der übersetze Java-Code wird wiederum kompiliert und ein Test des Programms wird im Kapitel 3.4 durchgeführt.
+In diesem Kapitel wird die Durchführung eines Integrations-Tests aller Komponenten beschrieben. Der Integrations-Test ist so angelegt, dass im ersten Schritt der Transpiler kompiliert und danach ein Beispielprogramm übersetzt wird. Der übersetze Java-Code wird wiederum kompiliert und ein Test des Programms wird im Kapitel 3.4 durchgeführt.
 
-In diesem Kapitel wird die vollumfängliche Implementation des Transpilers, mit dem Frontend und der zum Kompilieren benötigte Codebase protokolliert. Dazu wird ein Beispiel PL/I-Programm übersetzt. Für die Berechnung einer Primzahl wurde hier der Probedivisions Algorithmus implementiert. 
+In diesem Kapitel wird die vollumfängliche Implementation des Transpilers, mit dem Frontend und der zum Kompilieren benötigte Codebase protokolliert. Dazu wird ein Beispiel PL/I-Programm übersetzt, welches den Probedivisions Algorithmus zum berechnen von Primzahlen implementiert. 
 In Anhang \ref{lst:pliprobedivision} ist die Implementation des Algorithmus in PL/I zu sehen. Dieses Programm soll während des Integrations-Tests in Java-Zielcode übersetzt und durch den Java-Compiler kompiliert werden.
-Eine Ausführung des Algorithmus ist nicht vorgesehen, lediglich die Transformation und das Kompilieren durch den PL/I-Transpiler sowie des Java-Compilers. Das System verwendet die Version 17.0.11 des Java-Compilers. Sowie Version 5.0 des Parser-Generators-JavaCC und Apache Maven der Version 3.6.3.
-
-% Transpiler aus Github Repo holen
-Der Integrationstest beginnt damit, das Transpiler-Projekt aus dem Remote-Repository zu laden.
+Eine Ausführung des Algorithmus ist nicht vorgesehen, lediglich die Transformation und das Kompilieren durch den PL/I-Transpiler sowie des Java-Compilers sind vorgesehen. Das System verwendet die Version 17.0.11 des Java-Compilers. Sowie Version 5.0 des Parser-Generators-JavaCC und Apache Maven der Version 3.6.3. Der Integrationstest beginnt damit, das Transpiler-Projekt aus dem Remote-Repository zu laden.
 
 \begin{lstlisting}[language=Bash, caption=Laden des Transpilers, label={lst:inttest1}]
 git clone -b integration https://github.com/lhahner/pl1-code-transpiler.git
@@ -1444,7 +1424,7 @@ Nun wird in die Projektstruktur des Frontendprojektes navigiert. Der Spring-Boot
 mvn spring-boot:run
 \end{lstlisting}
 
-Die Adresse \path{http://localhost:8080/} wird in Firefox geöffnet. Es wird über den "Transpile"-Button auf die Seite \path{http://localhost:8080/trans} navigiert. Hier wird in das linke Testfeld der PL/I-Quellcode aus Anhang \ref{lst:pliprobedivision} eingefügt. In Anhang \ref{lst:javaprobedivision} ist das Ergebnis, welches auf der linken Seite ausgegeben wurde, dargestellt.
+Die Adresse \path{http://localhost:8080/} wird in Firefox geöffnet. Es wird über den \emph{Transpile} Button auf die Seite \path{http://localhost:8080/trans} navigiert. Hier wird in das linke Textfeld der PL/I-Quellcode aus Anhang \ref{lst:pliprobedivision} eingefügt. In Anhang \ref{lst:javaprobedivision} ist das Ergebnis, welches auf der linken Seite ausgegeben wurde, dargestellt.
 
 % Code base Repository aus Github holen
 Um nun das ausgegebene Projekt zu kompilieren, sollte eine bereitgestellte Code-Basis verwendet werden. Es wird das Code-Basis-Projekt aus der Remote-Repository in Listing \ref{lst:inttest5} geladen.
@@ -1454,11 +1434,13 @@ git clone https://github.com/lhahner/plitra-codebase.git
 \end{lstlisting}
 
 % Code integration des Übersetzen Codes in Repositry
-Der Code innerhalb der Klasse aus Anhang \ref{lst:javaprobedivision} wurde kopiert und in die Klasse TranspiledExamplePliProgram eingefügt. Dazu wurde in den Ordner \path{/src/main/java/org/plitra/codebase} innerhalb des Codebasis-Projektes navigiert und mit Eclipse der Java-Zielcode eingefügt.
+Der Code innerhalb der Klasse aus Anhang \ref{lst:javaprobedivision} wurde kopiert und in die Klasse TranspiledExamplePliProgram eingefügt. 
+
+Dazu wurde in den Ordner \path{/src/main/java/org/plitra/codebase} innerhalb des Codebasis-Projektes navigiert und mit Eclipse der Java-Zielcode eingefügt.
 
 % kompilieren des Übersetzen Codes
 Das Casten des Parameters wird aktuell nicht unterstützt, weshalb der Objekttyp händisch
-in \verb+double+ geändert wurde. Weiterhin wurden alle Fehler, die von der \ac{ide} erkannt wurden, automatisch durch das Akzeptieren, des Änderungsvorschlags der  \ac{ide}  verbessert.
+in \verb+double+ geändert wurde. Weiterhin wurden alle Fehler, die von der \ac{ide} erkannt wurden, automatisch durch das Akzeptieren, der Änderungsvorschlage der  \ac{ide}  verbessert.
 Das Projekt wird nun erneut mithilfe des in Listing \ref{lst:inttest6} dargestellten Maven-Kommandos kompiliert.
 
 \begin{lstlisting}[language=Bash, caption=Kompilieren des Projekts, label={lst:inttest6}]
@@ -1472,20 +1454,18 @@ Das Projekt wurde erfolgreich kompiliert, womit der Integrations-Test erfolgreic
 
 \subsection{Performance und Benchmarks}
 Um vergleichen zu können, wie sich die Laufzeit der Implementierung des Probedivisions Algorithmus in PL/I und Java unterscheidet, wird in diesem Kapitel die Performance verglichen. 
-Dazu wird den Beiden Programmen vier Primzahlen übergeben. Für die Berechnung wurde das Programm aus dem Anhang \ref{lst:pliprobedivision}, auf einem z/OS-Mainframe-System kompiliert und ausgeführt. 
+Dazu werden den beiden Programmen vier Primzahlen übergeben. Für die Berechnung wurde das Programm aus Anhang \ref{lst:pliprobedivision}, auf einem z/Os-Mainframe-System kompiliert und ausgeführt. 
 Die allgemeinen System-Spezifikationen des Mainframes sind in Abbildung \ref{fig:mainframesysteminfo} dargestellt.
 
-\dhgefigure[h]{mainframe-system-info.png}[scale=0.47]{Mainframe System Informationen}{fig:mainframesysteminfo}[][]
+\dhgefigure[h]{mainframe-system-info.png}[scale=0.47]{Mainframe System Spezifikation}{fig:mainframesysteminfo}[][]
 
-Unter CPU ist der Maschinen-Typ 3931 gelistet. Bei dem Mainframe, handelt es sich um einen IBM z16 A02, mit
+Unter CPU in Abbildung \ref{fig:mainframesysteminfo} ist der Maschinen-Typ 3931 gelistet. Bei dem Mainframe, handelt es sich um einen IBM z16 A02, mit
 einer maximalen Prozessorkern Kapazität von 16. Sowie Maximal 4 TB Arbeitsspeicher. \footcite{z16}
-Damit wird das Programm auf der neusten Hardware von IBM kompiliert und ausgeführt.
+Damit wird das Programm auf der aktuell (Juli 2024) neusten Hardware von IBM kompiliert und ausgeführt.
 
 % PL/I-Benchmark Test mit System Spezifikationen
-Um ein PL/I-Programm auf einem z/Os Betriebssystem eines IBM-Mainframes zu starten, muss das Programm zuerst erfolgreich kompiliert und mit einem Batchjob-Programm
-ausgeführt werden. Das Batchjob-Programm wurde in der Job-Control-Language (JCL) geschrieben.
-Es wurde die Laufzeit für vier Primzahlen gemessen. Die erste Primzahl ist die 1772 von Leonhard Euler entdeckte Primzahl mit 10 Stellen; 2,147,483,647. Die nächstgrößere getestete Primzahl ist die 999.999.000.001. Darauf folgt die größte bekannte Primzahl, die nicht durch einen Computer bewiesen werden konnte: 67.280.421.310.721. Zuletzt wurde eine Primzahl verwendet, die bisher nur durch einen Computer bewiesen werden kann. \footcite[Vgl. ][]{prime}
-In Tabelle \ref{tab:plibenchmark} sind alle Primzahlen mit ihrer Laufzeit zu sehen. 
+Um ein PL/I-Programm auf einem z/Os-Betriebssystem eines IBM-Mainframes zu starten, muss das Programm zuerst erfolgreich kompiliert und mit einem Batchjob-Programm
+ausgeführt werden. Das Batchjob-Programm wurde in der Job-Control-Language (JCL) geschrieben. Dem  PL/I-Programm werden nach jedem Testlauf eine größere Primzahlen übergeben. Der erst Testlauf behandelt die Primzahl 2,147,483,647, welche die 1772 von Leonhard Euler größte entdeckte Primzahl mit 10 Stellen ist. Die nächste Primzahl ist eine sogenannte einzigartige Primzahl mit 12 Stellen. Daraufhin folgt die bisher von Menschen, ohne Beihilfe eines Computers größte bestimmte Primzahl 67.280.421.310.721. Die letzte getestete Primzahl konnte bisher nicht ohne Hilfe eines Computers belegt werden.\footcite[Vgl. ][]{prime} In Tabelle \ref{tab:plibenchmark} sind alle Primzahlen mit ihrer Laufzeit zu sehen. 
 
 \begin{table}[h]
 	\centering
@@ -1502,13 +1482,11 @@ In Tabelle \ref{tab:plibenchmark} sind alle Primzahlen mit ihrer Laufzeit zu seh
 		10,000,000,002,065,383 & 00:00:01,0 \\
 		\hline
 	\end{tabularx}
-	\caption{PL/I-Programm Benchmarks, (Siehe Anhang 11-14) \label{tab:plibenchmark}}
+	\caption{PL/I-Programm Benchmarks, (Siehe Anhang C) \label{tab:plibenchmark}}
 \end{table}
 \pagebreak
 
-% Java-Benchmark Test mit System Spezifikationen
-Das während des Integration-Test übersetzte Programm aus Anhang \ref{lst:javaprobedivision} wird ebenfalls für die Berechnung der Primzahlen 
-getestet. Die Hardware-Spezifikationen des Systems, auf dem der Integrations-Test durchgeführt wird. Sind in Tabelle \ref{tab:hardwartable} beschrieben.
+Die Benchmark-Zahlen aus Tabelle \ref{tab:plibenchmark} zeigen das der Mainframe für die Berechnung der Primzahlen maximal eine Sekunde braucht. Nun soll dieser Benchmark mit dem des Java-Programms verglichen werden. Zum Vergleich wird das während des Integration-Test übersetzte Programm aus Anhang \ref{lst:javaprobedivision} ebenfalls für die Berechnung der Primzahlen getestet. Die Hardware-Spezifikationen des Systems, auf dem der Integrations-Test durchgeführt wird. Sind in Tabelle \ref{tab:hardwartable} beschrieben.
 
 \begin{table}[h]
 	\centering
@@ -1552,24 +1530,18 @@ Weiterhin sind die Testergebnisse des Java-Codes in \ref{tab:javabenchmark} geli
 	\caption{Java-Programm Benchmarks \label{tab:javabenchmark}}
 \end{table}
 
-% Umrechnung & Vergleich: TODO nicht nötig
-Bei der Beurteilung sollten die Hardwareunterschiede berücksichtigt werden.
-Während des Benchmarks wurde versucht, Primzahl 170,141,183,460,469,231,731,687,303,715,884,105,727
-zu berechnen. Dabei musste der Java-Zielcode angepasst werden. Die maximale Anzahl an Ziffern, die in dem größtmöglichen
-primitiven Datentyp gespeichert werden konnte, beträgt 64. Daher wurde stattdessen der nicht-primitive Datentyp \verb+BigDecimal+ verwendet. 
-Ebenso mussten die Berechnungen im Algorithmus angepasst werden. Im Anhang \ref{lst:javaprobedivisionang} befindet sich das angepasste Programm.
-Die Zahl wurde nicht weiter im Benchmark berücksichtigt, da das System aus Tabelle \ref{tab:hardwartable} für diese Operation zu lange bräuchte.
-Dennoch zeigt sich hier eine Grenze auf. Um solche großen Zahlen zu berechnen, muss das Programm bzw. die Übersetzung angepasst werden,
-da in Java die Behandlung solcher großen Zahlen nur mit nicht-primitiven Datentypen möglich ist.
+Für die Berechnung der Primzahlen brauchte, bis auf die von Leonhard Euler bestimmte Primzahl alle mehr als eine Sekunde. Bei der Beurteilung sollten die Hardware Unterschiede zwischen dem IBM-Mainframe und dem Linux-Computer berücksichtigt werden.
+
+Während des Benchmarks wurde ebenfalls versucht, die Primzahl 170,141,183,460,469,231,- \newline 731,687,303,715,884,105,727
+zu berechnen. Dabei musste der Java-Zielcode angepasst werden, da diese Zahl die maximale Anzahl an Ziffern übersteigt, die ein primitiver Datentyp in Java verarbeiten kann. Daher wurde stattdessen der nicht-primitive Datentyp \verb+BigDecimal+ verwendet. Im Anhang \ref{lst:javaprobedivisionang} befindet sich das angepasste Programm, um solche großen Zahlen zu berechnen, muss der Transpiler bzw. die Übersetzung angepasst werden, da in Java die Behandlung solcher großen Zahlen nur mit dem nicht-primitiven Datentyp \verb+BigDecimal+ oder \verb+BigInt+ möglich ist.
 Ein PL/I-Programm kann weiterhin die standardmäßig implementierten Datentypen wie \verb+DECIMAL+ oder \verb+BINARY+ verwenden, lediglich die Skalierung der Länge muss angepasst werden.
-Im Zuge dieser Arbeit wurde diese Zahl nicht auf dem Mainframe getestet, da unbekannt wie hoch die \ac{MIPS} bei dieser Zahl sind.
-Bedingt durch diese Ungewissheit, kann auch nicht genau gesagt werden wie viel eine solche Rechenoperation kosten würde. 
-Zusammenfassend wird so eine schwäche des Transpilers deutlich. In dem folgenden Kapitel sollen weitere schwächen betrachtet und diese Arbeit evaluiert werden.
+
+Zusammenfassend wird so eine schwäche des Transpilers deutlich. Durch die Überschreitung von Grenzstellen, sollte der Transpiler entsprechend eine andere Typisierung wählen. In der aktuellen Version ist, die differenzierte Typisierung je nach Wertzuweisung noch nicht implementiert. Der Entwickler muss, in diesem Fall das Übersetzte Programm selbst anpassen. In dem folgenden Kapitel sollen weitere schwächen betrachtet und diese Arbeit evaluiert werden.
 \pagebreak
 \section{Fazit}
 % Erreichte Entwicklung
 Auch nach dieser Arbeit wurde der Transpiler zwar erweitert, aber noch nicht fertiggestellt.
-Das entwickelte Programm bietet lediglich die grundlegenden Voraussetzungen für die Übersetzung von PL/I-Strukturen.
+Das entwickelte Programm bietet lediglich die grundlegenden Voraussetzungen für die Übersetzung von PL/I-Programmen.
 Viele Konzepte aus der Projektarbeit IV mussten verbessert und angepasst werden, was dazu führte, dass nahezu 90\% des Transpilers
 während dieser Arbeit geändert wurden. Dies hatte jedoch positive Auswirkungen, da die Entwicklung nun wesentlich leichter fortgeführt werden kann
 und ein einfacher Überblick und Einstieg in die Erweiterung gegeben ist.
@@ -1588,6 +1560,14 @@ Während der Entwicklung des Transpilers wurde immer wieder an Übersetzungslös
 Weiterhin blieben teilweise implementierte PL/I-Ausdrücke vollständig unberücksichtigt. So wird der Benutzer sehr schnell einen Ausdruck finden, der für einen vollumfänglichen Transpiler zu erwarten ist, jedoch in diesem nicht implementiert wurde.
 Auch wird der Benutzer feststellen, dass der PL/I-Quellcode nicht vollumfänglich auf Fehler überprüft wird. Eine Mitübersetzung von Fehlern ist somit denkbar.
 
-In den zukünftigen Versionen sollen diese Probleme gelöst werden und ein Transpiler entstehen, der dem Entwickler einen Großteil der Arbeit abnimmt.
-Es ist auch geplant, den Transpiler öffentlich zugänglich zu machen, sodass jeder auf den Quellcode zugreifen und die Software verwenden kann.
+Damit der Transpiler auch tatsächlich für Juniore PL/I-Entwickler zum testen von Quellcode auf einem Desktop Computer verwendet werden kann, müssen weitere Ausdrücke in die Grammatik eingearbeitet werden.
+Erst wenn nahezu alle aktuell verwendeten PL/I-Ausdrücke auch von dem Parser verarbeitet werden kann, kann auch dieser Transpiler verwendet werden um PL/I-Programme auf einem bspw. Linux-Desktop Computer auszuführen.
+Es ist dabei auch weiterhin fraglich, ob die Übersetzung in Java dieselbe Laufzeit simuliert, wie in PL/I gewünscht. Um dies sicherzugehen sollten neben Unit-Tests, Integrations-Tests und System-Tests auch User-Acceptence-Tests berücksichtigt werden.
+
+In den zukünftigen Versionen sollen diese Probleme gelöst werden und ein Transpiler entstehen, der dem Entwickler einen Großteil der Arbeit abnimmt. 
+Der nächste Schritte der Entwicklung wird die Erweiterung des Negativ-Testing sein, zwar wurden in der aktuellen Version solche berücksichtigt. Jedoch entstehen immer wieder bei der Übersetzung Fehlermeldungen, die einen eigentlich korrekten Ausdruck bemängeln.
+Nachdem die Anwendung ausführlich getestet wurde, wird die in dieser Arbeit vorgestellte Version veröffentlicht. Daraufhin soll die Grammatik verbessert und die PL/I-Sprachreferenz nahezu vollständig eingearbeitet werden.
+Es ist auch geplant, den Transpiler öffentlich zugänglich zu machen, sodass jeder auf den Quellcode zugreifen und die Software verwenden kann. 
+
+Zusammenfassend war diese Arbeit erneut sehr lehrreich, jedoch auch sehr aufwendig. Sie zeigt weitere Fortschritte und entsprechend Erweiterungspotential.
 

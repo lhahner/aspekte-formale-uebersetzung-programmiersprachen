@@ -5,7 +5,8 @@
 
 \section{Unit-Tests}\label{lst:tests}
 
-\begin{lstlisting}[language=Java, caption=Declaration Test]
+
+\begin{lstlisting}[language=Java, caption=Deklaration-Test]
 @Test
 @DisplayName("Identifier &  Decimal Mapping")
 void mapChildNodes_checkIdentifierMapping() {
@@ -239,7 +240,7 @@ void mapChildNodes_checkIdentifierMapping() {
 % Benchmark Programm
 \section{Benchmark Programme}\label{sec:benchm}
 
-\begin{lstlisting}[language=PL/I, caption=PL/I-Primzahlen Programm]
+\begin{lstlisting}[language=PL/I, caption=PL/I-Primzahlen Programm, label={lst:pliprobedivision}]
 PACKBA: PACKAGE;
 	DCL Z DECIMAL(5);
 	DCL MESSAGE CHAR(5);
@@ -278,7 +279,7 @@ PACKBA: PACKAGE;
 END PACKBA;
 \end{lstlisting}
 \pagebreak
-\begin{lstlisting}[language=Java, caption=Übersetzes Java-Primzahlen Programm]
+\begin{lstlisting}[language=Java, caption=Übersetzes Java-Primzahlen Programm, label={lst:javaprobedivision}]
 public class TranspiledExamplePliProgram implements IProgram  { 
 	public @Decimal(5) double Z;
 	public @Char(5) String MESSAGE;
@@ -317,7 +318,7 @@ public class TranspiledExamplePliProgram implements IProgram  {
 }
 \end{lstlisting}
 \pagebreak
-	\begin{lstlisting}[language=Java, caption=Angepasstes Java-Primzahlen Programm]
+	\begin{lstlisting}[language=Java, caption=Angepasstes Java-Primzahlen Programm, label={lst:javaprobedivisionang}]
 	public class TranspiledExamplePliProgram implements IProgram {
 	
 	 public BigDecimal Z;
