@@ -119,7 +119,7 @@ Abbildung \ref{fig:compiler} zeigt eine Übersicht und das Ergebnis der einzelne
 % @todo: Quelle
 \dhgefigure[h]{compiler-ablauf-diagramm.png}[scale=0.6]{Funktionsweise eines Compilers}{fig:compiler}[aho][S. 12]
 
-In der ersten Phase teilt der Compiler den eingegebenen String in Token auf. Danach entsteht ein Syntaxbaum, der in diesem Beispiel die Zwischencodedarstellung repräsentiert. Ab diesem Punkt beginnt das Backend des Compilers. Zuerst erzeugt das Backend maschinenunabhängigen Code, meist in Assembler und anschließend maschinenabhängigen Code. Die Abhängigkeit zwischen der Maschine und dem Code, entsteht durch die Adressierung der Registeradressen.  \footcite[Vgl. ][S.30ff. ]{aho}
+In der ersten Phase teilt der Compiler den eingegebenen String in Token auf. Danach entsteht ein Syntaxbaum, der in diesem Beispiel die Zwischencodedarstellung repräsentiert. Ab diesem Punkt beginnt das Backend des Compilers. Zuerst erzeugt das Backend maschinenunabhängigen Code, meist in Assembler und anschließend maschinenabhängigen Code. Die Abhängigkeit besteht im Einsetzen der Register- und Hardwareadressen für die ausführende Maschine.  \footcite[Vgl. ][S.30ff. ]{aho}
 In jeder Phase wird aus der Symboltabelle gelesen und geschrieben.
 
 %  Warum ein Transpiler?
@@ -139,7 +139,7 @@ Ein Compiler übersetzt den Quellcode einer Hochsprache in eine maschinennahe Sp
 
 % @review
 Ein weiterer Unterschied ist die Art der Ausführung des übersetzten Zielcodes.
-Das Ergebnis der Übersetzung eines Compilers ist Binärcode der auf einem Zielsystem ausgeführt werden kann. Um hingegen das Ergebnis eines Transpilers auszuführen,
+Das Ergebnis der Übersetzung eines Compilers ist Binärcode, der auf einem Zielsystem ausgeführt werden kann. Um hingegen das Ergebnis eines Transpilers auszuführen,
 braucht es einen weiteren Compiler. Dieser Compiler muss den Zielcode der Zielsprache in Binärcode übersetzen.
 Bei der Übersetzung von PL/I-Quellcode nach Java-Zielcode bedarf es also eines weiteren Java-Compilers zum Ausführen des Zielcodes.
 
@@ -160,21 +160,22 @@ Eine weitere Alternative ist der Interpreter. Dieser führt den Quellcode direkt
 \pagebreak
 
 Die Eingabe des Bash-Skripts wird zeilenweise gelesen.
-Das Quoting folgt dem Prinzip der lexikalischen Analyse, bei der alle Sonderzeichen entfernt werden, wie zum Beispiel Kommentare oder Schrägstriche. Sobald das Quoting abgeschlossen ist, entsteht ein String, der nur aus den Tokens eines Ausdrucks besteht.
+Das Quoting folgt dem Prinzip der lexikalischen Analyse, bei der alle Sonderzeichen entfernt werden, wie zum Beispiel Kommentare oder Schrägstriche. Sobald das Quoting abgeschlossen ist, entsteht ein String, der nur aus den Token eines Ausdrucks besteht.
 
 Anschließend beginnt das Parsing, das der syntaktischen Analyse im Kompilierprozess ähnelt, jedoch keine Zwischencodeerzeugung beinhaltet. Hier wird lediglich zwischen einfachen Bash-Befehlen wie \verb+wc+ und zusammengesetzten Befehlen wie einem \verb+if+-Ausdruck unterscheiden.
 
 Der Verarbeitungsprozess setzt sich mit der Shell-Expansion fort, bei der in einem Befehl eingebettete Variablen und Pfade durch ihre absoluten Repräsentationen ersetzt werden.
-Ab hier nimmt nun das Betriebssystem die Befehle des Shell-Skriptes entgegen und führt das entsprechende Programm, mithilfe der Pfade zu der Binärdatei aus. Dieser Prozess ist Vergleichbar mit der Adressierung von Registeradressen während der Kompilierung.
+Ab hier verarbeitet nun das Betriebssystem die Befehle des Shell-Skriptes und führt das entsprechende Programm mithilfe der Pfade zur vorkompiliertem Binärdatei aus. Dieser Prozess ist vage vergleichbar mit dem Einsetzen von Registeradressen während der Kompilierung.
 Schließlich wird das Ergebnis in der Standardausgabe ausgegeben. \footcite[Vgl. ][]{gnubash}
 
 % Absatz: Zusammenfassende Unterscheidung zwischen Interpreter und Transpiler, Was sind gemeinsamkeiten und unterschiede von Transpiler und interpreter?
 
-Zusammenfassend zeigen sich sowohl Ähnlichkeiten als auch Unterschiede zwischen einem Interpreter und einem Compiler bzw. Transpiler. Beide durchlaufen die Phasen der lexikalischen und syntaktischen Analyse, wobei sie den Quellcode zunächst um Kommentare, Leerstellen oder andere für die Übersetzung irrelevante Symbole bereinigen. Anschließend erfolgt entweder die direkte Ausführung des Quellcodes oder die Erzeugung einer unabhängigen Repräsentation.
+Zusammenfassend zeigen sich sowohl Ähnlichkeiten als auch Unterschiede zwischen einem Interpreter und einem Compiler bzw. Transpiler. Beide durchlaufen die Phasen der lexikalischen und syntaktischen Analyse, wobei sie den Quellcode zunächst um Kommentare, Leerstellen oder andere für die Übersetzung irrelevanten Symbole bereinigen. Anschließend erfolgt entweder die direkte Ausführung des Quellcodes oder die Erzeugung einer unabhängigen Repräsentation.
 
 % Wie sähe mein Programm als Interpreter aus:
-Um den PL/I-Quellcode nach Java-Zielcode zu übersetzen eignet sich ein Interpreter weniger. Da ein Interpreter nur Zeilenweise den Quellcode verarbeitet, ist auch nur eine Zeilenweise Übersetzung denkbar. Jedoch bleiben dabei Syntaktische Zusammenhänge in dem PL/I-Quellcode Unberücksichtigt. Die etwa bei der Transformation von zusammengesetzten Datentypdeklarationen benötigt werden. Um die Syntaktischen Zusammenhänge erleichtert zu verarbeiten, eignet sich eine Zwischencodeerzeugung.
-Auch wird durch eine Zwischencoderepräsentation, wie einem Syntaxbaum der Kontext zwischen verschiedenen Ausdrücken leichter berücksichtigt. Dadurch kann die Lesbarkeit des Java-Zielcodes erhöht werden.
+Um den PL/I-Quellcode nach Java-Zielcode zu übersetzen eignet sich ein Interpreter weniger. Da ein Interpreter nur Zeilenweise den Quellcode verarbeitet, wäre auch nur eine Zeilenweise Übersetzung denkbar. 
+Jedoch können so die objektorientierte Konstrukte in Java nicht explizit benutzt werden, sondern nur die prozeduralen Bestandteile der Sprache. Dabei bleiben semantische Zusammenhänge in dem PL/I-Quellcode unberücksichtigt, die etwa bei der Transformation von zusammengesetzten Datentypdeklarationen benötigt werden. 
+Durch eine Zwischencoderepräsentation in Form eines Syntaxbaums kann der Kontext leichter berücksichtigt werden. Dadurch kann die Qualität des Java-Zielcodes erhöht werden.
 
 %Um PL/I-Code korrekt in Java zu übersetzen, sind Verbindungen zwischen den Ausdrücken relevant. Diese Verbindungen können in einer Zwischencoderepräsentation des PL/I-Quellcodes, komprimiert dargestellt werden. Eine zeilenweise Übersetzung könnte zu einem Java-Programm führen, das den restlichen Kontext des Programms nicht weiter berücksichtigt.
 %Ein Interpreter erreicht das Ziel einer objektorientierten Programmierung und eines wiedererkennbaren PL/I-Codes nicht. Verschachtelte Strukturen lassen sich schwer in Klassen umwandeln. Ein rekursiver Syntaxbaum unterstützt diese Transformation, während ein Interpreter nur statische Umsetzungen ermöglicht. Dies führt zu mehr Boilerplate-Code und geringerer Lesbarkeit. Daher ist ein Interpreter ungeeignet.
@@ -194,10 +195,13 @@ Auch wird durch eine Zwischencoderepräsentation, wie einem Syntaxbaum der Konte
    
 \subsection{Formale Sprachen und ihre Grammatiken}
 % Formale Sprachen - linearer Ausdruck
-Formale Sprachen sind geeignet, Ausdrücke zu generieren, die als Anweisungen von einem Computer verarbeitet werden können und gleichzeitig dem Menschen verständlich sind. Dabei erfolgt das Schreiben von formalen Sprachen linear, das Lesen und Schreiben beginnt also von oben nach unten. Um diese lineare Form zu verarbeiten, braucht der Computer eine Regelung, die eine Verarbeitung der einzelnen Ausdrücke zulässt.
+% Linear -> Array von Wörtern
+% 
+In diesem Kapitel wird das Vorgehen der syntaktische und lexikalische Analyse vorgestellt.
+Das Schreiben und Lesen von Sprachen ist sowohl für Menschen als auch für Computer ein linearer Prozess. Für diesen Prozess würde es ausreichen, den Tokenstrom in einer Liste bzw. Array zu verarbeiten.
 
-Auch wie andere Sprachen besteht eine formale Sprache aus Syntax und Lexemen. Der Syntax einer formalen Sprache kann durch eine Grammatik beschrieben werden.
-Um eine generative Grammatik für eine formale Sprache zu definieren sind logische präzise Beschreibungen von Ausdrücken notwendig. \footcite[Vgl. ][S. 149ff. ]{automata} Zusammengefasst in:
+Um einen Text zu verstehen, sind komplexere Strukturen erforderlich, um zum Beispiel Satzzusammenhänge, Referenzen und Kontexte aufzulösen. Solche Strukturen werden in der Sprachforschung seit den 1960er Jahren durch generative Grammatiken beschrieben. \footcite[Vgl. ][S. 117]{choms} \footcite[Vgl. ][S. 149ff. ]{automata}
+Eine Grammatik wird dabei durch ein Tupel \emph{G} beschrieben:
 
 \begin{center}
 	\begin{equation}\label{eqn:grammar}
@@ -206,7 +210,13 @@ Um eine generative Grammatik für eine formale Sprache zu definieren sind logisc
 \end{center}
 
 
-Hierbei steht \verb+V+ für Variablen bzw. Nicht-Terminalsymbole, \verb+T+ für Terminale, \verb+S+ für Start und \verb+P+ für Produktionsregeln. Dabei ist \verb+S+ ein Teil von \verb+V+. Eine Produktion ergibt eine Syntaxregel für die Grammatik. Um eine Grammatik darzustellen, werden Ableitungen von Syntaxregeln zur Erzeugung verwendet. Hier wird durch eine Reduktion von Nicht-Terminalsymbolen in Terminalsymbole der eingegebene Ausdruck überprüft. In der Gleichung 2 bis 6 ist die Syntaxregel zur Erzeugung einer einfachen \verb+if+ und \verb+else+ Verzweigung dargestellt.
+Hierbei steht \verb+V+ für Variablen bzw. Nichtterminalsymbole, \verb+T+ für Terminale, \verb+S+ für Start und \verb+P+ für Produktionsregeln. Dabei ist \verb+S+ ein Teil von \verb+V+. Produktionsregeln sind gleichbedeutend mit Syntaxregeln von Programmiersprachen. 
+Der Prozess, einen Tokenstrom aufgrund von Syntaxregeln zu verarbeiten, nennt sich Parsen.
+Hier werden die Ketten von Wörtern in Form eines Arrays in eine Baumstruktur transformiert.
+Die Baumstruktur ergibt sich aus der Reihenfolge der Anwendung der Syntaxregeln.
+
+
+In der Gleichung 2 bis 6 ist die Syntaxregel zur Erzeugung einer einfachen \verb+if+ und \verb+else+ Verzweigung dargestellt.
 
 % @todo: PL/I Verwenden und Kontext herstellen
 \begin{center}
@@ -244,31 +254,18 @@ Nicht zulässig ist hingegen der Ausdruck in Listing \ref{lst:pliwrongstatement}
 	CALL IF THEN A > B proc_1;
 \end{lstlisting}
 
-Damit der Computer nach einer Syntax-Regel wie in Gleichung 2 bis 6 formale Sprachen, bzw. PL/I, verarbeiten kann, müssen in einem Programm nach den Syntaxregeln der Grammatik die eingegebenen Ausdrücke verarbeitet werden. 
-Das übernimmt der Parser. Ein Parser-Programm wird unter anderem nach der Richtung der Reduktion der Eingabe in einer Grammatik unterschieden.
-Entweder erfolgt die Reduktion von Links (LR-Parser), oder von Rechts (LL-Parser).
+Je nach Umfang der Symbole und der Syntaxregel kann ein Parser sehr komplex sein. 
+Durch die rekursive Natur der Produktionsregeln, können bereits wenige Regeln eine Vielzahl an möglichen Ausdrücken erzeugen.
+Ein weiterer Grund dafür sind die unterschiedlichen Kombinationsmöglichkeiten von Regeln, die das Programm berücksichtigen muss. Die Grammatik von PL/I kann Mehrdeutigkeiten aufweisen, welche im Compiler aufgelöst werden müssen. \footcite[Vgl. ][S. 262ff. ]{compibau}
 
-Um Programmiersprachen mithilfe eines Parser zu verarbeiten und aus dem Eingegebenen-Quellcode Zwischencode zu erzeugen, ist es gängig einen LR-Parser zu verwenden.
-Da dieser einen Großteil von kontextfreien Grammatiken syntaktisch analysieren kann.
-Auch wird durch die Verarbeitung eine frühe Fehlererkennung möglich.
-
-Je nach Einschränkung der formalen Sprache kann ein Parser sehr komplex sein. 
-Grund dafür sind die unterschiedlichen Kombinationsmöglichkeiten von Ausdrücken, die das Programm berücksichtigen muss.
-
-Entsprechend ist auch üblich den LR-Parser für eine Grammatik nicht manuell zu implementieren, denn dies bedarf einen hohen intellektuellen Aufwand. \footcite[Vgl. ][S. 27ff. ]{compibau}
-Die verwendeten Algorithmen zur Syntaxanalyse sind häufig komplex, jedoch für jeden Parser verschiedener Programmiersprachen ähnlich. 
-Zusätzlich kann die Grammatik von PL/I Mehrdeutigkeiten aufweisen, welche in den Compiler eingearbeitet werden müssen.
-\footcite[Vgl. ][S. 262ff. ]{compibau}
-
-Aus diesen Gründen wird in der Regel ein LR-Parser mit einem Compiler-Compiler erzeugt.
-Der Entwickler implementiert lediglich eine kontextfreie Grammatik in der erwarteten Darstellung des Compiler-Compilers,
-woraufhin der Parser aus dieser erzeugt werden kann. Der gesamte Ein- und Ausgabeverarbeitungsprozess ist in Abbildung \ref{fig:ausgabe} dargestellt.
+Aus diesen Gründen wird in der Regel ein Parser mit einem Compiler-Compiler erzeugt.
+Der Entwickler spezifiziert eine Grammatik in einer formalen Darstellung, woraufhin der Parser aus dieser automatisiert erzeugt werden kann. Der gesamte Ein- und Ausgabeverarbeitungsprozess ist in Abbildung \ref{fig:ausgabe} dargestellt.
 
 
 \dhgefigure[h]{parser-generation.png}[scale=0.7]{Ein- und Ausgabeverarbeitungsprozess des Compiler-Compiler}{fig:ausgabe}[][]
 \pagebreak
 
-Auch in der Entwicklung des Transpilers kommt ein Compiler-Compiler zum Einsatz. In dem folgenden Kapitel wird der implementierte Compiler-Compiler beschrieben.
+Auch in der Entwicklung des Transpilers kommt ein Compiler-Compiler zum Einsatz. Dieser wird im folgenden Kapitel beschrieben.
 
 % Hier Grund aus Compilerbau Buch
 
@@ -293,10 +290,10 @@ Auch in der Entwicklung des Transpilers kommt ein Compiler-Compiler zum Einsatz.
 \subsection{Anwendung von formalen Grammatiken in JavaCC}
 % 1. Was ist ein Compiler-Compiler? (Verbindung von formalen Grammatiken zu JavaCC)
 
-Ein Compiler-Compiler wie JavaCC ist eine Technologie mit der aus einer formalen Beschreibung einer Grammatik ein Lexer und ein Parser erzeugt werden. 
+Ein Compiler-Compiler wie JavaCC ist eine Technologie, mit der aus einer formalen Beschreibung einer Grammatik ein Lexer und ein Parser erzeugt werden. 
 
 Der Lexer und der Parser wenden die in der Grammatik-Datei definierten Regeln an und verarbeiten in einer Java-Klasse die übergebenen Ausdrücke.
-Die Darstellung der Grammatik erfolgt in der Regel in einer Art \ac{ebnf}. 
+Die Darstellung der Grammatik erfolgt in einer Art \ac{ebnf}. 
 Beispielhafte Compiler-Compiler sind neben JavaCC, Yacc, Antlr und Lexer.
 
 
@@ -313,17 +310,14 @@ In Kapitel 1.4 wurde bereits vereinfacht eine Syntaxregel aus der PL/I-Grammatik
 	}
 \end{lstlisting}
 
-In JavaCC besteht die Möglichkeit die Beschreibung von Syntaxregeln in Methoden zu Kapseln.
+In JavaCC besteht die Möglichkeit, die Beschreibung von Syntaxregeln in Methoden zu Kapseln.
 In Zeile 1 ist der Methodenkopf zu sehen. In diesem Fall erzeugt die Methode \verb+if_statement+ keinen Rückgabwert.
 Das durch die Raute gekennzeichnete Symbol ist die Repräsentation im Syntaxbaum und zusätzlich auch die Darstellung im Zwischencode.
-Im Körper der Methode wird der If-Ausdruck weiter definiert. Terminalsymbole werden in der JavaCC Grammatik mit den größer-als und kleiner-als Zeichen umrandet. Die Nicht-Terminalsymbole hingegen sind wie in Listing \ref{lst:ifstatement} dargestellt weitere Methoden, die wiederum weitere Ausdrücke beschreiben.
+Im Körper der Methode wird der If-Ausdruck weiter definiert. Terminalsymbole werden in der JavaCC Grammatik mit den größer-als und kleiner-als Zeichen eingeklammert. 
 
-Ähnlich wird bei der Syntaxregel \ref{eqn:start}, so lange reduziert bis lediglich Terminalsymbole übrig bleiben.
-Die Methode \verb+bool_expression+ beschreibt einen zulässigen Boolschen Ausdruck, der durch einen weiteren boolschen Operator mit einem weiteren booleschen Ausdruck verknüpft werden kann.
+Wie in Listing \ref{lst:ifstatement} dargestellt, sind die Nichtterminalsymbole wiederum Methoden, die  weitere Ausdrücke beschreiben. Die Methode \verb+bool_expression+ beschreibt einen zulässigen booleschen Ausdruck, der durch einen booleschen Operator mit einem weiteren booleschen Ausdruck verknüpft werden kann. Weiterhin wird in der Methode \verb+proc_body+ beschrieben, welche Ausdrücke weiter zulässig sind. Dazu zählt bspw. auch eine weitere \verb+IF ELSE+ Verzweigung. Ähnlich wird bei der Syntaxregel \ref{eqn:start} so lange reduziert, bis lediglich Terminalsymbole übrig bleiben.
 
-Weiterhin wird in der Methode \verb+proc_body+ beschrieben, welche Ausdrücke weiter zulässig sind. Dazu zählt bspw. auch eine weitere \verb+IF ELSE+ Verzweigung. 
-
- So werden aus der Grammatikdatei, durch den Compiler-Compiler, Java-Klassen erzeugt die Programmroutinen zur Syntaktischen Verarbeitung von PL/I-Ausdrücken beinhalten.
+ So werden aus der Grammatikdatei durch den Compiler-Compiler Java-Klassen erzeugt, die Programmroutinen zur syntaktischen Verarbeitung von PL/I-Ausdrücken beinhalten.
 Der Ausschnitt aus der Grammatikdatei in Listing \ref{lst:ifstatement} wird zu dem Java-Quellcode in Listing \ref{lst:ifstatementmethode}.
 \pagebreak
 
@@ -364,8 +358,7 @@ Der Ausschnitt aus der Grammatikdatei in Listing \ref{lst:ifstatement} wird zu d
 
 In Listing \ref{lst:ifstatementmethode} ist zu erkennen, dass die ebenfalls definierten Methoden in der Grammatikdatei, die repräsentativ für die Nicht-Terminal-Symbole sind, auch in der Methode der generierten Parser-Klasse zu Methodenaufrufen führen. Dies ist in Zeile 7 zu sehen. Weiterhin werden Token, also die Repräsentationen der Terminalsymbole, durch die Methode \verb+jj_consume_token+ verarbeitet. Die restlichen Verzweigungen in der generierten Java-Methode prüfen die verarbeiteten Token auf Fehler.
 
-Außerdem wird mit dem Objekt \verb+SimpleNode+ in der Java-Methode aus Listing \ref{lst:ifstatementmethode} ein Knoten im Syntaxbaum erzeugt. Diese Knoten ermöglichen die Verarbeitung des PL/I-Quellcodes durch die weiteren Module des Transpilers.
-
+Außerdem wird mit dem Objekt \verb+SimpleNode+ in der Java-Methode aus Listing \ref{lst:ifstatementmethode} ein Knoten im Syntaxbaum erzeugt. Diese Knoten werden von den Übersetzungsmodulen des Transpilers verarbeitet.
 % Warum ein Compiler-Compiler verwenden?
  
 Grammatiken für Cobol und Java sind bereits durch die JavaCC Community öffentlich zugänglich. \footcite[Vgl. ][]{javaccdoku}
