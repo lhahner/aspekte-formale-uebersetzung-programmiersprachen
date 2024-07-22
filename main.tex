@@ -17,7 +17,7 @@
 \subsection{Problemstellung}
 	
 Es gibt zwei Probleme die eine \ac{pli} zu Java Übersetzung lösen soll. 
-Problem eins, ein Portabilitätsproblem von wartungsintensiven PL/I-Programmen, die auf modernen Plattformen laufen sollen, wie etwa Cloud-Instanzen oder Linux-Server.
+Das erste Problem ist ein Portabilitätsproblem von wartungsintensiven PL/I-Programmen, die auf modernen Plattformen laufen sollen, wie etwa Cloud-Instanzen oder Linux-Server.
 	
 Die bestehende Auswahl von PL/I Compilern führen zu einem Portabilitätsproblem. Der PL/I Compiler, der auf den meisten Computer-Systemen im Einsatz ist, wird von IBM entwickelt und vermarktet. Hierbei handelt es sich um einen Compiler der für das von IBM entwickelte Betriebssystem z/OS geschrieben wurde. Eine Kompilierung von PL/I auf einem herkömmlichen x86-Desktop Computer oder vergleichbar weit verbreiteten Rechnerarchitekturen ist mit diesem Compiler nicht möglich. \footcite[Vgl. ][]{plicomp}
 
@@ -25,13 +25,11 @@ Die bestehende Auswahl von PL/I Compilern führen zu einem Portabilitätsproblem
 Eine Alternative bietet die Organisation GNU mit der \ac{GCC}. Der Softwareentwickler Henrick Sorensen entwickelte Teile des Frontends für einen PL/I Compiler. Dabei verwendete er das Backend, das die \ac{GCC} zu Verfügung stellt. Jedoch gab es bei diesem Projekt seit 2007 keine weiteren Neuerungen mehr. Der Entwickler gibt an, das bisher keine Zwischencode Erzeugung stattfindet, was diesen Compiler bisher unbrauchbar macht. \footcite[Vgl. ][]{pligcc} 
 Typischer wird heutzutage auf einen Endgerät ein IBM 3270 Terminal emuliert, dass eine Verbindung zu einem z/Os-System herstellt, um den PL/I-Code auf diesem zu kompilieren.
 
-Problem zwei ist demografischer Herkunft. PL/I ist eine Altsprache, die seit den 1960er Jahren im Einsatz ist und durch den Generationenwechsel an Entwicklern verliert. Wartung und Entwicklung werden so häufig teuer.\footcite[Vgl. ][S. 227ff.]{histopli} 
+Das zweite Problem bezieht sich auf den demografischen Wandel. PL/I ist eine Altsprache, die seit den 1960er Jahren im Einsatz ist und durch den Generationenwechsel an Entwicklern verliert. Wartung und Entwicklung werden so häufig teuer.\footcite[Vgl. ][S. 227ff.]{histopli} 
 
 Java hingegen ist auf nahezu allen modernen Systemen durch die plattformunabhängige Java Virtual Machine (JVM) kompilierbar. \footcite[Vgl. ][]{jvm}
 Insbesondere ist eine Kompilierung auch auf einem IBM-Großrechner mit z/OS möglich. \footcite[Vgl. ][]{zos} 
-Das macht Java zu einer flexibel einsetzbaren Sprache. 
-
-Weiterhin ist Java heute eine beliebte Programmiersprache. \footcite[Vgl. ][]{tiobe} Das führt zu einer höheren Anzahl an Entwicklern, die in der Lage sind, Java Programme zu warten.
+Das macht Java zu einer flexibel einsetzbaren und beliebten Programmiersprache. \footcite[Vgl. ][]{tiobe} Das führt zu einer höheren Anzahl an Entwicklern, die in der Lage sind, Java Programme zu warten.
 
 % Was ist ein Transpiler?
 Um die Programmiersprache Java zur Lösung der eingangs beschriebenen Probleme zu verwenden, kann ein Transpiler benutzt werden um die Transformation des Quellcodes, teilweise automatisiert zu beschleunigen. 
@@ -71,13 +69,13 @@ In den folgenden Kapiteln wird zwischen dem Transpiler, dem Eingabeprogramm (PL/
 Allgemein soll ein plattformunabhängiger Transpiler entstehen, der die Entwicklung und Transformation von PL/I-Quellcode ermöglicht. Die zugrundeliegende Arbeit stellt die Entwicklung, sowie die Gestaltung der Software dar und diskutiert Gestaltungsentscheidungen. 
 
 % @review: Referenz zur Begriffklärung
-% Zielgruppen Zusammengefasst	
+% Zielgruppen Zusammengefasst -> modulare Architektur -> Strategy, Singleton, Composite Pattern   
 Diese Arbeit richtet sich  zuerst an juniore Anwendungsentwickler in den Sprachen PL/I bzw. Java. Für diese Nutzergruppe soll der Transpiler ein Hilfswerkzeug darstellen. Weiterführend werden diese als \emph{Benutzer} bezeichnet. Eine andere Nutzergruppe sind \emph{Administratoren}, die den Transpiler selbst anpassen und erweitern möchten. Ermöglicht wird dies durch eine modulare Architektur.
 	
-% Junior Entwickler die gerade in PL/1 einsteigen.
+% Junior Entwickler die gerade in PL/1 einsteigen -> erfolgreicher Integrationstest, transpiler übersetzt ganze Programme
 Juniore Entwickler profitieren von dieser Arbeit als Einstiegspunkt in die Programmiersprache PL/I. Beispielhaft könnten Entwickler den Transpiler als Test-Umgebung für den eigenen entwickelten PL/I-Quellcode verwenden. Für Benutzer, die mehr Erfahrung mit Java haben, eignet sich der Transpiler als Lernhilfe. Es wird ihnen so erleichtert, PL/I-Quellcode zu analysieren. Sie können bestehende Kenntnisse aus Java anwenden, um Muster in PL/I wiederzuerkennen. Dies kann den Lernprozess beschleunigen.
 
-% Benutzbarkeit
+% Benutzbarkeit ->  Web-frontend, Einfache Benutzbarkeit, Syntax highlighting, Dokumentation
 Der Transpiler aus der Projektarbeit-IV konnte bisher über die Kommandozeile, sowie der IDE Eclipse verwendet werden. Diese ursprüngliche Benutzung des Transpilers führte zu einer hohen Fehleranfälligkeit und Dokumentationsbedarf. Die Komplexität der Benutzung wird durch ein Graphical-User-Inferface (GUI) vereinfacht.
 %Das Konzept dieser GUI soll dem eines Übersetzers der natürlichen Sprache, wie etwa 'DeepL' oder 'Google-Translate', ähneln. Mit diesen Konzepten sind Benutzer vertraut, erleichtert den Einstieg in die Programmiersprache PL/I, das Testen des PL/I-Quellcode, sowie die schnelle Übersetzung.
 
@@ -85,7 +83,7 @@ Der Transpiler aus der Projektarbeit-IV konnte bisher über die Kommandozeile, s
 Durch die modularisierte Gestaltung des Transpilers können Administratoren selbst Module austauschen und erweitern, 
 etwa durch eine API-Schnittstelle. 
 
-%  Zusammenfassung und hinführung zum nächsten zu dem Unterschied Interpreter und Compiler
+%  Zusammenfassung und hinführung zum nächsten zu dem Unterschied Interpreter und Compiler ->  Die Variablendeklaration sowie -zuweisung, die Ein- und Ausgabesteuerung und allgemeine Kontrollflussanweisungen wurden im Zuge der Entwicklung implementiert. Als Unit-Tests dh. wahrung der Funktionalität ist gewährleistet.
 
 Der Transpiler soll eine Transformation der grundlegende Sprachkonstrukte übersetzen. Die Variablendeklaration sowie -zuweisung, die Ein- und Ausgabesteuerung und allgemeine Kontrollflussanweisungen wurden im Zuge der Entwicklung implementiert. Der entstehende Java-Zielcode ist unter Verwendung einer Boiler-plate-Codebasis kompilierbar. Dabei sollen die PL/I-Konstrukte in dem Java-Zielcode erkennbar sein, sowie native Java Strukturen des Objektorientierten Programmierparadigma verdeutlicht werden.
 
@@ -684,7 +682,7 @@ Es ist zwar zu erwarten das der Parser einen solchen Fehler erkennt, dennoch sol
 
 In der aktuellen Version des Transpilers werden nicht alle PL/I-Syntaxelemente eingebunden.
 In der PL/I-Sprachreferenz werden mehr als 300 unterschiedliche Funktionalitäten der Sprache beschrieben. \footcite[Vgl. ][S. 5ff.]{pliref}
-Davon wurden ca. 65 implementiert, und übersetzt nach Java wurden ca. 50.
+Davon wurden ca. 65 in die Grammatik aufgenommen. Die Übersetzung dieser Strukturen ist aktuell durch 7 Unit-Tests abgedeckt.
 Das hat zur Folge, dass es wahrscheinlich ist, dass der Benutzer auf eine ParseException stoßen wird.
 Aufgrund der beschränkten Arbeitszeit wurden lediglich wesentliche Syntaxelemente der Programmiersprache implementiert.
 Dazu zählen Deklarationen, Kontrollflussanweisungen, sowie Ein- und Ausgabeströme.
@@ -1020,7 +1018,7 @@ title={" "}]
 
 In PL/I werden Verzweigungen mit den Symbolen \verb+IF+ und \verb+ELSE+ implementiert. 
 Gepaart mit einem Booleschen Ausdruck kann so ein Wahrheitswert abgefragt werden.
-Somit lässt sich der Ausdruck in Listing \ref{lst:branchmapping} in Java übersetzen.
+Somit lässt sich der Ausdruck in Listing \ref{lst:branchmapping} nach Java übersetzen.
 
 \begin{minipage}[b]{0.48\linewidth}
 	\centering
@@ -1446,40 +1444,17 @@ Das Projekt wurde erfolgreich kompiliert, womit der Integrations-Test erfolgreic
 % TODO Code in Textdatei speichern -> um Main-Methode anreichern -> mit Javac kompilieren -> Performance und Benchmark ausführen können
 
 \subsection{Performance und Benchmarks}
-Um vergleichen zu können, wie sich die Laufzeit der Implementierung des Probedivisions Algorithmus in PL/I und Java unterscheidet, wird in diesem Kapitel die Performance verglichen. 
+Um vergleichen zu können, wie sich die Laufzeit der Implementierung des Probedivisionsalgorithmus in PL/I und Java unterscheidet, wird in diesem Kapitel die Performance verglichen. 
 Dazu werden den beiden Programmen vier Primzahlen übergeben. Für die Berechnung wurde das Programm aus Anhang \ref{lst:pliprobedivision}, auf einem z/Os-Mainframe-System kompiliert und ausgeführt. 
 Die allgemeinen System-Spezifikationen des Mainframes sind in Abbildung \ref{fig:mainframesysteminfo} dargestellt.
 
 \dhgefigure[h]{mainframe-system-info.png}[scale=0.47]{Mainframe System Spezifikation}{fig:mainframesysteminfo}[][]
 
-Unter CPU in Abbildung \ref{fig:mainframesysteminfo} ist der Maschinen-Typ 3931 gelistet. Bei dem Mainframe, handelt es sich um einen IBM z16 A02, mit
-einer maximalen Prozessorkern Kapazität von 16. Sowie Maximal 4 TB Arbeitsspeicher. \footcite{z16}
-Damit wird das Programm auf der aktuell (Juli 2024) neusten Hardware von IBM kompiliert und ausgeführt.
+Unter CPU in Abbildung \ref{fig:mainframesysteminfo} ist der Maschinen-Typ 3931 gelistet. Bei dem Mainframe handelt es sich um einen IBM z16 A02 mit
+maximal 16 Prozessorkernen. Sowie maximal 4 TB Arbeitsspeicher. \footcite{z16}
 
-% PL/I-Benchmark Test mit System Spezifikationen
-Um ein PL/I-Programm auf einem z/Os-Betriebssystem eines IBM-Mainframes zu starten, muss das Programm zuerst erfolgreich kompiliert und mit einem Batchjob-Programm
-ausgeführt werden. Das Batchjob-Programm wurde in der Job-Control-Language (JCL) geschrieben. Dem  PL/I-Programm werden nach jedem Testlauf eine größere Primzahlen übergeben. Der erst Testlauf behandelt die Primzahl 2,147,483,647, welche die 1772 von Leonhard Euler größte entdeckte Primzahl mit 10 Stellen ist. Die nächste Primzahl ist eine sogenannte einzigartige Primzahl mit 12 Stellen. Daraufhin folgt die bisher von Menschen, ohne Beihilfe eines Computers größte bestimmte Primzahl 67.280.421.310.721. Die letzte getestete Primzahl konnte bisher nicht ohne Hilfe eines Computers belegt werden.\footcite[Vgl. ][]{prime} In Tabelle \ref{tab:plibenchmark} sind alle Primzahlen mit ihrer Laufzeit zu sehen. 
-
-\begin{table}[h]
-	\centering
-	\begin{tabularx}{\textwidth}{|X|X|X|}
-		\hline
-		\textbf{Primzahl} & \textbf{Laufzeit}  \\
-		\hline
-		2,147,483,647 & 00:00:00,0 \\
-		
-		999,999,000,001 & 00:00:00,1  \\
-		
-		67,280,421,310,721 & 00:00:00,8 \\
-		
-		10,000,000,002,065,383 & 00:00:01,0 \\
-		\hline
-	\end{tabularx}
-	\caption{PL/I-Programm Benchmarks, (Siehe Anhang C) \label{tab:plibenchmark}}
-\end{table}
-\pagebreak
-
-Die Benchmark-Zahlen aus Tabelle \ref{tab:plibenchmark} zeigen das der Mainframe für die Berechnung der Primzahlen maximal eine Sekunde braucht. Nun soll dieser Benchmark mit dem des Java-Programms verglichen werden. Zum Vergleich wird das während des Integration-Test übersetzte Programm aus Anhang \ref{lst:javaprobedivision} ebenfalls für die Berechnung der Primzahlen getestet. Die Hardware-Spezifikationen des Systems, auf dem der Integrations-Test durchgeführt wird. Sind in Tabelle \ref{tab:hardwartable} beschrieben.
+Damit wird das Programm auf der aktuell (Juli 2024) neusten Hardware von IBM kompiliert und ausgeführt. Zum Vergleich wird das während des Integrationstest übersetzte Programm aus Anhang \ref{lst:javaprobedivision} ebenfalls für die Berechnung der Primzahlen getestet. 
+Die Hardware-Spezifikationen des Systems, auf dem der Integrationstest durchgeführt wird, sind in Tabelle \ref{tab:hardwartable} beschrieben.
 
 \begin{table}[h]
 	\centering
@@ -1488,13 +1463,13 @@ Die Benchmark-Zahlen aus Tabelle \ref{tab:plibenchmark} zeigen das der Mainframe
 		\textbf{Spezfikation} & \textbf{Beschreibung}  \\
 		\hline
 		Betriebssystem & Ubuntu 20.04.6 LTS x86 64 \\
-
+		
 		Kernel & 5.15.0-113-generic  \\
-
+		
 		CPU & Intel i3-9100F (4) @ 3.600GHz \\
-
+		
 		GPU & NVIDIA GeForce GTX 970  \\
-
+		
 		Arbeitsspeicher & 8217MiB / 15932MiB \\
 		\hline
 		
@@ -1503,64 +1478,81 @@ Die Benchmark-Zahlen aus Tabelle \ref{tab:plibenchmark} zeigen das der Mainframe
 \end{table}
 
 
-Weiterhin sind die Testergebnisse des Java-Codes in \ref{tab:javabenchmark} gelistet.
+% PL/I-Benchmark Test mit System Spezifikationen
+Um ein PL/I-Programm auf einem z/Os-Betriebssystem eines IBM-Mainframes zu starten, muss das Programm zuerst erfolgreich kompiliert und mit einem Batchjob-Programm ausgeführt werden. Das Batchjob-Programm wurde in der Job-Control-Language (JCL) und nach jedem Testlauf eine größere Primzahlen übergeben.
+Die Grundlage des Benchmarktests sind die bisher größten bekannten Primzahlen der Jahre 1772-1876.\footcite[Vgl. ][]{prime} In Tabelle \ref{tab:plibenchmark} sind alle getesten Primzahlen mit ihren Laufzeiten zu sehen. 
 
 \begin{table}[h]
 	\centering
 	\begin{tabularx}{\textwidth}{|X|X|X|}
 		\hline
-		\textbf{Primzahl} & \textbf{Laufzeit}  \\
+		\textbf{Primzahl} & \textbf{PL/I Laufzeit} & \textbf{Java Laufzeit} \\
 		\hline
-		2,147,483,647 & 00:00:00,2 \\
+		2,147,483,647 & 00:00:00,00 & 00:00:00,2 \\
 		
-		999,999,000,001 & 00:00:01,2 \\
+		999,999,000,001 & 00:00:00,01 & 00:00:01,20\\
 		
-		67,280,421,310,721 & 00:00:05,9 \\
+		67,280,421,310,721 & 00:00:00,08 & 00:00:05,90 \\
 		
-		10,000,000,002,065,383 & 00:01:27,9 \\
+		10,000,000,002,065,383 & 00:00:01,0 & 00:01:27,90 \\
 		\hline
 	\end{tabularx}
-	\caption{Java-Programm Benchmarks \label{tab:javabenchmark}}
+	\caption{PL/I-Programm Benchmarks, (Siehe Anhang C) \label{tab:plibenchmark}}
 \end{table}
-
-Für die Berechnung der Primzahlen brauchte, bis auf die von Leonhard Euler bestimmte Primzahl alle mehr als eine Sekunde. Bei der Beurteilung sollten die Hardware Unterschiede zwischen dem IBM-Mainframe und dem Linux-Computer berücksichtigt werden.
-
-Während des Benchmarks wurde ebenfalls versucht, die Primzahl 170,141,183,460,469,231,- \newline 731,687,303,715,884,105,727
-zu berechnen. Dabei musste der Java-Zielcode angepasst werden, da diese Zahl die maximale Anzahl an Ziffern übersteigt, die ein primitiver Datentyp in Java verarbeiten kann. Daher wurde stattdessen der nicht-primitive Datentyp \verb+BigDecimal+ verwendet. Im Anhang \ref{lst:javaprobedivisionang} befindet sich das angepasste Programm, um solche großen Zahlen zu berechnen, muss der Transpiler bzw. die Übersetzung angepasst werden, da in Java die Behandlung solcher großen Zahlen nur mit dem nicht-primitiven Datentyp \verb+BigDecimal+ oder \verb+BigInt+ möglich ist.
-Ein PL/I-Programm kann weiterhin die standardmäßig implementierten Datentypen wie \verb+DECIMAL+ oder \verb+BINARY+ verwenden, lediglich die Skalierung der Länge muss angepasst werden.
-
-Zusammenfassend wird so eine schwäche des Transpilers deutlich. Durch die Überschreitung von Grenzstellen, sollte der Transpiler entsprechend eine andere Typisierung wählen. In der aktuellen Version ist, die differenzierte Typisierung je nach Wertzuweisung noch nicht implementiert. Der Entwickler muss, in diesem Fall das Übersetzte Programm selbst anpassen. In dem folgenden Kapitel sollen weitere schwächen betrachtet und diese Arbeit evaluiert werden.
 \pagebreak
+
+Die Laufzeiten aus Tabelle \ref{tab:plibenchmark} zeigen, dass der Mainframe für die Berechnung der Primzahlen maximal eine Sekunde braucht. Für die Berechnung der Primzahlen benötigte das Javaprogramm für fast jede mehr als eine Sekunde. Bei der Beurteilung sollten die Hardwareunterschiede zwischen dem IBM-Mainframe und dem Linux-Computer berücksichtigt werden. Es ist zu beobachten das die Laufzeit stabil um den Faktor 100 größer ist im Vergleich zum Mainframe.
+
+Eigentlich wäre anstelle der Zahl 10,000,000,002,065,383 die Primzahl 170,141,183,460,469,231,- \newline 731,687,303,715,884,105,727 in der Liste der größten bekannten Primzahlen an der Reihe gewesen. 
+Da diese Zahl die maximale Anzahl an Ziffern übersteigt, die ein primitiver Datentyp in Java verarbeiten kann, wurde stattdessen der nicht-primitive Datentyp \verb+BigDecimal+ verwendet. Im Anhang \ref{lst:javaprobedivisionang} befindet sich das angepasste Programm. 
+Dies wurde im Benchmark nicht berücksichtigt da die Berechnung mit dem System aus Tabelle \ref{tab:hardwartable} nach 9h abgebrochen wurde und sich dafür entschieden wurde auch diese Zahl aus Kostengründen auf dem Mainframe nicht zu testen. Auf dem Mainframe werden Batchprogramme nach \ac{MIPS} abgerechnet.
+
+Zusammenfassend wird so eine Schwäche des Transpilers deutlich. Durch die Überschreitung von Speichergrenzen sollte der Transpiler entsprechend eine geeignetere Typisierung wählen. In der aktuellen Version ist die differenzierte Typisierung je nach Wertzuweisung noch nicht implementiert. Der Administrator müsste in diesem Fall nur das Mapper-Modul des Transpilers anpassen. In dem Mapper-Modul muss das Template Enum entsprechend der Operationen des BigDecimals angepasst werden, sodass im BooleaExpressionMapper der Vergleichsoperator mit der \verb+compareTo+-Methode übersetzt werden.
+\pagebreak
+
 \section{Fazit}
 % Erreichte Entwicklung
-Auch nach dieser Arbeit wurde der Transpiler zwar erweitert, aber noch nicht fertiggestellt.
-Das entwickelte Programm bietet lediglich die grundlegenden Voraussetzungen für die Übersetzung von PL/I-Programmen.
+Der hier entwickelte Transpiler bietet die grundlegenden Voraussetzungen für die Übersetzung von PL/I-Programmen nach Java.
+Dazu wurde eine PL/I-Grammatik geschrieben, die es ermöglicht mit der Hilfe von JavaCC einfache PL/I-Programme vollständig zu verarbeiten.
+
+% Zielgruppen Zusammengefasst -> modulare Architektur -> Strategy, Singleton, Composite Pattern   
+
+% Junior Entwickler die gerade in PL/1 einsteigen -> erfolgreicher Integrationstest, transpiler übersetzt ganze Programme
+
+% Benutzbarkeit ->  Web-frontend, Einfache Benutzbarkeit, Syntax highlighting, Dokumentation
+
+%  Zusammenfassung und hinführung zum nächsten zu dem Unterschied Interpreter und Compiler ->  Die Variablendeklaration sowie -zuweisung, die Ein- und Ausgabesteuerung und allgemeine Kontrollflussanweisungen wurden im Zuge der Entwicklung implementiert. Als Unit-Tests dh. wahrung der Funktionalität ist gewährleistet.
+
+Während dieser Arbeit wurden die eingangs aufgesetzten Ziele im wesentlichen erreicht. 
+Einerseits wurde der Transpiler in einer modularen Architektur entwickelt. Dabei haben sich mehrere Entwurfsmuster als nützlich erwiesen,
+namentlich die Verwendung der Strategy-, Singleton- und Composite-Pattern.
+Es wurde in den Buildprozess auch automatisiertes Testing eingebunden, um die Korrektheit von Elementarübersetzungen sicherzustellen. Das sichert die hier erreichte Qualität auch bei der zukünftigen Weiterentwicklung.
+Darüber hinaus ist es nun auch Benutzern möglich, den Transpiler über eine grafischen Oberfläche zu verwenden.
+Mit der Entscheidung für ein Webfrontend wurde die Anforderung der Plattformunabhängigkeit erreicht. Damit lässt sich die Reichweite des Transpilers und damit der Programmiersprache PL/I insgesamt erweitern.
+Der Performancetest hat ergeben, dass durch den Wechsel auf leistungsschwächere Hardware bei der Laufzeit rechenintensiver Anwendungen Einbußen um den Faktor 100 realistisch sind.
+
 Viele Konzepte aus der Projektarbeit IV mussten verbessert und angepasst werden, was dazu führte, dass nahezu 90\% des Transpilers
-während dieser Arbeit geändert wurden. Dies hatte jedoch positive Auswirkungen, da die Entwicklung nun wesentlich leichter fortgeführt werden kann
+während dieser Arbeit geändert wurden. Dies hatte allgemein positive Auswirkungen, da die Entwicklung nun wesentlich leichter fortgeführt werden kann
 und ein einfacher Überblick und Einstieg in die Erweiterung gegeben ist.
-Zudem wurden während dieser Arbeit Ziele erreicht, die in der Projektarbeit IV verfehlt wurden. Dazu zählt etwa
-die automatische Verarbeitung der Zwischencode-Erzeugung und die damit verbundene strukturierte Übersetzung jedes Knotens.
-Weiterhin konnte die JavaCC-Grammatik stark vereinfacht werden, indem lediglich der JavaCC-Parser verwendet und der eigens geschriebene
-Lexer entfernt wurde.
-Es wurde auch automatisiertes Testing eingebunden, um die korrekte Übersetzung sicherzustellen, was die Qualität der Software verbessert hat.
-Darüber hinaus ist es nun auch Benutzern möglich, den Transpiler in einer grafischen Oberfläche zu verwenden,
-wobei diese in der aktuellen Version noch nicht vollständig ausgereift ist.
-Der größte Vorteil gegenüber der Version der Projektarbeit IV ist, dass nun die Übersetzung von ganzen Programmen möglich ist, wie der Integrationstest zeigt.
-Es bleiben jedoch auch noch einige Schwächen.
 
 % Ausblick, Schwächen
-Während der Entwicklung des Transpilers wurde immer wieder an Übersetzungslösungen gefeilt. Diese Lösungen wurden erweitert und mit der Implementierung von Java-Reflection und Annotationen wurde eine gut lesbare und fast schon native Java-Übersetzung der Datentypen gefunden. Leider ist noch nicht für jeden Datentyp eine solche Annotation implementiert.
-Weiterhin blieben teilweise implementierte PL/I-Ausdrücke vollständig unberücksichtigt. So wird der Benutzer sehr schnell einen Ausdruck finden, der für einen vollumfänglichen Transpiler zu erwarten ist, jedoch in diesem nicht implementiert wurde.
+\paragraph*{Ausblick} Die Übersetzung von Datentypen wurden erweitert und mit der Implementierung von Java-Reflection und Annotationen wurde eine gut lesbare und fast schon native Java-Übersetzung gefunden. Leider ist noch nicht für jeden Datentyp eine solche Annotation implementiert. 
+
+Der Benutzer wird sehr schnell einen Ausdruck finden, der für einen vollumfänglichen Transpiler zu erwarten wäre, jedoch in diesem nicht implementiert wurde.
 Auch wird der Benutzer feststellen, dass der PL/I-Quellcode nicht vollumfänglich auf Fehler überprüft wird. Eine Mitübersetzung von Fehlern ist somit denkbar.
+Die Grammatik deckt aktuell weniger als 20\% des Sprachumfangs ab. Unit-Tests decken davon wiederum 10\% ab.
+Diese wird verbessert, sodass die PL/I-Sprachreferenz nahezu vollständig eingearbeitet werden kann.
 
-Damit der Transpiler auch tatsächlich für Juniore PL/I-Entwickler zum testen von Quellcode auf einem Desktop Computer verwendet werden kann, müssen weitere Ausdrücke in die Grammatik eingearbeitet werden.
-Erst wenn nahezu alle aktuell verwendeten PL/I-Ausdrücke auch von dem Parser verarbeitet werden kann, kann auch dieser Transpiler verwendet werden um PL/I-Programme auf einem bspw. Linux-Desktop Computer auszuführen.
-Es ist dabei auch weiterhin fraglich, ob die Übersetzung in Java dieselbe Laufzeit simuliert, wie in PL/I gewünscht. Um dies sicherzugehen sollten neben Unit-Tests, Integrations-Tests und System-Tests auch User-Acceptence-Tests berücksichtigt werden.
+Es ist dabei auch weiterhin fraglich, ob das übersetzte Java-Programm den Zweck des PL/I-Programms vollständig erfüllt. 
+Um dies sicherzustellen sollten neben Unit-Tests, Integrations-Tests und System-Tests auch User-Acceptence-Tests berücksichtigt werden.
 
-In den zukünftigen Versionen sollen diese Probleme gelöst werden und ein Transpiler entstehen, der dem Entwickler einen Großteil der Arbeit abnimmt. 
-Der nächste Schritte der Entwicklung wird die Erweiterung des Negativ-Testing sein, zwar wurden in der aktuellen Version solche berücksichtigt. Jedoch entstehen immer wieder bei der Übersetzung Fehlermeldungen, die einen eigentlich korrekten Ausdruck bemängeln.
-Nachdem die Anwendung ausführlich getestet wurde, wird die in dieser Arbeit vorgestellte Version veröffentlicht. Daraufhin soll die Grammatik verbessert und die PL/I-Sprachreferenz nahezu vollständig eingearbeitet werden.
-Es ist auch geplant, den Transpiler öffentlich zugänglich zu machen, sodass jeder auf den Quellcode zugreifen und die Software verwenden kann. 
+Für den PL/I-Entwickler wurden die ersichtlichen Strukturen eines PL/I-Programms transformiert. Weitergehend werden weitere Übersetzung von etwa den JCL-Steuerkarten benötigt, 
+um den Kontext eines PL/I-Programms vollständig zu erfassen. Als Erweiterung des bisherigen Arbeit ist also eine Integration in das Spring-Batch-Framework denkbar.
 
-Zusammenfassend war diese Arbeit erneut sehr lehrreich, jedoch auch sehr aufwendig. Sie zeigt weitere Fortschritte und entsprechend Erweiterungspotential.
+% Wofür sind die PL/I Batchprogramme zuständig
+
+% Wie werden die Batchprogramm gesteuert (JCL - Organisation verstehen)
+
+% Wie bildet du JCL in Java ab -> Die Antwort lautet Spring Batch Framework ist der ersatz von JCL im Java-Kontext aufm Jarkarta Stack -> wie kannst du die JCL Kontext Parameter in eine geeignete Spring Batch verarbeitung/Konfiguration integrieren
+
 
