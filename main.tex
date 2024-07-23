@@ -16,10 +16,9 @@
 \section{Theoretische Grundlagen}
 \subsection{Problemstellung}
 	
-Es gibt zwei Probleme, die eine \ac{pli} zu Java-Übersetzung lösen soll. 
-Das erste Problem ist ein Portabilitätsproblem von wartungsintensiven PL/I-Programmen, die auf modernen Plattformen laufen sollen, wie etwa Cloud-Instanzen oder Linux-Server.
-
-Die bestehende Auswahl von PL/I Compilern führt zu einem Portabilitätsproblem. Der PL/I-Compiler, der auf den meisten Computer-Systemen im Einsatz ist, wird von IBM entwickelt und vermarktet. Hierbei handelt es sich um einen Compiler, der für das von IBM entwickelte Betriebssystem \ac{zOS} geschrieben wurde. Eine Kompilierung von PL/I auf einem herkömmlichen x86-Desktop Computer oder vergleichbar weit verbreiteten Rechnerarchitekturen ist mit diesem Compiler nicht möglich. \footcite[Vgl. ][]{plicomp}
+Es gibt zwei Probleme, die eine PL/I zu Java-Übersetzung lösen soll. 
+Das erste Problem ist ein Portabilitätsproblem von wartungsintensiven PL/I-Programmen, die auf modernen Plattformen wie etwa Cloud-Instanzen oder Linux-Server laufen sollen.
+Der PL/I-Compiler, der auf den meisten Computer-Systemen im Einsatz ist, wird von IBM entwickelt und vermarktet. Hierbei handelt es sich um einen Compiler, der für das von IBM entwickelte Betriebssystem z/OS geschrieben wurde. Eine Kompilierung von PL/I auf einem herkömmlichen x86-Desktop Computer oder vergleichbar weit verbreiteten Rechnerarchitekturen ist mit diesem Compiler nicht möglich. \footcite[Vgl. ][]{plicomp}
 
 
 Eine Alternative bietet die Organisation GNU mit der \ac{GCC}. Der Softwareentwickler Henrick Sorensen entwickelte Teile des Frontends für einen PL/I-Compiler. Dabei verwendete er das Backend, das die \ac{GCC} zur Verfügung stellt. Jedoch gab es bei diesem Projekt seit 2007 keine weiteren Neuerungen mehr. Der Entwickler gibt an, dass bisher keine Zwischencode-Erzeugung stattfindet, was diesen Compiler bisher unbrauchbar macht. \footcite[Vgl. ][]{pligcc} 
@@ -28,15 +27,14 @@ Typisch wird heutzutage auf einem Endgerät, ein IBM 3270 Terminal emuliert, das
 Das zweite Problem bezieht sich auf den demografischen Wandel. PL/I ist eine Altsprache, die seit den 1960er Jahren im Einsatz ist und durch den Generationenwechsel an Entwicklern verliert. Wartung und Entwicklung werden so häufig teuer.\footcite[Vgl. ][S. 227ff.]{histopli} 
 
 Java hingegen ist auf nahezu allen modernen Systemen durch die plattformunabhängige Java Virtual Machine (JVM) kompilierbar. \footcite[Vgl. ][]{jvm}
-Insbesondere ist eine Kompilierung auch auf einem IBM-Großrechner mit z/OS möglich. \footcite[Vgl. ][]{zos} 
-Das macht Java zu einer flexibel einsetzbaren und beliebten Programmiersprache. \footcite[Vgl. ][]{tiobe} Das führt zu einer höheren Anzahl an Entwicklern, die in der Lage sind, Java-Programme zu warten.
+Insbesondere ist eine Kompilierung auch auf einem IBM-Großrechner mit z/OS möglich. \footcite[Vgl. ][]{zos} Das macht Java zu einer flexibel einsetzbaren und beliebten Programmiersprache. \footcite[Vgl. ][]{tiobe} Wiederum führt das zu einer höheren Anzahl an Entwicklern, die in der Lage sind, Java-Programme zu warten.
 
 % Was ist ein Transpiler?
 Um die Programmiersprache Java zur Lösung der eingangs beschriebenen Probleme zu verwenden, kann ein Transpiler benutzt werden, um die Transformation des Quellcodes teilweise automatisiert zu beschleunigen. 
 Dabei hat der Benutzer die Möglichkeit selbst zu bestimmen wie bestimmte Ausdrücke übersetzt werden sollen. Sobald der Programmcode nach Java übersetzt wurde, kann der Java-Zielcode von dem Java-Compiler kompiliert und auf der \ac{jvm} ausgeführt werden.
 
 % @review: Begriffswahl
-Diese Arbeit führt eingangs in Kapitel eins, in die grundlegenden theoretischen Konzepte, wie Grammatiken von formalen Sprachen in Bezug auf die verwendeten Compiler-Compiler-Technologien ein. Darauffolgend werden weitere Technologie- und Design-Entscheidungen des Transpilers vorgestellt und diskutiert. In Kapitel drei werden dann die Verwendung des Transpilers, die Gestaltung der Übersetzungen, sowie die durchgeführten Tests beschrieben. Abschließend wird in Kapitel vier ein Ausblick auf die Weiterentwicklung gegeben.
+Diese Arbeit führt eingangs in Kapitel eins, in die grundlegenden theoretischen Konzepte, wie Grammatiken von formalen Sprachen in Bezug auf die verwendeten Compiler-Compiler-Technologien ein. Darauffolgend werden weitere Technologie- und Design-Entscheidungen des Transpilers vorgestellt. In Kapitel drei werden die Verwendung des Transpilers, die Gestaltung der Übersetzungen, sowie die durchgeführten Tests beschrieben. Abschließend wird in Kapitel vier ein Ausblick auf die Weiterentwicklung gegeben.
 In den folgenden Kapiteln wird zwischen dem Transpiler, dem Eingabeprogramm (PL/I-Quellcode) und dem Ausgabeprogramm (Java-Zielcode) unterschieden. Diese Begriffe helfen dabei, die verschiedenen Programme eindeutig zu identifizieren. 
 
 %Anderseits auch die veränderte Laufzeit-Performance. Die Laufzeit-Performance kann durch eine Übersetzung verschlechtert, wie auch verbessert werden. Somit ist nicht nur die reine Übersetzung Teil der Problemstellung, sondern es gilt auch die Übersetzung zu beurteilen. 
@@ -85,7 +83,7 @@ Etwa durch eine API-Schnittstelle.
 
 %  Zusammenfassung und hinführung zum nächsten zu dem Unterschied Interpreter und Compiler ->  Die Variablendeklaration sowie -zuweisung, die Ein- und Ausgabesteuerung und allgemeine Kontrollflussanweisungen wurden im Zuge der Entwicklung implementiert. Als Unit-Tests, dh. Wahrung der Funktionalität ist gewährleistet.
 
-Der Transpiler soll eine Transformation der grundlegenden Sprachkonstrukte übersetzen. Die Variablendeklaration sowie -zuweisung, die Ein- und Ausgabesteuerung und allgemeine Kontrollflussanweisungen wurden im Zuge der Entwicklung implementiert. Der entstehende Java-Zielcode ist unter Verwendung einer Boiler-Platte-Codebasis kompilierbar. Dabei sollen die PL/I-Konstrukte in dem Java-Zielcode erkennbar sein, sowie native Java-Strukturen des objektorientierten Programmierparadigmas verdeutlicht werden.
+Der Transpiler soll grundlegenden Sprachkonstrukte übersetzen. Die Variablendeklaration sowie -zuweisung, die Ein- und Ausgabesteuerung und allgemeine Kontrollflussanweisungen wurden im Zuge der Entwicklung implementiert. Der entstehende Java-Zielcode ist unter Verwendung einer Codebasis kompilierbar. Hierbei sollen die  PL/I-Konstrukte in dem Java-Zielcode erkennbar sein, sowie native Java-Strukturen des objektorientierten Programmierparadigmas verdeutlicht werden.
 
 % Aufteilung der Zielstellung:
 % 1. Allgemein; Ableitung aus der Problemstellung
@@ -110,26 +108,24 @@ Der Transpiler soll eine Transformation der grundlegenden Sprachkonstrukte über
 \subsection{Abgrenzung Interpreter und Compiler}
   
 % Wie arbeitet ein Compiler?
-Ein Compiler besteht aus einem Frontend und einem Backend. Das Frontend umfasst die lexikalische, syntaktische, semantische Analyse und die Symboltabelle.
+Ein Compiler besteht aus einem Frontend und Backend. Das Frontend umfasst die lexikalische, syntaktische, semantische Analyse und die Symboltabelle.
 Das Ergebnis des Frontends ist eine Zwischencodedarstellung, die an das Backend übergeben wird, um daraus Maschinencode zu generieren. Der Maschinencode kann auf dem zugrundeliegenden System ausgeführt werden. \footcite[Vgl. ][S.106ff. ]{aho}
-Abbildung \ref{fig:compiler} zeigt eine Übersicht und das Ergebnis der einzelnen Compiler-Phasen. Die Abbildung unterteilt den Ablauf wie eingangs beschrieben in Frontend und Backend.
+Abbildung \ref{fig:compiler} zeigt eine Übersicht und das Ergebnis der einzelnen Compilerphasen. Die Abbildung unterteilt den Ablauf wie eingangs beschrieben in Frontend und Backend.
 
 % @todo: Quelle
 \dhgefigure[h]{compiler-ablauf-diagramm.png}[scale=0.6]{Funktionsweise eines Compilers}{fig:compiler}[aho][S. 12]
 
-In der ersten Phase teilt der Compiler den eingegebenen String in Token auf. Danach entsteht ein Syntaxbaum, der in diesem Beispiel die Zwischencodedarstellung repräsentiert. Ab diesem Punkt beginnt das Backend des Compilers. Zuerst erzeugt das Backend maschinenunabhängigen Code, meist in Assembler und anschließend maschinenabhängigen Code. Die Abhängigkeit besteht im Einsetzen der Register- und Hardwareadressen für die ausführende Maschine.  \footcite[Vgl. ][S.30ff. ]{aho}
+In der ersten Phase teilt der Compiler den eingegebenen String in Token auf. Danach entsteht ein Syntaxbaum, der in diesem Beispiel die Zwischencodedarstellung repräsentiert. Mithilfe des Syntaxbaums wird der Quellcode auf semantische Fehler überprüft. Ab diesem Punkt beginnt das Backend des Compilers. Zuerst erzeugt das Backend maschinenunabhängigen Code, meist in Assembler und anschließend maschinenabhängigen Code. Die Abhängigkeit besteht im Einsetzen der Register- und Hardwareadressen für die ausführende Maschine.  \footcite[Vgl. ][S.30ff. ]{aho}
 In jeder Phase wird aus der Symboltabelle gelesen und geschrieben.
 
 %  Warum ein Transpiler?
 Es gibt weitere Lösungen, die auf einem ähnlichen Konzept basieren.
-Ein One-Pass-Compiler etwa erzeugt keinen Zwischencode, sondern führt den Code direkt aus. Diese Methode wurde angewendet, um Speicherplatz zu sparen, da frühe Computer nur begrenzte Kapazitäten hatten und keine Zwischenergebnisse speichern konnten. Ein Beispiel für eine Sprache, die mit einem One-Pass-Compiler kompiliert wird, ist Turbo Pascal. \footcite[Vgl. ][]{onepass}
+Ein One-Pass-Compiler etwa erzeugt keinen Zwischencode, sondern führt den Code direkt aus. Diese Methode wurde angewendet, um Speicherplatz zu sparen, da frühe Computer nur begrenzte Kapazitäten hatten und keine Zwischenergebnisse speichern konnten. Ein Beispiel für eine Sprache, die mit einem One-Pass-Compiler kompiliert, ist Turbo Pascal. \footcite[Vgl. ][]{onepass}
 
-Eine weitere Ausprägung ist ein Source-to-Source Compiler.
-Während ein C-Compiler den C-Code nach der Zwischencodeerzeugung in Assemblersprache und anschließend der Assembler den C-Quellcode in Maschinencode übersetzt, wandelt ein Source-to-Source-Compiler beispielsweise C-Quellcode in Java-Zielcode um. 
+Eine weitere Ausprägung ist ein Source-to-Source Compiler. Während ein C-Compiler den C-Code nach der Zwischencodeerzeugung in Assemblersprache und anschließend der Assembler den C-Quellcode in Maschinencode übersetzt, wandelt ein Source-to-Source-Compiler beispielsweise C-Quellcode in Java-Zielcode um. 
 Ein Source-to-Source-Compiler wird im Zusammenhang dieser Arbeit als \emph{Transpiler} bezeichnet. Abbildung \ref{fig:transpiler} zeigt die Prozessschritte eines Transpilers.
 
 \dhgefigure[h]{transpiler-diagramm.png}[scale=0.58]{Funktionsweise eines Transpilers}{fig:transpiler}[][]
-\pagebreak
 
 Ein Vergleich von Abbildung \ref{fig:compiler} mit Abbildung \ref{fig:transpiler} zeigt, dass die ersten Phasen bis zur Zwischencodeerzeugung gleich bleiben. In Abbildung \ref{fig:transpiler} sind jedoch die Prozesse des Frontends neben denen des Backends dargestellt. Während in Abbildung \ref{fig:compiler} diese untereinander angeordnet sind. Zurückzuführen ist diese Darstellung auf die verwendeten Sprachebenen.
 
@@ -157,8 +153,7 @@ Eine weitere Alternative ist der Interpreter. Dieser führt den Quellcode direkt
 \dhgefigure[h]{shell_interpreter.png}[scale=0.6]{Ablauf des Bash-Interpreters}{fig:shell}[][]
 \pagebreak
 
-Die Eingabe des Bash-Skripts wird zeilenweise gelesen.
-Das Quoting folgt dem Prinzip der lexikalischen Analyse, bei der alle Sonderzeichen entfernt werden, wie zum Beispiel Kommentare oder Schrägstriche. Sobald das Quoting abgeschlossen ist, entsteht ein String, der nur aus den Token eines Ausdrucks besteht.
+Die Eingabe des Bash-Skripts wird zeilenweise gelesen. Das Quoting folgt dem Prinzip der lexikalischen Analyse, bei der alle Sonderzeichen entfernt werden, wie zum Beispiel Kommentare oder Schrägstriche. Sobald das Quoting abgeschlossen ist, entsteht ein String, der nur aus den Token eines Ausdrucks besteht.
 
 Anschließend beginnt das Parsing, das der syntaktischen Analyse im Kompilierprozess ähnelt, jedoch keine Zwischencodeerzeugung beinhaltet. Hier wird lediglich zwischen einfachen Bash-Befehlen wie \verb+wc+ und zusammengesetzten Befehlen wie einem \verb+if+-Ausdruck unterscheiden.
 
@@ -195,8 +190,7 @@ Durch eine Zwischencoderepräsentation in Form eines Syntaxbaums kann der Kontex
 % Formale Sprachen - linearer Ausdruck
 % Linear -> Array von Wörtern
 % 
-In diesem Kapitel wird das Vorgehen der syntaktischen und lexikalischen Analyse vorgestellt.
-Das Schreiben und Lesen von Sprachen ist sowohl für Menschen als auch für Computer ein linearer Prozess. Für diesen Prozess würde es ausreichen, den Tokenstrom in einer Liste bzw. Array zu verarbeiten.
+In diesem Kapitel wird das Vorgehen der syntaktischen und lexikalischen Analyse vorgestellt. Das Schreiben und Lesen von Sprachen ist sowohl für Menschen als auch für Computer ein linearer Prozess. Für diesen Prozess würde es ausreichen, den Tokenstrom in einer Liste bzw. Array zu verarbeiten.
 
 Um einen Text zu verstehen, sind komplexere Strukturen erforderlich, um zum Beispiel Satzzusammenhänge, Referenzen und Kontexte aufzulösen. Solche Strukturen werden in der Sprachforschung seit den 1960er Jahren durch generative Grammatiken beschrieben. \footcite[Vgl. ][S. 117]{choms} \footcite[Vgl. ][S. 149ff. ]{automata}
 Eine Grammatik wird dabei durch einen Tupel \emph{G} beschrieben:
@@ -211,10 +205,7 @@ Eine Grammatik wird dabei durch einen Tupel \emph{G} beschrieben:
 Hierbei steht \verb+V+ für Variablen bzw. Nichtterminalsymbole, \verb+T+ für Terminale, \verb+S+ für Start und \verb+P+ für Produktionsregeln. Dabei ist \verb+S+ ein Teil von \verb+V+. Produktionsregeln sind gleichbedeutend mit Syntaxregeln von Programmiersprachen. 
 Der Prozess, einen Tokenstrom aufgrund von Syntaxregeln zu verarbeiten, nennt sich Parsen.
 Hier werden die Ketten von Wörtern in Form eines Arrays in eine Baumstruktur transformiert.
-Die Baumstruktur ergibt sich aus der Reihenfolge der Anwendung der Syntaxregeln.
-
-
-In der Gleichung 2 bis 6 ist die Syntaxregel zur Erzeugung einer einfachen \verb+if+ und \verb+else+ Verzweigung dargestellt.
+Die Baumstruktur ergibt sich aus der Reihenfolge der Anwendung der Syntaxregeln. In der Gleichung 2 bis 6 ist die Syntaxregel zur Erzeugung einer einfachen \verb+if+ und \verb+else+ Verzweigung dargestellt.
 
 % @todo: PL/I Verwenden und Kontext herstellen
 \begin{center}
@@ -252,7 +243,7 @@ Nicht zulässig ist hingegen der Ausdruck in Listing \ref{lst:pliwrongstatement}
 	CALL IF THEN A > B proc_1;
 \end{lstlisting}
 
-Je nach Umfang der Symbole und der Syntaxregel kann ein Parser sehr komplex sein. 
+Je nach Umfang der Symbole und Syntaxregeln einer Sprache kann ein Parser sehr komplex sein. 
 Durch die rekursive Natur der Produktionsregeln können bereits wenige Regeln eine Vielzahl an möglichen Ausdrücken erzeugen.
 Ein weiterer Grund dafür sind die unterschiedlichen Kombinationsmöglichkeiten von Regeln, die das Programm berücksichtigen muss. Die Grammatik von PL/I kann Mehrdeutigkeiten aufweisen, welche im Compiler aufgelöst werden müssen. \footcite[Vgl. ][S. 262ff. ]{compibau}
 
@@ -260,8 +251,7 @@ Aus diesen Gründen wird in der Regel ein Parser mit einem Compiler-Compiler erz
 Der Entwickler spezifiziert eine Grammatik in einer formalen Darstellung, woraufhin der Parser aus dieser automatisiert erzeugt werden kann. Der gesamte Ein- und Ausgabeverarbeitungsprozess ist in Abbildung \ref{fig:ausgabe} dargestellt.
 
 
-\dhgefigure[h]{parser-generation.png}[scale=0.7]{Ein- und Ausgabeverarbeitungsprozess des Compiler-Compiler}{fig:ausgabe}[][]
-\pagebreak
+\dhgefigure[h]{parser-generation.png}[scale=0.75]{Ein- und Ausgabeverarbeitungsprozess des Compiler-Compiler}{fig:ausgabe}[][]
 
 Auch in der Entwicklung des Transpilers kommt ein Compiler-Compiler zum Einsatz. Dieser wird im folgenden Kapitel beschrieben.
 
@@ -290,7 +280,7 @@ Auch in der Entwicklung des Transpilers kommt ein Compiler-Compiler zum Einsatz.
 
 Ein Compiler-Compiler wie JavaCC ist eine Technologie, mit der aus einer formalen Beschreibung einer Grammatik ein Lexer und ein Parser erzeugt werden. 
 
-Der Lexer und Parser wenden die in der Grammatik-Datei definierten Regeln an und verarbeiten in einer Java-Klasse die übergebenen Ausdrücke.
+Der Lexer und Parser wenden die in der Grammatikdatei definierten Regeln an und verarbeiten in einer Java-Klasse die übergebenen Ausdrücke.
 Die Darstellung der Grammatik erfolgt in einer Art \ac{ebnf}.  Beispielhafte Compiler-Compiler sind neben JavaCC, Yacc, Antlr und Lexer. In Kapitel 1.4 wurde bereits vereinfacht eine Syntaxregel aus der PL/I-Grammatik dargestellt. Ähnlich erfolgt auch die Darstellung in einer Grammatik-Datei. Folgendes Beispiel zeigt die Darstellung eines \verb+IF ELSE+ Ausdrucks. 
 
 
@@ -305,13 +295,13 @@ Die Darstellung der Grammatik erfolgt in einer Art \ac{ebnf}.  Beispielhafte Com
 \end{lstlisting}
 
 In JavaCC besteht die Möglichkeit, die Beschreibung von Syntaxregeln in Methoden zu Kapseln.
-In Zeile 1 ist der Methodenkopf zu sehen. In diesem Fall erzeugt die Methode \verb+if_statement+ keinen Rückgabewert.
+In Zeile 1 ist der Methodenkopf zu sehen. In diesem Fall erzeugt die Methode keinen Rückgabewert.
 Das durch die Raute gekennzeichnete Symbol ist die Repräsentation im Syntaxbaum und zusätzlich auch die Darstellung im Zwischencode.
 Im Körper der Methode wird der If-Ausdruck weiter definiert. Terminalsymbole werden in der JavaCC Grammatik mit den größer-als und kleiner-als Zeichen eingeklammert. 
 
 Wie in Listing \ref{lst:ifstatement} dargestellt, sind die Nichtterminalsymbole wiederum Methoden, die  weitere Ausdrücke beschreiben. Die Methode \verb+bool_expression+ beschreibt einen zulässigen booleschen Ausdruck, der durch einen booleschen Operator mit einem weiteren booleschen Ausdruck verknüpft werden kann. Weiterhin wird in der Methode \verb+proc_body+ beschrieben, welche Ausdrücke weiter zulässig sind. Dazu zählt bspw. auch eine weitere \verb+IF ELSE+ Verzweigung. Ähnlich wird bei der Syntaxregel \ref{eqn:start} so lange reduziert, bis lediglich Terminalsymbole übrig bleiben.
 
-So werden aus der Grammatik-Datei durch den Compiler-Compiler Java-Klassen erzeugt, die Programmroutinen zur syntaktischen Verarbeitung von PL/I-Ausdrücken beinhalten.
+So werden aus der Grammatikdatei, durch den Compiler-Compiler Java-Klassen erzeugt, die Programmroutinen zur syntaktischen Verarbeitung von PL/I-Ausdrücken beinhalten.
 Der Ausschnitt aus der Grammatik-Datei in Listing \ref{lst:ifstatement} wird zu dem Java-Quellcode in Listing \ref{lst:ifstatementmethode}.
 \pagebreak
 
@@ -350,17 +340,16 @@ Der Ausschnitt aus der Grammatik-Datei in Listing \ref{lst:ifstatement} wird zu 
 	}	
 \end{lstlisting}
 
-In Listing \ref{lst:ifstatementmethode} ist zu erkennen, dass die ebenfalls definierten Methoden in der Grammatik-Datei, die repräsentativ für die Nicht-Terminal-Symbole sind, auch in der Methode der generierten Parser-Klasse zu Methodenaufrufen führen. Dies ist in Zeile 7 zu sehen. Weiterhin werden Token, also die Repräsentationen der Terminalsymbole, durch die Methode \verb+jj_consume_token+ verarbeitet. Die restlichen Verzweigungen in der generierten Java-Methode prüfen die verarbeiteten Token auf Fehler.
-
-Außerdem wird mit dem Objekt \verb+SimpleNode+ in der Java-Methode aus Listing \ref{lst:ifstatementmethode} ein Knoten im Syntaxbaum erzeugt. Diese Knoten werden von den Übersetzungsmodulen des Transpilers verarbeitet.
+In Listing \ref{lst:ifstatementmethode} ist zu erkennen, dass die ebenfalls definierten Methoden in der Grammatikdatei, die repräsentativ für die Nichtterminalsymbole sind, auch in der Methode der generierten Parser-Klasse zu Methodenaufrufen führen. Dies ist in Zeile 7 zu sehen. Weiterhin werden Token, also die Repräsentationen der Terminalsymbole, durch die \verb+jj_consume_token+ verarbeitet. Die restlichen Verzweigungen in der generierten Java-Methode prüfen die verarbeiteten Token auf Fehler. Außerdem wird mit dem Objekt \verb+SimpleNode+ in der Java-Methode aus Listing \ref{lst:ifstatementmethode} ein Knoten im Syntaxbaum erzeugt. Diese Knoten werden von den Übersetzungs- \newline modulen des Transpilers verarbeitet.
 % Warum ein Compiler-Compiler verwenden?
 
+\pagebreak
 Grammatiken für Cobol und Java sind bereits durch die JavaCC Community öffentlich zugänglich. \footcite[Vgl. ][]{javaccdoku}
 Im Fall von PL/I ist keine Grammatik bekannt, weshalb bei der Entwicklung des Transpilers die IBM Language Reference für PL/I die Hauptquelle für die Grammatik-Datei ist.   
 
 % Wie wird JavaCC in die Entwicklung des Transpiler eingebunden? (Hinleitung zur Architektur beschreibung)
 Durch die Verwendung des JavaCC Jjtree-Moduls, kann global innerhalb des Projekts auf den Parse-Baum zugegriffen werden. 
-Der Syntaxbaum wird unter anderem durch die Module verwendet, die die semantische-Analyse und -Synthese repräsentieren.
+Der Syntaxbaum wird unter anderem durch die Module verwendet, die die semantische-Analyse und Synthese repräsentieren.
 Erst durch diese wird der Java-Code erzeugt.
 Die gesamte Architektur des Transpilers und dessen weitere Module wird in dem nachfolgenden Kapitel betrachtet. 
 \pagebreak
@@ -370,27 +359,22 @@ Die gesamte Architektur des Transpilers und dessen weitere Module wird in dem na
 %In Kapitel 1.4 wurde bereits mit JavaCC eine verwendete Technologie vorgestellt. In diesem Kapitel werden die weiteren verwendeten Technologien vorgestellt.
 
 %- Programmiersprache -> Java: Integration in das Projekt, Grund für die Wahl.
-Der Transpiler wurde in der Programmiersprache Oracle-Java der Version 17 entwickelt. 
-Java eignet sich als objektorientierte Hochsprache gut für die Entwicklung des Transpilers, da so eine lose Kopplung der Klassen realisiert werden kann und damit eine modulare Bauweise des Softwareprojekts.
-Weiterhin zählen die Vorteile, die in Kapitel 1.1 für Java erwähnt wurden, ebenso in diesem Fall.  
-Als Compiler-Compiler fiel die Wahl auf JavaCC. Ein alternativer Compiler-Compiler für Java, ist Antlr. 
+Der Transpiler wurde in der Programmiersprache Java, der Version 17 von Oracle entwickelt. 
+Java eignet sich als objektorientierte Hochsprache gut für die Entwicklung des Transpilers, da so eine lose Kopplung der Klassen realisiert werden kann und damit eine modulare Bauweise des Softwareprojekts. Weiterhin zählen die Vorteile, die in Kapitel 1.1 für Java erwähnt wurden ebenso in diesem Fall.  Als Compiler-Compiler fiel die Wahl auf JavaCC. Ein alternativer Compiler-Compiler für Java ist Antlr. 
 
 %- IDE -> Eclipse: Integration in das Projekt, Grund für die Wahl.
-Der Java-Quellcode des Transpilers wurde in Eclipse geschrieben. Das \ac{ide} Eclipse ermöglicht eine kostenlose Entwicklung, Verwaltung, Überprüfung und Kompilierung von Java Software-Projekten. Weiterhin bietet Eclipse ein breites Software-Repository an Plugins, um die Funktionalität der  \ac{ide} zu erweitern. Dadurch ist eine Integration von JavaCC in die  \ac{ide} möglich und erleichtert die Entwicklung des Parsers ebenfalls.
+Der Java-Quellcode des Transpilers wurde in Eclipse geschrieben. Das \ac{ide} Eclipse ermöglicht eine kostenlose Entwicklung, Verwaltung, Überprüfung und Kompilierung von Java Software-Projekten. Weiterhin bietet Eclipse ein breites Software-Repository an Plugins, um die Funktionalität der  \ac{ide} zu erweitern. Dadurch ist eine Integration von JavaCC in die  \ac{ide} möglich und erleichtert die Entwicklung des Parsers.
 
 %- Maven -> Dependency Management: Integration in das Projekt, Grund für die Wahl der Technologie
-Es wurde das Software-Projektmanagement-Werkzeug Maven eingesetzt. Maven löst mithilfe des \ac{pom} Abhängigkeiten. 
-Dadurch werden Benutzer und Administratoren bei dem Build-Prozess entlastet.
+Es wurde das Software-Projektmanagement-Werkzeug Maven eingesetzt. Maven löst mithilfe des \ac{pom} Abhängigkeiten. Dadurch werden Benutzer und Administratoren bei dem Build-Prozess entlastet.
 
 %- Testing -> JUNit Tests: Integration in das Projekt, Grund für die Wahl der Technologie
-Zum Testen der Anwendung wurde das Java-Test-Framework JUnit 5 verwendet. Es wurden für die nötige Klasse zugehörige Testklassen geschrieben. In den Testklassen wurden komplexere Methoden isoliert getestet.
-Die Wahl von JUnit ist begründet durch die einfache Handhabung, die Kompatibilität mit der IDE Eclipse und dem Projektverwaltungs-Werkzeug Maven. Weiterhin ist JUnit eines der bekanntesten Unit-Test-Frameworks für Java-Quellcode. Alternativen wären etwa gewesen TestNG \footcite[Vgl. ][]{testng} oder Mockito \footcite[Vgl. ][]{mockito}.
+Zum Testen der Anwendung wurde das Java-Test-Framework JUnit 5 verwendet. Es wurden für ausgewählte Klassen zugehörige Testklassen geschrieben. In den Testklassen wurden komplexere Methoden isoliert getestet. Die Wahl von JUnit ist begründet durch die einfache Handhabung, die Kompatibilität mit Eclipse und Maven. Weiterhin ist JUnit eines der bekanntesten Unit-Test-Frameworks für Java-Quellcode. Alternativen sind  TestNG \footcite[Vgl. ][]{testng} oder Mockito. \footcite[Vgl. ][]{mockito}
 
 %- Platform -> Spring
 Für die Entwicklung des Frontends wurde das Java-Framework Spring-Boot verwendet.
 Dabei wurde das Web-Interface mit der CSS-Softwarebibliothek Bootstrap gestaltet.
-Spring-Boot wird für das Behandeln von REST-Anfragen verwendet und bindet über eine API-Schnittstelle den Transpiler ein.
-Dadurch wird eine Interaktion über den Browser möglich.
+Spring-Boot wird für das abhandeln von REST-Anfragen verwendet und bindet über eine API-Schnittstelle den Transpiler ein. Dadurch wird eine Interaktion über den Browser möglich.
 
 Die Entwicklungsphase folgte jedoch nach der Konzeptionsphase, in der die Architektur der Anwendung ausgearbeitet und später als Quellcode realisiert wurde. 
 Im nächsten Kapitel wird dieses Architekturbild vorgestellt.
@@ -398,7 +382,7 @@ Im nächsten Kapitel wird dieses Architekturbild vorgestellt.
 \pagebreak
 \subsection{Architektur} 
 
-In Abbildung \ref{fig:modules} ist eine Grob-Ansicht der Module des Transpilers dargestellt.
+In Abbildung \ref{fig:modules} ist eine Grob-Ansicht, die alle Module des Transpilers dargestellt.
 
 \dhgefigure[h]{AbstraktesUML_1.png}[scale=0.5]{Aufbau des Transpilers}{fig:modules}[][]
 
@@ -408,42 +392,32 @@ Die Verarbeitung des PL/I-Quellcodes beginnt mit dem App-Modul. Das App-Modul is
 
 Der Scanner wird als erstes instanziiert. Dieser liest aus der Konfigurationsdatei den Pfad der zu übersetzenden PL/I Datei. Die Datei wird als \verb+InputStream+ an den Parser übergeben.
 Der durch JavaCC erzeugte Parser wird ebenfalls im App-Modul instanziiert. Dieser behandelt den PL/I-Quellcode entsprechend der vorher definierten Grammatik.  Während des Parsings werden Variablen-, Prozeduren- oder Packagebezeichner des PL/I-Quellcode in die Symboltabelle eingefügt. Das Ergebnis des Parsers ist ein Syntax-Baum. 
-\pagebreak
 In Abbildung \ref{fig:parsetree} ist exemplarisch ein Syntaxbaum des Transpilers abgebildet, der eine Variablendeklaration und die Definition einer Prozedur darstellt.
+\pagebreak
+\dhgefigure[h]{parsetree-example.drawio.png}[scale=0.75]{Beispielhafter Syntaxbaum des PL/I-Parsers}{fig:parsetree}[][]
 
-\dhgefigure[h]{parsetree-example.drawio.png}[scale=0.65]{Beispielhafter Syntaxbaum des PL/I-Parsers}{fig:parsetree}[][]
-
-Ist der Syntaxbaum entsprechend erzeugt, wird dieser durch das Checker-Modul weiterverarbeitet. In diesem Modul wird die semantische Analyse des Quellcodes durchgeführt. In der aktuellen Version erfolgt hauptsächlich eine Typ-Überprüfung der initialisierten Variablen.
+Ist der Syntaxbaum entsprechend erzeugt, wird dieser durch das Checker-Modul weiterverarbeitet. In diesem Modul wird die semantische Analyse des Quellcodes durchgeführt. In der aktuellen Version erfolgt eine Typ-Überprüfung der initialisierten Variablen.
 
 % @review: Hier erwähnen wie Configdatei bzw. Scanner den Ausgabe Ordner beeinflussen wenn das implementiert wurde.
-Das Mapper-Modul repräsentiert die Synthese des Syntaxbaums in Java-Zielcode. Der Syntaxbaum wird dazu Stück für Stück abgearbeitet und mit entsprechenden Javaausdrücken übersetzt.
+Das Mapper-Modul repräsentiert die Synthese nach Java. Der Syntaxbaum wird dazu Knoten für Knoten abgearbeitet und mit entsprechenden Javaausdrücken übersetzt.
 
 % @todo: Wie sind Module zueinander abhängig?
 Um einen Überblick über die Abhängigkeiten der Module zu verschaffen, zeigt
-Abbildung \ref{fig:modulesdep} aktuell die Beziehungen der Module untereinander.
+Abbildung \ref{fig:modulesdep} die Beziehungen der Module untereinander.
 
 \dhgefigure[h]{Beziehungen_Modules.png}[scale=0.65]{Die Abhängigkeiten der Module}{fig:modulesdep}[][]
 \pagebreak
 
-In Abbildung \ref{fig:modulesdep} ist zu erkennen, dass die Abhängigkeiten unter den Modulen eine kaskadierende Form aufweisen.
-Diese Form hat den Vorteil, dass Module aus dieser Kette verändert werden können, ohne vertikal verlaufende Module direkt zu beeinträchtigen.
-Dennoch ist an dieser Stelle zu erwähnen, dass kein Modul isoliert betrachtet werden darf. Denn eine Veränderung eines Moduls bedeutet, dass auf horizontaler 
-Ebene, die Verarbeitung verändert wird.
-
-% Wie sind die Module momentan gebaut?
-Jedes Modul gibt die Ergebnisse weiter in die Pfeilrichtung, bis ein Zielcode entsteht oder eine Fehlermeldung.
+In Abbildung \ref{fig:modulesdep} ist zu erkennen, dass die Abhängigkeiten unter den Modulen eine kaskadierende Form aufweisen. Diese Form hat den Vorteil, dass Module aus dieser Kette verändert werden können, ohne vertikal verlaufende Module direkt zu beeinträchtigen. Dennoch ist an dieser Stelle zu erwähnen, dass kein Modul isoliert betrachtet werden darf. Denn eine Veränderung eines Moduls bedeutet, dass auf horizontaler Ebene, die Verarbeitung verändert wird. Jedes Modul gibt die Ergebnisse weiter in die Pfeilrichtung, bis ein Zielcode entsteht oder eine Fehlermeldung.
 
 % @todo: Wie wird es erweitert?
-Der Administrator kann die Module erweitern oder ersetzen.
-Dabei sollte jedoch die in Abbildung \ref{fig:modulesdep} dargestellte Kaskade der Module untereinander berücksichtigt werden.
-Entscheidet sich der Administrator dazu, etwa eine Methode zu entfernen und ein selbst entwickeltes zu verwenden, ist lediglich die bisherige. 
+Der Administrator kann die Module erweitern oder ersetzen. Dabei sollte jedoch die in Abbildung \ref{fig:modulesdep} dargestellte Kaskade der Module untereinander berücksichtigt werden. Entscheidet sich der Administrator dazu, etwa eine Methode zu entfernen und ein selbst entwickeltes zu verwenden, ist lediglich die bisherige. 
 Referenz zu ersetzen.
 %In der vorherigen Version des Transpilers wurde etwa die Lexer-Klasse entfernt und die Klassen des Compiler-Compilers verwendet.
 %Der Quellcode des Lexer besteht jedoch und ist lediglich als Deprecated markiert. Die erneute Verwendung des Lexer würde über den Aufruf der Methode in Main erfolgen.
 %Hingegen wären hier weitere Schritte notwendig, wie etwa das einfügen einer temporären Datei, die von dem Parser als InputStream entgegen genommen wird und weiter verarbeitet wird.
 
-Nachdem nun ein Überblick über die Architektur gegeben wurde, soll in Kapitel 2.3 eine Detailansicht des Transpilers erfolgen.
-Ab diesem Punkt soll genauer auf den Quellcode der einzelnen Module eingegangen werden, um nachzuvollziehen, wie der Transpiler den PL/I-Quellcode in Java-Zielcode umwandelt.
+Nachdem nun ein Überblick über die Architektur gegeben wurde, soll in Kapitel 2.3 eine Detailansicht des Transpilers erfolgen. Ab diesem Punkt soll genauer auf den Quellcode der einzelnen Module eingegangen werden, um nachzuvollziehen, wie der Transpiler den PL/I-Quellcode in Java-Zielcode umwandelt.
 
 %Bausteine
 %- Software Architektur
@@ -474,8 +448,7 @@ Ab diesem Punkt soll genauer auf den Quellcode der einzelnen Module eingegangen 
 \subsubsection{Der Scanner und Parser}
 \paragraph*{Scanner}
 Wie in Kapitel 1.5 eingeführt, wird der Parser vollständig durch 
-JavaCC generiert.
-Damit der Parser den PL/I-Quellcode in die Zwischencode-Darstellung übersetzen kann,
+JavaCC generiert. Damit der Parser den PL/I-Quellcode in die Zwischencode-Darstellung übersetzen kann,
 braucht dieser eine PL/I-Datei, die als Input-Stream übergeben wird.
 Den Pfad zu der Datei gibt der Administrator in der Konfigurationsdatei an.
 Das Modul Scanner liest die Konfigurationsdatei und versorgt den Parser mit notwendigen Ressourcen.
@@ -763,13 +736,13 @@ Wäre in der Klasse \verb+DECIMAL+ für jede arithmetische Operation eine Method
 	\lstset{language=PL/I}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
 		caption={Transformation DECIMAL}, label={lst:pliarithmeticexpression}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		DCL var_1 FIXED DECIMAL(3) INIT(2);
-		DCL var_2 FIXED DECIMAL(3) INIT(2);
-		DCL var_3 FIXED DECIMAL(5);
+ DCL var_1 FIXED DECIMAL(3) INIT(2);
+ DCL var_2 FIXED DECIMAL(3) INIT(2);
+ DCL var_3 FIXED DECIMAL(5);
 		
-		proc_1: PROC;
-		var_3 = var_1 + var_2;
-		END proc_1;
+ proc_1: PROC;
+ 	var_3 = var_1 + var_2;
+ END proc_1;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
@@ -778,13 +751,13 @@ Wäre in der Klasse \verb+DECIMAL+ für jede arithmetische Operation eine Method
 	\lstset{language=Java}
 	\begin{lstlisting}[frame=single, mathescape,%
 		title={" "}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		DECIMAL var_1 = new DECIMAL(2).INIT(2);
-		DECIMAL var_2 = new DECIMAL(2).INIT(2);
-		DECIMAL var_3 = new DECIMAL(5);
+ DECIMAL var_1 = new DECIMAL(2).INIT(2);
+ DECIMAL var_2 = new DECIMAL(2).INIT(2);
+ DECIMAL var_3 = new DECIMAL(5);
 		
-		public void proc_1() {
-			var_3.INIT(var_1.add(var_2));
-		}
+ public void proc_1() {
+ 	var_3.INIT(var_1.add(var_2));
+ }
 	\end{lstlisting}
 \end{minipage}
 
@@ -802,13 +775,13 @@ Die Übersetzung des Ausdrucks ist in Listing \ref{lst:annotationdecimal} darges
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
 		caption={Annotationslösung}, label={lst:annotationdecimal},
 		basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		DCL var_1 FIXED DECIMAL(3) INIT(2);
-		DCL var_2 FIXED DECIMAL(3) INIT(2);
-		DCL var_3 FIXED DECIMAL(5);
+ DCL var_1 FIXED DECIMAL(3) INIT(2);
+ DCL var_2 FIXED DECIMAL(3) INIT(2);
+ DCL var_3 FIXED DECIMAL(5);
 		
-		proc_1: PROC;
-		var_3 = var_1 + var_2;
-		END proc_1;
+ proc_1: PROC;
+	var_3 = var_1 + var_2;
+ END proc_1;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
@@ -818,17 +791,18 @@ Die Übersetzung des Ausdrucks ist in Listing \ref{lst:annotationdecimal} darges
 	\begin{lstlisting}[frame=single, mathescape,%
 		title={" "},
 		basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		public @Decimal(3) double var_1 = 2;
-		public @Decimal(3) double var_2 = 2;
-		public @Decimal(5) double var_3;
+ public @Decimal(3) double var_1 = 2;
+ public @Decimal(3) double var_2 = 2;
+ public @Decimal(5) double var_3;
 		
-		public void proc_1() {
-			var_3 = var_1 + var_2;
-		}
+ public void proc_1() {
+ 	var_3 = var_1 + var_2;
+ }
 	\end{lstlisting}
 \end{minipage}
 
-Durch diese Gestaltung ist auch die Einbindung und Erweiterung des übersetzen PL/I-Quellcode erleichtert. In diesem Zusammenhang wird in der weiterführenden Entwicklung die Beschränkung der Länge mit Annotationen gelöst. So kann eine semantische nähe zu Java hergestellt werden und gleichzeitig der Wiedererkennungswert von PL/I beibehalten werden.
+Durch diese Gestaltung ist auch die Einbindung und Erweiterung des übersetzen PL/I-Quellcode erleichtert. In diesem Zusammenhang wird in der weiterführenden Entwicklung die Beschränkung der Länge mit Annotationen gelöst. 
+So kann eine semantische nähe zu Java hergestellt werden und gleichzeitig der Wiedererkennungswert von PL/I beibehalten werden.
 
 Da auch weitere PL/I-Datentypen wie etwa der \verb+PICTURE+ oder \verb+BINARY+ Typ mit dieser Lösung leichter implementiert werden können, werden in zukünftigen Versionen des Transpilers auch hier die eigen definierten Klassen ersetzt.
 Aktuell ist eine Zuweisung von Werten lediglich mit einer Variable des Typs \verb+CHAR+ und \verb+DECIMAL+ möglich.
@@ -850,11 +824,11 @@ Zusätzlich können Parameter, Rückgabetypen und allgemeine Attribut Optionen d
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
 		caption={Transformation einer Prozedur}, label={lst:procchar},
 		basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		DCL Revenue FIXED DECIMAL(5);
+ DCL Revenue FIXED DECIMAL(5);
 		
-		A10_Revenue: PROC(rev_1) RETURNS(DECIMAL(5)) OPTIONS(INLINE);
-		RETURN rev_1;
-		END proc_1;
+ A10_Revenue: PROC(rev_1) RETURNS(DECIMAL(5)) OPTIONS(INLINE);
+ 	RETURN rev_1;
+ END proc_1;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
@@ -864,11 +838,11 @@ Zusätzlich können Parameter, Rückgabetypen und allgemeine Attribut Optionen d
 	\begin{lstlisting}[frame=single, mathescape,%
 		title={" "},
 		basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		public @Decimal(5) double Revenue;		
+ public @Decimal(5) double Revenue;		
 		
-		public @Decimal(5) double A10_Revenue(Object rev_1) { 
-			return (double)rev_1;
-		}
+ public @Decimal(5) double A10_Revenue(Object rev_1) { 
+ 	return (double)rev_1;
+ }
 	\end{lstlisting}
 \end{minipage}
 
@@ -912,17 +886,17 @@ Das Beispiel in Listing \ref{lst:callstatement} beschriebt ein Programm, in dem 
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
 		caption={Transformation Prozeduraufrufe}, label={lst:callstatement},
 		basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-	main_proc: PROC;
-		CALL proc_1;
-	END main_proc;
+ main_proc: PROC;
+	 CALL proc_1;
+ END main_proc;
 		
-	proc_1: PROC;
-		CALL proc_2;
-	END proc_1;
+ proc_1: PROC;
+	 CALL proc_2;
+ END proc_1;
 		
-	proc_2: PROC;
-		CALL proc_1;
-	END proc_2;
+ proc_2: PROC;
+	 CALL proc_1;
+ END proc_2;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
@@ -932,17 +906,17 @@ Das Beispiel in Listing \ref{lst:callstatement} beschriebt ein Programm, in dem 
 	\begin{lstlisting}[frame=single, mathescape,%
 		title={" "},
 		basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-	public void main_proc(){
-		proc_1 ();
-	}
+ public void main_proc(){
+ 	proc_1 ();
+ }
 		
-	public void proc_1(){
-		proc_2 ();
-	}
+ public void proc_1(){
+	proc_2 ();
+ }
 		
-	public void proc_2(){
-		proc_1 ();
-	}
+ public void proc_2(){
+	proc_1 ();
+ }
 	\end{lstlisting}
 \end{minipage}
 
@@ -994,7 +968,7 @@ In Listing \ref{lst:branchmapping} ist die Übersetzung eines Booleschen-Ausdruc
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
 		caption={Boolescher-Ausdruck}, label={lst:branchmapping}]	
-		(var_1 < 10) & $\lnot$(var_2 > 5)
+ (var_1 < 10) & $\lnot$(var_2 > 5)
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
@@ -1003,7 +977,7 @@ In Listing \ref{lst:branchmapping} ist die Übersetzung eines Booleschen-Ausdruc
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
 		title={" "}]
-		(var_1 < 10) && !(var_2 > 5)
+ (var_1 < 10) && !(var_2 > 5)
 	\end{lstlisting}
 \end{minipage}
 \pagebreak
@@ -1019,11 +993,11 @@ Somit lässt sich der Ausdruck in Listing \ref{lst:branchmapping} nach Java übe
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
 		caption={Transformation Verzweigungen}, label={lst:branchmapping}]	
-		IF (var_1 < var_2) THEN;
-		var_1 = 0;
-		ELSE
-		var_1 = var_2;
-		END;
+ IF (var_1 < var_2) THEN;
+ 	var_1 = 0;
+ ELSE
+ 	var_1 = var_2;
+ END;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
@@ -1032,11 +1006,11 @@ Somit lässt sich der Ausdruck in Listing \ref{lst:branchmapping} nach Java übe
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
 		title={" "}]
-		if(var_1 < var_2){
-			var_1 = 0;	
-		} else {
-			var_1 = var_2;
-		}
+ if(var_1 < var_2){
+ 	var_1 = 0;	
+ } else {
+	var_1 = var_2;
+ }
 	\end{lstlisting}
 \end{minipage} 
 
@@ -1057,12 +1031,12 @@ Schleife verwendet, sondern leitet lediglich einen Schleifen-Ausdruck ein.
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
 		caption={Transformation While-Schleife}, label={lst:whilecomamnd}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		DCL var_1 DECIMAL(2) INIT(0);
-		DCL var_2 DECIMAL(2) INIT(5);
+ DCL var_1 DECIMAL(2) INIT(0);
+ DCL var_2 DECIMAL(2) INIT(5);
 		
-		DO WHILE(var_1 < var_2);
-		var_1 = var_1 + 1;
-		END;
+ DO WHILE(var_1 < var_2);
+ 	var_1 = var_1 + 1;
+ END;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
@@ -1071,12 +1045,12 @@ Schleife verwendet, sondern leitet lediglich einen Schleifen-Ausdruck ein.
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
 		title={" "}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		public @Decimal(2) double var_1 = 0;
-		public @Decimal(2) double var_2 = 5;
+ public @Decimal(2) double var_1 = 0;
+ public @Decimal(2) double var_2 = 5;
 		
-		while(var_1 < var_2){
-			var_1 = var_1 + 1;
-		}
+ while(var_1 < var_2){
+ 	var_1 = var_1 + 1;
+ }
 	\end{lstlisting}
 \end{minipage} 
 
@@ -1092,13 +1066,13 @@ Die While-Schleife kann mit der Until-Schleife kombiniert werden. Eine Until-Sch
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
 		caption={Transformation Until-Schleife}, label={lst:untilwhile}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		DCL var_1 DECIMAL(2) INIT(0);
-		DCL var_2 DECIMAL(2) INIT(5);
+ DCL var_1 DECIMAL(2) INIT(0);
+ DCL var_2 DECIMAL(2) INIT(5);
 		
-		DO WHILE(var_1 < var_2) 
+ DO WHILE(var_1 < var_2) 
 		UNTIL(var_1 = 10);
-		var_1 = var_1 + 1;
-		END;
+ 	var_1 = var_1 + 1;
+ END;
 		
 	\end{lstlisting}
 \end{minipage}
@@ -1108,14 +1082,14 @@ Die While-Schleife kann mit der Until-Schleife kombiniert werden. Eine Until-Sch
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
 		title={" "}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		public @Decimal(2) double var_1 = 0;
-		public @Decimal(2) double var_2 = 5;
+ public @Decimal(2) double var_1 = 0;
+ public @Decimal(2) double var_2 = 5;
 		
-		while (var_1 < var_2) {
-			do {
-				var_1 = var_1 + 1;
-			} while(!(var_1 == 10));
-		}
+ while (var_1 < var_2) {
+  do {
+	 var_1 = var_1 + 1;
+	 } while(!(var_1 == 10));
+ }
 	\end{lstlisting}
 \end{minipage} 
 
@@ -1139,7 +1113,7 @@ Somit wurde mit dem Sysout-Befehl die gängige Methode gewählt. Entsprechend wi
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
 		caption={Transformation Standardausgabe}, label={lst:display}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		DISPLAY ('Hello World');
+ DISPLAY ('Hello World');
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
@@ -1148,7 +1122,7 @@ Somit wurde mit dem Sysout-Befehl die gängige Methode gewählt. Entsprechend wi
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
 		title={" "}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		System.out.println("Hello World");
+ System.out.println("Hello World");
 	\end{lstlisting}
 \end{minipage} 
 
@@ -1160,8 +1134,8 @@ Um den Display-Ausdruck ebenfalls für das Einlesen von Benutzereingaben zu verw
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
 		caption={Transformation Standardeingabe}, label={lst:displayreply}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		DCL username CHAR(5);
-		DISPLAY('Username') REPLY(username)
+ DCL username CHAR(5);
+ DISPLAY('Username') REPLY(username)
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
@@ -1170,8 +1144,8 @@ Um den Display-Ausdruck ebenfalls für das Einlesen von Benutzereingaben zu verw
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,% 
 		title={" "}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
-		public @Char(5) String username;
-		username = System.console().readLine(); 
+ public @Char(5) String username;
+ username = System.console().readLine(); 
 	\end{lstlisting}
 \end{minipage} 
 
@@ -1200,7 +1174,7 @@ Um den durch die Batchverarbeitung definierten Record in einem PL/I-Programm zu 
 	\lstset{language=PL/I,label=SliceExaple}
 	\begin{lstlisting}[frame=single, numbers=left, mathescape,%
 		caption={Transformation Dateityp}, label={lst:plifiletyp}]
-		DCL file_1 FILE;
+ DCL file_1 FILE;
 	\end{lstlisting}
 \end{minipage}
 \hspace{0.5cm}
@@ -1209,7 +1183,7 @@ Um den durch die Batchverarbeitung definierten Record in einem PL/I-Programm zu 
 	\lstset{language=Java,label=SliceExaple}
 	\begin{lstlisting}[frame=single, mathescape,%
 		title={" "}]
-		public File file_1 = new File("");
+ public File file_1 = new File("");
 	\end{lstlisting}
 \end{minipage}  
 
@@ -1442,7 +1416,7 @@ Um vergleichen zu können, wie sich die Laufzeit der Implementierung des Probedi
 Dazu werden den beiden Programmen vier Primzahlen übergeben. Für die Berechnung wurde das Programm aus Anhang \ref{lst:pliprobedivision}, auf einem z/Os-Mainframe-System kompiliert und ausgeführt. 
 Die allgemeinen System-Spezifikationen des Mainframes sind in Abbildung \ref{fig:mainframesysteminfo} dargestellt.
 
-\dhgefigure[h]{mainframe-system-info.png}[scale=0.47]{Mainframe System Spezifikation}{fig:mainframesysteminfo}[][]
+\dhgefigure[h]{mainframe-system-info.png}[scale=0.46]{Mainframe System Spezifikation}{fig:mainframesysteminfo}[][]
 
 Unter CPU in Abbildung \ref{fig:mainframesysteminfo} ist der Maschinen-Typ 3931 gelistet. Bei dem Mainframe handelt es sich um einen IBM z16 A02 mit
 maximal 16 Prozessorkernen. Sowie maximal 4 TB Arbeitsspeicher. \footcite{z16}
@@ -1493,11 +1467,11 @@ Die Grundlage des Benchmarktests sind die bisher größten bekannten Primzahlen 
 	\end{tabularx}
 	\caption{PL/I-Programm Benchmarks, (Siehe Anhang C) \label{tab:plibenchmark}}
 \end{table}
-\pagebreak
+
 
 Die Laufzeiten aus Tabelle \ref{tab:plibenchmark} zeigen, dass der Mainframe für die Berechnung der Primzahlen maximal eine Sekunde braucht. Für die Berechnung der Primzahlen benötigte das Javaprogramm für fast jede mehr als eine Sekunde. Bei der Beurteilung sollten die Hardwareunterschiede zwischen dem IBM-Mainframe und dem Linux-Computer berücksichtigt werden. Es ist zu beobachten das die Laufzeit stabil um den Faktor 100 größer ist im Vergleich zum Mainframe.
 
-Eigentlich wäre anstelle der Zahl 10,000,000,002,065,383 die Primzahl 170,141,183,460,469,231,- \newline 731,687,303,715,884,105,727 in der Liste der größten bekannten Primzahlen an der Reihe gewesen. 
+Eigentlich wäre anstelle der Zahl 10,000,000,002,065,383 die Primzahl 170,141,183,460,469,- \newline 231,731,687,303,715,884,105,727 in der Liste der größten bekannten Primzahlen an der Reihe gewesen. 
 Da diese Zahl die maximale Anzahl an Ziffern übersteigt, die ein primitiver Datentyp in Java verarbeiten kann, wurde stattdessen der nicht-primitive Datentyp \verb+BigDecimal+ verwendet. Im Anhang \ref{lst:javaprobedivisionang} befindet sich das angepasste Programm. 
 Dies wurde im Benchmark nicht berücksichtigt da die Berechnung mit dem System aus Tabelle \ref{tab:hardwartable} nach 9h abgebrochen wurde und sich dafür entschieden wurde auch diese Zahl aus Kostengründen auf dem Mainframe nicht zu testen. Auf dem Mainframe werden Batchprogramme nach \ac{MIPS} abgerechnet.
 
@@ -1506,18 +1480,7 @@ Zusammenfassend wird so eine Schwäche des Transpilers deutlich. Durch die Über
 
 \section{Fazit}
 % Erreichte Entwicklung
-Der hier entwickelte Transpiler bietet die grundlegenden Voraussetzungen für die Übersetzung von PL/I-Programmen nach Java.
-Dazu wurde eine PL/I-Grammatik geschrieben, die es ermöglicht mit der Hilfe von JavaCC einfache PL/I-Programme vollständig zu verarbeiten.
-
-% Zielgruppen Zusammengefasst -> modulare Architektur -> Strategy, Singleton, Composite Pattern   
-
-% Junior Entwickler die gerade in PL/1 einsteigen -> erfolgreicher Integrationstest, transpiler übersetzt ganze Programme
-
-% Benutzbarkeit ->  Web-frontend, Einfache Benutzbarkeit, Syntax highlighting, Dokumentation
-
-%  Zusammenfassung und hinführung zum nächsten zu dem Unterschied Interpreter und Compiler ->  Die Variablendeklaration sowie -zuweisung, die Ein- und Ausgabesteuerung und allgemeine Kontrollflussanweisungen wurden im Zuge der Entwicklung implementiert. Als Unit-Tests dh. wahrung der Funktionalität ist gewährleistet.
-
-Während dieser Arbeit wurden die eingangs aufgesetzten Ziele im wesentlichen erreicht. 
+Der hier entwickelte Transpiler bietet die grundlegenden Voraussetzungen für die Übersetzung von PL/I-Programmen nach Java. Dazu wurde eine PL/I-Grammatik geschrieben, die es \newline ermöglicht  mit der Hilfe von JavaCC einfache PL/I-Programme vollständig zu verarbeiten. Während dieser Arbeit wurden die eingangs aufgesetzten Ziele im wesentlichen erreicht. 
 Einerseits wurde der Transpiler in einer modularen Architektur entwickelt. Dabei haben sich mehrere Entwurfsmuster als nützlich erwiesen,
 namentlich die Verwendung der Strategy-, Singleton- und Composite-Pattern.
 Es wurde in den Buildprozess auch automatisiertes Testing eingebunden, um die Korrektheit von Elementarübersetzungen sicherzustellen. Das sichert die hier erreichte Qualität auch bei der zukünftigen Weiterentwicklung.
@@ -1530,7 +1493,7 @@ während dieser Arbeit geändert wurden. Dies hatte allgemein positive Auswirkun
 und ein einfacher Überblick und Einstieg in die Erweiterung gegeben ist.
 
 % Ausblick, Schwächen
-\paragraph*{Ausblick} Die Übersetzung von Datentypen wurden erweitert und mit der Implementierung von Java-Reflection und Annotationen wurde eine gut lesbare und fast schon native Java-Übersetzung gefunden. Leider ist noch nicht für jeden Datentyp eine solche Annotation implementiert. 
+\paragraph*{Ausblick} Die Übersetzung von Datentypen wurden erweitert und mit der Implementierung von Java-Reflection und Annotationen wurde eine gut lesbare und fast schon native Java-\newline Übersetzung gefunden. Leider ist noch nicht für jeden Datentyp eine solche Annotation implementiert. 
 
 Der Benutzer wird sehr schnell einen Ausdruck finden, der für einen vollumfänglichen Transpiler zu erwarten wäre, jedoch in diesem nicht implementiert wurde.
 Auch wird der Benutzer feststellen, dass der PL/I-Quellcode nicht vollumfänglich auf Fehler überprüft wird. Eine Mitübersetzung von Fehlern ist somit denkbar.
