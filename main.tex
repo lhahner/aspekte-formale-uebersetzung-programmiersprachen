@@ -245,7 +245,7 @@ Aus diesen Gründen wird in der Regel ein Parser mit einem Compiler-Compiler erz
 Der Entwickler spezifiziert eine Grammatik in einer formalen Darstellung, woraufhin der Parser aus dieser automatisiert erzeugt werden kann. Der gesamte Ein- und Ausgabeverarbeitungsprozess ist in Abbildung \ref{fig:ausgabe} dargestellt.
 
 
-\dhgefigure[h]{parser-generation.png}[scale=0.75]{Ein- und Ausgabeverarbeitungsprozess des Compiler-Compiler}{fig:ausgabe}[][]
+\dhgefigure[h]{parser-generation.png}[scale=0.65]{Ein- und Ausgabeverarbeitungsprozess des Compiler-Compiler}{fig:ausgabe}[][]
 
 
 % Hier Grund aus Compilerbau Buch
@@ -385,9 +385,9 @@ Die Verarbeitung des PL/I-Quellcodes beginnt mit dem App-Modul. Das App-Modul is
 Der Scanner wird als erstes instanziiert. Dieser liest aus der Konfigurationsdatei den Pfad der zu übersetzenden PL/I Datei. Die Datei wird als \verb+InputStream+ an den Parser übergeben.
 Der durch JavaCC erzeugte Parser wird ebenfalls im App-Modul instanziiert. Dieser behandelt den PL/I-Quellcode entsprechend der vorher definierten Grammatik.  Während des Parsings werden Variablen-, Prozeduren- oder Packagebezeichner des PL/I-Quellcode in die Symboltabelle eingefügt. Das Ergebnis des Parsers ist ein Syntax-Baum. 
 In Abbildung \ref{fig:parsetree} ist exemplarisch ein Syntaxbaum des Transpilers abgebildet, der eine Variablendeklaration und die Definition einer Prozedur darstellt.
-\pagebreak
-\dhgefigure[h]{parsetree-example.drawio.png}[scale=0.75]{Beispielhafter Syntaxbaum des PL/I-Parsers}{fig:parsetree}[][]
 
+\dhgefigure[h]{parsetree-example.drawio.png}[scale=0.75]{Beispielhafter Syntaxbaum des PL/I-Parsers}{fig:parsetree}[][]
+\pagebreak
 Ist der Syntaxbaum entsprechend erzeugt, wird dieser durch das Checker-Modul weiterverarbeitet. In diesem Modul wird die semantische Analyse des Quellcodes durchgeführt. In der aktuellen Version erfolgt eine Typüberprüfung der initialisierten Variablen.
 
 % @review: Hier erwähnen wie Configdatei bzw. Scanner den Ausgabe Ordner beeinflussen wenn das implementiert wurde.
@@ -398,7 +398,7 @@ Um einen Überblick über die Abhängigkeiten der Module zu verschaffen, zeigt
 Abbildung \ref{fig:modulesdep} die Beziehungen der Module untereinander.
 
 \dhgefigure[h]{Beziehungen_Modules.png}[scale=0.65]{Die Abhängigkeiten der Module}{fig:modulesdep}[][]
-\pagebreak
+
 
 In Abbildung \ref{fig:modulesdep} ist zu erkennen, dass die Abhängigkeiten unter den Modulen eine kaskadierende Form aufweisen. Diese Form hat den Vorteil, dass Module aus dieser Kette verändert werden können, ohne vertikal verlaufende Module direkt zu beeinträchtigen. Dennoch ist an dieser Stelle zu erwähnen, dass kein Modul isoliert betrachtet werden darf. Denn eine Veränderung eines Moduls bedeutet, dass auf horizontaler Ebene die Verarbeitung verändert wird. Jedes Modul gibt die Ergebnisse in Pfeilrichtung weiter, bis Zielcode oder eine Fehlermeldung entsteht.
 
@@ -427,7 +427,7 @@ Nachdem nun ein Überblick über die Architektur gegeben wurde, soll in den folg
 %- JavaBeans
 %- Spring
 %	- Wie setzt Spring Aspektorientierte Programmierkonzepte ein?
- \pagebreak
+
 
 %Wie in dem vorangegangen Kapitel schon dargestellt, werden in jedem Modul
 %die Verarbeitungsschritte aus Abbildung \ref{fig:transpiler} implementiert.
@@ -461,8 +461,8 @@ Mithilfe des InputStreams kann die Datei als Parameter an den Parser in der Klas
 \paragraph*{Parser}
 Das Parser-Modul deckt die lexikalische und syntaktische Analyse des Quellcodes ab. Wie schon in Kapitel 1.4 erwähnt, werden Klassen des Parsers durch die \verb+.jjt+ Grammatikdatei generiert. Da diese Klassen sehr umfangreich sind, werden diese in Abbildung \ref{fig:moduleparser} lediglich in abgekürzter Form dargestellt. 
 
-\dhgefigure[h]{parser-module-uml.drawio.png}[width=160mm,height=130mm]{UML des Parser-Moduls}{fig:moduleparser}[][]
-\pagebreak
+\dhgefigure[h]{parser-module-uml.drawio.png}[width=160mm,height=122mm]{UML des Parser-Moduls}{fig:moduleparser}[][]
+
 
 Der Parser wird über die Klasse \verb+Pl1Parser+ im App-Modul instanziiert. In der Parser-Klasse sind jegliche manuell geschriebenen Methoden aus der Grammatikdatei integriert. 
 Dazu gehört etwa die Methode \verb+installId+. Die Klasse \verb+Pl1Parser+  beinhaltet auch die Methoden für die Verarbeitung der Nichtterminalen Ausdrücke, wie zum Beispiel die Methode \verb+if-statement+. Hier ist auch der Großteil der Verarbeitungslogik des Parser-Moduls implementiert. Wird ein Ausdruck während der Verarbeitung in der Pl1Parser-Klasse als nicht zulässig  identifiziert, wird eine \verb+ParseException+ geworfen, die in der Klasse \verb+ParseException+ definiert ist. Die ebenfalls in der Grammatikdatei definierten Token, werden in \path{Pl1ParserConstants} als Konstanten definiert. Während der lexikalischen Analyse wird die Klasse Token verwendet, um Terminalsymbole zu verarbeiten.
@@ -491,7 +491,7 @@ Das Checker-Modul prüft die Semantik des PL/I-Quellcodes und ist damit repräse
 Eine Aufgabe des Checker-Moduls ist es, die Typ-Definition von Variablen mit den Zuweisungen abzugleichen.
 Wird beispielsweise dem Decimal-Typ ein alphanumerischer Wert zugewiesen, wird dieses Modul den Benutzer auf einen semantischen Fehler hinweisen. Um solche Fehler zu erkennen, wird das Checker-Modul nach dem Composite Entwurfsmuster implementiert. Dadurch können Klassen, die das \verb+ITypeExpression+-Interface implementieren, einheitlich über das Kompositum \verb+VarChecker+ behandelt werden.
 In Abbildung \ref{fig:checker} ist das \ac{uml} des Checkermodul abgebildet.
-
+\pagebreak
 \dhgefigure[h]{checker-module-uml.png}[scale=0.55]{UML des Checker-Moduls}{fig:checker}
 
 Die Methode \verb+getType+ erschließt die korrekte Typzuweisung von Variablen. Mit diesem Entwurfsmuster kann die Typprüfung um weitere Speicherstrukturen ergänzt werden, bspw. Arrays, Listen oder andere.
@@ -500,39 +500,36 @@ In dem Checker-Modul wird auf den Syntaxbaum, das Ergebnis des Parser-Moduls, zu
 Um auf alle Knoten des Syntaxbaums zuzugreifen, wurde in der \verb+Checker+ Klasse die Methode \verb+iterateTree+ als Tiefensuche rekursiv implementiert.
 Die Iterationsweise des Algorhitmus mit dem Syntaxbaum ist in Abbildung \ref{fig:parsetreealgo} dargestellt.
 
-\dhgefigure[h]{parsetree-example-searchalgo.png}[scale=0.6]{Beispielhafte Iteration des Syntaxbaums}{fig:parsetreealgo}[][]
-\pagebreak
+\dhgefigure[h]{parsetree-example-searchalgo.png}[scale=0.465]{Beispielhafte Iteration des Syntaxbaums}{fig:parsetreealgo}[][]
+
 So wird es möglich, gezielt nach Knoten zu suchen und die Attribute des Knotens auszulesen.
 Im Checker Modul wird dieser Algorithmus vor allem benutzt, um festzustellen, welche Variablen mit welchem Typ und welchem Bezeichner deklariert wurden und ob dieser Bezeichner in einem \verb+ASSIGN+ Knoten wiederverwendet wurde. So kann der Syntaxbaum mit seinen Attributen vollständig überprüft werden.
 
 Die Überprüfung ist dann abgeschlossen, wenn die Iteration des Suchalgorithmus wieder beim Ausgangspunkt angekommen ist. In Abbildung \ref{fig:parsetreealgo} ist das der Knoten \verb+PRORGRAM+. Wurde kein Fehler entdeckt, beginnt die Transformation nach Java. Falls jedoch ein Fehler entdeckt wurde, wird eine entsprechende Fehlermeldung angezeigt. Das Checker-Modul bereitet den Syntaxbaum entsprechend so vor, dass dieser weiterhin in der Synthese verarbeitet werden kann. Dieses Modul erwartet aktuell eine einfache Quellcode-Programmstruktur. Es fehlen Unit-Tests zur Wiederverwendung von Variablennamen mit unterschiedlichen Typen.
- 
- 
+
 \subsubsection{Mapper}
 Das Mapper-Modul transformiert die Zwischencoderepräsentation nach Java. Dazu wurde das Mapper-Modul nach dem Strategie Entwurfsmuster gestaltet.
 In Abbildung \ref{fig:mapper} ist das UML des Mapper-Moduls zu sehen. 
 Die Mapper-Klassen stellen die Strategien dar. Sie implementieren alle das \path{ITranslationBehavior}-Interface und aufgrund dessen eine \verb+translate+ Methode, die den übersetzten Ausdruck zurückgibt. Dadurch wird die Verwendung verschiedener Algorithmen zur Laufzeit ermöglicht. 
 
-\dhgefigure[h]{mapper-module-uml.png}[scale=0.58]{UML des Mapper-Moduls}{fig:mapper}
+\dhgefigure[h]{mapper-module-uml.png}[scale=0.6]{UML des Mapper-Moduls}{fig:mapper}
 \pagebreak
 Die Klasse \verb+Mapper+ wird in der Main-Methode des Projektes instanziiert. Als Parameter wird der Wurzelknoten des Syntaxbaums übergegeben.
 In der \verb+iterateTree+ Methode wird jeder Knoten überprüft, ob eine solche Mapper-Klasse in der HashMap instanziiert wurde.
-Jeder Knoten wird über eine Konstante mit einer zugehörigen Identifikationsnummer überprüft, die in dem Interface \verb+Pl1ParserTreeConstants+ des Parsermoduls definiert sind. 
+Jeder Knoten wird über eine Konstante mit einer zugehörigen Identifikationsnummer überprüft, die in dem Interface \verb+Pl1ParserTreeConstants+ des Parser-Moduls definiert sind. 
 In der Klasse \verb+AstMapper+ sind jegliche Identifikationsnummern der Knoten zu finden. Hier werden diese mit den zugehörigen Mapper-Klassen in einer HashMap gespeichert.
 
-Falls eine Klasse vorhanden ist, wird in der TranslationBehavior Klasse das entsprechende Strategie-Objekt des Typs \path{ITranslationBehavior} in der
-Mapper Klasse gesetzt. So wird die Translate-Methode der aktuell gesetzten Klasse aufgerufen und der Knoten des Syntaxbaums nach Java übersetzt.
+Falls eine Klasse vorhanden ist, wird in der TranslationBehavior-Klasse das entsprechende Strategie-Objekt des Typs \path{ITranslationBehavior} in der
+Mapper-Klasse gesetzt. So wird die Translate-Methode der aktuell gesetzten Klasse aufgerufen und der Knoten des Syntaxbaums nach Java übersetzt.
 
 % wie funktioniert der PicturemMapper
-Eine exemplarische Mapper Klasse ist etwa die \verb+PictureMapper+ Klasse. Diese enthält Zeichenkettenbeschränkungen des PL/I-Picture Typs und deren Übersetzung als regulären Ausdruck.
+Eine exemplarische Mapper-Klasse ist etwa die \verb+PictureMapper+ Klasse. Diese enthält Zeichenkettenbeschränkungen des PL/I-Picture Typs und deren Übersetzung als regulären Ausdruck.
 Mit der \verb+getRegex+ Methode der \verb+PictureMapper+ Klasse wird der übersetzte reguläre Ausdruck als String zurückgegeben.
 Der PL/I-Ausdruck \verb+(4)A+ wird etwa zum regulären Ausdruck \verb+[A-Za-z ]{4}+.   
 
 Neben der PictureMapper Klasse erzeugen weitere Mapper Klassen Knoten für Knoten den Java-Zielcode. 
 Alle Ausdrücke werden in einer Arraylist mit dem Namen \verb+javaExpression+ der Mapper-Elternklasse  gespeichert.
-Wenn über jeden Knoten des Parse-Baums iteriert wurde, ist das Programm vollständig übersetzt.
-
-Dabei kann es jederzeit zu Fehlern durch eine fehlerhafte Benutzereingabe kommen.
+Wenn über jeden Knoten des Syntaxbaums iteriert wurde, ist das Programm vollständig übersetzt. Dabei kann es jederzeit zu Fehlern durch eine fehlerhafte Benutzereingabe kommen.
 Entsprechend sollte der Benutzer auf die Probleme hingewiesen werden.
 In dem Modul Errorhandling werden Fehlermeldungen definiert und von anderen Modulen implementiert. Kapitel 2.3 gibt eine Übersicht über die verwendeten Fehlermeldungen.
 
@@ -581,22 +578,21 @@ es sich bei der Eingabedatei nicht um eine PL/I-Datei handelt.
 Der Transpiler akzeptiert lediglich das Dateiformat \verb+.pli+.
 
 Enthält dabei ein zu übersetzender Ausdruck eine Variable des Typs Picture, soll die LexicalErrorException verhindern, dass ein fehlerhafter Picture-Ausdruck übersetzt wird.
-Diese Fehlermeldung eignet sich auch weiterhin, um lexikalische von syntaktischen Fehlern zu unterscheiden. Da jedoch in der aktuellen Version des Transpilers die lexikalische und syntaktische Analyse von dem Parser-Modul übernommen werden, wird auf die ParseException zurückgegriffen.
+Diese Fehlermeldung eignet sich weiterhin, um lexikalische von syntaktische Fehler zu unterscheiden. Da jedoch in der aktuellen Version des Transpilers die lexikalische und syntaktische Analyse von dem Parser-Modul übernommen werden, wird auf die ParseException zurückgegriffen.
 
 Der Benutzer wird durch die \verb+ParseException+ darauf hingewiesen, wo ein Fehler auftritt und welche Schritte unternommen werden können, um den Fehler zu beheben.
 Wird etwa ein syntaktisch falscher Ausdruck an das Parser-Modul übergeben, verarbeitet dieser den Ausdruck
-bis zu der Stelle, an der die definierte Grammatik nicht länger greift.
-Der PL/I-Parser wirft die \verb+ParseException+ und gibt in dieser die Zeilen- und Spaltennummer des
-entstanden Fehlers an.
+bis zur Stelle, an der die definierte Grammatik nicht länger greift.
+Der PL/I-Parser wirft die \verb+ParseException+ und gibt in dieser die Zeilen- und Spaltennummer des entstandenen Fehlers an.
 
-Daraufhin überprüft das Checker-Modul nochmal die Zwischencode-Erzeugung des Parsers.
-Da das Checker-Modul aktuell lediglich einen Typ-Checker implementiert, existiert aktuell nur eine \verb+TypeMappingException+.
-Diese wird immer dann geworfen, wenn der Typ einer deklarierten Variable mit einem unpassenden zugewiesen wird.
+Daraufhin überprüft das Checker-Modul nochmal die Zwischencodeerzeugung des Parsers.
+Da das Checker-Modul lediglich einen Typ-Checker implementiert, existiert aktuell nur eine \verb+TypeMappingException+.
+Diese wird immer dann geworfen, wenn der Typ einer deklarierten Variable mit einem unpassenden Wert zugewiesen wird.
 Für weitere semantische Analyseschritte sind ebenfalls weitere Exceptions denkbar. Allgemein dient das Checker-Modul lediglich der Fehlererkennung und Unterbrechung des Transformationsprozesses.
 
 Mithilfe der \verb+MappingException+ wird vor der Rückgabe der \verb+translate+ Methode des Mapper-Moduls überprüft, ob 
-die benötigten Werte, die je nach übersetzten Ausdruck variieren, wurden korrekt aus dem Syntaxbaum verarbeitet .
-Es ist zwar zu erwarten, dass der Parser einen solchen Fehler erkennt, dennoch soll nach Möglichkeit vermieden werden, dass ein fehlerhaftes Programm transformiert wird. Die restlichen standard Java-Exceptions werden auch in dem zu erwartenden Zusammenhang eingesetzt.
+die benötigten Werte, korrekt aus dem Syntaxbaum verarbeitet wurden.
+Es soll nach Möglichkeit vermieden werden, dass ein fehlerhaftes Programm transformiert wird. Die restlichen standart Java-Exceptions werden in dem zu erwartenden Zusammenhang eingesetzt.
 
 In der aktuellen Version des Transpilers werden nicht alle PL/I-Syntaxelemente eingebunden.
 In der PL/I-Sprachreferenz werden mehr als 300 unterschiedliche Funktionalitäten der Sprache beschrieben. \footcite[Vgl. ][S. 5ff.]{pliref}
@@ -604,8 +600,7 @@ Davon wurden ca. 65 in die Grammatik aufgenommen. Die Übersetzung dieser Strukt
 Das hat zur Folge, dass es wahrscheinlich ist, dass der Benutzer auf eine ParseException stoßen wird.
 Aufgrund der beschränkten Arbeitszeit wurden lediglich wesentliche Syntaxelemente der Programmiersprache implementiert.
 Dazu zählen Deklarationen, Kontrollflussanweisungen, sowie Ein- und Ausgabeströme.
-In dem nachfolgenden Kapitel werden Kernfunktionen vorgestellt und Übersetzungsentscheidung
-diskutiert. 
+In dem nachfolgenden Kapitel werden Kernfunktionen vorgestellt und Übersetzungsentscheidung diskutiert. 
 
 \pagebreak
 \section{Technische Spezifikation}
@@ -617,20 +612,16 @@ Für die unterschiedlichen Benutzergruppen werden verschiedene Nutzungsmöglichk
 \paragraph*{Eclipse}
 Die \ac{ide} Eclipse kann verwendet werden, um den Transpiler zu nutzen. Diese Herangehensweise ist besonders interessant für Administratoren, die den Quellcode des Transpilers selbst erweitern möchten.
 Zuerst sollte das Projekt aus dem GitHub-Repository mit Git in das lokale Verzeichnis geladen werden.
-Listing \ref{lst:gitclone} enthält den Git-Befehl zum Laden der benötigten Remote-Repositories dargestellt. 
+Listing \ref{lst:gitclone} enthält den Git-Befehl zum Laden der benötigten Remote-Repositories. 
 
 \begin{lstlisting}[language=bash, caption=Klonen der Transpiler Repositories, label={lst:gitclone}, basicstyle=\fontsize{9}{13}\selectfont\ttfamily]
  git clone -b integration 'https://github.com/lhahner/pl1-code-transpiler.git'; 
  git clone 'https://github.com/lhahner/plitra-web.git';
 \end{lstlisting}
 
-Daraufhin ist es möglich, das Maven-Projekt in Eclipse zu importieren. Unter der Registerkarte "Datei", kann das Projekt importiert werden. Im nächsten Menüfenster sollte der Ordner ausgewählt werden, in dem die \verb+pom.xml+ Datei liegt. Ist der Ordner korrekt ausgewählt, wird das Projekt in Eclipse importiert. 
+Daraufhin ist es möglich, das Maven-Projekt in Eclipse zu importieren. Unter der Registerkarte "Datei", kann das Projekt importiert werden. Im nächsten Menüfenster sollte der Ordner ausgewählt werden, in dem die \verb+pom.xml+ Datei liegt. Das Projekt wurde nun in Eclipse importiert. 
 
-In dem Verzeichnis \verb+src/main/java/res/pli+ kann eine PL/I-Datei abgelegt werden, die übersetzt werden soll. Es ist auch möglich, das Standard-Eingabeverzeichnis zu ändern. 
-
-Im Ordner \path{src/main/java/res/config} liegt die Datei \verb+config.properties+. 
-In dieser Datei kann die Variable \verb+PATH+ geändert werden, 
-um PL/I-Quellcode aus einer anderen Projektstruktur zu transformieren.
+In dem Verzeichnis \verb+src/main/java/res/pli+ kann eine PL/I-Datei abgelegt werden, die übersetzt werden soll. Es ist auch möglich, das Standard-Eingabeverzeichnis zu ändern. Im Ordner \path{src/main/java/res/config} liegt die Datei \verb+config.properties+. In dieser Datei kann die Variable \verb+PATH+ geändert werden, um PL/I-Quellcode aus einer anderen Projektstruktur zu transformieren.
 
 \paragraph*{Webanwendung}
 Um es dem Benutzer leicht zu gestalten, den Transpiler zu verwenden, wurde mithilfe des Spring-Boot-Frameworks eine Webanwendung entwickelt.
@@ -668,7 +659,7 @@ Werden in dem PL/I-Quellcode etwa die deklarierten Variablen verwendet, um mathe
 
 Um solche Ausdrücke auch in Java mit einem \verb+DECIMAL+-Objekt zu ermöglichen, muss die Klasse \verb+DECIMAL+ erweitert werden.
 Denn in Java ist es nicht möglich, nicht-primitive Datentypen zu verrechnen, ohne vorher eine Methode zu schreiben, die diese Operation realisiert. 
-Bei der Implementierung der Methoden können die Standard-Operatoren nicht überladen werden, wie es in C++ der Fall ist.
+Bei der Implementierung der Methoden können die Standart-Operatoren nicht überladen werden, wie es in C++ der Fall ist.
 
 Listing \ref{lst:pliarithmeticexpression} demonstriert wie die Übersetzung eines arithmetischen Ausdrucks aussehen könnte.
 Wäre in der Klasse \verb+DECIMAL+ für jede arithmetische Operation eine Methode definiert, wäre die Übersetzung wie in Listing \ref{lst:pliarithmeticexpression} denkbar.
@@ -709,7 +700,6 @@ Für die weitere Übersetzung syntaktischer PL/I-Strukturen könnte die Entschei
 Wenn das \verb+DECIMAL+-Objekt durch einen primitiven Datentyp ersetzt werden würde, ist eine eins zu eins Transformation des zugewiesenen arithmetischen Ausdrucks in Listing \ref{lst:pliarithmeticexpression} möglich. Um die Längenbeschränkung aus PL/I auch in Java zu berücksichtigen, könnte die Implementierung einer Validierungsannotation erwogen werden.
 
 Mithilfe der Jarkarta-Validations Software-Bibliothek kann eine Annotation erzeugt werden, die die Längenbeschränkung mittels Java-Reflection überprüft. \footcite[Vgl. ][]{jakarta}
-Dazu wird der Import als Boiler-Plate-Code  notwendig. 
 Die Übersetzung des Ausdrucks ist in Listing \ref{lst:annotationdecimal} dargestellt.
 
 \begin{minipage}[b]{0.48\linewidth}
@@ -747,7 +737,7 @@ Die Übersetzung des Ausdrucks ist in Listing \ref{lst:annotationdecimal} darges
 Durch diese Gestaltung ist die Einbindung und Erweiterung des übersetzten PL/I-Quellcode erleichtert. In diesem Zusammenhang wird die Längenbeschränkung mit Annotationen gelöst. 
 So kann eine semantische nähe zu Java hergestellt werden und gleichzeitig der Wiedererkennungswert von PL/I beibehalten werden.
 
-Da auch weitere PL/I-Datentypen wie etwa der \verb+PICTURE+ oder \verb+BINARY+ Typ mit dieser Lösung leichter implementiert werden können, werden in zukünftigen Versionen des Transpilers auch hier die eigens definierten Klassen ersetzt.
+Da auch weitere PL/I-Datentypen wie etwa der \verb+PICTURE+ oder \verb+BINARY+ Typ mit dieser Lösung implementiert werden können, werden in zukünftigen Versionen des Transpilers auch hier die eigens definierten Klassen ersetzt.
 Aktuell ist eine Zuweisung von Werten lediglich mit einer Variable des Typs \verb+CHAR+ und \verb+DECIMAL+ möglich.
 
 Wie schon in Listing \ref{lst:annotationdecimal} und Listing \ref{lst:pliarithmeticexpression} zu sehen, werden in der aktuellen Version auch Prozeduren übersetzt.
@@ -788,7 +778,7 @@ Zusätzlich können Parameter, Rückgabetypen und allgemeine Attribut Optionen d
 	\end{lstlisting}
 \end{minipage}
 
-Die Prozedur \verb+A10_Revenue+ hat einen Parameter und gibt einen Wert des Typs \verb+DECIMAL+ der L\"ange 5 zur\"uck.
+Die Prozedur \verb+A10_Revenue+ hat einen Parameter und gibt einen Wert des Typs \verb+DECIMAL+ der Länge 5 zurück.
 Weiterhin wird die Option \verb+INLINE+ definiert.
 
 Um in Java Unterprogramm-Routinen zu definieren, gibt es Methoden. 
@@ -808,7 +798,7 @@ Eine Möglichkeit, die Parameterliste zu übersetzen, ist über den Typ \verb+Ob
 In Zeile 4 des Listing \ref{lst:procchar} wird etwa in den Typ \verb+double+ gecastet. Weiterhin wird in der Prozedur aus Listing \ref{lst:procchar} ein Rückgabewert des Typs \verb+DECIMAL+ der L\"ange f\"unf definiert.
 
 Auch hier eignet sich die Verwendung der in Kapitel 3.2.1 beschriebenen Annotationslösung. Dazu wird in Listing \ref{lst:procchar} über die Annotation die Längenbeschränkung definiert und der native Java-Typ \verb+double+ verwendet.
-Die Validierung des Rückgabewertes erfolgt dann mithilfe von Boilerplate Code, der bei über die Codebasis bereitgestellt wird.
+Die Validierung des Rückgabewertes erfolgt dann mithilfe von Boilerplate Code, der über die Codebasis bereitgestellt wird.
 
 Ein weiteres Attribut, das in der Prozedur in Listing \ref{lst:procchar} definiert ist, ist das \verb+OPTIONS+
 Attribut.
@@ -1103,7 +1093,7 @@ Mit \verb+System.console.readLine()+ wird die Benutzereingabe gelesen.
 In PL/I gibt es die Möglichkeit, über das \verb+READ+-Statement Dateien vom Dateisystem einzulesen.
 In Kapitel 1.1 wurde bereits erwähnt, dass PL/I-Programme hauptsächlich auf einem Mainframe ausgeführt werden.
 Auf einem z/Os-Betriebssystem wird das Dateisystem \ac{zfs} verwendet.
-Hier werden, anders als bei den  Linux oder Windows \ac{hfs}, Ordner als Datasets und Dateien als Records gespeichert.
+Hier werden, anders als bei den  Linux oder Windows \ac{hfs}s, Ordner als Datasets und Dateien als Records gespeichert.
 Ein Record kann dann von einem Programm, wie einem PL/I-Programm, gelesen werden.
 
 Ein PL/I-Programm kann einen Record verarbeiten sowie ausgeben. In Java geschieht dies gewöhnlich über die Angabe eines Dateipfads.
@@ -1398,13 +1388,13 @@ Die Grundlage des Benchmarktests sind die bisher größten bekannten Primzahlen 
 		\hline
 		\textbf{Primzahl} & \textbf{PL/I Laufzeit} & \textbf{Java Laufzeit} \\
 		\hline
-		2,147,483,647 & 00:00:00,00 & 00:00:00,2 \\
+		2,147,483,647 & 00:00:00,00 & 00:00:00,21 \\
 		
 		999,999,000,001 & 00:00:00,01 & 00:00:01,20\\
 		
 		67,280,421,310,721 & 00:00:00,08 & 00:00:05,90 \\
 		
-		10,000,000,002,065,383 & 00:00:01,0 & 00:01:27,90 \\
+		10,000,000,002,065,383 & 00:00:01,00 & 00:01:27,90 \\
 		\hline
 	\end{tabularx}
 	\caption{PL/I-Programm Benchmarks (siehe Anhang C.1 - C.4) \label{tab:plibenchmark}}
@@ -1448,7 +1438,6 @@ Aktuell ist mit einer Singleton-Symboltabelle keine Verarbeitung paralleler Requ
 
 Für den PL/I-Entwickler wurden die ersichtlichen Strukturen eines PL/I-Programms transformiert. Weitergehend werden Übersetzungen der JCL-Steuerkarten benötigt, 
 um den Kontext eines PL/I-Programms vollständig zu erfassen. Als Erweiterung der bisherigen Arbeit wäre damit eine Integration in das Spring-Batch-Framework denkbar.
-
 
 
 % Wofür sind die PL/I Batchprogramme zuständig
