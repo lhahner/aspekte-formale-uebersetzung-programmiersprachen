@@ -1238,15 +1238,14 @@ void mapChildNodes_checkIdentifierMapping() {
 \end{lstlisting} 
 
 % Test-Coverage
-In Listing \ref{lst:javaunittest}  wird der Typ \verb+DECIMAL+ getestet. Untersucht werden der resultierende Typ und Bezeichner, die durch die Methoden \verb+mapChildNodes+ und \verb+mapArithmetic+ gesetzt werden. Es wird erwartet, dass der Bezeichner der PL/I-Variable dem Inhalt der Variable identifier der Klasse \verb+DeclarationMapper+ entspricht.
-Weiterhin wird erwartet, dass der Typ \verb+DECIMAL+ zu dem entsprechenden Typ aus Listing \ref{lst:annotationdecimal} übersetzt wird.
-Mit jedem Test wird auch ein Parser-Objekt erzeugt, dadurch wird  mit einem Unit-Tests die geschriebene Grammatik überprüft.
+In Listing \ref{lst:javaunittest}  wird der Typ \verb+DECIMAL+ getestet. Untersucht werden der resultierende Typ und Bezeichner, die durch die Methoden \verb+mapChildNodes+ und \verb+mapArithmetic+ gesetzt werden. Es wird erwartet, dass der Bezeichner der Variable aus PL/I dem Inhalt der Variable identifier der Klasse \verb+DeclarationMapper+ entspricht.
+Weiterhin wird erwartet, dass der Typ \verb+DECIMAL+ zum entsprechenden Typ aus Listing \ref{lst:annotationdecimal} übersetzt wird.
+Mit jedem Test wird auch ein Parser-Objekt erzeugt, dadurch wird  mit einem Unit-Test die geschriebene Grammatik überprüft.
 Ähnlich wurden  für die weiteren Mapper-Klassen Test-Klassen erzeugt.
-Für die restlichen Module, wie etwa der Symboltabelle, wurden ebenfalls Tests geschrieben.
-Da die Symboltabelle bereits in der Version der Projektarbeit-IV integriert war, wurden hier  Tests nachträglich geschrieben. 
+Für die restlichen Module, wie etwa der Symboltabelle, wurden ebenfalls Tests nachträglich geschrieben.
 
 %Negative Tests
-Bei der Implementierung der Tests wurden sowohl Negativ- als auch Positivtests geschrieben.
+Bei der Implementierung der Tests wurden sowohl Negativ- als auch Positivtests integriert.
 In Listing \ref{lst:javaunittest} handelt es sich um einen Positivtest. Da die Methode \verb+mapArithmetic+ speziell für die Übersetzung von numerischen Typen geeignet ist, sollte die Methode eine Fehlermeldung ausgeben, wenn eine Übersetzung von einem alphanumerischen Datentyp verlangt wird.  In Listing \ref{lst:javanegativetest} wird dieser Umstand getestet. 
 
 \begin{lstlisting}[language=Java, caption=Negativtest für die Übersetzung eines arithmetischen Ausdrucks, label={lst:javanegativetest}]
@@ -1281,10 +1280,10 @@ void mapArithmetic_NegativeTest() {
 
 Weiterhin wurden Negativ- und Positivtests für alle weiteren Mapper-Klassen geschrieben. Diese finden sich in Anhang A.
 Zusammenfassend wurden so die kleinsten Programm-Einheiten des Transpilers überprüft. 
-Folglich wird die Gesamtfunktionalität in einem Integrations-Test getestet.
+
 
 \subsubsection{Integrationstests}
-In diesem Kapitel wird die Durchführung eines Integrations-Tests aller Komponenten beschrieben. Der Integrations-Test ist so angelegt, dass im ersten Schritt der Transpiler kompiliert und danach ein Beispielprogramm übersetzt wird. Der übersetze Java-Code wird wiederum kompiliert und ein Test des Programms wird im Kapitel 3.4 durchgeführt.
+In diesem Kapitel wird die Durchführung eines Integrations-Tests aller Komponenten beschrieben. Der Integrations-Test ist so angelegt, dass im ersten Schritt der Transpiler kompiliert und danach ein Beispielprogramm übersetzt wird. Der übersetze Java-Code wird wiederum kompiliert und ein Test des Programms in Kapitel 3.4 durchgeführt.
 
 In diesem Kapitel wird die vollumfängliche Implementation des Transpilers, mit dem Frontend und der zum Kompilieren benötigte Codebasis protokolliert. Dazu wird ein Beispiel PL/I-Programm übersetzt, welches den Probedivisions Algorithmus zum berechnen von Primzahlen implementiert. 
 In Anhang \ref{lst:pliprobedivision} ist die Implementation des Algorithmus in PL/I zu sehen. Dieses Programm soll während des Integrations-Tests in Java-Zielcode übersetzt und durch den Java-Compiler kompiliert werden.
@@ -1315,10 +1314,10 @@ Nun wird in die Projektstruktur des Frontendprojektes navigiert. Der Spring-Boot
 mvn spring-boot:run
 \end{lstlisting}
 
-Die Adresse \path{http://localhost:8080/} wird in Firefox geöffnet. Es wird über den \emph{Transpile} Button auf die Seite \path{http://localhost:8080/trans} navigiert. Hier wird in das linke Textfeld der PL/I-Quellcode aus Anhang \ref{lst:pliprobedivision} eingefügt. In Anhang \ref{lst:javaprobedivision} ist das Ergebnis, welches auf der linken Seite ausgegeben wurde, dargestellt.
+Die Adresse \path{http://localhost:8080/} wird in Firefox geöffnet. Es wird über den \emph{Transpile} Button auf die Seite \path{http://localhost:8080/trans} navigiert. Hier wird in das linke Textfeld der PL/I-Quellcode aus Anhang \ref{lst:pliprobedivision} eingefügt. In Anhang \ref{lst:javaprobedivision} ist das Ergebnis, welches auf der rechten Seite ausgegeben wurde, dargestellt.
 
 % Code base Repository aus Github holen
-Um nun das ausgegebene Projekt zu kompilieren, sollte eine bereitgestellte Code-Basis verwendet werden. Es wird das Code-Basis-Projekt aus der Remote-Repository in Listing \ref{lst:inttest5} geladen.
+Um nun das ausgegebene Projekt zu kompilieren, sollte eine bereitgestellte Codebasis verwendet werden. Es wird das Code-Basis-Projekt aus der Remote-Repository in Listing \ref{lst:inttest5} geladen.
 
 \begin{lstlisting}[language=Bash, caption=Klonen der Codebasis, label={lst:inttest5}]
 git clone https://github.com/lhahner/plitra-codebase.git
